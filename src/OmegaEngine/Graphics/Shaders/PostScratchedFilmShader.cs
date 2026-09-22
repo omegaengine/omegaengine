@@ -63,7 +63,7 @@ public class PostScratchedFilmShader : PostShader
         LoadShaderFile("Post_ScratchedFilm.fxo");
 
         // Load noise texture
-        _noiseTexture = XTexture.Get(Engine, "Shaders/Noise128.dds");
+        _noiseTexture = XTexture.Get(Engine, "Shaders/Noise128.dds", srgb: false);
         _noiseTexture.HoldReference();
         Effect.SetTexture("Noise2DTex", _noiseTexture);
 

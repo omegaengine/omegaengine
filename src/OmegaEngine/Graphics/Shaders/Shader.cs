@@ -31,6 +31,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using OmegaEngine.Foundation.Collections;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Shaders.Dxsas;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -649,6 +650,18 @@ public abstract class Shader : EngineElement
     protected void SetShaderParameter(string name, Color value)
     {
         SetShaderParameter(name, new Color4(value));
+    }
+
+    /// <summary>
+    /// Sets a specific shader parameter, converting the color from sRGB (gamma) encoding to linear space.
+    /// Automatically defers the action if <see cref="Effect"/> has not been set yet.
+    /// </summary>
+    /// <param name="name">The name of the shader parameter to set.</param>
+    /// <param name="value">The sRGB-encoded (i.e., as authored) value to set.</param>
+    /// <remarks>Use for shaders that shade in linear space; post-screen shaders operate on gamma-encoded values and must use <see cref="SetShaderParameter(string,Color)"/> instead.</remarks>
+    protected void SetShaderParameterLinear(string name, Color value)
+    {
+        SetShaderParameter(name, value.SrgbToLinear());
     }
     #endregion
 

@@ -69,6 +69,7 @@ sampler2D diffuseSampler : register(s0) = sampler_state
 {
   texture = <DiffuseTexture>;
   MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear;
+  sRGBTexture = TRUE; // Color data: linearize on read
 };
 
 texture NormalTexture : Normal < string ResourceName = "default_bump_normal.dds"; >;
@@ -76,6 +77,7 @@ sampler2D normalSampler : register(s1) = sampler_state
 {
   texture = <NormalTexture>;
   MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear;
+  sRGBTexture = FALSE; // Non-color data
 };
 
 texture SpecularTexture : Specular < string ResourceName = "default_gloss.dds"; >;
@@ -83,6 +85,7 @@ sampler2D specularSampler : register(s2) = sampler_state
 {
   texture = <SpecularTexture>;
   MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear;
+  sRGBTexture = FALSE; // Non-color data (gloss)
 };
 
 texture EmissiveTexture : Emissive;
@@ -90,6 +93,7 @@ sampler2D emissiveSampler : register(s3) = sampler_state
 {
   texture = <EmissiveTexture>;
   MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear;
+  sRGBTexture = TRUE; // Color data: linearize on read
 };
 
 //---------------- Structs ----------------

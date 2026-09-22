@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using SlimDX;
 using SlimDX.Direct3D9;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
@@ -48,9 +49,10 @@ public abstract class SurfaceShader : Shader
     /// <param name="material">The currently active material</param>
     private void SetupLightHelper(LightSource light, int index, XMaterial material)
     {
-        TrySetValue(_lightDiffuseHandles, index, Color4.Modulate(light.Diffuse, material.Diffuse));
-        TrySetValue(_lightAmbientHandles, index, Color4.Modulate(light.Ambient, material.Ambient));
-        TrySetValue(_lightSpecularHandles, index, Color4.Modulate(light.Specular, material.Specular));
+        // Shaders do all their arithmetic in linear space, so light and material colors are linearized on upload
+        TrySetValue(_lightDiffuseHandles, index, Color4.Modulate(light.Diffuse.SrgbToLinear(), material.Diffuse.SrgbToLinear()));
+        TrySetValue(_lightAmbientHandles, index, Color4.Modulate(light.Ambient.SrgbToLinear(), material.Ambient.SrgbToLinear()));
+        TrySetValue(_lightSpecularHandles, index, Color4.Modulate(light.Specular.SrgbToLinear(), material.Specular.SrgbToLinear()));
     }
 
     /// <summary>
@@ -175,7 +177,7 @@ public abstract class SurfaceShader : Shader
                             SemanticID.Color or SemanticID.Diffuse when !_lightParametersHandled => StoreHandle(_lightDiffuseHandles),
                             SemanticID.Ambient when !_lightParametersHandled => StoreHandle(_lightAmbientHandles),
                             SemanticID.Specular when !_lightParametersHandled => StoreHandle(_lightSpecularHandles),
-                            SemanticID.Emissive => SetValue(new Color4(material.Emissive)),
+                            SemanticID.Emissive => SetValue(material.Emissive.SrgbToLinear()),
                             _ => null
                         },
                         ParameterClass.MatrixRows or ParameterClass.MatrixColumns => info.SemanticID switch

@@ -387,6 +387,14 @@ public class CpuParticleSystem : PositionableRenderable
         bool fog = Engine.State.Fog;
         Engine.State.Fog = false;
 
+        // Particles are exempt from the linear pipeline: presets are authored for gamma-space blending.
+        // Summed in linear space, overlapping additive sprites no longer build up to a bright core and each sprite's
+        // soft edge falls off steeply, which makes effects like fire dim and mottled. Particles are never lit, so
+        // nothing is lost, and the look no longer depends on whether the driver blends sRGB targets in linear space.
+        bool srgbWrite = Engine.State.SrgbWrite;
+        Engine.State.SrgbWrite = false;
+        Engine.State.SrgbTexture = false;
+
         var renderOffset = LocalSpace ? EmitterOrigin : new();
 
         if (_material1.DiffuseMap != null)
@@ -409,6 +417,7 @@ public class CpuParticleSystem : PositionableRenderable
             }
         }
 
+        Engine.State.SrgbWrite = srgbWrite;
         Engine.State.FfpLighting = false;
         Engine.State.Fog = fog;
     }

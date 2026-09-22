@@ -40,13 +40,13 @@ public class WaterShader : SurfaceShader
     /// </summary>
     public static Version MinShaderModel => new(1, 1);
 
-    private Color _dullColor = Color.FromArgb(77, 77, 128);
+    private Color _dullColor;
 
     /// <summary>
     /// The basic color of the water (usually blueish)
     /// </summary>
     [Description("The basic color of the water (usually blueish)")]
-    public Color DullColor { get => _dullColor; set => value.To(ref _dullColor, () => SetShaderParameter("DullColor", value)); }
+    public Color DullColor { get => _dullColor; set => value.To(ref _dullColor, () => SetShaderParameterLinear("DullColor", value)); }
 
     private float _dullBlendFactor = 0.15f;
 
@@ -136,6 +136,7 @@ public class WaterShader : SurfaceShader
         _refractionView = refractionView;
         _reflectionView = reflectionView;
 
+        DullColor = Color.FromArgb(77, 77, 128);
         WindDirection = Matrix.RotationZ(2.0f);
     }
     #endregion
@@ -190,7 +191,7 @@ public class WaterShader : SurfaceShader
         }
         else
         {
-            _normalTexture = XTexture.Get(Engine, @"Water\normal.png");
+            _normalTexture = XTexture.Get(Engine, @"Water\normal.png", srgb: false);
             _normalTexture.HoldReference();
 
             if (_reflectionView == null)

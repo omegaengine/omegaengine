@@ -28,6 +28,10 @@ public sealed class DepthView : SpecialView
     }
 
     /// <inheritdoc/>
+    /// <remarks>Depth maps hold normalized depth values, not colors, so they must not be gamma-encoded.</remarks>
+    protected override bool SrgbOutput => false;
+
+    /// <inheritdoc/>
     protected override void RenderBody(PositionableRenderable body)
     {
         #region Sanity checks

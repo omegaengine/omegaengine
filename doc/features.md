@@ -14,6 +14,7 @@ An overview of the engine's features:
   * [Asset management](xref:OmegaEngine.Assets)
     * [Overlay filesystem](xref:OmegaEngine.Foundation.Storage) with mod support
   * [Lighting](lighting.md)
+    * Proper sRGB/gamma handling
     * Blinn–Phong
     * Real-time bounding sphere based shadowing
     * Pre-computed detailed terrain self-shadowing

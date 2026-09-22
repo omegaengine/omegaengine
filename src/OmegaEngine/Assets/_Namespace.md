@@ -45,6 +45,18 @@ var meshTexture = XTexture.Get(engine, "texture.png", meshTexture: true);
 var particles = CpuParticlePreset.FromContent("fire");
 ```
 
+### Color vs. data textures
+
+The engine shades in linear space, so `XTexture.Get()` assumes by default that a texture file holds sRGB-encoded **color** data and generates its mip-maps accordingly (filtering in linear space). Textures that hold **data** rather than color — normal, height and specular/gloss maps, procedural noise — must opt out with `srgb: false`, otherwise their mip levels get filtered through a gamma curve that has no meaning for them:
+
+```csharp
+// Color data (the default)
+var diffuse = XTexture.Get(engine, "Grass.png");
+
+// Non-color data
+var normal = XTexture.Get(engine, "Grass_normal.png", srgb: false);
+```
+
 ## Cache
 
 Asset files are often referenced many times during an application's runtime. To prevent repeated load delays the engine keeps loaded and parsed content in an in-memory cache that can be flushed, e.g. after switching maps. The <xref:OmegaEngine.Assets.CacheManager> (accessible via the [Engine.Cache](xref:OmegaEngine.Engine.Cache) property) implements this through reference counting.

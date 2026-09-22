@@ -57,8 +57,8 @@ public sealed class DirectionalLight : LightSource
             MaxShadowRange = MaxShadowRange,
             SourceRadius = SourceRadius,
             SourceDistance = SourceDistance,
-            Diffuse = Diffuse.Multiply(1 - shadowFactor),
-            Specular = Specular.Multiply(1 - shadowFactor),
+            Diffuse = Diffuse.MultiplyLinear(1 - shadowFactor),
+            Specular = Specular.MultiplyLinear(1 - shadowFactor),
             Ambient = Ambient,
             Direction = Direction
         };
@@ -69,8 +69,8 @@ public sealed class DirectionalLight : LightSource
     {
         Type = LightType.Directional,
         Direction = Direction,
-        Diffuse = Diffuse,
-        Specular = Specular,
-        Ambient = Ambient
+        Diffuse = Diffuse.SrgbToLinear(),
+        Specular = Specular.SrgbToLinear(),
+        Ambient = Ambient.SrgbToLinear()
     };
 }

@@ -1,4 +1,5 @@
-﻿using SlimDX;
+﻿using OmegaEngine.Foundation.Light;
+using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace OmegaEngine.Graphics;
@@ -11,14 +12,15 @@ public static class XMaterialExtensions
     /// <summary>
     /// Converts an <see cref="XMaterial"/> to a <see cref="Material"/>.
     /// </summary>
+    /// <remarks>The colors are linearized, because the fixed-function pipeline shades in linear space and gamma-encodes on output.</remarks>
     public static Material ToD3DMaterial(this XMaterial material)
         => new()
         {
-            Ambient = material.Ambient,
-            Diffuse = material.Diffuse,
-            Specular = material.Specular,
+            Ambient = material.Ambient.SrgbToLinear(),
+            Diffuse = material.Diffuse.SrgbToLinear(),
+            Specular = material.Specular.SrgbToLinear(),
             Power = material.SpecularPower,
-            Emissive = material.Emissive
+            Emissive = material.Emissive.SrgbToLinear()
         };
 
     private static readonly Color4 _unset = new(1, 0, 0, 0);

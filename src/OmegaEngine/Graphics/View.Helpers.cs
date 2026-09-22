@@ -217,6 +217,7 @@ partial class View
     private void ShaderToBackBuffer(PostShader shader, int alpha)
     {
         Engine.State.AlphaBlend = alpha;
+        Engine.State.SrgbWrite = false; // The post-screen chain reads and writes gamma-encoded pixels as-is
         using (new ProfilerEvent(() => $"Apply {shader}"))
         {
             shader.Apply(delegate
@@ -242,6 +243,8 @@ partial class View
         var sceneMap = RenderTarget;
         if (!shader.OverlayRendering) SwapRenderTarget();
 
+        Engine.State.SrgbWrite = false; // The post-screen chain reads and writes gamma-encoded pixels as-is
+
         // Apply the shader and move data from one texture to the other
         using (new ProfilerEvent(() => $"Apply {shader}"))
             shader.Apply(() => RenderTarget.RenderTo(Engine.DrawQuadShader), sceneMap.Size, shader.OverlayRendering ? null : sceneMap);
@@ -257,6 +260,11 @@ partial class View
         Engine.Device.BeginScene();
         Engine.State.AlphaBlend = alpha;
         Engine.State.SetTexture(RenderTarget);
+
+        // A plain blit of an already gamma-encoded target: neither linearize on read nor encode on write
+        Engine.State.SrgbTexture = false;
+        Engine.State.SrgbWrite = false;
+
         Engine.DrawQuadTextured();
         Engine.Device.EndScene();
     }

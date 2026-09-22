@@ -8,6 +8,7 @@
 
 using System;
 using System.Drawing;
+using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
@@ -61,6 +62,8 @@ public sealed class EngineState
         _fogColor = Color.Empty;
         _fogStart = _fogEnd = 0;
         _alphaBlend = 0;
+        _srgbWrite = false;
+        _srgbTexture = false;
         _worldTransform = _viewTransform = _projectionTransform = new();
         _userClipPlane = default;
     }
@@ -112,6 +115,34 @@ public sealed class EngineState
     }
     #endregion
 
+    #region sRGB
+    private bool _srgbWrite;
+
+    /// <summary>
+    /// Shall pixels be gamma-encoded (linear to sRGB) when written to the render target?
+    /// </summary>
+    /// <remarks>
+    /// Turned on for the scene pass, where all shading arithmetic happens in linear space, and off everywhere else
+    /// (post-screen shaders, GUI, fades, depth targets), which operate on already-encoded values.
+    /// Whether <c>Device.Clear</c> is affected by this is hardware-dependent, so turn it off around clears
+    /// of already-encoded colors rather than relying on either behavior.
+    /// </remarks>
+    /// <seealso cref="EngineCapabilities.SrgbWrite"/>
+    public bool SrgbWrite { get => _srgbWrite; set => value.To(ref _srgbWrite, () => _device.SetRenderState(RenderState.SrgbWriteEnable, value)); }
+
+    private bool _srgbTexture;
+
+    /// <summary>
+    /// Shall the texture in the first texture stage be linearized (sRGB to linear) when sampled?
+    /// </summary>
+    /// <remarks>
+    /// Applies to color textures (diffuse, glow, skybox) in the scene pass, but not to data textures
+    /// (normal, height, specular maps). Applies to sampler 0, like <see cref="SetTexture"/>.
+    /// </remarks>
+    /// <seealso cref="EngineCapabilities.SrgbRead"/>
+    public bool SrgbTexture { get => _srgbTexture; set => value.To(ref _srgbTexture, () => _device.SetSamplerState(0, SamplerState.SrgbTexture, value ? 1 : 0)); }
+    #endregion
+
     #region Lighting
     private bool _ffpLighting = true;
 
@@ -159,7 +190,12 @@ public sealed class EngineState
     /// <summary>
     /// The color of the fog
     /// </summary>
-    public Color FogColor { get => _fogColor; set => value.To(ref _fogColor, () => _device.SetRenderState(RenderState.FogColor, value.ToArgb())); }
+    /// <remarks>
+    /// Linearized on upload: fixed-function fog is applied before the sRGB conversion in the ROP (even for pixel-shader draws),
+    /// so an un-linearized color would come out too bright. Must stay consistent with the background color, which is
+    /// cleared with <see cref="SrgbWrite"/> turned off and therefore lands in the render target already encoded.
+    /// </remarks>
+    public Color FogColor { get => _fogColor; set => value.To(ref _fogColor, () => _device.SetRenderState(RenderState.FogColor, value.SrgbToLinear().ToArgb())); }
 
     private float _fogStart, _fogEnd;
 

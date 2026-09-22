@@ -384,6 +384,12 @@ partial class Engine
                 Device.Viewport = RenderViewport;
                 Device.BeginScene();
                 State.AlphaBlend = 0;
+
+                // The GUI authors and blends in gamma space.
+                // OmegaGUI captures whatever state is live, so leaked sRGB state would wash out the HUD.
+                State.SrgbWrite = false;
+                State.SrgbTexture = false;
+
                 ExtraRender();
                 Device.EndScene();
             }
@@ -400,6 +406,7 @@ partial class Engine
     {
         Device.Viewport = RenderViewport;
         Device.BeginScene();
+        State.SrgbWrite = false; // The target already holds gamma-encoded pixels
         State.AlphaBlend = 255 - FadeLevel;
         this.DrawQuadColored(Color.Black);
         Device.EndScene();

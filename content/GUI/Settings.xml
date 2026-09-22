@@ -73,7 +73,7 @@ NormalMapping.Enabled = Engine.Capabilities.PerPixelEffects
 NormalMapping.Checked = Settings.Graphics.NormalMapping
 DetailMapping.Enabled = Engine.Capabilities.DetailMapping
 DetailMapping.Checked = Settings.Graphics.DetailMapping
-Gamma.Value = Settings.Graphics.Gamma * 10
+Gamma.Value = math.floor(Settings.Graphics.Gamma * 10 + 0.5)
 Gamma.Enabled = Settings.Graphics.PostScreenEffects
 GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)
 
@@ -275,9 +275,9 @@ end</OnChanged>
   <Slider Name="Gamma">
     <Location X="525" Y="404" />
     <Size Width="180" Height="32" />
-    <Min>1</Min>
-    <Max>50</Max>
-    <Value>10</Value>
+    <Min>15</Min>
+    <Max>30</Max>
+    <Value>22</Value>
     <OnChanged>Settings.Graphics.Gamma = Gamma.Value * 0.1
 GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)</OnChanged>
   </Slider>

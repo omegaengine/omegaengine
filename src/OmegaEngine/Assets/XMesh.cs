@@ -140,7 +140,7 @@ public class XMesh : Asset
                         string normalFilename = $"{baseFilename}_normal{fileExt}";
                         if (ContentManager.FileExists("Meshes", normalFilename))
                         {
-                            material.NormalMap = XTexture.Get(engine, normalFilename, meshTexture: true);
+                            material.NormalMap = XTexture.Get(engine, normalFilename, meshTexture: true, srgb: false);
                             needsTangents = true;
                         }
 
@@ -148,14 +148,14 @@ public class XMesh : Asset
                         string heightFilename = $"{baseFilename}_height{fileExt}";
                         if (ContentManager.FileExists("Meshes", heightFilename))
                         {
-                            material.HeightMap = XTexture.Get(engine, heightFilename, meshTexture: true);
+                            material.HeightMap = XTexture.Get(engine, heightFilename, meshTexture: true, srgb: false);
                             needsTangents = true;
                         }
 
                         // Specular map
                         string specularFilename = $"{baseFilename}_specular{fileExt}";
                         if (ContentManager.FileExists("Meshes", specularFilename))
-                            material.SpecularMap = XTexture.Get(engine, specularFilename, meshTexture: true);
+                            material.SpecularMap = XTexture.Get(engine, specularFilename, meshTexture: true, srgb: false);
 
                         // Emissive map
                         string emissiveFilename = $"{baseFilename}_emissive{fileExt}";
@@ -180,21 +180,21 @@ public class XMesh : Asset
                             XTexture extraTexture = ShaderTextureHelper(engine, param, meshName, "diffuseTexture");
                             if (extraTexture != null) material.DiffuseMap = extraTexture;
 
-                            extraTexture = ShaderTextureHelper(engine, param, meshName, "normalTexture");
+                            extraTexture = ShaderTextureHelper(engine, param, meshName, "normalTexture", srgb: false);
                             if (extraTexture != null)
                             {
                                 material.NormalMap = extraTexture;
                                 needsTangents = true;
                             }
 
-                            extraTexture = ShaderTextureHelper(engine, param, meshName, "heightTexture");
+                            extraTexture = ShaderTextureHelper(engine, param, meshName, "heightTexture", srgb: false);
                             if (extraTexture != null)
                             {
                                 material.HeightMap = extraTexture;
                                 needsTangents = true;
                             }
 
-                            extraTexture = ShaderTextureHelper(engine, param, meshName, "specularTexture");
+                            extraTexture = ShaderTextureHelper(engine, param, meshName, "specularTexture", srgb: false);
                             if (extraTexture != null) material.SpecularMap = extraTexture;
                         }
                     }
@@ -273,8 +273,9 @@ public class XMesh : Asset
     /// <param name="engine">The <see cref="Engine"/> to load the texture from</param>
     /// <param name="meshName">The name of the mesh to load a texture file for</param>
     /// <param name="textureID">The texture ID</param>
+    /// <param name="srgb">Does the file hold sRGB-encoded color data (rather than data such as a normal, height or specular map)?</param>
     /// <returns>The requested mesh texture</returns>
-    private static XTexture? ShaderLoadHelper(Engine engine, string meshName, string textureID)
+    private static XTexture? ShaderLoadHelper(Engine engine, string meshName, string textureID, bool srgb = true)
     {
         // Determine the path the mesh was originally loaded from
         string meshPath = Path.GetDirectoryName(meshName);
@@ -283,8 +284,8 @@ public class XMesh : Asset
         // Try to find the texture in the directory of its mesh first, then look in the generic mesh textures directory
         string id = Path.Combine("Meshes", textureID);
         return ContentManager.FileExists("Meshes", meshPath + textureID)
-            ? XTexture.Get(engine, meshPath + textureID, meshTexture: true)
-            : XTexture.Get(engine, id);
+            ? XTexture.Get(engine, meshPath + textureID, meshTexture: true, srgb: srgb)
+            : XTexture.Get(engine, id, srgb: srgb);
     }
 
     /// <summary>
@@ -294,8 +295,9 @@ public class XMesh : Asset
     /// <param name="param">The shader parameter</param>
     /// <param name="meshName">The name of the mesh to load a texture file for</param>
     /// <param name="textureType">The type of texture to check the shader parameter for</param>
+    /// <param name="srgb">Does the file hold sRGB-encoded color data (rather than data such as a normal, height or specular map)?</param>
     /// <returns>The texture specified by the shader parameter or null if no texture was specified</returns>
-    private static XTexture? ShaderTextureHelper(Engine engine, EffectDefault param, string meshName, string textureType)
+    private static XTexture? ShaderTextureHelper(Engine engine, EffectDefault param, string meshName, string textureType, bool srgb = true)
     {
         // Check if the parameter has the right name and contains a string
         if (StringUtils.EqualsIgnoreCase(param.ParameterName, textureType) && param.Type == EffectDefaultType.String)
@@ -304,7 +306,7 @@ public class XMesh : Asset
             string paramData = new StreamReader(param.Value, Encoding.ASCII).ReadToEnd().Trim('\0', ' ');
 
             // Attempt to load the file specified in the parameter
-            return ShaderLoadHelper(engine, meshName, paramData);
+            return ShaderLoadHelper(engine, meshName, paramData, srgb);
         }
         return null;
     }

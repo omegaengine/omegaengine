@@ -130,6 +130,14 @@ public sealed class EngineCapabilities
         else MaxShaderModel = _engineConfig.ForceShaderModel;
         #endregion
 
+        #region sRGB
+        // Note: The write query is only meaningful for render-target surfaces, the read query only for textures
+        SrgbWrite = _direct3D.CheckDeviceFormat(_engineConfig.Adapter, DeviceType.Hardware, Format.X8R8G8B8,
+            Usage.RenderTarget | Usage.QuerySrgbWrite, ResourceType.Surface, Format.X8R8G8B8);
+        SrgbRead = _direct3D.CheckDeviceFormat(_engineConfig.Adapter, DeviceType.Hardware, Format.X8R8G8B8,
+            Usage.QuerySrgbRead, ResourceType.Texture, Format.X8R8G8B8);
+        #endregion
+
         // Log GPU capabilities
         Log.Info($"""
                   GPU capabilities:
@@ -139,7 +147,13 @@ public sealed class EngineCapabilities
                   Vertex Shader Version: {_capabilities.VertexShaderVersion}
                   Pixel Shader Version: {MaxShaderModel}
                   Supported AA: {SupportedAA}
+                  sRGB Read: {SrgbRead}
+                  sRGB Write: {SrgbWrite}
                   """);
+
+        // The engine always renders in linear space and encodes on output; there is no fallback path
+        if (!SrgbRead) Log.Warn("Missing support for sRGB texture sampling; colors will be over-bright");
+        if (!SrgbWrite) Log.Warn("Missing support for sRGB render target writes; the image will come out too dark");
 
         // Ensure support for linear texture filtering
         if (!_capabilities.TextureFilterCaps.HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear))
@@ -193,6 +207,20 @@ public sealed class EngineCapabilities
     /// <seealso cref="EngineEffects.NormalMapping"/>
     /// <seealso cref="EngineEffects.PostScreenEffects"/>
     public bool PerPixelEffects => MaxShaderModel >= new Version(2, 0);
+
+    /// <summary>
+    /// Can the hardware the engine is running on gamma-encode pixels when writing them to a render target?
+    /// </summary>
+    /// <remarks>The engine uses this unconditionally; a <c>false</c> here means the image will come out too dark.</remarks>
+    /// <seealso cref="EngineState.SrgbWrite"/>
+    public bool SrgbWrite { get; }
+
+    /// <summary>
+    /// Can the hardware the engine is running on linearize gamma-encoded textures when sampling them?
+    /// </summary>
+    /// <remarks>The engine uses this unconditionally; a <c>false</c> here means colors will be over-bright.</remarks>
+    /// <seealso cref="EngineState.SrgbTexture"/>
+    public bool SrgbRead { get; }
 
     /// <summary>
     /// Does the hardware the engine is running on support detail mapping (sampling textures twice with different texture coordinates)?

@@ -673,6 +673,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         // Set texture
         Engine.State.SetTexture(material.DiffuseMap);
+        Engine.State.SrgbTexture = true; // Diffuse maps hold color data
 
         // Fall back to fixed-function pipeline if no shader was set for this body
         if (SurfaceEffect == SurfaceEffect.Shader && SurfaceShader == null)
@@ -700,7 +701,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             else
             { // Simulate a plain colored surface by using emissive lighting
                 Engine.State.FfpLighting = true;
-                Engine.Device.Material = new() {Emissive = material.Diffuse};
+                Engine.Device.Material = new() {Emissive = material.Diffuse.SrgbToLinear()};
             }
 
             render();
@@ -712,7 +713,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         using (new ProfilerEvent("Surface effect: Glow"))
         {
             Engine.State.FfpLighting = true;
-            Engine.Device.Material = new() {Emissive = material.Glow};
+            Engine.Device.Material = new() {Emissive = material.Glow.SrgbToLinear()};
 
             if (material.Glow.EqualsIgnoreAlpha(Color.Black) && material.GlowMap == null
              && Alpha is EngineState.AlphaChannel or EngineState.BinaryAlphaChannel)
@@ -720,10 +721,12 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 // A non-glowing, alpha-blended or alpha-tested surface:
                 // emit black but keep its alpha channel (from the diffuse map) so opaque parts occlude the glow while transparent parts let it shine through
                 Engine.State.SetTexture(material.DiffuseMap);
+                Engine.State.SrgbTexture = true;
             }
             else
             {
                 Engine.State.SetTexture(material.GlowMap);
+                Engine.State.SrgbTexture = true; // Glow maps hold color data
 
                 // Alpha setting applies both to regular and glow rendering pass.
                 // However, if there is no glow texture, alpha-channel blending does not work.
@@ -785,11 +788,16 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             bool fog = Engine.State.Fog;
             Color fogColor = Engine.State.FogColor;
             float fogStart = Engine.State.FogStart, fogEnd = Engine.State.FogEnd;
+            bool srgbWrite = Engine.State.SrgbWrite, srgbTexture = Engine.State.SrgbTexture;
 
             Engine.State.Fog = true;
             Engine.State.FogColor = Color.White;
             Engine.State.FogStart = camera.NearClip;
             Engine.State.FogEnd = camera.FarClip;
+
+            // The output is a normalized depth value, not a color
+            Engine.State.SrgbWrite = false;
+            Engine.State.SrgbTexture = false;
 
             render();
 
@@ -797,6 +805,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             Engine.State.FogColor = fogColor;
             Engine.State.FogStart = fogStart;
             Engine.State.FogEnd = fogEnd;
+            Engine.State.SrgbWrite = srgbWrite;
+            Engine.State.SrgbTexture = srgbTexture;
         }
     }
     #endregion

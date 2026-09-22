@@ -147,6 +147,7 @@ sampler2D SampName = sampler_state { \
     MagFilter = Linear; \
     MipFilter = LINEAR; \
     MinFilter = LINEAR; \
+    sRGBTexture = FALSE; \
 };
 
 //
@@ -174,6 +175,7 @@ sampler2D SampName = sampler_state { \
     MipFilter = POINT; \
     MinFilter = LINEAR; \
     MagFilter = LINEAR; \
+    sRGBTexture = FALSE; \
 };
 
 //
@@ -215,6 +217,7 @@ sampler2D Samp = sampler_state { \
     MipFilter = NONE; \
     MinFilter = LINEAR; \
     MagFilter = LINEAR; \
+    sRGBTexture = FALSE; \
 };
 
 

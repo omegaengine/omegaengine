@@ -9,6 +9,7 @@
 using System.Drawing;
 using AwesomeAssertions;
 using OmegaEngine.Graphics;
+using SlimDX.Direct3D9;
 using Xunit;
 
 namespace OmegaEngine;
@@ -73,6 +74,25 @@ public class EngineResetTest : EngineTestBase
         // A fullscreen render target tracks the back buffer size, so it must have been recreated
         var description = renderTarget.Texture.GetLevelDescription(0);
         new Size(description.Width, description.Height).Should().Be(NewSize);
+    }
+
+    [Fact]
+    public void ResetClearsSrgbState()
+    {
+        Engine.State.SrgbWrite = true;
+        Engine.State.SrgbTexture = true;
+
+        ResizeAndRender();
+
+        // Device.ResetEx restores the Direct3D defaults, so a stale cached "true" would suppress the re-apply
+        Engine.State.SrgbWrite.Should().BeFalse();
+        Engine.State.SrgbTexture.Should().BeFalse();
+
+        // Setting it again must actually reach the device rather than being swallowed as "no change"
+        Engine.State.SrgbWrite = true;
+        Engine.Device.GetRenderState(RenderState.SrgbWriteEnable).Should().NotBe(0);
+        Engine.State.SrgbTexture = true;
+        Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture).Should().NotBe(0);
     }
 
     [Fact]

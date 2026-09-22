@@ -104,8 +104,8 @@ partial class Presenter
         // Fast intensity fall-off near the horizon
         float elevationFactor = (-_lightSun.Direction.Y * 4).Clamp();
 
-        _lightSun.Diffuse = ColorUtils.Interpolate(elevationFactor, Color.Black, Universe.SunColor);
-        _lightSun.Specular = Color4.Scale(_lightSun.Diffuse, DiffuseToSpecularRatio).ToColor();
+        _lightSun.Diffuse = ColorUtils.InterpolateLinear(elevationFactor, Color.Black, Universe.SunColor);
+        _lightSun.Specular = _lightSun.Diffuse.MultiplyLinear(DiffuseToSpecularRatio);
         _lightSun.Ambient = Universe.AmbientColor;
         _lightSun.Enabled = true; // Always on (for ambient light)
     }
@@ -118,8 +118,8 @@ partial class Presenter
         // Fast intensity fall-off near the horizon
         float elevationFactor = (-_lightMoon.Direction.Y * 4).Clamp();
 
-        _lightMoon.Diffuse = ColorUtils.Interpolate(elevationFactor, Color.Black, Universe.MoonColor);
-        _lightMoon.Specular = Color4.Scale(_lightMoon.Diffuse, DiffuseToSpecularRatio).ToColor();
+        _lightMoon.Diffuse = ColorUtils.InterpolateLinear(elevationFactor, Color.Black, Universe.MoonColor);
+        _lightMoon.Specular = _lightMoon.Diffuse.MultiplyLinear(DiffuseToSpecularRatio);
         _lightMoon.Ambient = Color.Black;
         _lightMoon.Enabled = (elevationFactor > 0); // Only on when above horizon
     }

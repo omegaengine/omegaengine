@@ -43,6 +43,7 @@ sampler2D Noise2DSamp = sampler_state
     MinFilter = Linear;
     MipFilter = Linear;
     MagFilter = Linear;
+    sRGBTexture = FALSE; // Procedural noise, not color data
 };
 
 #define NOISE2D(p) tex2D(Noise2DSamp,(p))

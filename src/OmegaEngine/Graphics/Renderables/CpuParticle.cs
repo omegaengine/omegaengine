@@ -180,7 +180,7 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
             camera.SphericalBillboard *
             Matrix.Translation((Position + offset).ApplyOffset(camera.FloatingOrigin));
 
-        // Set the particle color
+        // Set the particle color (used as authored, since particles are rendered in gamma space; see CpuParticleSystem.RenderParticles)
         var material = new Material {Emissive = Color};
         engine.Device.Material = material;
 

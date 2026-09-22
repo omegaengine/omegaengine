@@ -151,6 +151,12 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
     /// Does this <see cref="View"/> render to a texture <see cref="RenderTarget"/>? Only <c>true</c> for <see cref="TextureView"/>s.
     /// </summary>
     protected virtual bool TextureRenderTarget => false;
+
+    /// <summary>
+    /// Shall the output of <see cref="RenderScene"/> be gamma-encoded? <c>false</c> for views that hold data rather than color.
+    /// </summary>
+    /// <seealso cref="EngineState.SrgbWrite"/>
+    protected virtual bool SrgbOutput => true;
     #endregion
 
     #region Content

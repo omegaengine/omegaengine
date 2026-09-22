@@ -101,6 +101,7 @@ public sealed class SimpleSkybox : Skybox
             if (Textures[i] == null) continue;
 
             Engine.State.SetTexture(Textures[i]);
+            Engine.State.SrgbTexture = true; // Skybox faces hold color data
             Engine.Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, i * 4, 4, i * 6, 2);
         }
 

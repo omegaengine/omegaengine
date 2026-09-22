@@ -132,9 +132,9 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         _directional.SourceDistance = distance;
 
         float attenuation = Attenuation.Apply(distance);
-        _directional.Diffuse = Diffuse.Multiply(attenuation);
-        _directional.Specular = Specular.Multiply(attenuation);
-        _directional.Ambient = Ambient.Multiply(attenuation);
+        _directional.Diffuse = Diffuse.MultiplyLinear(attenuation);
+        _directional.Specular = Specular.MultiplyLinear(attenuation);
+        _directional.Ambient = Ambient.MultiplyLinear(attenuation);
 
         return _directional;
     }
@@ -169,8 +169,8 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
             Enabled = Enabled,
             MaxShadowRange = MaxShadowRange,
             SourceRadius = SourceRadius,
-            Diffuse = Diffuse.Multiply(1 - shadowFactor),
-            Specular = Specular.Multiply(1 - shadowFactor),
+            Diffuse = Diffuse.MultiplyLinear(1 - shadowFactor),
+            Specular = Specular.MultiplyLinear(1 - shadowFactor),
             Ambient = Ambient,
             Position = Position,
             RenderAsDirectional = RenderAsDirectional,
@@ -189,8 +189,8 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         Attenuation0 = Attenuation.Constant,
         Attenuation1 = Attenuation.Linear,
         Attenuation2 = Attenuation.Quadratic,
-        Diffuse = Diffuse,
-        Specular = Specular,
-        Ambient = Ambient
+        Diffuse = Diffuse.SrgbToLinear(),
+        Specular = Specular.SrgbToLinear(),
+        Ambient = Ambient.SrgbToLinear()
     };
 }

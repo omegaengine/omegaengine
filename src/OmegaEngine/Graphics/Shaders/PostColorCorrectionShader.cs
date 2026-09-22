@@ -24,7 +24,7 @@ public class PostColorCorrectionShader : PostShader
     /// </summary>
     public static Version MinShaderModel => new(2, 0);
 
-    private float _brightness = 1, _contrast = 1, _saturation = 1, _hue, _gamma = 1.0f;
+    private float _brightness = 1, _contrast = 1, _saturation = 1, _hue, _gamma = DefaultGamma;
 
     /// <summary>
     /// How bright the picture should be - values between 0 (black) and 5 (5x normal)
@@ -78,14 +78,23 @@ public class PostColorCorrectionShader : PostShader
     }
 
     /// <summary>
-    /// The gamma correction value - values between 0.1 and 5.0 (1 for no correction; 2.2 for sRGB)
+    /// The gamma of the display the image is shown on
     /// </summary>
-    [DefaultValue(1.0f), Description("The gamma correction value - values between 0.1 and 5.0 (1 for no correction; 2.2 for sRGB)")]
+    /// <remarks>
+    /// The engine already gamma-encodes its output for a standard sRGB display (gamma 2.2).
+    /// Other values re-target the image for a different gamma: higher values brighten the mid-tones, lower values darken them.
+    /// </remarks>
+    [DefaultValue(DefaultGamma), Description("The gamma of the display the image is shown on")]
     public float Gamma
     {
         get => _gamma;
-        set => value.Clamp(0.1f, 5.0f).To(ref _gamma, () => SetShaderParameter("Gamma", value));
+        set => value.To(ref _gamma, () => SetShaderParameter("Gamma", value));
     }
+
+    /// <summary>
+    /// The value for <see cref="Gamma"/> that leaves the image unchanged.
+    /// </summary>
+    public const float DefaultGamma = 2.2f;
     #endregion
 
     #region Engine

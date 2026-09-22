@@ -67,6 +67,7 @@ int FilterMode : FILTERMODE = 2; // 2 = Linear, 3 = Anisotropic
 ///   texture = <Texture{main}>;
 ///   AddressU = wrap; AddressV = wrap;
 ///   MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear;
+///   sRGBTexture = TRUE;
 /// };]]></Code>
 
 

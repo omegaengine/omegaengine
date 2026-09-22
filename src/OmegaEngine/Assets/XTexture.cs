@@ -34,14 +34,19 @@ public class XTexture : Asset, ITextureProvider
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> providing rendering capabilities.</param>
     /// <param name="stream">The image file to load the texture from.</param>
+    /// <param name="srgb">Does the file hold sRGB-encoded color data (rather than data such as a normal, height or specular map)?</param>
     /// <exception cref="InvalidDataException"><paramref name="stream"/> does not contain a texture file.</exception>
     /// <remarks>This should only be called by <see cref="Get"/> to prevent unnecessary duplicates.</remarks>
-    protected XTexture(Engine engine, Stream stream)
+    protected XTexture(Engine engine, Stream stream, bool srgb = true)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         if (stream == null) throw new ArgumentNullException(nameof(stream));
         #endregion
+
+        // Color textures must be filtered in linear space, otherwise D3DX filters gamma-encoded values when generating mip-maps.
+        // Filter.Default is all-bits-set, so the sRGB flags have to be OR'ed into its explicit mip-filter equivalent (Box) instead.
+        var mipFilter = srgb ? Filter.Box | Filter.Srgb : Filter.Default;
 
         try
         {
@@ -49,7 +54,7 @@ public class XTexture : Asset, ITextureProvider
             {
                 Texture = Texture.FromStream(engine.Device, stream,
                     D3DX.Default, D3DX.Default, 0, Usage.None, Format.Unknown, Pool.Default,
-                    Filter.Default, Filter.Default, 0);
+                    Filter.Default, mipFilter, 0);
             }
             catch (Direct3D9Exception ex) when (stream.CanSeek)
             {
@@ -77,6 +82,7 @@ public class XTexture : Asset, ITextureProvider
     /// <param name="engine">The <see cref="Engine"/> providing the cache and rendering capabilities.</param>
     /// <param name="id">The ID of the asset to be returned.</param>
     /// <param name="meshTexture">Shall the texture be loaded from the meshes directory instead of the textures directory?</param>
+    /// <param name="srgb">Does the file hold sRGB-encoded color data (rather than data such as a normal, height or specular map)?</param>
     /// <returns>The requested asset; <c>null</c> if <paramref name="id"/> was empty.</returns>
     /// <exception cref="FileNotFoundException">The specified file could not be found.</exception>
     /// <exception cref="IOException">There was an error reading the file.</exception>
@@ -84,7 +90,7 @@ public class XTexture : Asset, ITextureProvider
     /// <exception cref="InvalidDataException">The file does not contain a valid texture.</exception>
     /// <remarks>Remember to call <see cref="CacheManager.Clean"/> when done, otherwise this object will never be released.</remarks>
     [return: NotNullIfNotNull(nameof(id))]
-    public static XTexture? Get(Engine engine, string? id, bool meshTexture = false)
+    public static XTexture? Get(Engine engine, string? id, bool meshTexture = false, bool srgb = true)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
@@ -103,7 +109,7 @@ public class XTexture : Asset, ITextureProvider
         {
             using (new TimedLogEvent((meshTexture ? "Loading mesh texture: " : "Loading texture: ") + id))
             using (var stream = ContentManager.GetFileStream(type, id))
-                data = new(engine, stream) {Name = fullID};
+                data = new(engine, stream, srgb) {Name = fullID};
             engine.Cache.AddAsset(data);
         }
 

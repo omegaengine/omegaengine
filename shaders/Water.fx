@@ -21,7 +21,8 @@ float DullBlendFactor <
     string UIWidget = "slider";
     float UIMin = 0.0f; float UIMax = 1.0f; float UIStep = 0.05f;
 > = 0.15f;
-float4 DullColor = {0.3f, 0.3f, 0.5f, 1.0f};
+// Linear-space equivalent of the authored sRGB color (77, 77, 128); the engine overrides this via WaterShader.DullColor
+float4 DullColor = {0.0742f, 0.0742f, 0.2159f, 1.0f};
 float WaveLength <
     string UIWidget = "slider";
     float UIMin = 0.0f; float UIMax = 1.0f; float UIStep = 0.05f;
@@ -46,6 +47,7 @@ sampler normalSampler = sampler_state
   texture = <NormalTexture>;
   AddressU = Mirror; AddressV = Mirror;
   MinFilter = Linear; MagFilter = Linear; MipFilter = Linear;
+  sRGBTexture = FALSE; // Non-color data
 };
 
 Texture RefractionMap < string ResourceName = "default_color.dds"; >;
@@ -54,6 +56,7 @@ sampler RefractionSampler = sampler_state
   texture = <RefractionMap>;
   AddressU = Mirror; AddressV = Mirror;
   MinFilter = Linear; MagFilter = Linear; MipFilter = Linear;
+  sRGBTexture = TRUE; // Scene render target holding sRGB-encoded pixels: linearize on read
 };
 
 Texture ReflectionMap < string ResourceName = "default_reflection.dds"; >;
@@ -62,6 +65,7 @@ sampler ReflectionSampler = sampler_state
   texture = <ReflectionMap>;
   AddressU = Mirror; AddressV = Mirror;
   MinFilter = Linear; MagFilter = Linear; MipFilter = Linear;
+  sRGBTexture = TRUE; // Scene render target holding sRGB-encoded pixels: linearize on read
 };
 
 
@@ -108,6 +112,14 @@ float2 calcSamplingCoord(float2 texCoord)
     float4 rotatedTexCoords = mul(float4(texCoord, 0, 1), WindDirection);
     float2 moveVector = float2(0, 1);
     return rotatedTexCoords.xy/WaveLength + time*WindForce*moveVector.xy;
+}
+
+// The share of light the water surface reflects rather than refracts, using Schlick's approximation.
+// Water reflects about 2% head-on and approaches 100% at grazing angles.
+float fresnelReflectance(float3 eyeVector, float3 normal)
+{
+    float cosTheta = saturate(dot(eyeVector, normal));
+    return 0.02 + 0.98*pow(1 - cosTheta, 5);
 }
 
 
@@ -179,8 +191,8 @@ float4 PS_RefractionReflection(outRefractionReflection IN) : COLOR
 
     // Calculate fresnel term
     float3 eyeVector = normalize(cameraPosition - IN.worldPos);
-    float fresnelTerm = dot(eyeVector, IN.normal);
-    float4 combinedColor = refractiveColor*fresnelTerm + reflectiveColor*(1-fresnelTerm);
+    float reflectance = fresnelReflectance(eyeVector, IN.normal);
+    float4 combinedColor = lerp(refractiveColor, reflectiveColor, reflectance);
 
     return DullBlendFactor*DullColor + (1-DullBlendFactor)*combinedColor;
 }
@@ -201,6 +213,7 @@ float4 PS_Refraction(outRefraction IN) : COLOR
     float4 refractiveColor = tex2D(RefractionSampler, perturbatedRefrTexCoords);
 
     // Calculate fresnel term
+    // Not fresnelReflectance(): without a reflection map, reflectiveColor is the water's own body color
     float3 eyeVector = normalize(cameraPosition - IN.worldPos);
     float fresnelTerm = dot(eyeVector, IN.normal);
     float4 combinedColor = refractiveColor*fresnelTerm + reflectiveColor*(1-fresnelTerm);

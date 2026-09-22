@@ -68,6 +68,21 @@ partial class View
     /// </summary>
     private void RenderScene()
     {
+        // All shading arithmetic in the scene pass happens in linear space, so the result must be gamma-encoded on write.
+        // Set inside Device.BeginScene and RenderTarget.RenderTo, so D3DXRenderToSurface's state save/restore can't strip it.
+        Engine.State.SrgbWrite = SrgbOutput;
+        try
+        {
+            RenderSceneHelper();
+        }
+        finally
+        {
+            Engine.State.SrgbWrite = false;
+        }
+    }
+
+    private void RenderSceneHelper()
+    {
         using (new ProfilerEvent("Render scene"))
         {
             RenderBackground();
@@ -151,6 +166,12 @@ partial class View
     protected virtual void RenderBackground()
     {
         #region Clearing
+        // BackgroundColor is already gamma-encoded and must land in the render target unchanged.
+        // Whether Device.Clear honors SrgbWriteEnable is hardware-dependent (classic Direct3D 9 parts ignore it,
+        // DX10-class ones apply it), so turn the conversion off rather than relying on either behavior.
+        bool srgbWrite = Engine.State.SrgbWrite;
+        Engine.State.SrgbWrite = false;
+
         if (_backgroundColor.A == 255 && _backgroundColor != Color.Empty)
         {
             using (new ProfilerEvent("Clear ZBuffer and BackBuffer"))
@@ -175,6 +196,8 @@ partial class View
                 }
             }
         }
+
+        Engine.State.SrgbWrite = srgbWrite;
         #endregion
 
         #region Skybox
