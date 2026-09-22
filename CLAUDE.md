@@ -53,6 +53,7 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 - `src/build.ps1`: creates a Release build of the engine and Frame of Reference. Only works on Windows.
 - `src/build.sh`: creates a Release build of the engine and Frame of Reference. Runs on Linux but creates build output for Windows.
 - `src/test.ps1`: runs unit tests. Requires a prior build. Only works on Windows.
+- `.claude/skills/headless-render/`: renders maps to image files without a human at the keyboard, for checking rendering changes visually and for before/after comparison against another commit. Only works on Windows.
 
 ## Conventions
 

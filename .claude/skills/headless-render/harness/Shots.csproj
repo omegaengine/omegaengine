@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A throwaway host that drives the engine without a human at the keyboard.
+    Deliberately references the built DLLs rather than the projects, so the same
+    binary can be dropped into any build output (including a git worktree of an
+    older commit) and will bind against whatever is next to it.
+  -->
+  <PropertyGroup>
+    <OmegaConfig Condition="'$(OmegaConfig)'==''">Debug</OmegaConfig>
+    <OmegaArtifacts Condition="'$(OmegaArtifacts)'==''">$(MSBuildThisFileDirectory)..\..\..\..\artifacts\$(OmegaConfig)\net472</OmegaArtifacts>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget><!-- SlimDX is x86-only, like the engine itself -->
+    <UseWindowsForms>True</UseWindowsForms>
+    <LangVersion>13.0</LangVersion>
+    <AssemblyName>Shots</AssemblyName>
+    <RootNamespace>Shots</RootNamespace>
+    <OutputPath>$(MSBuildThisFileDirectory)bin\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+    <EnableWindowsTargeting>True</EnableWindowsTargeting>
+    <Nullable>annotations</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="OmegaEngine"><HintPath>$(OmegaArtifacts)\OmegaEngine.dll</HintPath></Reference>
+    <Reference Include="OmegaEngine.Foundation"><HintPath>$(OmegaArtifacts)\OmegaEngine.Foundation.dll</HintPath></Reference>
+    <Reference Include="AlphaFramework.World"><HintPath>$(OmegaArtifacts)\AlphaFramework.World.dll</HintPath></Reference>
+    <Reference Include="AlphaFramework.Presentation"><HintPath>$(OmegaArtifacts)\AlphaFramework.Presentation.dll</HintPath></Reference>
+    <Reference Include="FrameOfReference.World"><HintPath>$(OmegaArtifacts)\FrameOfReference.World.dll</HintPath></Reference>
+    <Reference Include="FrameOfReference.Presentation"><HintPath>$(OmegaArtifacts)\FrameOfReference.Presentation.dll</HintPath></Reference>
+    <Reference Include="NanoByte.Common"><HintPath>$(OmegaArtifacts)\NanoByte.Common.dll</HintPath></Reference>
+    <Reference Include="SlimDX"><HintPath>$(OmegaArtifacts)\SlimDX.dll</HintPath></Reference>
+  </ItemGroup>
+
+</Project>
