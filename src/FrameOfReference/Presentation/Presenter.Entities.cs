@@ -22,13 +22,13 @@
 
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using AlphaFramework.Presentation;
 using AlphaFramework.World.Components;
 using AlphaFramework.World.Positionables;
 using FrameOfReference.World.Positionables;
 using OmegaEngine;
 using OmegaEngine.Audio;
-using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
@@ -53,12 +53,16 @@ partial class Presenter
                 {
                     Name = element.Name,
                     // NOTE: Height must be set before child views are initialized
-                    Position = Terrain.Position + new DoubleVector3(0, element.Height, 0)
+                    Position = new(0, element.Height, 0)
                 };
+
+                // Water planes live in the terrain's coordinate system, so their positions are terrain-relative
+                Renderables.PlaceUnder(representation, Terrain!);
+
                 representation.SetupChildViews(View);
                 return representation;
             },
-            (element, representation) => representation.Position = Terrain.Position + element.EnginePosition);
+            (element, representation) => representation.Position = element.EnginePosition);
     }
 
     /// <summary>
@@ -80,8 +84,11 @@ partial class Presenter
         where TComponent : Render
     {
         RenderablesSync.RegisterMultiple<Entity, PositionableRenderable>(
-            element => element.TemplateData!.Render.OfType<TComponent>().Select(component => create(element, component)).WhereNotNull(),
-            UpdateRepresentation);
+            element => element.TemplateData!.Render.OfType<TComponent>()
+                              .Select(component => create(element, component))
+                              .WhereNotNull()
+                              .Select(representation => Renderables.AddTo(representation, element, element.Name)),
+            (element, _) => UpdateAnchor(element));
     }
 
     /// <summary>
@@ -90,8 +97,13 @@ partial class Presenter
     private void RegisterRenderComponentLight()
     {
         LightsSync.RegisterMultiple<Entity, PointLight>(
-            entity => entity.TemplateData?.Render.OfType<LightSource>().Select(component => component.ToPresentation(entity.Name)),
-            UpdateRepresentation);
+            entity => entity.TemplateData?.Render.OfType<LightSource>().Select(component =>
+            {
+                var representation = component.ToPresentation(entity.Name);
+                representation.AttachedTo = Renderables.PivotFor(entity, entity.Name);
+                return representation;
+            }),
+            (element, _) => UpdateAnchor(element));
     }
 
     /// <summary>
@@ -102,11 +114,16 @@ partial class Presenter
         SoundsSync.Register<Entity, Sound3D>(
             entity =>
             {
-                if (entity.TemplateData?.Sound?.ToPresentation(Engine) is not {} sound) return null;
+                if (entity.TemplateData?.Sound is not {} component) return null;
+                if (component.ToPresentation(Engine) is not {} sound) return null;
+
+                sound.AttachedTo = Renderables.PivotFor(entity, entity.Name);
+                sound.Offset = component.Shift;
+
                 sound.StartPlayback(looping: true);
                 return sound;
             },
-            UpdateRepresentation);
+            (element, _) => UpdateAnchor(element));
     }
     #endregion
 
@@ -125,48 +142,36 @@ partial class Presenter
     }
 
     /// <summary>
-    /// Applies the position and rotation of a Model element to a View representation.
+    /// The entity state last applied to each anchor by <see cref="UpdateAnchor"/>.
     /// </summary>
-    protected void UpdateRepresentation(Entity element, PositionableRenderable representation)
-    {
-        #region Sanity checks
-        if (element == null) throw new ArgumentNullException(nameof(element));
-        if (representation == null) throw new ArgumentNullException(nameof(representation));
-        #endregion
-
-        representation.Position = Universe.Terrain.ToEngineCoords(element.Position);
-        representation.Rotation = Quaternion.RotationYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
-    }
+    private readonly ConditionalWeakTable<PositionableRenderable, StrongBox<(Vector2 Position, float Rotation)>> _anchorStates = new();
 
     /// <summary>
-    /// Applies the position and rotation of a Model element to a View representation.
+    /// Applies the position and rotation of an entity to the node that carries the transform of everything belonging to it.
     /// </summary>
-    protected void UpdateRepresentation(Entity element, PointLight representation)
+    /// <remarks>
+    /// <para>Depending on how much is attached to the entity, that node is either a <see cref="Pivot"/> or the entity's single renderable itself.
+    /// Lights and sounds are attached to the entity's pivot, so they follow it without being updated here.</para>
+    /// <para>Every sync calls this once per representation, so repeated calls for an unchanged entity return early.</para>
+    /// </remarks>
+    protected void UpdateAnchor(Entity element)
     {
         #region Sanity checks
         if (element == null) throw new ArgumentNullException(nameof(element));
-        if (representation == null) throw new ArgumentNullException(nameof(representation));
         #endregion
 
-        representation.Position = Universe.Terrain.ToEngineCoords(element.Position) +
-                                  Vector3.TransformCoordinate(representation.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
+        if (Renderables.AnchorFor(element) is not {} anchor) return;
+
+        var state = (element.Position, element.Rotation);
+        if (_anchorStates.TryGetValue(anchor, out var applied) && applied.Value == state) return;
+
+        anchor.Position = Universe.Terrain.ToEngineCoords(element.Position);
+        anchor.Rotation = Quaternion.RotationYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
+
+        if (applied == null) _anchorStates.Add(anchor, new(state));
+        else applied.Value = state;
     }
 
-    /// <summary>
-    /// Applies the position and rotation of a Model element to a <see cref="Sound3D"/> representation.
-    /// </summary>
-    protected void UpdateRepresentation(Entity element, Sound3D representation)
-    {
-        #region Sanity checks
-        if (element == null) throw new ArgumentNullException(nameof(element));
-        if (representation == null) throw new ArgumentNullException(nameof(representation));
-        #endregion
-
-        if (element.TemplateData?.Sound is not {} sound) return;
-
-        representation.Position = Universe.Terrain.ToEngineCoords(element.Position) +
-                                  Vector3.TransformCoordinate(sound.Shift, Matrix.RotationY(element.Rotation.DegreeToRadian()));
-    }
     #endregion
 
     /// <inheritdoc/>

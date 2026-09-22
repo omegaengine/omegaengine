@@ -92,7 +92,7 @@ public class Water : Model
 
     #region Setup
     /// <summary>
-    /// Creates views as reflection and refraction sources - Call after setting position!
+    /// Creates views as reflection and refraction sources - Call after setting the position and adding to a <see cref="Scene"/> or parent renderable!
     /// </summary>
     /// <param name="view">The original view to reflect</param>
     /// <param name="clipTolerance">How far to shift the clip plane along its normal vector to reduce graphical glitches at edges</param>
@@ -105,7 +105,7 @@ public class Water : Model
         #endregion
 
         // Make sure the required views get rendered first
-        _viewSource = WaterViewSource.FromEngine(Engine, Position.Y, view, clipTolerance);
+        _viewSource = WaterViewSource.FromEngine(Engine, WorldPosition.Y, view, clipTolerance);
         RequiredViews.Add(_viewSource.RefractedView);
         RequiredViews.Add(_viewSource.ReflectedView);
     }

@@ -31,10 +31,33 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     private DoubleVector3 _position;
 
     /// <summary>
-    /// The position of the light source
+    /// The position of the light source in world space.
     /// </summary>
+    /// <remarks>While <see cref="AttachedTo"/> is set, this is recalculated from <see cref="Offset"/> by <see cref="UpdatePosition"/> and setting it has no lasting effect.</remarks>
     [Description("The position of the light source"), Category("Layout")]
     public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref _floatingPositionDirty); }
+
+    /// <summary>
+    /// A <see cref="PositionableRenderable"/> this light source is attached to; <c>null</c> to use <see cref="Position"/> as an absolute world position.
+    /// </summary>
+    /// <seealso cref="Offset"/>
+    [Browsable(false)]
+    public PositionableRenderable? AttachedTo { get; set; }
+
+    /// <summary>
+    /// The offset from <see cref="AttachedTo"/> in its local coordinate system. Ignored while <see cref="AttachedTo"/> is <c>null</c>.
+    /// </summary>
+    [Description("The offset from the renderable the light source is attached to, in its local coordinate system"), Category("Layout")]
+    public Vector3 Offset { get; set; }
+
+    /// <summary>
+    /// Recalculates <see cref="Position"/> from <see cref="AttachedTo"/> and <see cref="Offset"/>. Does nothing while not attached.
+    /// </summary>
+    /// <remarks>Called by <see cref="View.Render"/> for every view with <see cref="View.Lighting"/> enabled, before the view uses its lights.</remarks>
+    internal void UpdatePosition()
+    {
+        if (AttachedTo is {} parent) Position = parent.ToWorld((DoubleVector3)Offset);
+    }
 
     private DoubleVector3 _floatingOrigin;
 
@@ -62,12 +85,6 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
             return _floatingPositionCached;
         }
     }
-
-    /// <summary>
-    /// Stores an offset used by game logic positioning code. Ignore by the engine itself!
-    /// </summary>
-    [Description("Stores an offset used by game logic positioning code. Ignore by the engine itself!"), Category("Layout")]
-    public Vector3 Shift { get; set; }
 
     /// <summary>
     /// Factors describing the attenuation of light intensity over distance.

@@ -7,6 +7,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
 using NanoByte.Common.Dispatch;
@@ -34,10 +35,16 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
     protected CoordinatePresenter(Engine engine, TUniverse universe)
         : base(engine, universe)
     {
-        RenderablesSync = new(Universe.Positionables, Scene.Positionables);
+        Renderables = new(Scene.Positionables);
+        RenderablesSync = new(Universe.Positionables, Renderables);
         LightsSync = new(Universe.Positionables, Scene.Lights);
         SoundsSync = new(Universe.Positionables, _sounds);
     }
+
+    /// <summary>
+    /// The <see cref="OmegaEngine.Graphics.Scene.Positionables"/> of <see cref="PresenterBase{TUniverse}.Scene"/>, with support for grouping renderables underneath <see cref="Pivot"/>s.
+    /// </summary>
+    protected readonly PivotedRenderables Renderables;
 
     /// <inheritdoc />
     public override void Initialize()
@@ -46,6 +53,10 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
         RenderablesSync.Initialize();
         LightsSync.Initialize();
         SoundsSync.Initialize();
+
+        // Runs after the syncs have removed an element's renderables, so that it only has to clean up groups they kept alive
+        Universe.Positionables.Removed -= Renderables.Release;
+        Universe.Positionables.Removed += Renderables.Release;
 
         base.Initialize();
     }
@@ -73,6 +84,12 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
     protected virtual void RegisterRenderablesSync()
     {}
 
+    /// <summary>
+    /// Enumerates all renderables that represent game world elements, including ones grouped below a <see cref="Pivot"/>.
+    /// </summary>
+    protected IEnumerable<PositionableRenderable> RenderableNodes
+        => RenderablesSync.Representations.Concat(Renderables.GroupedRenderables).Distinct();
+
     private bool _wireframeEntities;
 
     /// <summary>
@@ -84,7 +101,7 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
         set
         {
             _wireframeEntities = value;
-            foreach (var positionable in RenderablesSync.Representations)
+            foreach (var positionable in RenderableNodes)
                 positionable.Wireframe = value;
         }
     }
@@ -100,7 +117,7 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
         set
         {
             _boundingSpheresEntities = value;
-            foreach (var positionable in RenderablesSync.Representations)
+            foreach (var positionable in RenderableNodes)
                 positionable.DrawBoundingSphere = value;
         }
     }
@@ -116,7 +133,7 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
         set
         {
             _boundingBoxEntities = value;
-            foreach (var positionable in RenderablesSync.Representations)
+            foreach (var positionable in RenderableNodes)
                 positionable.DrawBoundingBox = value;
         }
     }
@@ -128,9 +145,13 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
         {
             if (disposing)
             {
+                Universe.Positionables.Removed -= Renderables.Release;
+
                 RenderablesSync.Dispose();
                 LightsSync.Dispose();
                 SoundsSync.Dispose();
+
+                Renderables.ReleaseAll();
             }
         }
         finally

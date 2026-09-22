@@ -46,7 +46,7 @@ namespace OmegaEngine
             this.sceneContainer = new System.Windows.Forms.SplitContainer();
             this.entityContainer = new System.Windows.Forms.SplitContainer();
             this.renderableLabel = new System.Windows.Forms.Label();
-            this.renderableListBox = new System.Windows.Forms.ListBox();
+            this.renderableTreePanel = new System.Windows.Forms.Panel();
             this.renderablePropertyGrid = new ResettablePropertyGrid();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.removeButton = new System.Windows.Forms.Button();
@@ -274,7 +274,7 @@ namespace OmegaEngine
             // entityContainer.Panel1
             // 
             this.entityContainer.Panel1.Controls.Add(this.renderableLabel);
-            this.entityContainer.Panel1.Controls.Add(this.renderableListBox);
+            this.entityContainer.Panel1.Controls.Add(this.renderableTreePanel);
             this.entityContainer.Panel1.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
             // 
             // entityContainer.Panel2
@@ -295,18 +295,15 @@ namespace OmegaEngine
             this.renderableLabel.TabIndex = 0;
             this.renderableLabel.Text = "Scene Renderables:";
             // 
-            // renderableListBox
-            // 
-            this.renderableListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            // renderableTreePanel
+            //
+            this.renderableTreePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.renderableListBox.FormattingEnabled = true;
-            this.renderableListBox.Location = new System.Drawing.Point(3, 23);
-            this.renderableListBox.Name = "renderableListBox";
-            this.renderableListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.renderableListBox.Size = new System.Drawing.Size(124, 303);
-            this.renderableListBox.TabIndex = 1;
-            this.renderableListBox.SelectedIndexChanged += new System.EventHandler(this.renderableListBox_SelectedIndexChanged);
+            this.renderableTreePanel.Location = new System.Drawing.Point(3, 23);
+            this.renderableTreePanel.Name = "renderableTreePanel";
+            this.renderableTreePanel.Size = new System.Drawing.Size(124, 303);
+            this.renderableTreePanel.TabIndex = 1;
             // 
             // renderablePropertyGrid
             // 
@@ -459,7 +456,7 @@ namespace OmegaEngine
         private System.Windows.Forms.SplitContainer sceneContainer;
         private System.Windows.Forms.SplitContainer entityContainer;
         private System.Windows.Forms.Label renderableLabel;
-        private System.Windows.Forms.ListBox renderableListBox;
+        private System.Windows.Forms.Panel renderableTreePanel;
         private ResettablePropertyGrid renderablePropertyGrid;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label lightLabel;

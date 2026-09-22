@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
@@ -77,8 +78,12 @@ partial class View
 
             if (Lighting)
             {
-                foreach (var light in Scene.Lights.OfType<IFloatingOriginAware>())
-                    light.SetFloatingOrigin(Camera);
+                foreach (var light in Scene.Lights)
+                {
+                    // Resolve positions of lights attached to renderables before transforming them into render space
+                    if (light is PointLight pointLight) pointLight.UpdatePosition();
+                    if (light is IFloatingOriginAware floatingLight) floatingLight.SetFloatingOrigin(Camera);
+                }
             }
 
             #region Render bodies

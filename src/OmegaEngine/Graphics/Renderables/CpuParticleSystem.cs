@@ -209,9 +209,14 @@ public class CpuParticleSystem : PositionableRenderable
             particle.Velocity += RandomUtils.GetRandomPointInsideSphere(Preset.RandomAcceleration * (float)Math.Sqrt(elapsedTime));
     }
 
+    /// <summary>
+    /// The world-space origin of the emitter's local coordinate system, including any shift from <see cref="PositionableRenderable.PreTransform"/> and parent renderables.
+    /// </summary>
+    private DoubleVector3 EmitterOrigin => ToWorld(default);
+
     private void ApplyEmitterForces(CpuParticle particle, float elapsedTime)
     {
-        var particleOffset = LocalSpace ? new() : Position;
+        var particleOffset = LocalSpace ? new() : EmitterOrigin;
         Vector3 particlePosition = particle.Position.ApplyOffset(particleOffset);
         float particleDistance = particlePosition.Length();
         Vector3 particleDirection = Vector3.Normalize(particlePosition);
@@ -234,7 +239,7 @@ public class CpuParticleSystem : PositionableRenderable
     /// </summary>
     private void AddParticle()
     {
-        var particleOffset = LocalSpace ? new() : Position;
+        var particleOffset = LocalSpace ? new() : EmitterOrigin;
         AddParticle(
             particleOffset + RandomUtils.GetRandomPointInsideSphere(Preset.SpawnRadius),
             GetFirstLifeParameters(),
@@ -346,11 +351,10 @@ public class CpuParticleSystem : PositionableRenderable
     /// <inheritdoc/>
     protected override void RecalcWorldTransform()
     {
-        if (!WorldTransformDirty) return;
-
         base.RecalcWorldTransform();
 
-        _effectiveGravity = Vector3.TransformNormal(Preset.Gravity, WorldTransformCached);
+        // Gravity is a direction in the emitter's own coordinate system, so it must not be affected by camera-dependent effects
+        _effectiveGravity = Vector3.TransformNormal(Preset.Gravity, PhysicalWorldTransform);
     }
 
     /// <inheritdoc/>
@@ -383,9 +387,7 @@ public class CpuParticleSystem : PositionableRenderable
         bool fog = Engine.State.Fog;
         Engine.State.Fog = false;
 
-        var renderOffset = LocalSpace ? Position : new();
-        if (!PreTransform.IsIdentity)
-            renderOffset += Vector3.TransformCoordinate(new(), PreTransform * Matrix.RotationQuaternion(Rotation));
+        var renderOffset = LocalSpace ? EmitterOrigin : new();
 
         if (_material1.DiffuseMap != null)
         {

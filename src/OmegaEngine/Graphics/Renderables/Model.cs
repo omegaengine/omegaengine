@@ -135,7 +135,7 @@ public partial class Model : PositionableRenderable
     {
         get
         {
-            RecalcWorldTransform();
+            EnsureWorldTransform();
             if (_subsetWorldBoundingSpheresDirty)
             {
                 if (SubsetBoundingSpheres == null) _subsetWorldBoundingSpheresCached = null;
@@ -170,7 +170,7 @@ public partial class Model : PositionableRenderable
     {
         get
         {
-            RecalcWorldTransform();
+            EnsureWorldTransform();
             if (_subsetWorldBoundingBoxesDirty)
             {
                 if (SubsetBoundingBoxes == null) _subsetWorldBoundingBoxesCached = null;
@@ -189,8 +189,6 @@ public partial class Model : PositionableRenderable
     /// <inheritdoc/>
     protected override void RecalcWorldTransform()
     {
-        if (!WorldTransformDirty) return;
-
         base.RecalcWorldTransform();
 
         // Mark subset world bounding bodies as dirty instead of recalculating immediately

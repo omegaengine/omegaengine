@@ -145,13 +145,17 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     /// </summary>
     public void RebuildTerrain()
     {
-        if (Terrain != null)
-        {
-            View.Scene.Positionables.Remove(Terrain);
-            Terrain.Dispose();
-            Terrain = null;
-        }
+        var oldTerrain = Terrain;
         SetupTerrain();
+
+        if (oldTerrain != null)
+        {
+            // Hand anything living in the terrain's coordinate system (e.g. water planes) over to the new terrain before disposing the old one
+            Renderables.MovePlacements(oldTerrain, Terrain!);
+
+            View.Scene.Positionables.Remove(oldTerrain);
+            oldTerrain.Dispose();
+        }
     }
 
     /// <summary>

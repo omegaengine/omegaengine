@@ -4,6 +4,7 @@ An overview of the engine's features:
 
   * [Scene management](scenes.md)
     * Multiple viewports
+    * Scene graph
     * [64bit-precision object positioning](xref:OmegaEngine.Graphics.Cameras#floating-coordinate-system)
     * [Terrain rendering](terrain.md) (heightmap-based)
   * [HLSL shaders](xref:OmegaEngine.Graphics.Shaders)

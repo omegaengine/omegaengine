@@ -55,3 +55,24 @@ var camera = new FreeFlyCamera
 var view = new View(scene, camera) { Lighting = true };
 engine.Views.Add(view);
 ```
+
+## Render hierarchy
+
+<xref:OmegaEngine.Graphics.Scene.Positionables> holds the _roots_ of the scene. Every <xref:OmegaEngine.Graphics.Renderables.PositionableRenderable> in turn has a `Children` collection, so renderables can be grouped under a shared transform. <xref:OmegaEngine.Graphics.Renderables.Pivot> is a renderable without geometry meant purely for grouping.
+
+```csharp
+var ship = new Pivot { Position = new(0, 0, 100) };
+ship.Children.Add(new Model(XMesh.Get(engine, "Hull.x")));
+ship.Children.Add(new Model(XMesh.Get(engine, "Engine.x")) { Position = new(0, 0, -5) });
+scene.Positionables.Add(ship);
+```
+
+A root's `Position` is absolute world space, a child's `Position` is an offset in its parent's coordinate system. `WorldPosition` always gives the absolute position.
+
+Adding a renderable to a collection removes it from its previous one and keeps its local `Position`, `Rotation`, `Scale` and `PreTransform`, i.e. its world position changes to match the new parent.
+
+Rotation, scale and `PreTransform` are inherited in full, so non-uniform scaling on a parent combined with a rotated child produces shear.
+
+`Billboard`, `ForcedPerspectiveDistance` and `AutoScaleDistance` are per-view effects applied to leaf nodes only; they have no effect while a renderable has children.
+
+<xref:OmegaEngine.Graphics.LightSources.PointLight> and <xref:OmegaEngine.Audio.Sound3D> can follow a renderable instead of holding an absolute position: set `AttachedTo` and give them a local `Offset`.

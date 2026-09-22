@@ -70,6 +70,51 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
+    public void AutoScaleDistanceIsIgnoredWhileTheBodyHasChildren()
+    {
+        using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
+        float originalRadius = model.WorldBoundingSphere!.Value.Radius;
+
+        model.AutoScaleDistance = 100;
+        var camera = new ArcballCamera {Radius = 200, Size = new Size(800, 600)};
+        model.IsVisible(camera);
+        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
+
+        // Auto-scaling is a leaf-only camera effect, so it must stop applying once the body becomes a parent
+        using var child = new Pivot();
+        model.Children.Add(child);
+        model.IsVisible(camera);
+        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius, 0.001f);
+
+        // ... and start applying again once it is a leaf again
+        model.Children.Remove(child);
+        model.IsVisible(camera);
+        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
+    }
+
+    [Fact]
+    public void ChildrenAreCulledIndependentlyOfTheirParent()
+    {
+        using var parent = new Pivot();
+        using var child = Model.Box(Engine, XMaterial.Default, new(4, 4, 4));
+        parent.Children.Add(child);
+
+        var camera = new ArcballCamera
+        {
+            Radius = 20,
+            NearClip = 1,
+            FarClip = 100,
+            Size = new Size(800, 600)
+        };
+
+        child.IsVisible(camera).Should().BeTrue();
+
+        // Moving the parent takes the child out of the frustum, even though the child's own position is unchanged
+        parent.Position = new(0, 0, 10_000);
+        child.IsVisible(camera).Should().BeFalse();
+    }
+
+    [Fact]
     public void IsVisibleIsFalseWhenHiddenOrFullyTransparent()
     {
         using var model = Model.Box(Engine, XMaterial.Default);

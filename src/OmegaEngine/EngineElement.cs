@@ -119,8 +119,16 @@ public abstract class EngineElement : IDisposable
     public void Dispose()
     {
         if (IsDisposed) return;
+
         if (IsEngineSet && !_engine.IsDisposed)
             OnDispose();
+        else
+        {
+            // There are no engine resources to release, but registered children must still not be left to their finalizers
+            foreach (var element in _toDispose)
+                element.Dispose();
+        }
+
         GC.SuppressFinalize(this);
         IsDisposed = true;
     }

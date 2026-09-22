@@ -46,21 +46,26 @@ public class Presenter : PresenterBase<Universe>
 | <xref:AlphaFramework.World.Components.CpuParticleSystem> | <xref:OmegaEngine.Graphics.Renderables.CpuParticleSystem>  |
 | <xref:AlphaFramework.World.Components.LightSource>       | <xref:OmegaEngine.Graphics.LightSources.PointLight>        |
 
-This is useful for applying <xref:AlphaFramework.World.Templates>. A presenter typically iterates `entity.TemplateData.Render`, calls `.ToPresentation(engine)` on each component, and registers the resulting renderables with the scene:
+This is useful for applying <xref:AlphaFramework.World.Templates>. A presenter typically iterates `entity.TemplateData.Render`, calls `.ToPresentation(engine)` on each component, and adds the resulting renderables to the entity's group in <xref:AlphaFramework.Presentation.PivotedRenderables>:
 
 ```csharp
 foreach (var component in entity.TemplateData!.Render)
 {
-    var renderable = component switch
+    switch (component)
     {
-        StaticMesh m => m.ToPresentation(engine),
-        LightSource l => l.ToPresentation(),
-        _ => null
-    };
-    if (renderable != null)
-        scene.Positionables.Add(renderable);
+        case StaticMesh m when m.ToPresentation(engine) is {} model:
+            renderables.AddTo(model, entity, entity.Name);
+            break;
+        case LightSource l:
+            var light = l.ToPresentation();
+            light.AttachedTo = renderables.PivotFor(entity, entity.Name);
+            scene.Lights.Add(light);
+            break;
+    }
 }
 ```
+
+A component's `Shift` becomes the renderable's local <xref:OmegaEngine.Graphics.Renderables.PositionableRenderable.Position> (or the light's `Offset`), so writing the entity's position and rotation to `renderables.AnchorFor(entity)` moves everything belonging to the entity at once. The group only gets a <xref:OmegaEngine.Graphics.Renderables.Pivot> of its own once more than one thing shares that transform. See <xref:AlphaFramework> for the full hierarchy contract.
 
 ## <xref:AlphaFramework.Presentation.GameBase>
 

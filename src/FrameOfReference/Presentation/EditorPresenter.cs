@@ -255,7 +255,7 @@ public sealed class EditorPresenter : InteractivePresenter
             (from positionable in RenderablesSync.Representations
              where positionable.Pickable && positionable.BoundingSphere.HasValue
              // ReSharper disable once PossibleInvalidOperationException
-             select positionable.BoundingSphere.Value.Transform(positionable.PreTransform)).
+             select positionable.BoundingSphere.Value.Transform(Renderables.LocalTransformOf(positionable))).
             Aggregate<BoundingSphere, float>(0, (current, boundingSphere) => Math.Max(current, boundingSphere.Radius + boundingSphere.Center.Length()));
         return new() {Radius = radius};
     }
@@ -269,7 +269,7 @@ public sealed class EditorPresenter : InteractivePresenter
             (from positionable in RenderablesSync.Representations
              where positionable.Pickable && positionable.BoundingBox.HasValue
              // ReSharper disable once PossibleInvalidOperationException
-             select positionable.BoundingBox.Value.Transform(positionable.PreTransform))
+             select positionable.BoundingBox.Value.Transform(Renderables.LocalTransformOf(positionable)))
            .ToList();
 
         return new()

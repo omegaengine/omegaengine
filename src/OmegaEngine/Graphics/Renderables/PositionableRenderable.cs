@@ -20,7 +20,6 @@ using SlimDX;
 
 namespace OmegaEngine.Graphics.Renderables;
 
-#region Enumerations
 /// <seealso cref="PositionableRenderable.RenderIn"/>
 public enum ViewType
 {
@@ -68,7 +67,6 @@ public enum BillboardMode
     /// <summary>Apply a cylindrical billboarding effect (object's X axis will always face the camera)</summary>
     Cylindrical
 };
-#endregion
 
 /// <summary>
 /// An object that can be <see cref="Render"/>ed at a specific <see cref="Position"/> in a <see cref="Scene"/>.
@@ -76,6 +74,78 @@ public enum BillboardMode
 /// <seealso cref="Scene.Positionables"/>
 public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 {
+    #region Hierarchy
+    private readonly RenderableCollection _children;
+
+    /// <summary>
+    /// Creates a new positionable renderable.
+    /// </summary>
+    protected PositionableRenderable()
+    {
+        RegisterChild(_children = new(this));
+    }
+
+    /// <summary>
+    /// The <see cref="PositionableRenderable"/>s placed in this one's local coordinate system.
+    /// </summary>
+    /// <remarks>
+    /// <para>A renderable lives in exactly one collection at a time: either this or <see cref="Scene.Positionables"/>.
+    /// Adding it here removes it from its previous collection and keeps its local <see cref="Position"/>, <see cref="Rotation"/>, <see cref="Scale"/> and <see cref="PreTransform"/>,
+    /// i.e. its world position changes.</para>
+    /// <para>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</para>
+    /// </remarks>
+    [Browsable(false)]
+    public ICollection<PositionableRenderable> Children => _children;
+
+    /// <summary>
+    /// <see cref="Children"/> with a non-allocating enumerator, for traversals that run every frame.
+    /// </summary>
+    internal RenderableCollection ChildCollection => _children;
+
+    private RenderableCollection? _container;
+
+    /// <summary>
+    /// The collection this renderable is currently contained in; <c>null</c> if it is not part of a <see cref="Scene"/>.
+    /// </summary>
+    internal RenderableCollection? Container
+    {
+        get => _container;
+        set
+        {
+            _container = value;
+            MarkLocalTransformDirty();
+        }
+    }
+
+    /// <summary>
+    /// The renderable this one is placed in the coordinate system of; <c>null</c> if this is a root.
+    /// </summary>
+    private PositionableRenderable? Parent => _container?.Owner;
+
+    /// <summary>
+    /// The root of the hierarchy this renderable is part of; itself if it is a root.
+    /// </summary>
+    private PositionableRenderable Root
+    {
+        get
+        {
+            var node = this;
+            while (node.Parent is {} parent) node = parent;
+            return node;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether this renderable is a (transitive) child of <paramref name="other"/>.
+    /// </summary>
+    internal bool IsDescendantOf(PositionableRenderable other)
+    {
+        for (var node = Parent; node != null; node = node.Parent)
+            if (node == other) return true;
+        return false;
+    }
+    #endregion
+
     #region Properties
 
     #region Flags
@@ -133,8 +203,10 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     #endregion
 
     #region Transform factors
-    /// <summary>Does the world transform need to be recalculated?</summary>
-    protected bool WorldTransformDirty = true;
+    private Action? _markLocalTransformDirty;
+
+    /// <summary>A cached delegate for <see cref="MarkLocalTransformDirty"/>, so that setters don't allocate one per call.</summary>
+    private Action MarkDirty => _markLocalTransformDirty ??= MarkLocalTransformDirty;
 
     private Matrix _preTransform = Matrix.Identity;
     private Matrix _billboardRotation = Matrix.Identity;
@@ -146,15 +218,16 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes
     /// </summary>
     [Browsable(false)]
-    public Matrix PreTransform { get => _preTransform; set => value.To(ref _preTransform, ref WorldTransformDirty); }
+    public Matrix PreTransform { get => _preTransform; set => value.To(ref _preTransform, MarkDirty); }
 
     private Vector3 _scale = new(1, 1, 1);
 
     /// <summary>
     /// Scaling to be performed before rendering
     /// </summary>
+    /// <remarks>Inherited by <see cref="Children"/>; non-uniform scaling combined with a rotated child produces shear.</remarks>
     [Description("Scaling to be performed before rendering"), Category("Layout")]
-    public Vector3 Scale { get => _scale; set => value.To(ref _scale, ref WorldTransformDirty); }
+    public Vector3 Scale { get => _scale; set => value.To(ref _scale, MarkDirty); }
 
     /// <summary>
     /// Scales this <see cref="PositionableRenderable"/> symmetrically
@@ -162,7 +235,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="factor">The factor by which to scale</param>
     public void SetScale(float factor)
     {
-        new Vector3(factor).To(ref _scale, ref WorldTransformDirty);
+        new Vector3(factor).To(ref _scale, MarkDirty);
     }
 
     private Quaternion _rotation = Quaternion.Identity;
@@ -171,22 +244,32 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// The body's rotation quaternion
     /// </summary>
     [Browsable(false)]
-    public Quaternion Rotation { get => _rotation; set => Quaternion.Normalize(value).To(ref _rotation, ref WorldTransformDirty); }
+    public Quaternion Rotation { get => _rotation; set => Quaternion.Normalize(value).To(ref _rotation, MarkDirty); }
 
     private DoubleVector3 _position;
 
     /// <summary>
-    /// The body's position in world space
+    /// The body's position: absolute world space for a root, an offset in the parent's coordinate system for an element of another body's <see cref="Children"/>.
     /// </summary>
-    [Description("The body's position in world space"), Category("Layout")]
-    public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref WorldTransformDirty); }
+    /// <seealso cref="WorldPosition"/>
+    [Description("The body's position - absolute world space for a root, relative to the parent for a child"), Category("Layout")]
+    public DoubleVector3 Position { get => _position; set => value.To(ref _position, MarkDirty); }
 
     private DoubleVector3 _floatingOrigin;
 
     /// <summary>
     /// A value to be added to <see cref="Position"/> in order gain <see cref="IFloatingOriginAware.FloatingPosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
     /// </summary>
-    DoubleVector3 IFloatingOriginAware.FloatingOrigin { get => _floatingOrigin; set => value.To(ref _floatingOrigin, ref WorldTransformDirty); }
+    /// <remarks>Only stored at the root of a hierarchy; descendants inherit it from there.</remarks>
+    DoubleVector3 IFloatingOriginAware.FloatingOrigin
+    {
+        get => Root._floatingOrigin;
+        set
+        {
+            var root = Root;
+            value.To(ref root._floatingOrigin, root.MarkDirty);
+        }
+    }
 
     /// <summary>
     /// When the renderable is farther than this distance from the <see cref="Camera"/>, it is instead rendered at this distance, with corresponding scaling applied to preserve its apparent size (angular diameter).
@@ -210,32 +293,134 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     #endregion
 
     #region Transform results
-    /// <summary>Called to generate/update transformation matrices and related values</summary>
-    protected virtual void RecalcWorldTransform()
+    private uint _transformVersion, _parentTransformVersion;
+    private bool _physicalTransformDirty = true, _renderTransformDirty = true;
+
+    /// <summary>
+    /// Invalidates all cached transforms of this body and makes its descendants observe the change.
+    /// </summary>
+    /// <remarks>Called by every mutation of the local transform factors and by every reparenting.</remarks>
+    protected internal void MarkLocalTransformDirty()
     {
-        if (!WorldTransformDirty) return;
+        _physicalTransformDirty = true;
+        _renderTransformDirty = true;
+        unchecked { _transformVersion++; }
+    }
 
-        var scaling = _preTransform * Matrix.Scaling(_scale * _autoScaleFactor);
-        var rotation = Matrix.RotationQuaternion(Rotation) * _billboardRotation;
+    private Matrix _physicalWorldTransform = Matrix.Identity;
+    private DoubleVector3 _worldOrigin, _worldPosition;
 
-        WorldTransformCached =
-            scaling
-          * Matrix.Scaling(new(_forcedPerspectiveScaling))
-          * rotation
-          * Matrix.Translation(this.ApplyFloatingOriginTo(_position + _forcedPerspectiveTranslation));
+    /// <summary>
+    /// Ensures the physical transforms (i.e. without per-view camera effects) of this body and all its ancestors are up-to-date.
+    /// </summary>
+    private void EnsurePhysicalTransform()
+    {
+        var parent = Parent;
+        if (parent != null)
+        {
+            parent.EnsurePhysicalTransform();
+
+            // Observe changes further up the hierarchy and pass them on to our own descendants
+            if (_parentTransformVersion != parent._transformVersion)
+            {
+                _parentTransformVersion = parent._transformVersion;
+                MarkLocalTransformDirty();
+            }
+        }
+
+        if (!_physicalTransformDirty) return;
+
+        // Everything but the translation, i.e. the part that is unaffected by the floating origin
+        var orientation = _preTransform * Matrix.Scaling(_scale) * Matrix.RotationQuaternion(_rotation);
+        var localOrigin = new Vector3(orientation.M41, orientation.M42, orientation.M43);
+
+        if (parent == null)
+        {
+            _physicalWorldTransform = orientation * Matrix.Translation(this.ApplyFloatingOriginTo(_position));
+            _worldPosition = _position;
+            _worldOrigin = _position + localOrigin;
+        }
+        else
+        {
+            _physicalWorldTransform = orientation * Matrix.Translation((Vector3)_position) * parent._physicalWorldTransform;
+            _worldPosition = parent.ToWorld(_position);
+            _worldOrigin = _worldPosition + (DoubleVector3)Vector3.TransformNormal(localOrigin, parent._physicalWorldTransform);
+        }
+
+        _physicalTransformDirty = false;
+    }
+
+    /// <summary>
+    /// The body's absolute position in world space, resolved through the hierarchy in double precision.
+    /// </summary>
+    /// <remarks>Identical to <see cref="Position"/> for a root; independent of any <see cref="Camera"/> or floating origin.</remarks>
+    [Browsable(false)]
+    public DoubleVector3 WorldPosition
+    {
+        get
+        {
+            EnsurePhysicalTransform();
+            return _worldPosition;
+        }
+    }
+
+    /// <summary>
+    /// Transforms an offset in this body's local coordinate system into an absolute position in world space.
+    /// </summary>
+    /// <param name="localOffset">The offset in the coordinate system that <see cref="Children"/> of this body live in.</param>
+    /// <remarks>Independent of any <see cref="Camera"/> or floating origin.</remarks>
+    internal DoubleVector3 ToWorld(DoubleVector3 localOffset)
+    {
+        EnsurePhysicalTransform();
+        return _worldOrigin + (DoubleVector3)Vector3.TransformNormal((Vector3)localOffset, _physicalWorldTransform);
+    }
+
+    /// <summary>
+    /// Ensures all cached transformation matrices and related values are up-to-date.
+    /// </summary>
+    protected void EnsureWorldTransform()
+    {
+        EnsurePhysicalTransform();
+        if (!_renderTransformDirty) return;
+
+        _floatingPositionCached = this.ApplyFloatingOriginTo(_worldPosition);
+
+        // Camera effects apply to leaves only, so they never distort a body's descendants
+        if (_children.Count == 0 && (_autoScaleFactor != 1 || _forcedPerspectiveScaling != 1 || !_billboardRotation.IsIdentity))
+        {
+            // Peel the body's own floating position off the physical transform, apply the camera effects around it and put it back on
+            var centered = _physicalWorldTransform * Matrix.Translation(-_floatingPositionCached);
+
+            WorldTransformWithoutForcedPerspectiveCached =
+                centered
+              * Matrix.Scaling(new(_autoScaleFactor))
+              * _billboardRotation
+              * Matrix.Translation(_floatingPositionCached);
+            WorldTransformCached =
+                centered
+              * Matrix.Scaling(new(_autoScaleFactor * _forcedPerspectiveScaling))
+              * _billboardRotation
+              * Matrix.Translation(this.ApplyFloatingOriginTo(_worldPosition + _forcedPerspectiveTranslation));
+        }
+        else
+        {
+            WorldTransformCached = WorldTransformWithoutForcedPerspectiveCached = _physicalWorldTransform;
+        }
+
         _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
-
-        _floatingPositionCached = this.ApplyFloatingOriginTo(_position);
-        WorldTransformWithoutForcedPerspectiveCached =
-            scaling
-          * rotation
-          * Matrix.Translation(_floatingPositionCached);
-
         _worldBoundingSphere = BoundingSphere?.Transform(WorldTransformWithoutForcedPerspectiveCached);
         _worldBoundingBox = BoundingBox?.Transform(WorldTransformWithoutForcedPerspectiveCached);
 
-        WorldTransformDirty = false;
+        _renderTransformDirty = false;
+        RecalcWorldTransform();
     }
+
+    /// <summary>
+    /// Hook for recalculating renderable-specific values derived from the transformation matrices.
+    /// </summary>
+    /// <remarks>Called by <see cref="EnsureWorldTransform"/> after the matrices have been updated.</remarks>
+    protected virtual void RecalcWorldTransform()
+    {}
 
     private Vector3 _floatingPositionCached;
 
@@ -247,7 +432,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         get
         {
-            RecalcWorldTransform();
+            EnsureWorldTransform();
             return _floatingPositionCached;
         }
     }
@@ -257,6 +442,19 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     protected Matrix WorldTransformWithoutForcedPerspectiveCached { get; private set; }
 
     /// <summary>
+    /// The world transformation matrix for this entity, composed purely from the hierarchy's transforms.
+    /// </summary>
+    /// <remarks>Unlike <see cref="WorldTransformCached"/> this carries no billboarding, forced perspective or auto-scaling. Its translation is still relative to the floating origin.</remarks>
+    protected Matrix PhysicalWorldTransform
+    {
+        get
+        {
+            EnsurePhysicalTransform();
+            return _physicalWorldTransform;
+        }
+    }
+
+    /// <summary>
     /// The world transformation matrix for this entity
     /// </summary>
     /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
@@ -264,7 +462,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         get
         {
-            RecalcWorldTransform();
+            EnsureWorldTransform();
             return WorldTransformCached;
         }
     }
@@ -279,7 +477,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         get
         {
-            RecalcWorldTransform();
+            EnsureWorldTransform();
             return _inverseWorldTransform;
         }
     }
@@ -295,7 +493,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     public BoundingSphere? BoundingSphere
     {
         get => _boundingSphere;
-        protected set => value.To(ref _boundingSphere, ref WorldTransformDirty);
+        protected set => value.To(ref _boundingSphere, MarkDirty);
     }
 
     /// <summary>
@@ -306,7 +504,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         get
         {
-            RecalcWorldTransform();
+            EnsureWorldTransform();
             return _worldBoundingSphere;
         }
     }
@@ -332,7 +530,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     public BoundingBox? BoundingBox
     {
         get => _boundingBox;
-        protected set => value.To(ref _boundingBox, ref WorldTransformDirty);
+        protected set => value.To(ref _boundingBox, MarkDirty);
     }
 
     /// <summary>
@@ -343,7 +541,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     {
         get
         {
-            RecalcWorldTransform();
+            EnsureWorldTransform();
             return _worldBoundingBox;
         }
     }
@@ -394,21 +592,24 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     private void UpdateInternalTransformations(Camera camera)
     {
-        var relativePosition = camera.Position - Position;
+        // Leaf-only effects; leaving the factors untouched on a parent avoids invalidating its whole subtree every frame
+        if (_children.Count != 0) return;
+
+        var relativePosition = camera.Position - WorldPosition;
         double distanceFromCamera = relativePosition.Length();
 
         var (forcedPerspectiveScaling, forcedPerspectiveTranslation) = GetForcedPerspective(relativePosition, distanceFromCamera);
-        forcedPerspectiveScaling.To(ref _forcedPerspectiveScaling, ref WorldTransformDirty);
-        forcedPerspectiveTranslation.To(ref _forcedPerspectiveTranslation, ref WorldTransformDirty);
+        forcedPerspectiveScaling.To(ref _forcedPerspectiveScaling, MarkDirty);
+        forcedPerspectiveTranslation.To(ref _forcedPerspectiveTranslation, MarkDirty);
 
-        GetAutoScale(distanceFromCamera).To(ref _autoScaleFactor, ref WorldTransformDirty);
+        GetAutoScale(distanceFromCamera).To(ref _autoScaleFactor, MarkDirty);
 
         (Billboard switch
         {
             BillboardMode.Spherical => camera.SphericalBillboard,
             BillboardMode.Cylindrical => camera.CylindricalBillboard,
             _ => Matrix.Identity
-        }).To(ref _billboardRotation, ref WorldTransformDirty);
+        }).To(ref _billboardRotation, MarkDirty);
     }
 
     private (float scaling, DoubleVector3 translation) GetForcedPerspective(DoubleVector3 relativePosition, double distanceFromCamera)

@@ -30,12 +30,15 @@ public delegate IReadOnlyList<LightSource> GetEffectiveLights(BoundingSphere bou
 public sealed class Scene : EngineElement
 {
     #region Properties
-    private readonly EngineElementCollection<PositionableRenderable> _positionables = new();
+    private readonly RenderableCollection _positionables = new();
 
     /// <summary>
-    /// All <see cref="PositionableRenderable"/>s contained within this scene.
+    /// The root <see cref="PositionableRenderable"/>s of this scene. Each of them may carry a tree of <see cref="PositionableRenderable.Children"/>.
     /// </summary>
-    /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
+    /// <remarks>
+    /// <para>A renderable can only be part of one scene or parent at a time. Adding it here removes it from wherever it was before.</para>
+    /// <para>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</para>
+    /// </remarks>
     public ICollection<PositionableRenderable> Positionables => _positionables;
 
     /// <summary>
@@ -114,13 +117,24 @@ public sealed class Scene : EngineElement
     {
         if (receiverSphere.Radius == 0) return;
 
-        for (int i = 0; i < lights.Count; i++)
+        ApplyShadows(lights, receiverSphere, _positionables);
+    }
+
+    /// <summary>
+    /// Applies shadows cast by <paramref name="casters"/> and all their descendants to light sources.
+    /// </summary>
+    /// <remarks>Walks the render hierarchy only once, since traversing it is more expensive than iterating the few lights.</remarks>
+    private static void ApplyShadows(List<LightSource> lights, BoundingSphere receiverSphere, RenderableCollection casters)
+    {
+        foreach (var caster in casters)
         {
-            foreach (var positionable in _positionables)
+            if (caster is { ShadowCaster: true, WorldBoundingSphere: { Radius: > 0.0001f } casterSphere } && casterSphere != receiverSphere)
             {
-                if (positionable is { ShadowCaster: true, WorldBoundingSphere: { Radius: > 0.0001f } casterSphere } && casterSphere != receiverSphere)
+                for (int i = 0; i < lights.Count; i++)
                     lights[i] = lights[i].GetShadowed(receiverSphere, casterSphere);
             }
+
+            ApplyShadows(lights, receiverSphere, caster.ChildCollection);
         }
     }
     #endregion

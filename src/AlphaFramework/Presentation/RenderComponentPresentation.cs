@@ -1,6 +1,7 @@
 ﻿using AlphaFramework.World.Components;
 using OmegaEngine;
 using OmegaEngine.Assets;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
@@ -17,13 +18,14 @@ public static class RenderComponentPresentation
     /// <summary>
     /// Creates a <see cref="PointLight"/> from a <see cref="LightSource"/> component.
     /// </summary>
+    /// <remarks>The component's shift becomes <see cref="PointLight.Offset"/>, so it only takes effect once <see cref="PointLight.AttachedTo"/> is set.</remarks>
     public static PointLight ToPresentation(this LightSource component, string? name = null)
         => new()
         {
             Name = name,
             Attenuation = component.Attenuation,
             Diffuse = component.Color,
-            Shift = component.Shift
+            Offset = component.Shift
         };
 
     /// <summary>
@@ -55,11 +57,12 @@ public static class RenderComponentPresentation
     /// <summary>
     /// Applies the properties of a <see cref="Mesh"/> component to a <see cref="PositionableRenderable"/>.
     /// </summary>
+    /// <remarks>The component's shift becomes the renderable's local <see cref="PositionableRenderable.Position"/>, i.e. an offset relative to its parent.</remarks>
     public static void ApplyPropertiesFrom(this PositionableRenderable presentation, Mesh component)
     {
         presentation.PreTransform = Matrix.Scaling(component.Scale, component.Scale, component.Scale) *
-                                    component.Rotation *
-                                    Matrix.Translation(component.Shift);
+                                    component.Rotation;
+        presentation.Position = (DoubleVector3)component.Shift;
         presentation.Alpha = component.Alpha;
         presentation.Pickable = component.Pickable;
         presentation.RenderIn = (OmegaEngine.Graphics.Renderables.ViewType)component.RenderIn;
@@ -74,7 +77,7 @@ public static class RenderComponentPresentation
     {
         var presentation = Model.Sphere(engine, XTexture.Get(engine, component.Texture), component.Radius, component.Slices, component.Stacks);
         presentation.Name = name;
-        presentation.PreTransform = Matrix.Translation(component.Shift);
+        presentation.Position = (DoubleVector3)component.Shift;
         presentation.Alpha = component.Alpha;
         return presentation;
     }
@@ -92,7 +95,7 @@ public static class RenderComponentPresentation
             Name = name,
             Preset = CpuParticlePreset.FromContent(component.Filename),
             LocalSpace = component.LocalSpace,
-            PreTransform = Matrix.Translation(component.Shift)
+            Position = (DoubleVector3)component.Shift
         };
     }
 }

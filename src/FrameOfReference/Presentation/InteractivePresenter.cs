@@ -58,7 +58,7 @@ public abstract partial class InteractivePresenter : Presenter
         // Add selection highlighting hooks
         engine.ExtraRender += DrawSelectionOutline;
 
-        _selectionsSync = new(SelectedPositionables, Scene.Positionables);
+        _selectionsSync = new(SelectedPositionables, Renderables);
 
         Universe.Positionables.Removed += OnPositionableRemoved;
     }
@@ -78,22 +78,8 @@ public abstract partial class InteractivePresenter : Presenter
             foreach (var asset in _preCachedAssets) asset.HoldReference();
         }
 
-        _selectionsSync.RegisterMultiple<Entity, PositionableRenderable>(GetSelectionHighlighting, UpdateRepresentationShifted);
+        _selectionsSync.RegisterMultiple<Entity, PositionableRenderable>(GetSelectionHighlighting, (element, _) => UpdateAnchor(element));
         _selectionsSync.Initialize();
-    }
-
-    /// <summary>
-    /// Applies the position and rotation of a Model element to a View representation.
-    /// </summary>
-    private void UpdateRepresentationShifted(Entity element, PositionableRenderable representation)
-    {
-        #region Sanity checks
-        if (element == null) throw new ArgumentNullException(nameof(element));
-        if (representation == null) throw new ArgumentNullException(nameof(representation));
-        #endregion
-
-        representation.Position = Universe.Terrain.ToEngineCoords(element.Position) + new DoubleVector3(0, 20, 0);
-        representation.Rotation = Quaternion.RotationYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
     }
 
     /// <inheritdoc/>
@@ -151,11 +137,12 @@ public abstract partial class InteractivePresenter : Presenter
                 var highlight = new Model(XMesh.Get(Engine, "Engine/Circle.x"))
                 {
                     Name = $"{entity.Name} Selection",
-                    SurfaceEffect = SurfaceEffect.Plain
+                    SurfaceEffect = SurfaceEffect.Plain,
+                    Position = new(0, 20, 0)
                 };
                 float scale = circle.Radius / 20 + 1;
                 highlight.PreTransform = Matrix.Scaling(scale, 1, scale);
-                return [highlight];
+                return [AttachToEntity(highlight, entity)];
             }
 
             case Box box:
@@ -164,7 +151,8 @@ public abstract partial class InteractivePresenter : Presenter
                 var highlight = new Model(XMesh.Get(Engine, "Engine/Rectangle.x"))
                 {
                     Name = $"{entity.Name} Selection",
-                    SurfaceEffect = SurfaceEffect.Plain
+                    SurfaceEffect = SurfaceEffect.Plain,
+                    Position = new(0, 20, 0)
                 };
 
                 // Determine the component-wise minimums and maximums and the absolute difference
@@ -177,13 +165,19 @@ public abstract partial class InteractivePresenter : Presenter
                 var diff = max - min;
 
                 highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
-                return [highlight];
+                return [AttachToEntity(highlight, entity)];
             }
 
             default:
                 return [];
         }
     }
+
+    /// <summary>
+    /// Adds a selection highlight to the entity's group, so that it follows the entity's position and rotation.
+    /// </summary>
+    private Model AttachToEntity(Model highlight, Entity entity)
+        => Renderables.AddTo(highlight, entity, entity.Name);
 
     private void OnPositionableRemoved(Positionable<Vector2> positionable) => SelectedPositionables.Remove(positionable);
     #endregion
@@ -262,7 +256,7 @@ public abstract partial class InteractivePresenter : Presenter
         SwingCameraTo(new CameraState<Vector2>
         {
             Name = View.Camera.Name,
-            Position = target.Position.Flatten(),
+            Position = target.WorldPosition.Flatten(),
             Radius = target.WorldBoundingSphere.HasValue ? target.WorldBoundingSphere.Value.Radius * 2.5f : 50,
         });
     }

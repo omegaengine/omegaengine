@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using NAudio.Wave;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
+using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 
 namespace OmegaEngine.Audio;
@@ -29,12 +30,26 @@ public class Sound3D(XSound sound) : Sound(sound)
     /// <summary>
     /// The sound's position in world space
     /// </summary>
+    /// <remarks>While <see cref="AttachedTo"/> is set, this is recalculated from <see cref="Offset"/> once per frame and setting it has no lasting effect.</remarks>
     [Description("The sound's position in world space"), Category("Layout")]
     public DoubleVector3 Position
     {
         get => _position.Value;
         set => _position = new(value);
     }
+
+    /// <summary>
+    /// A <see cref="PositionableRenderable"/> this sound is attached to; <c>null</c> to use <see cref="Position"/> as an absolute world position.
+    /// </summary>
+    /// <seealso cref="Offset"/>
+    [Browsable(false)]
+    public PositionableRenderable? AttachedTo { get; set; }
+
+    /// <summary>
+    /// The offset from <see cref="AttachedTo"/> in its local coordinate system. Ignored while <see cref="AttachedTo"/> is <c>null</c>.
+    /// </summary>
+    [Description("The offset from the renderable the sound is attached to, in its local coordinate system"), Category("Layout")]
+    public Vector3 Offset { get; set; }
 
     /// <summary>
     /// Factors describing how the sound's volume attenuates with distance from the listener.
@@ -52,6 +67,9 @@ public class Sound3D(XSound sound) : Sound(sound)
     /// <param name="listener">The listener to measure against. Must stem from the same frame as the current <see cref="Position"/>.</param>
     internal void UpdatePlacement(ListenerSnapshot listener)
     {
+        // Resolve the position of sounds attached to renderables before measuring against the listener
+        if (AttachedTo is {} parent) Position = parent.ToWorld((DoubleVector3)Offset);
+
         var delta = Position - listener.Position;
         double distance = delta.Length();
 

@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 
@@ -107,26 +108,13 @@ partial class View
         var cameraPosition = Camera.Position;
 
         #region Build master list
-        foreach (PositionableRenderable body in Scene.Positionables)
+        foreach (PositionableRenderable root in Scene.Positionables)
         {
-            // Filter out bodies that don't belong in this type of view
-            if (!IsToRender(body)) continue;
-
-            body.OnPreVisibilityCheck();
-
-            // Apply the floating origin here, so sorting will work.
+            // Apply the floating origin here, so sorting will work. Only roots carry one; descendants inherit it.
             // We may need to re-apply it later because ChildViews messed with it.
-            body.SetFloatingOrigin(Camera);
+            root.SetFloatingOrigin(Camera);
 
-            // Filter out invisible bodies
-            if (!body.IsVisible(Camera)) continue;
-
-            // Calculate the distance once per body, instead of repeatedly during sorting
-            double distanceSquared = (body.Position - cameraPosition).LengthSquared();
-
-            // Separate out Terrain bodies early, because they need to be sorted separately
-            if (body is Terrain terrain) _terrainSortKeys.Add((distanceSquared, _terrainSortKeys.Count, terrain));
-            else _bodySortKeys.Add((distanceSquared, _bodySortKeys.Count, body));
+            SortBody(root, cameraPosition);
         }
 
         // Sort the bodies near-to-far (or the other way round if culling is inverted) with the original index as a stable tie-breaker
@@ -152,6 +140,33 @@ partial class View
         // Terrains need to be part of the normal bodies list, just placed at the end, due to special sorting
         _sortedBodies.AddRange(_sortedTerrains);
         #endregion
+    }
+
+    /// <summary>
+    /// Checks a single node of the render hierarchy for visibility and adds it to the sort key lists if it passes.
+    /// </summary>
+    /// <remarks>Descends into <see cref="PositionableRenderable.Children"/> regardless of the outcome; there is no subtree culling.</remarks>
+    private void SortBody(PositionableRenderable body, DoubleVector3 cameraPosition)
+    {
+        // Filter out pivots (nothing to draw) and bodies that don't belong in this type of view
+        if (body is not Pivot && IsToRender(body))
+        {
+            body.OnPreVisibilityCheck();
+
+            // Filter out invisible bodies
+            if (body.IsVisible(Camera))
+            {
+                // Calculate the distance once per body, instead of repeatedly during sorting
+                double distanceSquared = (body.WorldPosition - cameraPosition).LengthSquared();
+
+                // Separate out Terrain bodies early, because they need to be sorted separately
+                if (body is Terrain terrain) _terrainSortKeys.Add((distanceSquared, _terrainSortKeys.Count, terrain));
+                else _bodySortKeys.Add((distanceSquared, _bodySortKeys.Count, body));
+            }
+        }
+
+        foreach (var child in body.ChildCollection)
+            SortBody(child, cameraPosition);
     }
 
     private int CompareSortKey((double DistanceSquared, int Index, PositionableRenderable Body) x, (double DistanceSquared, int Index, PositionableRenderable Body) y)
