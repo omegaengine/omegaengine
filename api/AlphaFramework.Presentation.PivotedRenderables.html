@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class PivotedRenderables | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class PivotedRenderables | OmegaEngine ">
+      
+      <meta name="description" content="An  facade over the root renderables of a  that groups everything belonging to one owner under a shared transform.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/new/1.21.0/apiSpec/new?filename=AlphaFramework_Presentation_PivotedRenderables.md&amp;value=---%0Auid%3A%20AlphaFramework.Presentation.PivotedRenderables%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="AlphaFramework.Presentation.PivotedRenderables">
+
+
+
+  <h1 id="AlphaFramework_Presentation_PivotedRenderables" data-uid="AlphaFramework.Presentation.PivotedRenderables" class="text-break">
+Class PivotedRenderables  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="AlphaFramework.html">AlphaFramework</a>.<a class="xref" href="AlphaFramework.Presentation.html">Presentation</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>AlphaFramework.Presentation.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>An <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> facade over the root renderables of a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> that groups everything belonging to one owner under a shared transform.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class PivotedRenderables : ICollection&lt;PositionableRenderable&gt;, IEnumerable&lt;PositionableRenderable&gt;, IEnumerable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><span class="xref">object</span></div>
+      <div><span class="xref">PivotedRenderables</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.ienumerable">IEnumerable</a></div>
+    </dd>
+  </dl>
+
+
+
+
+
+
+  <h2 id="AlphaFramework_Presentation_PivotedRenderables_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Dispatch.ModelViewSync-2.html">ModelViewSync&lt;TModel, TView&gt;</a> knows nothing about render hierarchies; it only adds and removes flat representations.
+Create callbacks therefore call <a class="xref" href="AlphaFramework.Presentation.PivotedRenderables.html#AlphaFramework_Presentation_PivotedRenderables_AddTo__1___0_System_Object_System_String_">AddTo&lt;T&gt;(T, object, string?)</a> to put a renderable into an owner's group. The subsequent <a class="xref" href="AlphaFramework.Presentation.PivotedRenderables.html#AlphaFramework_Presentation_PivotedRenderables_Add_OmegaEngine_Graphics_Renderables_PositionableRenderable_">Add(PositionableRenderable)</a> then
+leaves it where it is, while <a class="xref" href="AlphaFramework.Presentation.PivotedRenderables.html#AlphaFramework_Presentation_PivotedRenderables_Remove_OmegaEngine_Graphics_Renderables_PositionableRenderable_">Remove(PositionableRenderable)</a> works for either case.</p>
+<p>A group only gets a <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> of its own once more than one thing needs to share the owner's transform. While a group holds
+a single renderable, that renderable carries the transform itself and its own local transform is folded into <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_PreTransform">PreTransform</a>.
+Adding a second renderable or attaching a light or sound promotes the group to a pivot, which takes over the owner's position, rotation and scale; it is never demoted again.</p>
+<p>Renderables added to a group remain owned by the caller: releasing a group only disposes the <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> itself.</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables__ctor_" data-uid="AlphaFramework.Presentation.PivotedRenderables.#ctor*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables__ctor_System_Collections_Generic_ICollection_OmegaEngine_Graphics_Renderables_PositionableRenderable__" data-uid="AlphaFramework.Presentation.PivotedRenderables.#ctor(System.Collections.Generic.ICollection{OmegaEngine.Graphics.Renderables.PositionableRenderable})">
+  PivotedRenderables(ICollection&lt;PositionableRenderable&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>An <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> facade over the root renderables of a <a class="xref" href="OmegaEngine.Graphics.Scene.html">Scene</a> that groups everything belonging to one owner under a shared transform.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PivotedRenderables(ICollection&lt;PositionableRenderable&gt; roots)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>roots</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>&gt;</dt>
+    <dd><p>The scene's root renderables, usually <a class="xref" href="OmegaEngine.Graphics.Scene.html#OmegaEngine_Graphics_Scene_Positionables">Positionables</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables__ctor_System_Collections_Generic_ICollection_OmegaEngine_Graphics_Renderables_PositionableRenderable___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p><a class="xref" href="https://common.nano-byte.net/api/NanoByte.Common.Dispatch.ModelViewSync-2.html">ModelViewSync&lt;TModel, TView&gt;</a> knows nothing about render hierarchies; it only adds and removes flat representations.
+Create callbacks therefore call <a class="xref" href="AlphaFramework.Presentation.PivotedRenderables.html#AlphaFramework_Presentation_PivotedRenderables_AddTo__1___0_System_Object_System_String_">AddTo&lt;T&gt;(T, object, string?)</a> to put a renderable into an owner's group. The subsequent <a class="xref" href="AlphaFramework.Presentation.PivotedRenderables.html#AlphaFramework_Presentation_PivotedRenderables_Add_OmegaEngine_Graphics_Renderables_PositionableRenderable_">Add(PositionableRenderable)</a> then
+leaves it where it is, while <a class="xref" href="AlphaFramework.Presentation.PivotedRenderables.html#AlphaFramework_Presentation_PivotedRenderables_Remove_OmegaEngine_Graphics_Renderables_PositionableRenderable_">Remove(PositionableRenderable)</a> works for either case.</p>
+<p>A group only gets a <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> of its own once more than one thing needs to share the owner's transform. While a group holds
+a single renderable, that renderable carries the transform itself and its own local transform is folded into <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_PreTransform">PreTransform</a>.
+Adding a second renderable or attaching a light or sound promotes the group to a pivot, which takes over the owner's position, rotation and scale; it is never demoted again.</p>
+<p>Renderables added to a group remain owned by the caller: releasing a group only disposes the <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> itself.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_Count_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Count*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_Count" data-uid="AlphaFramework.Presentation.PivotedRenderables.Count">
+  Count
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L289"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the number of elements contained in the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Count { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of elements contained in the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_GroupedRenderables_" data-uid="AlphaFramework.Presentation.PivotedRenderables.GroupedRenderables*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_GroupedRenderables" data-uid="AlphaFramework.Presentation.PivotedRenderables.GroupedRenderables">
+  GroupedRenderables
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>All renderables that belong to some owner's group.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;PositionableRenderable&gt; GroupedRenderables { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables_GroupedRenderables_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Excludes the <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a>s themselves, which have no geometry.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_IsReadOnly_" data-uid="AlphaFramework.Presentation.PivotedRenderables.IsReadOnly*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_IsReadOnly" data-uid="AlphaFramework.Presentation.PivotedRenderables.IsReadOnly">
+  IsReadOnly
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L292"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> is read-only.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsReadOnly { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> is read-only; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_Add_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Add*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_Add_OmegaEngine_Graphics_Renderables_PositionableRenderable_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Add(OmegaEngine.Graphics.Renderables.PositionableRenderable)">
+  Add(PositionableRenderable)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L240"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds an item to the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Add(PositionableRenderable item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+    <dd><p>The object to add to the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.notsupportedexception">NotSupportedException</a></dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> is read-only.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_AddTo_" data-uid="AlphaFramework.Presentation.PivotedRenderables.AddTo*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_AddTo__1___0_System_Object_System_String_" data-uid="AlphaFramework.Presentation.PivotedRenderables.AddTo``1(``0,System.Object,System.String)">
+  AddTo&lt;T&gt;(T, object, string?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L56"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a renderable to an owner's group, so that it follows the owner's transform.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T AddTo&lt;T&gt;(T renderable, object owner, string? name = null) where T : PositionableRenderable</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>renderable</code> <span class="xref">T</span></dt>
+    <dd><p>The renderable, with its placement relative to the owner already applied to <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Position">Position</a> and friends.</p>
+</dd>
+    <dt><code>owner</code> <span class="xref">object</span></dt>
+    <dd><p>An object identifying the group, usually an element of the game world.</p>
+</dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Name">Name</a> to give a <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> created for this group.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p><code class="paramref">renderable</code>, so that this can be used inline in create callbacks.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_AnchorFor_" data-uid="AlphaFramework.Presentation.PivotedRenderables.AnchorFor*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_AnchorFor_System_Object_" data-uid="AlphaFramework.Presentation.PivotedRenderables.AnchorFor(System.Object)">
+  AnchorFor(object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L100"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The node that carries an owner's transform; <code>null</code> if nothing belongs to that owner.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public PositionableRenderable? AnchorFor(object owner)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>owner</code> <span class="xref">object</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables_AnchorFor_System_Object__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This is either the group's <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> or, for a group holding a single renderable, that renderable.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_Clear_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Clear*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_Clear" data-uid="AlphaFramework.Presentation.PivotedRenderables.Clear">
+  Clear()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L271"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes all items from the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Clear()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.notsupportedexception">NotSupportedException</a></dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> is read-only.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_Contains_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Contains*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_Contains_OmegaEngine_Graphics_Renderables_PositionableRenderable_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Contains(OmegaEngine.Graphics.Renderables.PositionableRenderable)">
+  Contains(PositionableRenderable)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L279"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> contains a specific value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Contains(PositionableRenderable item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+    <dd><p>The object to locate in the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">item</code> is found in the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_CopyTo_" data-uid="AlphaFramework.Presentation.PivotedRenderables.CopyTo*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_CopyTo_OmegaEngine_Graphics_Renderables_PositionableRenderable___System_Int32_" data-uid="AlphaFramework.Presentation.PivotedRenderables.CopyTo(OmegaEngine.Graphics.Renderables.PositionableRenderable[],System.Int32)">
+  CopyTo(PositionableRenderable[], int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L283"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the elements of the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> to an <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.array">Array</a>, starting at a particular <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.array">Array</a> index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CopyTo(PositionableRenderable[] array, int arrayIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>array</code> <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>[]</dt>
+    <dd><p>The one-dimensional <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.array">Array</a> that is the destination of the elements copied from <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>. The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.array">Array</a> must have zero-based indexing.</p>
+</dd>
+    <dt><code>arrayIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The zero-based index in <code class="paramref">array</code> at which copying begins.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></dt>
+    <dd><p><code class="paramref">array</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception">ArgumentOutOfRangeException</a></dt>
+    <dd><p><code class="paramref">arrayIndex</code> is less than 0.</p>
+</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>The number of elements in the source <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> is greater than the available space from <code class="paramref">arrayIndex</code> to the end of the destination <code class="paramref">array</code>.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_GetEnumerator_" data-uid="AlphaFramework.Presentation.PivotedRenderables.GetEnumerator*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_GetEnumerator" data-uid="AlphaFramework.Presentation.PivotedRenderables.GetEnumerator">
+  GetEnumerator()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L296"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns an enumerator that iterates through the collection.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator&lt;PositionableRenderable&gt; GetEnumerator()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator</a>&lt;<a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a>&gt;</dt>
+    <dd><p>An enumerator that can be used to iterate through the collection.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables_GetEnumerator_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The scene roots already cover collapsed members and pivots, so only what lives below them is added.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_LocalTransformOf_" data-uid="AlphaFramework.Presentation.PivotedRenderables.LocalTransformOf*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_LocalTransformOf_OmegaEngine_Graphics_Renderables_PositionableRenderable_" data-uid="AlphaFramework.Presentation.PivotedRenderables.LocalTransformOf(OmegaEngine.Graphics.Renderables.PositionableRenderable)">
+  LocalTransformOf(PositionableRenderable)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L113"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>The transform that places a grouped renderable's geometry in its owner's coordinate system.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Matrix LocalTransformOf(PositionableRenderable renderable)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>renderable</code> <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Matrix</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables_LocalTransformOf_OmegaEngine_Graphics_Renderables_PositionableRenderable__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Reading <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Position">Position</a> directly is not enough, because a collapsed member uses it for the owner's world position.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_MovePlacements_" data-uid="AlphaFramework.Presentation.PivotedRenderables.MovePlacements*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_MovePlacements_OmegaEngine_Graphics_Renderables_PositionableRenderable_OmegaEngine_Graphics_Renderables_PositionableRenderable_" data-uid="AlphaFramework.Presentation.PivotedRenderables.MovePlacements(OmegaEngine.Graphics.Renderables.PositionableRenderable,OmegaEngine.Graphics.Renderables.PositionableRenderable)">
+  MovePlacements(PositionableRenderable, PositionableRenderable)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L152"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Moves all renderables currently placed underneath <code class="paramref">from</code> over to <code class="paramref">to</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void MovePlacements(PositionableRenderable from, PositionableRenderable to)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>from</code> <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+    <dd></dd>
+    <dt><code>to</code> <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables_MovePlacements_OmegaEngine_Graphics_Renderables_PositionableRenderable_OmegaEngine_Graphics_Renderables_PositionableRenderable__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Use this when a parent renderable is replaced by a freshly built one.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_PivotFor_" data-uid="AlphaFramework.Presentation.PivotedRenderables.PivotFor*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_PivotFor_System_Object_System_String_" data-uid="AlphaFramework.Presentation.PivotedRenderables.PivotFor(System.Object,System.String)">
+  PivotFor(object, string?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> of an owner's group, creating it if there is none yet.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Pivot PivotFor(object owner, string? name = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>owner</code> <span class="xref">object</span></dt>
+    <dd><p>An object identifying the group, usually an element of the game world.</p>
+</dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The <a class="xref" href="OmegaEngine.Graphics.Renderables.Renderable.html#OmegaEngine_Graphics_Renderables_Renderable_Name">Name</a> to give a newly created pivot.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables_PivotFor_System_Object_System_String__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Use this for objects that are not renderables themselves but resolve their position through one, i.e. lights and sounds.
+It permanently keeps the group on a pivot, because a collapsed member's transform carries its own geometry's placement, which must not leak into such attachments.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_PlaceUnder_" data-uid="AlphaFramework.Presentation.PivotedRenderables.PlaceUnder*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_PlaceUnder__1___0_OmegaEngine_Graphics_Renderables_PositionableRenderable_" data-uid="AlphaFramework.Presentation.PivotedRenderables.PlaceUnder``1(``0,OmegaEngine.Graphics.Renderables.PositionableRenderable)">
+  PlaceUnder&lt;T&gt;(T, PositionableRenderable)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L140"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Places a renderable in the local coordinate system of <code class="paramref">parent</code> instead of at the scene root.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public T PlaceUnder&lt;T&gt;(T renderable, PositionableRenderable parent) where T : PositionableRenderable</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>renderable</code> <span class="xref">T</span></dt>
+    <dd></dd>
+    <dt><code>parent</code> <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd><p><code class="paramref">renderable</code>, so that this can be used inline in create callbacks.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables_PlaceUnder__1___0_OmegaEngine_Graphics_Renderables_PositionableRenderable__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Unlike <a class="xref" href="AlphaFramework.Presentation.PivotedRenderables.html#AlphaFramework_Presentation_PivotedRenderables_AddTo__1___0_System_Object_System_String_">AddTo&lt;T&gt;(T, object, string?)</a> this names the parent directly, for hierarchies that are not built around an owner.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_Release_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Release*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_Release_System_Object_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Release(System.Object)">
+  Release(object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L122"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Drops an owner's group, disposing a <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> it may have created.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Release(object owner)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>owner</code> <span class="xref">object</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="AlphaFramework_Presentation_PivotedRenderables_Release_System_Object__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Groups that hold no renderables are dropped automatically; this is only needed for ones kept alive by <a class="xref" href="AlphaFramework.Presentation.PivotedRenderables.html#AlphaFramework_Presentation_PivotedRenderables_PivotFor_System_Object_System_String_">PivotFor(object, string?)</a>.</p>
+</div>
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_ReleaseAll_" data-uid="AlphaFramework.Presentation.PivotedRenderables.ReleaseAll*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_ReleaseAll" data-uid="AlphaFramework.Presentation.PivotedRenderables.ReleaseAll">
+  ReleaseAll()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L130"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Drops all groups, disposing the <a class="xref" href="OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a>s they created.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReleaseAll()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="AlphaFramework_Presentation_PivotedRenderables_Remove_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Remove*"></a>
+
+  <h3 id="AlphaFramework_Presentation_PivotedRenderables_Remove_OmegaEngine_Graphics_Renderables_PositionableRenderable_" data-uid="AlphaFramework.Presentation.PivotedRenderables.Remove(OmegaEngine.Graphics.Renderables.PositionableRenderable)">
+  Remove(PositionableRenderable)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L249"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes the first occurrence of a specific object from the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Remove(PositionableRenderable item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <a class="xref" href="OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a></dt>
+    <dd><p>The object to remove from the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">item</code> was successfully removed from the <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>. This method also returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if <code class="paramref">item</code> is not found in the original <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.notsupportedexception">NotSupportedException</a></dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection&lt;T&gt;</a> is read-only.</p>
+</dd>
+  </dl>
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.21.0/src/AlphaFramework/Presentation/PivotedRenderables.cs/#L24" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
