@@ -10,6 +10,9 @@ if Settings.General.Language == "de" then Language.SelectedItem = "Deutsch"; end
 if not IsMainMenu then
   LanguageLabel.Enabled = false
   Language.Enabled = false
+
+  -- Undo pause menu dimming so graphics changes are clearly visible
+  if not IsMainMenu then Presenter:DimUp() end
 end
 
 -- Controls
@@ -331,6 +334,9 @@ SoundVolumeValueLabel.Text = string.format("%.0f%%", Settings.Audio.SoundVolume 
     <Size Width="160" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>
     <AlignVertical>FromBottom</AlignVertical>
-    <OnClick>return_to_menu()</OnClick>
+    <OnClick>-- Restore pause menu dimming
+if not IsMainMenu then Presenter:DimDown() end
+
+return_to_menu()</OnClick>
   </Button>
 </Dialog>
