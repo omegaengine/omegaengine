@@ -73,6 +73,8 @@ Adding a renderable to a collection removes it from its previous one and keeps i
 
 Rotation, scale and `PreTransform` are inherited in full, so non-uniform scaling on a parent combined with a rotated child produces shear.
 
+Setting `Visible = false` on a renderable hides it together with its entire subtree.
+
 `Billboard`, `ForcedPerspectiveDistance` and `AutoScaleDistance` are per-view effects applied to leaf nodes only; they have no effect while a renderable has children.
 
 <xref:OmegaEngine.Graphics.LightSources.PointLight> and <xref:OmegaEngine.Audio.Sound3D> can follow a renderable instead of holding an absolute position: set `AttachedTo` and give them a local `Offset`.

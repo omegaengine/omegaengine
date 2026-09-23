@@ -92,6 +92,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <para>A renderable lives in exactly one collection at a time: either this or <see cref="Scene.Positionables"/>.
     /// Adding it here removes it from its previous collection and keeps its local <see cref="Position"/>, <see cref="Rotation"/>, <see cref="Scale"/> and <see cref="PreTransform"/>,
     /// i.e. its world position changes.</para>
+    /// <para>Setting <see cref="Renderable.Visible"/> to <c>false</c> hides the entire subtree. A <see cref="View"/> skips the entire subtree if <see cref="SubtreeBoundingSphere"/> or <see cref="SubtreeBoundingBox"/> is outside its view frustum.</para>
     /// <para>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</para>
     /// </remarks>
     [Browsable(false)]
@@ -183,11 +184,13 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
+    private BillboardMode _billboard;
+
     /// <summary>
     /// How this <see cref="PositionableRenderable"/> shall be rotated towards the camera
     /// </summary>
     [DefaultValue(BillboardMode.None), Description("How this body shall be rotated towards the camera"), Category("Layout")]
-    public BillboardMode Billboard { get; set; }
+    public BillboardMode Billboard { get => _billboard; set => value.To(ref _billboard, MarkDirty); }
 
     /// <summary>
     /// Shall this <see cref="PositionableRenderable"/> cast shadows on other objects?
@@ -207,6 +210,11 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     /// <summary>A cached delegate for <see cref="MarkLocalTransformDirty"/>, so that setters don't allocate one per call.</summary>
     private Action MarkDirty => _markLocalTransformDirty ??= MarkLocalTransformDirty;
+
+    private Action? _markRenderTransformDirty;
+
+    /// <summary>A cached delegate for <see cref="MarkRenderTransformDirty"/>, so that per-frame camera effect updates don't allocate one per call.</summary>
+    private Action MarkRenderDirty => _markRenderTransformDirty ??= MarkRenderTransformDirty;
 
     private Matrix _preTransform = Matrix.Identity;
     private Matrix _billboardRotation = Matrix.Identity;
@@ -271,6 +279,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
+    private float? _forcedPerspectiveDistance;
+
     /// <summary>
     /// When the renderable is farther than this distance from the <see cref="Camera"/>, it is instead rendered at this distance, with corresponding scaling applied to preserve its apparent size (angular diameter).
     /// </summary>
@@ -279,7 +289,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <para>Z-order may appear incorrect if other objects are further than than this value from the camera and are close to this one in screen space.</para>
     /// </remarks>
     [Description("When the renderable is farther than this distance from the camera, it is instead rendered at this distance, with corresponding scaling applied to preserve its apparent size (angular diameter)."), Category("Layout")]
-    public float? ForcedPerspectiveDistance { get; set; }
+    public float? ForcedPerspectiveDistance { get => _forcedPerspectiveDistance; set => value.To(ref _forcedPerspectiveDistance, MarkDirty); }
+
+    private float? _autoScaleDistance;
 
     /// <summary>
     /// The distance from the <see cref="Camera"/> beyond which the renderable is automatically scaled up to preserve its apparent size (angular diameter), keeping distant objects visible.
@@ -289,7 +301,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <para>The auto-scaling is applied on top of <see cref="Scale"/> and is reflected in the bounding bodies used for culling. Combine with <see cref="ForcedPerspectiveDistance"/> for very large, very distant objects.</para>
     /// </remarks>
     [Description("The distance from the camera beyond which the renderable is automatically scaled up to preserve its apparent size (angular diameter), keeping distant objects visible."), Category("Layout")]
-    public float? AutoScaleDistance { get; set; }
+    public float? AutoScaleDistance { get => _autoScaleDistance; set => value.To(ref _autoScaleDistance, MarkDirty); }
     #endregion
 
     #region Transform results
@@ -305,7 +317,19 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         _physicalTransformDirty = true;
         _renderTransformDirty = true;
         unchecked { _transformVersion++; }
+
+        // A body's subtree bounds are dirty whenever any of its descendants' are, so the walk up can stop at the first ancestor that is already dirty
+        _subtreeBoundsDirty = true;
+        for (var node = Parent; node is {_subtreeBoundsDirty: false}; node = node.Parent)
+            node._subtreeBoundsDirty = true;
     }
+
+    /// <summary>
+    /// Invalidates only the camera-dependent render transform of this body.
+    /// </summary>
+    /// <remarks>Used for the per-view camera effects, which apply to leaves only and therefore affect neither descendants nor <see cref="SubtreeBoundingSphere"/>/<see cref="SubtreeBoundingBox"/>.</remarks>
+    private void MarkRenderTransformDirty()
+        => _renderTransformDirty = true;
 
     private Matrix _physicalWorldTransform = Matrix.Identity;
     private DoubleVector3 _worldOrigin, _worldPosition;
@@ -551,6 +575,145 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     [DefaultValue(false), Description("Shall the bounding box used to cull this object be drawn/visualized? (used for debugging)"), Category("Appearance")]
     public bool DrawBoundingBox { get; set; }
+
+    private bool _subtreeBoundsDirty = true, _subtreeCullable, _subtreeIgnoresFarClip;
+    private BoundingSphere? _subtreeBoundingSphere;
+    private BoundingBox? _subtreeBoundingBox;
+
+    /// <summary>
+    /// A sphere that completely encompasses this body and all its <see cref="Children"/> (in floating world space, used for culling whole subtrees).
+    /// </summary>
+    /// <remarks>
+    /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="AutoScaleDistance"/>.</para>
+    /// <para>Unlike <see cref="WorldBoundingSphere"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a sphere enclosing every possible rotation and <see cref="ForcedPerspectiveDistance"/> is not applied.</para>
+    /// </remarks>
+    [Browsable(false)]
+    public BoundingSphere? SubtreeBoundingSphere
+    {
+        get
+        {
+            EnsureSubtreeBounds();
+            return _subtreeBoundingSphere;
+        }
+    }
+
+    /// <summary>
+    /// An axis-aligned box that completely encompasses this body and all its <see cref="Children"/> (in floating world space, used for culling whole subtrees).
+    /// </summary>
+    /// <remarks>
+    /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="AutoScaleDistance"/>.</para>
+    /// <para>Unlike <see cref="WorldBoundingBox"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a box enclosing every possible rotation and <see cref="ForcedPerspectiveDistance"/> is not applied.</para>
+    /// </remarks>
+    [Browsable(false)]
+    public BoundingBox? SubtreeBoundingBox
+    {
+        get
+        {
+            EnsureSubtreeBounds();
+            return _subtreeBoundingBox;
+        }
+    }
+
+    /// <summary>
+    /// Indicates whether this body or any of its descendants uses <see cref="ForcedPerspectiveDistance"/>, so the subtree must not be culled by the far clip plane.
+    /// </summary>
+    internal bool SubtreeIgnoresFarClip
+    {
+        get
+        {
+            EnsureSubtreeBounds();
+            return _subtreeIgnoresFarClip;
+        }
+    }
+
+    /// <summary>
+    /// Ensures <see cref="SubtreeBoundingSphere"/>, <see cref="SubtreeBoundingBox"/> and <see cref="SubtreeIgnoresFarClip"/> of this body and all its descendants are up-to-date.
+    /// </summary>
+    private void EnsureSubtreeBounds()
+    {
+        // May observe a transform change further up the hierarchy and thereby mark this body dirty
+        EnsurePhysicalTransform();
+        if (!_subtreeBoundsDirty) return;
+
+        bool cullable = TryGetOwnSubtreeBounds(out var sphere, out var box);
+        bool ignoreFarClip = _forcedPerspectiveDistance != null;
+
+        foreach (var child in _children)
+        {
+            // Update every child even once the subtree is known to be uncullable, so no dirty descendant is left below a clean ancestor
+            child.EnsureSubtreeBounds();
+            ignoreFarClip |= child._subtreeIgnoresFarClip;
+            if (!child._subtreeCullable) cullable = false;
+            if (!cullable) continue;
+
+            if (child._subtreeBoundingSphere is {} childSphere)
+                sphere = sphere is {} ownSphere ? SlimDX.BoundingSphere.Merge(ownSphere, childSphere) : childSphere;
+            if (child._subtreeBoundingBox is {} childBox)
+                box = box is {} ownBox ? SlimDX.BoundingBox.Merge(ownBox, childBox) : childBox;
+        }
+
+        _subtreeCullable = cullable;
+        _subtreeBoundingSphere = cullable ? sphere : null;
+        _subtreeBoundingBox = cullable ? box : null;
+        _subtreeIgnoresFarClip = ignoreFarClip;
+        _subtreeBoundsDirty = false;
+    }
+
+    /// <summary>
+    /// Determines the camera-independent bounds this body contributes to its own <see cref="SubtreeBoundingSphere"/> and <see cref="SubtreeBoundingBox"/>.
+    /// </summary>
+    /// <param name="sphere">The contributed sphere in floating world space; <c>null</c> if the body contributes nothing.</param>
+    /// <param name="box">The contributed box in floating world space; <c>null</c> if the body contributes nothing.</param>
+    /// <returns><c>false</c> if the body cannot be culled, so neither can any subtree containing it.</returns>
+    private bool TryGetOwnSubtreeBounds(out BoundingSphere? sphere, out BoundingBox? box)
+    {
+        sphere = null;
+        box = null;
+        if (this is Pivot) return true; // Nothing to draw
+
+        // Camera effects apply to leaves only
+        bool isLeaf = _children.Count == 0;
+
+        // The auto-scaling grows without bound as the camera moves away
+        if (isLeaf && _autoScaleDistance != null) return false;
+
+        sphere = _boundingSphere?.Transform(_physicalWorldTransform);
+        box = _boundingBox?.Transform(_physicalWorldTransform);
+
+        // IsVisible() never culls a body without any bounding bodies
+        if (sphere == null && box == null) return false;
+
+        // Fill in a missing bounding body from the other, so it does not disable culling for the entire subtree
+        sphere ??= SlimDX.BoundingSphere.FromBox(box!.Value);
+        box ??= SlimDX.BoundingBox.FromSphere(sphere.Value);
+
+        if (isLeaf && _billboard != BillboardMode.None)
+        {
+            // The billboard rotation pivots on the body's floating position, so cover every possible rotation around it
+            var pivot = this.ApplyFloatingOriginTo(_worldPosition);
+            sphere = new SlimDX.BoundingSphere(pivot, radius: Vector3.Distance(sphere.Value.Center, pivot) + sphere.Value.Radius);
+            box = SlimDX.BoundingBox.FromSphere(sphere.Value);
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Checks whether this body and all its descendants can be skipped because <see cref="SubtreeBoundingSphere"/> and <see cref="SubtreeBoundingBox"/> are outside the <paramref name="camera"/>'s view frustum.
+    /// </summary>
+    /// <param name="camera">The <see cref="Camera"/> used to look at the subtree.</param>
+    /// <returns><c>true</c> if any part of the subtree might be visible or the subtree cannot be culled as a whole.</returns>
+    /// <remarks>Does not take <see cref="Renderable.Visible"/> or any other per-body filtering criteria into account.</remarks>
+    internal bool SubtreeInFrustum(Camera camera)
+    {
+        EnsureSubtreeBounds();
+        if (_subtreeBoundingSphere is not {} sphere || _subtreeBoundingBox is not {} box) return true;
+
+        // Safe to use the pixel-size check: a sphere enclosed in another one never appears larger than the outer one
+        return camera.AtLeastOnePixelWide(sphere)
+            && camera.InFrustum(sphere, _subtreeIgnoresFarClip)
+            && camera.InFrustum(box, _subtreeIgnoresFarClip);
+    }
     #endregion
 
     // Order is not important, duplicate entries are not allowed
@@ -598,18 +761,19 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         var relativePosition = camera.Position - WorldPosition;
         double distanceFromCamera = relativePosition.Length();
 
+        // These factors change every frame and only feed the render transform, so they must not invalidate the physical transform or the ancestors' subtree bounds
         var (forcedPerspectiveScaling, forcedPerspectiveTranslation) = GetForcedPerspective(relativePosition, distanceFromCamera);
-        forcedPerspectiveScaling.To(ref _forcedPerspectiveScaling, MarkDirty);
-        forcedPerspectiveTranslation.To(ref _forcedPerspectiveTranslation, MarkDirty);
+        forcedPerspectiveScaling.To(ref _forcedPerspectiveScaling, MarkRenderDirty);
+        forcedPerspectiveTranslation.To(ref _forcedPerspectiveTranslation, MarkRenderDirty);
 
-        GetAutoScale(distanceFromCamera).To(ref _autoScaleFactor, MarkDirty);
+        GetAutoScale(distanceFromCamera).To(ref _autoScaleFactor, MarkRenderDirty);
 
         (Billboard switch
         {
             BillboardMode.Spherical => camera.SphericalBillboard,
             BillboardMode.Cylindrical => camera.CylindricalBillboard,
             _ => Matrix.Identity
-        }).To(ref _billboardRotation, MarkDirty);
+        }).To(ref _billboardRotation, MarkRenderDirty);
     }
 
     private (float scaling, DoubleVector3 translation) GetForcedPerspective(DoubleVector3 relativePosition, double distanceFromCamera)
@@ -830,6 +994,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     /// <param name="camera">The <see cref="Camera"/> used to look the object.</param>
     /// <returns><c>true</c> if the object is visible.</returns>
+    /// <remarks>Only checks this body itself. A <see cref="View"/> additionally skips the entire subtree of a body that is hidden (<see cref="Renderable.Visible"/>) or fails <see cref="SubtreeInFrustum"/>, without calling this for any of its descendants.</remarks>
     /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingSphere,bool)"/>
     /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingBox,bool)"/>
     internal bool IsVisible(Camera camera)

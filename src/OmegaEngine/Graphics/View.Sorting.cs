@@ -143,11 +143,19 @@ partial class View
     }
 
     /// <summary>
-    /// Checks a single node of the render hierarchy for visibility and adds it to the sort key lists if it passes.
+    /// Checks a node of the render hierarchy for visibility and adds it and its visible descendants to the sort key lists.
     /// </summary>
-    /// <remarks>Descends into <see cref="PositionableRenderable.Children"/> regardless of the outcome; there is no subtree culling.</remarks>
+    /// <remarks>
+    /// Skips the entire subtree if the node is hidden (<see cref="Renderable.Visible"/>) or its subtree bounds are outside the view frustum (<see cref="PositionableRenderable.SubtreeInFrustum"/>).
+    /// Otherwise descends into <see cref="PositionableRenderable.Children"/> even if the node itself is filtered out, since <see cref="Renderable.Alpha"/>, <see cref="PositionableRenderable.RenderIn"/> and its own bounds only describe the node itself.
+    /// </remarks>
     private void SortBody(PositionableRenderable body, DoubleVector3 cameraPosition)
     {
+        if (!body.Visible) return;
+
+        // Leaves skip this, since it would only duplicate their own frustum check below
+        if (body.ChildCollection.Count != 0 && !body.SubtreeInFrustum(Camera)) return;
+
         // Filter out pivots (nothing to draw) and bodies that don't belong in this type of view
         if (body is not Pivot && IsToRender(body))
         {

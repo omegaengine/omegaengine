@@ -66,6 +66,7 @@ public abstract class Renderable : EngineElement, IFrameResettable
     /// <summary>
     /// Shall the entity be rendered?
     /// </summary>
+    /// <remarks>Setting this to <c>false</c> on a <see cref="PositionableRenderable"/> also hides all its <see cref="PositionableRenderable.Children"/>.</remarks>
     [DefaultValue(true), Description("Shall the entity be rendered?"), Category("Appearance")]
     public bool Visible { get; set; } = true;
 

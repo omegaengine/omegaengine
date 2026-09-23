@@ -53,7 +53,7 @@ public class SceneGraphRenderTest : EngineTestBase
     }
 
     [Fact]
-    public void HiddenParentDoesNotSuppressItsChildren()
+    public void HiddenParentHidesItsChildren()
     {
         var pivot = new Pivot {Visible = false};
         var child = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
@@ -64,7 +64,41 @@ public class SceneGraphRenderTest : EngineTestBase
 
         Engine.Render(elapsedGameTime: 0, noPresent: true);
 
-        child.RenderCount.Should().BeGreaterThan(0, "there is intentionally no subtree visibility suppression");
+        child.RenderCount.Should().Be(0, "hiding a node hides its entire subtree");
+    }
+
+    [Fact]
+    public void CulledParentSkipsItsChildren()
+    {
+        var pivot = new Pivot {Position = new(0, 0, 10_000)};
+        var child = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
+        pivot.Children.Add(child);
+        bool childChecked = false;
+        child.PreVisibilityCheck += () => childChecked = true;
+
+        using var scene = new Scene {Positionables = {pivot}};
+        AddView(scene);
+
+        Engine.Render(elapsedGameTime: 0, noPresent: true);
+
+        child.RenderCount.Should().Be(0);
+        childChecked.Should().BeFalse("the subtree bounds are outside the frustum, so the child is never even tested on its own");
+    }
+
+    [Fact]
+    public void ChildReachingBackIntoTheFrustumIsRendered()
+    {
+        var pivot = new Pivot {Position = new(0, 0, 10_000)};
+        var child = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
+        child.Position = new(0, 0, -10_000);
+        pivot.Children.Add(child);
+
+        using var scene = new Scene {Positionables = {pivot}};
+        AddView(scene);
+
+        Engine.Render(elapsedGameTime: 0, noPresent: true);
+
+        child.RenderCount.Should().BeGreaterThan(0, "the subtree bounds cover the child, not just the parent's position");
     }
 
     [Fact]
