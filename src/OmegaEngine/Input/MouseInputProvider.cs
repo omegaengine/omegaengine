@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using OmegaEngine.Foundation.Geometry;
@@ -44,8 +45,16 @@ public class MouseInputProvider : InputProvider
     /// </summary>
     public double WheelSensitivity { get; set; } = 0.08;
 
+    /// <summary>
+    /// The approximate time over which mouse wheel input is spread out to smooth it. <see cref="TimeSpan.Zero"/> to apply wheel input immediately.
+    /// </summary>
+    public TimeSpan WheelSmoothing { get; set; } = TimeSpan.FromMilliseconds(150);
+
     /// <summary>The control receiving the mouse events.</summary>
     private readonly Control _control;
+
+    /// <summary>A timer that continuously raises events while there is still smoothed mouse wheel input to apply.</summary>
+    private readonly Timer _timerWheel = new() {Interval = 10};
 
     /// <summary>
     /// Starts monitoring and processing mouse events received by a specific control.
@@ -63,6 +72,8 @@ public class MouseInputProvider : InputProvider
         _control.MouseDoubleClick += MouseDoubleClick;
         _control.LostFocus += LostFocus;
         // Note: _control.MouseClick is useless since on a render target without any child controls even drags would be considered clicks
+
+        _timerWheel.Tick += WheelTick;
     }
 
     /// <summary>The original location of the mouse when the button was pressed.</summary>
@@ -245,16 +256,61 @@ public class MouseInputProvider : InputProvider
         }
     }
 
+    /// <summary>Mouse wheel translation that has been received but not yet applied.</summary>
+    private double _pendingWheel;
+
+    /// <summary>Measures the time since the last <see cref="WheelTick"/>.</summary>
+    private readonly Stopwatch _wheelStopwatch = new();
+
     private void MouseWheel(object sender, MouseEventArgs e)
-        => OnNavigate(
-            translation: new(0, 0, WheelSensitivity * e.Delta),
-            rotation: new());
+    {
+        double value = WheelSensitivity * e.Delta;
+        if (WheelSmoothing <= TimeSpan.Zero)
+        {
+            OnNavigate(translation: new(0, 0, value));
+            return;
+        }
+
+        _pendingWheel += value;
+        if (!_timerWheel.Enabled)
+        {
+            _wheelStopwatch.Restart();
+            _timerWheel.Enabled = true;
+        }
+    }
+
+    private void WheelTick(object sender, EventArgs e)
+    {
+        // Exponential decay
+        double fraction = 1 - Math.Exp(-3 * _wheelStopwatch.Elapsed.TotalMilliseconds / Math.Max(WheelSmoothing.TotalMilliseconds, 1));
+        _wheelStopwatch.Restart();
+
+        double step = _pendingWheel * fraction;
+        _pendingWheel -= step;
+        if (Math.Abs(_pendingWheel) < 0.01)
+        { // Apply the negligible remainder right away
+            step += _pendingWheel;
+            StopWheel();
+        }
+
+        OnNavigate(translation: new(0, 0, step));
+    }
+
+    private void StopWheel()
+    {
+        _pendingWheel = 0;
+        _timerWheel.Enabled = false;
+        _wheelStopwatch.Reset();
+    }
 
     private void MouseDoubleClick(object sender, MouseEventArgs e)
         => OnDoubleClick(e);
 
     private void LostFocus(object sender, EventArgs e)
-        => ForceReleaseCursor();
+    {
+        ForceReleaseCursor();
+        StopWheel();
+    }
 
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)
@@ -270,6 +326,9 @@ public class MouseInputProvider : InputProvider
             _control.MouseWheel -= MouseWheel;
             _control.MouseDoubleClick -= MouseDoubleClick;
             _control.LostFocus -= LostFocus;
+
+            _timerWheel.Tick -= WheelTick;
+            _timerWheel.Dispose();
         }
     }
 }
