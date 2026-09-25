@@ -17,6 +17,15 @@
   end
 end
 
+function delete(name)
+  msgbox_yesno('[DeleteSavegameSure]', function()
+    Savegames:Delete(name)
+    SavegameNames.Items:Remove(name)
+    OK.Enabled = false
+    Delete.Enabled = false
+  end)
+end
+
 SavegameNames.Items:AddMany(Savegames:GetNames())
 SavegameNames:Focus()</OnShow>
   <FontSize>15</FontSize>
@@ -26,19 +35,27 @@ SavegameNames:Focus()</OnShow>
     <Location X="0" Y="40" />
     <Size Width="370" Height="130" />
     <AlignHorizontal>Center</AlignHorizontal>
-    <OnSelection>OK.Enabled = true</OnSelection>
+    <OnSelection>OK.Enabled = true
+Delete.Enabled = true</OnSelection>
     <OnDoubleClick>load(SavegameNames.SelectedItem)</OnDoubleClick>
   </ListBox>
   <Button Name="OK" Enabled="false" Text="OK" Hotkey="Return">
-    <Location X="-90" Y="20" />
-    <Size Width="160" Height="40" />
+    <Location X="-125" Y="20" />
+    <Size Width="110" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>
     <AlignVertical>FromBottom</AlignVertical>
     <OnClick>load(SavegameNames.SelectedItem)</OnClick>
   </Button>
+  <Button Name="Delete" Enabled="false" Text="[Delete]" Hotkey="Delete">
+    <Location X="0" Y="20" />
+    <Size Width="110" Height="40" />
+    <AlignHorizontal>Center</AlignHorizontal>
+    <AlignVertical>FromBottom</AlignVertical>
+    <OnClick>delete(SavegameNames.SelectedItem)</OnClick>
+  </Button>
   <Button Name="Cancel" Text="[Cancel]" Hotkey="Escape">
-    <Location X="90" Y="20" />
-    <Size Width="160" Height="40" />
+    <Location X="125" Y="20" />
+    <Size Width="110" Height="40" />
     <AlignHorizontal>Center</AlignHorizontal>
     <AlignVertical>FromBottom</AlignVertical>
     <OnClick>return_to_menu()</OnClick>

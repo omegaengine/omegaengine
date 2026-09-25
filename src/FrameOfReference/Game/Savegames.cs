@@ -110,6 +110,26 @@ public class Savegames(Game game, Session? session = null, Action? beforeSave = 
         => Session.Load(GetPath(name));
 
     /// <summary>
+    /// Deletes the savegame saved under the specified <paramref name="name"/>, if there is one.
+    /// </summary>
+    [UsedImplicitly]
+    public void Delete(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return;
+
+        try
+        {
+            File.Delete(GetPath(name));
+        }
+        #region Error handling
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            Log.Warn($"Failed to delete savegame '{name}'", ex);
+        }
+        #endregion
+    }
+
+    /// <summary>
     /// Returns the names of all user-created savegames, excluding the auto-resume slot.
     /// </summary>
     [UsedImplicitly]

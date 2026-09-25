@@ -6,6 +6,8 @@
   <entry key="ColorCorrection">Color correction</entry>
   <entry key="Controls">Controls</entry>
   <entry key="CutScenes">Cut scenes</entry>
+  <entry key="Delete">Delete</entry>
+  <entry key="DeleteSavegameSure">Are you sure you want to delete this savegame?</entry>
   <entry key="Display">Display</entry>
   <entry key="Effects">Effects</entry>
   <entry key="EndGameSure">Are you sure you want to quit the running game?</entry>

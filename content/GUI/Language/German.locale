@@ -6,6 +6,8 @@
   <entry key="ColorCorrection">Farbkorrektur</entry>
   <entry key="Controls">Steuerung</entry>
   <entry key="CutScenes">Zwischensequenzen</entry>
+  <entry key="Delete">Löschen</entry>
+  <entry key="DeleteSavegameSure">Sind Sie sicher dass Sie diesen Spielstand löschen möchten?</entry>
   <entry key="Display">Anzeige</entry>
   <entry key="Effects">Effekte</entry>
   <entry key="EndGameSure">Sind Sie sicher dass Sie das laufende Spiel beenden möchten?</entry>
