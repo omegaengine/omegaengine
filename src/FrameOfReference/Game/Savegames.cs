@@ -95,7 +95,7 @@ public class Savegames(Game game, Session? session = null, Action? beforeSave = 
         }
         catch (Exception ex)
         {
-            Log.Warn($"Failed to restore previous game session: {ex.Message}");
+            Log.Warn($"Failed to restore previous game session", ex);
             return null;
         }
     }
