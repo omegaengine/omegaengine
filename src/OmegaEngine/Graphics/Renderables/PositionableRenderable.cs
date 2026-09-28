@@ -200,7 +200,18 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// Shall this <see cref="PositionableRenderable"/> cast shadows on other objects?
     /// </summary>
     [DefaultValue(false), Description("Shall this body cast shadows on other objects?"), Category("Behavior")]
-    public bool ShadowCaster { get; set; }
+    public bool ShadowCaster
+    {
+        get => _shadowCaster;
+        set
+        {
+            if (_shadowCaster == value) return;
+            _shadowCaster = value;
+            Container?.MarkShadowCastersDirty();
+        }
+    }
+
+    private bool _shadowCaster;
 
     /// <summary>
     /// Shall this <see cref="PositionableRenderable"/> receive shadows from other objects?

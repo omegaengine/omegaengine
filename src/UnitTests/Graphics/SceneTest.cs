@@ -7,9 +7,12 @@
  */
 
 using System;
+using System.Drawing;
 using AwesomeAssertions;
 using OmegaEngine.Assets;
+using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
+using SlimDX;
 using Xunit;
 
 namespace OmegaEngine.Graphics;
@@ -65,5 +68,48 @@ public class SceneTest : EngineTestBase
 
         pivot.Children.Should().Equal(child);
         scene.Positionables.Should().Equal(pivot);
+    }
+
+    /// <summary>A renderable without geometry that has a bounding sphere, so it can cast shadows.</summary>
+    private sealed class Probe : PositionableRenderable
+    {
+        public Probe(float radius) => BoundingSphere = new(default, radius);
+    }
+
+    [Fact]
+    public void AppliesShadowsFromNestedCasters()
+    {
+        Engine.Effects.Shadows = true;
+
+        var light = new DirectionalLight {Direction = new(0, -1, 0), Diffuse = Color.White, Specular = Color.White};
+        var caster = new Probe(radius: 2) {Position = new(0, 2, 0), ShadowCaster = true};
+        var inner = new Pivot {Position = new(0, 3, 0), Children = {caster}};
+        var outer = new Pivot {Position = new(0, 5, 0), Children = {inner}};
+        using var scene = new Scene {Engine = Engine, Positionables = {outer}, Lights = {light}};
+
+        // Directly below the caster, which sits at (0, 10, 0) in world space
+        var receiver = new BoundingSphere(new(0, 0, 0), radius: 1);
+
+        void ShouldBeShadowed() => scene.GetEffectiveLights(receiver, shadowing: true).Should().ContainSingle()
+                                        .Which.Diffuse.ToArgb().Should().Be(Color.Black.ToArgb());
+        void ShouldBeLit() => scene.GetEffectiveLights(receiver, shadowing: true).Should().Equal(light);
+
+        ShouldBeShadowed();
+        scene.GetEffectiveLights(receiver, shadowing: false).Should().Equal(light);
+
+        // Changes to the flag and the hierarchy must be picked up, not served from a stale caster list
+        caster.ShadowCaster = false;
+        ShouldBeLit();
+        caster.ShadowCaster = true;
+        ShouldBeShadowed();
+
+        inner.Children.Remove(caster);
+        ShouldBeLit();
+        outer.Children.Add(caster);
+        ShouldBeShadowed();
+
+        scene.Positionables.Remove(outer);
+        ShouldBeLit();
+        outer.Dispose();
     }
 }

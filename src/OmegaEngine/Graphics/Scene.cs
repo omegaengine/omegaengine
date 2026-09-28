@@ -115,26 +115,51 @@ public sealed class Scene : EngineElement
     /// <param name="receiverSphere">The bounding sphere of the shadow receiver in world space.</param>
     private void ApplyShadows(List<LightSource> lights, BoundingSphere receiverSphere)
     {
-        if (receiverSphere.Radius == 0) return;
+        if (receiverSphere.Radius == 0 || lights.Count == 0) return;
 
-        ApplyShadows(lights, receiverSphere, _positionables);
-    }
-
-    /// <summary>
-    /// Applies shadows cast by <paramref name="casters"/> and all their descendants to light sources.
-    /// </summary>
-    /// <remarks>Walks the render hierarchy only once, since traversing it is more expensive than iterating the few lights.</remarks>
-    private static void ApplyShadows(List<LightSource> lights, BoundingSphere receiverSphere, RenderableCollection casters)
-    {
-        foreach (var caster in casters)
+        // Iterates the flat caster list instead of the whole render hierarchy.
+        // The caster spheres are still read at query time rather than snapshotted, since they are camera-dependent (billboarding, auto-scaling) and may change between views or during a view's render pass.
+        foreach (var caster in GetShadowCasters())
         {
-            if (caster is { ShadowCaster: true, WorldBoundingSphere: { Radius: > 0.0001f } casterSphere } && casterSphere != receiverSphere)
+            if (caster.WorldBoundingSphere is { Radius: > 0.0001f } casterSphere && casterSphere != receiverSphere)
             {
                 for (int i = 0; i < lights.Count; i++)
                     lights[i] = lights[i].GetShadowed(receiverSphere, casterSphere);
             }
+        }
+    }
 
-            ApplyShadows(lights, receiverSphere, caster.ChildCollection);
+    /// <summary>
+    /// All <see cref="PositionableRenderable.ShadowCaster"/>s in the render hierarchy, in depth-first pre-order.
+    /// </summary>
+    /// <remarks>Includes bodies that are hidden or outside any view frustum, since those can still cast shadows into view.</remarks>
+    private readonly List<PositionableRenderable> _shadowCasters = [];
+
+    /// <summary>
+    /// The <see cref="RenderableCollection.ShadowCastersVersion"/> <see cref="_shadowCasters"/> was collected for; <c>null</c> if never collected.
+    /// </summary>
+    private uint? _shadowCastersVersion;
+
+    /// <summary>
+    /// Returns <see cref="_shadowCasters"/>, recollecting it only if the render hierarchy or any <see cref="PositionableRenderable.ShadowCaster"/> flag changed since the last call.
+    /// </summary>
+    private List<PositionableRenderable> GetShadowCasters()
+    {
+        if (_shadowCastersVersion != _positionables.ShadowCastersVersion)
+        {
+            _shadowCasters.Clear();
+            CollectShadowCasters(_positionables);
+            _shadowCastersVersion = _positionables.ShadowCastersVersion;
+        }
+        return _shadowCasters;
+    }
+
+    private void CollectShadowCasters(RenderableCollection bodies)
+    {
+        foreach (var body in bodies)
+        {
+            if (body.ShadowCaster) _shadowCasters.Add(body);
+            CollectShadowCasters(body.ChildCollection);
         }
     }
     #endregion
