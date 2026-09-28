@@ -25,7 +25,7 @@ public abstract class EngineElement : IDisposable
     /// </summary>
     /// <param name="element">The <see cref="EngineElement"/> to register. Silently ignores <c>null</c>.</param>
     /// <param name="autoDispose">Controls whether the <paramref name="element"/> is automatically disposed when <see cref="Dispose"/> is called.</param>
-    /// <remarks>This method is thread-safe.</remarks>
+    /// <remarks>This method is thread-safe and idempotent.</remarks>
     protected void RegisterChild(EngineElement? element, bool autoDispose = true)
     {
         if (element == null) return;
@@ -33,26 +33,52 @@ public abstract class EngineElement : IDisposable
         if (autoDispose)
         {
             lock (_toDispose) // Some elements, like dynamic shaders, may be registered in parallel
-                _toDispose.Add(element);
+                AddOnce(_toDispose, element);
         }
 
         if (IsEngineSet)
             element.Engine = Engine;
 
         lock (_toSetEngine) // Some elements, like dynamic shaders, may be registered in parallel
-            _toSetEngine.Add(element);
+            AddOnce(_toSetEngine, element);
+    }
+
+    private static void AddOnce(List<EngineElement> list, EngineElement element)
+    {
+        if (!list.Contains(element))
+            list.Add(element);
     }
 
     /// <summary>
     /// Unregisters a child <see cref="EngineElement"/> (opposite of <see cref="RegisterChild"/>).
     /// </summary>
     /// <param name="element">The <see cref="EngineElement"/> to unregister. Silently ignores <c>null</c>.</param>
-    protected void UnregisterChild(EngineElement? element)
+    /// <param name="autoDispose">Controls whether the <paramref name="element"/> is also removed from automatic disposal. Pass <c>false</c> to undo a <see cref="RegisterChild"/> call that also passed <c>false</c>.</param>
+    /// <remarks>This method is thread-safe.</remarks>
+    protected void UnregisterChild(EngineElement? element, bool autoDispose = true)
     {
         if (element == null) return;
 
-        _toSetEngine.Remove(element);
-        _toDispose.Remove(element);
+        if (autoDispose)
+        {
+            lock (_toDispose)
+                _toDispose.Remove(element);
+        }
+
+        lock (_toSetEngine)
+            _toSetEngine.Remove(element);
+    }
+
+    /// <summary>
+    /// The number of children currently registered for automatic <see cref="Engine"/> setting.
+    /// </summary>
+    internal int RegisteredChildCount
+    {
+        get
+        {
+            lock (_toSetEngine)
+                return _toSetEngine.Count;
+        }
     }
     #endregion
 

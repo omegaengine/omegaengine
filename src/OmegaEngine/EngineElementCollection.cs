@@ -55,7 +55,7 @@ internal class EngineElementCollection<T> : EngineElement, ICollection<T>
     public bool Remove(T item)
     {
         if (!_innerList.Remove(item)) return false;
-        UnregisterChild(item);
+        if (!_innerList.Contains(item)) UnregisterChild(item); // Registration does not count duplicates
         OnRemoved(item);
         return true;
     }

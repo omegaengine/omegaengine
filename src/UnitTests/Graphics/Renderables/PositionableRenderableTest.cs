@@ -129,6 +129,23 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
+    public void ReassigningSurfaceShaderDoesNotAccumulateChildren()
+    {
+        using var model = Model.Box(Engine, XMaterial.Default);
+        int childCount = model.RegisteredChildCount;
+
+        for (int i = 0; i < 100; i++)
+            model.SurfaceShader = Engine.DefaultShader;
+        model.RegisteredChildCount.Should().Be(childCount, "assigning the current shader again is a no-op");
+
+        model.SurfaceShader = null;
+        model.RegisteredChildCount.Should().Be(childCount - 1, "the replaced shader must no longer be referenced");
+
+        model.SurfaceShader = Engine.DefaultShader;
+        model.RegisteredChildCount.Should().Be(childCount);
+    }
+
+    [Fact]
     public void IsVisibleAppliesFrustumCulling()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(4, 4, 4));

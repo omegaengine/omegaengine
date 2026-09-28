@@ -179,6 +179,10 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         get => _surfaceShader;
         set
         {
+            // Called for every subset every frame by some renderables, so avoid churn
+            if (value == _surfaceShader) return;
+
+            UnregisterChild(_surfaceShader, autoDispose: false);
             _surfaceShader = value;
             RegisterChild(_surfaceShader, autoDispose: false);
         }
