@@ -1076,7 +1076,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     protected override void OnEngineSet()
     {
         base.OnEngineSet();
-        SurfaceShader = Engine.DefaultShader;
+        SurfaceShader ??= Engine.DefaultShader;
     }
     #endregion
 }
