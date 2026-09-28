@@ -110,7 +110,7 @@ public class Button : Label
                     isPressed = true;
                     parentDialog.DialogManager.Target.Capture = true;
                     if (!hasFocus)
-                        Dialog.RequestFocus(this);
+                        parentDialog.DialogManager.RequestFocus(this);
 
                     return true;
                 }
@@ -123,7 +123,7 @@ public class Button : Label
                     isPressed = false;
                     parentDialog.DialogManager.Target.Capture = false;
                     if (!parentDialog.IsUsingKeyboardInput)
-                        Dialog.ClearFocus();
+                        parentDialog.DialogManager.ClearFocus();
 
                     // Button click
                     if (ContainsPoint(pt))

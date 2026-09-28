@@ -314,7 +314,7 @@ public abstract partial class Control : ICloneable
     /// <summary>Requests keyboard focus for this control.</summary>
     public void Focus()
     {
-        if (DXControl != null) Render.Dialog.RequestFocus(DXControl);
+        DXControl?.Parent.DialogManager.RequestFocus(DXControl);
     }
     #endregion
 

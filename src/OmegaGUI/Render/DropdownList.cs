@@ -210,7 +210,7 @@ public class DropdownList : Button
                             isComboOpen = false;
 
                             if (!Parent.IsUsingKeyboardInput)
-                                Dialog.ClearFocus();
+                                parentDialog.DialogManager.ClearFocus();
 
                             return true;
                         }
@@ -228,7 +228,7 @@ public class DropdownList : Button
                             RaiseChangedEvent(this, true);
 
                             if (!Parent.IsUsingKeyboardInput)
-                                Dialog.ClearFocus();
+                                parentDialog.DialogManager.ClearFocus();
                         }
 
                         return true;
@@ -305,7 +305,7 @@ public class DropdownList : Button
                         parentDialog.DialogManager.Target.Capture = true;
 
                         if (!hasFocus)
-                            Dialog.RequestFocus(this);
+                            parentDialog.DialogManager.RequestFocus(this);
 
                         // Toggle dropdown
                         if (hasFocus)
@@ -314,7 +314,7 @@ public class DropdownList : Button
                             if (!isComboOpen)
                             {
                                 if (!parentDialog.IsUsingKeyboardInput)
-                                    Dialog.ClearFocus();
+                                    parentDialog.DialogManager.ClearFocus();
                             }
                         }
 
@@ -336,7 +336,7 @@ public class DropdownList : Button
                                 isComboOpen = false;
 
                                 if (!parentDialog.IsUsingKeyboardInput)
-                                    Dialog.ClearFocus();
+                                    parentDialog.DialogManager.ClearFocus();
 
                                 break;
                             }
@@ -356,7 +356,7 @@ public class DropdownList : Button
 
                     // Release focus if appropriate
                     if (!parentDialog.IsUsingKeyboardInput)
-                        Dialog.ClearFocus();
+                        parentDialog.DialogManager.ClearFocus();
 
                     break;
                 }

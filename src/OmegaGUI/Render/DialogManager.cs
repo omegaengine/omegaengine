@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using NanoByte.Common.Native;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
 using SlimDX.Direct3D9;
@@ -62,6 +63,61 @@ public sealed class DialogManager : IDisposable
     /// Gets the render target control
     /// </summary>
     public System.Windows.Forms.Control Target => Engine.Target;
+
+    /// <summary>
+    /// Dialogs last refreshed before this <see cref="WindowsUtils.AbsoluteTime"/> are refreshed on their next render
+    /// </summary>
+    public double RefreshTime { get; set; }
+    #endregion
+
+    #region Focus
+    /// <summary>
+    /// The control which currently has keyboard focus (across all dialogs using this manager)
+    /// </summary>
+    public Control? FocusedControl { get; internal set; }
+
+    /// <summary>
+    /// The control the mouse is currently hovering over (across all dialogs using this manager)
+    /// </summary>
+    internal Control? MouseOverControl { get; set; }
+
+    /// <summary>
+    /// <see cref="WindowsUtils.AbsoluteTime"/> when <see cref="MouseOverControl"/> last changed
+    /// </summary>
+    internal double TooltipHoverStart { get; set; }
+
+    /// <summary>
+    /// Request that a control has focus
+    /// </summary>
+    public void RequestFocus(Control control)
+    {
+        if (control == null) throw new ArgumentNullException(nameof(control));
+
+        if (FocusedControl == control)
+            return; // Already does
+
+        if (!control.CanHaveFocus)
+            return; // Can't have focus
+
+        if (FocusedControl != null)
+            FocusedControl.OnFocusOut();
+
+        // Set the control focus now
+        control.OnFocusIn();
+        FocusedControl = control;
+    }
+
+    /// <summary>
+    /// Clears focus from the currently focused control
+    /// </summary>
+    public void ClearFocus()
+    {
+        if (FocusedControl != null)
+        {
+            FocusedControl.OnFocusOut();
+            FocusedControl = null;
+        }
+    }
     #endregion
 
     #region Constructor

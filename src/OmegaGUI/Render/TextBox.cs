@@ -430,7 +430,7 @@ public class TextBox : Control
             case WindowMessage.LeftButtonDoubleClick:
                 // Get focus first
                 if (!hasFocus)
-                    Dialog.RequestFocus(this);
+                    parentDialog.DialogManager.RequestFocus(this);
 
                 if (!ContainsPoint(pt))
                     return false;

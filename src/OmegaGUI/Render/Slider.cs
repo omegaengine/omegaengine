@@ -135,7 +135,7 @@ public class Slider : Control
                     dragX = pt.X;
                     dragOffset = buttonX - dragX;
                     if (!hasFocus)
-                        Dialog.RequestFocus(this);
+                        parentDialog.DialogManager.RequestFocus(this);
 
                     return true;
                 }
@@ -161,7 +161,7 @@ public class Slider : Control
                 {
                     isPressed = false;
                     parentDialog.DialogManager.Target.Capture = false;
-                    Dialog.ClearFocus();
+                    parentDialog.DialogManager.ClearFocus();
                     return true;
                 }
                 break;

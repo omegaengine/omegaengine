@@ -189,7 +189,7 @@ public class CheckBox : Button
                     isPressed = true;
                     parentDialog.DialogManager.Target.Capture = true;
                     if ((!hasFocus) && (parentDialog.IsUsingKeyboardInput))
-                        Dialog.RequestFocus(this);
+                        parentDialog.DialogManager.RequestFocus(this);
 
                     return true;
                 }

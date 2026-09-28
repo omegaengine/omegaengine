@@ -258,7 +258,7 @@ public class ListBox : Control
         if (msg == WindowMessage.LeftButtonDown)
         {
             if (!hasFocus)
-                Dialog.RequestFocus(this);
+                parentDialog.DialogManager.RequestFocus(this);
         }
 
         // Let the scroll bar handle it first

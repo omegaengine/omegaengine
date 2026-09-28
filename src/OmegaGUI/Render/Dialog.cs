@@ -41,21 +41,15 @@ public class Dialog
     public static readonly Color4 WhiteColorValue = new(1.0f, 1.0f, 1.0f);
     public static readonly Color4 TransparentWhite = new(0.0f, 1.0f, 1.0f, 1.0f);
     public static readonly Color4 BlackColorValue = new(0.0f, 0.0f, 0.0f);
-    private static Control? controlFocus; // The control which has focus
-    private static Control? controlMouseOver; // The control which is hovered over
-    private static double tooltipHoverStart; // WindowsUtils.AbsoluteTime when controlMouseOver last changed
-
-    private static double timeRefresh;
-
-    /// <summary>Set the static refresh time</summary>
-    public static void SetRefreshTime(float time)
-    {
-        timeRefresh = time;
-    }
     #endregion
 
     #region Instance Data
     internal DialogManager DialogManager { get; }
+
+    // Focus/hover state is shared by all dialogs of the same manager
+    private Control? ControlFocus { get => DialogManager.FocusedControl; set => DialogManager.FocusedControl = value; }
+    private Control? ControlMouseOver { get => DialogManager.MouseOverControl; set => DialogManager.MouseOverControl = value; }
+    private double TooltipHoverStart { get => DialogManager.TooltipHoverStart; set => DialogManager.TooltipHoverStart = value; }
 
     // Vertex information
     private TransformedColoredTextured[] dialogVertexes, captionVertexes;
@@ -501,10 +495,10 @@ public class Dialog
     {
         controlList.Clear();
 
-        if (controlFocus != null && controlFocus.Parent == this)
-            controlFocus = null;
-        if (controlMouseOver != null && controlMouseOver.Parent == this)
-            controlMouseOver = null;
+        if (ControlFocus != null && ControlFocus.Parent == this)
+            ControlFocus = null;
+        if (ControlMouseOver != null && ControlMouseOver.Parent == this)
+            ControlMouseOver = null;
     }
     #endregion
 
@@ -606,10 +600,10 @@ public class Dialog
             return false;
 
         // If a control is in focus and is enabled, then give it the first chance at handling the message
-        if (controlFocus != null && controlFocus.Parent == this && controlFocus.IsEnabled)
+        if (ControlFocus != null && ControlFocus.Parent == this && ControlFocus.IsEnabled)
         {
             // If the control MsgProc handles it, then we don't
-            if (controlFocus.MsgProc(hWnd, msg, wParam, lParam))
+            if (ControlFocus.MsgProc(hWnd, msg, wParam, lParam))
                 return true;
         }
 
@@ -618,14 +612,14 @@ public class Dialog
             #region Focus handling
             case WindowMessage.ActivateApplication:
             {
-                if (controlFocus != null &&
-                    controlFocus.Parent == this &&
-                    controlFocus.IsEnabled)
+                if (ControlFocus != null &&
+                    ControlFocus.Parent == this &&
+                    ControlFocus.IsEnabled)
                 {
                     if (wParam != IntPtr.Zero)
-                        controlFocus.OnFocusIn();
+                        ControlFocus.OnFocusIn();
                     else
-                        controlFocus.OnFocusOut();
+                        ControlFocus.OnFocusOut();
                 }
                 break;
             }
@@ -639,12 +633,12 @@ public class Dialog
             {
                 // If a control is in focus, it belongs to this dialog, and it's enabled, then give
                 // it the first chance at handling the message.
-                if (controlFocus != null &&
-                    controlFocus.Parent == this &&
-                    controlFocus.IsEnabled)
+                if (ControlFocus != null &&
+                    ControlFocus.Parent == this &&
+                    ControlFocus.IsEnabled)
                 {
                     // If the control MsgProc handles it, then we don't.
-                    if (controlFocus.HandleKeyboard(msg, wParam, lParam))
+                    if (ControlFocus.HandleKeyboard(msg, wParam, lParam))
                         return true;
                 }
 
@@ -672,7 +666,7 @@ public class Dialog
                     {
                         case Keys.Right:
                         case Keys.Down:
-                            if (controlFocus != null)
+                            if (ControlFocus != null)
                             {
                                 OnCycleFocus(true);
                                 return true;
@@ -680,14 +674,14 @@ public class Dialog
                             break;
                         case Keys.Left:
                         case Keys.Up:
-                            if (controlFocus != null)
+                            if (ControlFocus != null)
                             {
                                 OnCycleFocus(false);
                                 return true;
                             }
                             break;
                         case Keys.Tab:
-                            if (controlFocus == null)
+                            if (ControlFocus == null)
                                 FocusDefaultControl();
                             else
                             {
@@ -738,12 +732,12 @@ public class Dialog
 
                 // If a control is in focus, it belongs to this dialog, and it's enabled, then give
                 // it the first chance at handling the message.
-                if (controlFocus != null &&
-                    controlFocus.Parent == this &&
-                    controlFocus.IsEnabled)
+                if (ControlFocus != null &&
+                    ControlFocus.Parent == this &&
+                    ControlFocus.IsEnabled)
                 {
                     // If the control MsgProc handles it, then we don't.
-                    if (controlFocus.HandleMouse(msg, mousePoint, wParam, lParam))
+                    if (ControlFocus.HandleMouse(msg, mousePoint, wParam, lParam))
                         return true;
                 }
 
@@ -751,16 +745,16 @@ public class Dialog
                 if (GetControlAtPoint(mousePoint) is { } control)
                 {
                     // Let the control handle the mouse if it wants (the focused control already had its chance)
-                    if (control != controlFocus && control.HandleMouse(msg, mousePoint, wParam, lParam))
+                    if (control != ControlFocus && control.HandleMouse(msg, mousePoint, wParam, lParam))
                         return true;
                 }
                 else
                 {
                     // Mouse not over any controls in this dialog, if there was a control which had focus it just lost it
-                    if (msg == WindowMessage.LeftButtonDown && controlFocus != null && controlFocus.Parent == this)
+                    if (msg == WindowMessage.LeftButtonDown && ControlFocus != null && ControlFocus.Parent == this)
                     {
-                        controlFocus.OnFocusOut();
-                        controlFocus = null;
+                        ControlFocus.OnFocusOut();
+                        ControlFocus = null;
                     }
                 }
 
@@ -788,19 +782,19 @@ public class Dialog
     {
         // Figure out which control the mouse is over now
         Control? control = GetControlAtPoint(pt);
-        if (controlMouseOver != control)
+        if (ControlMouseOver != control)
         {
-            if (controlMouseOver != null)
+            if (ControlMouseOver != null)
             {
-                controlMouseOver.OnMouseExit();
-                controlMouseOver = null;
+                ControlMouseOver.OnMouseExit();
+                ControlMouseOver = null;
             }
 
-            controlMouseOver = control;
-            tooltipHoverStart = WindowsUtils.AbsoluteTime;
+            ControlMouseOver = control;
+            TooltipHoverStart = WindowsUtils.AbsoluteTime;
 
-            if (controlMouseOver != null)
-                controlMouseOver.OnMouseEnter();
+            if (ControlMouseOver != null)
+                ControlMouseOver.OnMouseEnter();
         }
     }
     #endregion
@@ -809,65 +803,32 @@ public class Dialog
 
     #region Focus
     /// <summary>
-    /// Request that this control has focus
-    /// </summary>
-    public static void RequestFocus(Control control)
-    {
-        if (control == null) throw new ArgumentNullException(nameof(control));
-
-        if (controlFocus == control)
-            return; // Already does
-
-        if (!control.CanHaveFocus)
-            return; // Can't have focus
-
-        if (controlFocus != null)
-            controlFocus.OnFocusOut();
-
-        // Set the control focus now
-        control.OnFocusIn();
-        controlFocus = control;
-    }
-
-    /// <summary>
-    /// Clears focus of the dialog
-    /// </summary>
-    public static void ClearFocus()
-    {
-        if (controlFocus != null)
-        {
-            controlFocus.OnFocusOut();
-            controlFocus = null;
-        }
-    }
-
-    /// <summary>
     /// Cycles focus to the next available control
     /// </summary>
     private void OnCycleFocus(bool forward)
     {
         // This should only be handled by the dialog which owns the focused control, and
         // only if a control currently has focus
-        if (controlFocus == null || controlFocus.Parent != this)
+        if (ControlFocus == null || ControlFocus.Parent != this)
             return;
 
-        Control control = controlFocus;
+        Control control = ControlFocus;
         // Go through a bunch of controls
         for (int i = 0; i < 0xffff; i++)
         {
             control = (forward) ? GetNextControl(control) : GetPreviousControl(control);
 
             // If we've gone in a full circle, focus won't change
-            if (control == controlFocus)
+            if (control == ControlFocus)
                 return;
 
             // If the dialog accepts keyboard input and the control can have focus then
             // move focus
             if (control.Parent.IsUsingKeyboardInput && control.CanHaveFocus)
             {
-                controlFocus.OnFocusOut();
-                controlFocus = control;
-                controlFocus.OnFocusIn();
+                ControlFocus.OnFocusOut();
+                ControlFocus = control;
+                ControlFocus.OnFocusIn();
                 return;
             }
         }
@@ -928,11 +889,11 @@ public class Dialog
             if (control.IsDefault)
             {
                 // Remove focus from the current control
-                ClearFocus();
+                DialogManager.ClearFocus();
 
                 // Give focus to the default control
-                controlFocus = control;
-                controlFocus.OnFocusIn();
+                ControlFocus = control;
+                ControlFocus.OnFocusIn();
                 return;
             }
         }
@@ -1393,7 +1354,7 @@ public class Dialog
     public void OnRender(float elapsedTime)
     {
         // See if the dialog needs to be refreshed
-        if (timeLastRefresh < timeRefresh)
+        if (timeLastRefresh < DialogManager.RefreshTime)
         {
             timeLastRefresh = WindowsUtils.AbsoluteTime;
             Refresh();
@@ -1462,7 +1423,7 @@ public class Dialog
                     foreach (Control control in controlList)
                     {
                         // Focused control is drawn last
-                        if (control == controlFocus)
+                        if (control == ControlFocus)
                             continue;
 
                         // ReSharper disable AccessToModifiedClosure
@@ -1472,10 +1433,10 @@ public class Dialog
                     }
 
                     // Render the focus control if necessary
-                    if (controlFocus != null && controlFocus.Parent == this)
+                    if (ControlFocus != null && ControlFocus.Parent == this)
                     {
-                        using (new ProfilerEvent(() => $"Render {controlFocus}"))
-                            controlFocus.Render(device, elapsedTime);
+                        using (new ProfilerEvent(() => $"Render {ControlFocus}"))
+                            ControlFocus.Render(device, elapsedTime);
                     }
 
                     RenderTooltip();
@@ -1496,10 +1457,10 @@ public class Dialog
     /// </summary>
     private void RenderTooltip()
     {
-        if (controlMouseOver?.Parent != this) return;
-        string text = controlMouseOver.Tooltip ?? "";
+        if (ControlMouseOver?.Parent != this) return;
+        string text = ControlMouseOver.Tooltip ?? "";
         if (text.Length == 0) return;
-        if (WindowsUtils.AbsoluteTime - tooltipHoverStart < TooltipDelay) return;
+        if (WindowsUtils.AbsoluteTime - TooltipHoverStart < TooltipDelay) return;
 
         // Measure the text
         FontNode fNode = GetFont(tooltipElement.FontIndex);
@@ -1508,7 +1469,7 @@ public class Dialog
         int boxHeight = textRect.Height + 2 * TooltipPadding;
 
         // Lay the box out in dialog-local coordinates, centered below the control (flipping above if it wouldn't fit)
-        Rectangle control = controlMouseOver.BoundingBox;
+        Rectangle control = ControlMouseOver.BoundingBox;
         int x = control.Left + (control.Width - boxWidth) / 2;
         int y = control.Bottom + TooltipGap;
         if (y + boxHeight > Height)
@@ -1533,16 +1494,16 @@ public class Dialog
         using (new ProfilerEvent("Refresh GUI dialog"))
         {
             // Reset the controls
-            if (controlFocus != null && controlFocus.Parent == this)
+            if (ControlFocus != null && ControlFocus.Parent == this)
             {
-                controlFocus.OnFocusOut();
-                controlFocus = null;
+                ControlFocus.OnFocusOut();
+                ControlFocus = null;
             }
-            if (controlMouseOver != null && controlMouseOver.Parent == this)
+            if (ControlMouseOver != null && ControlMouseOver.Parent == this)
             {
-                controlMouseOver.OnMouseExit();
-                controlMouseOver = null;
-                tooltipHoverStart = WindowsUtils.AbsoluteTime;
+                ControlMouseOver.OnMouseExit();
+                ControlMouseOver = null;
+                TooltipHoverStart = WindowsUtils.AbsoluteTime;
             }
 
             // Refresh any controls
