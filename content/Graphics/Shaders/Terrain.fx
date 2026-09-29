@@ -4,10 +4,14 @@
 //
 // All techniques require Shader Model 3.0.
 //
+// Compiled at runtime by TerrainShader with these preprocessor defines:
+// - LIGHTING: 1 to generate the lit techniques, 0 to generate the unlit one
+// - TEXTURE_MASK: Bitmask of the textures a terrain subset uses (bit 0 = Texture1, ..., bit 15 = Texture16)
+//
 // Techniques:
-// - Simple (16 textures, no lighting)
-// - Light (16 textures, per-pixel lighting)
-// - LightDetail (16 textures, per-pixel lighting, double sampling)
+// - Simple (up to 16 textures, no lighting; only if LIGHTING is 0)
+// - Light (up to 16 textures, per-pixel lighting; only if LIGHTING is 1)
+// - LightDetail (up to 16 textures, per-pixel lighting, double sampling; only if LIGHTING is 1)
 // - Black (all black)
 // - Depth (outputs normalized camera-relative depth as grayscale)
 //
@@ -19,6 +23,14 @@
 // - OneDirLightAdd (Light1 must be a directional light, additive, must not be called as first pass)
 // - OnePointLight (Light1 must be a point light, must be called as first pass)
 // - OnePointLightAdd (Light1 must be a point light, additive, must not be called as first pass)
+
+// Defaults for compiling this file standalone, e.g. with fxc.exe
+#ifndef LIGHTING
+#define LIGHTING 1
+#endif
+#ifndef TEXTURE_MASK
+#define TEXTURE_MASK 0xFFFF
+#endif
 
 static const float PI = 3.14159265;
 
@@ -62,15 +74,26 @@ float3 fogColor  : FogColor;                  // Fog color in linear space
 
 int FilterMode : FILTERMODE = 2; // 2 = Linear, 3 = Anisotropic
 
-/// <Counter ID="main" Type="int" Min="1" Max="16" />
-/// <Code Type="Repeat" Count="16"><![CDATA[texture Texture{main} : Diffuse;
-/// sampler2D texture{main}Sampler = sampler_state
-/// {
-///   texture = <Texture{main}>;
-///   AddressU = wrap; AddressV = wrap;
-///   MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear;
-///   sRGBTexture = TRUE;
-/// };]]></Code>
+// Declared individually rather than as arrays: SurfaceShader assigns the material's diffuse maps to Diffuse parameters in declaration order,
+// and the effect framework does not apply the states (e.g. sRGBTexture) of sampler array elements
+#define TEXTURE(i) \
+texture Texture##i : Diffuse; \
+sampler2D texture##i##Sampler = sampler_state \
+{ \
+  texture = <Texture##i>; \
+  AddressU = wrap; AddressV = wrap; \
+  MinFilter = <FilterMode>; MagFilter = <FilterMode>; MipFilter = linear; \
+  sRGBTexture = TRUE; \
+};
+TEXTURE(1)  TEXTURE(2)  TEXTURE(3)  TEXTURE(4)
+TEXTURE(5)  TEXTURE(6)  TEXTURE(7)  TEXTURE(8)
+TEXTURE(9)  TEXTURE(10) TEXTURE(11) TEXTURE(12)
+TEXTURE(13) TEXTURE(14) TEXTURE(15) TEXTURE(16)
+
+// Shader Model 3.0 has no integer bit operations, so bits are tested with division instead
+static const int textureBits[16] = {0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800, 0x1000, 0x2000, 0x4000, 0x8000};
+bool textureEnabled(int i)
+{ return (TEXTURE_MASK / textureBits[i]) % 2 == 1; }
 
 
 //---------------- Structs ----------------
@@ -100,7 +123,7 @@ struct inSimple
     float4 color              : COLOR0;
 };
 
-/// <BeginFilter Lighting="true" />
+#if LIGHTING
 struct outLight
 {
     float4 pos                : POSITION;  // Position in clip space
@@ -115,9 +138,9 @@ struct outLight
     float2 depth              : TEXCOORD8; // Distance from the camera in clip space (x) and view space (y)
     float4 color              : COLOR0;
 };
-/// <EndFilter />
+#endif
 
-/// <BeginFilter Lighting="false" />
+#if !LIGHTING
 struct outSimple
 {
     float4 pos         : POSITION;  // Position in clip space
@@ -128,7 +151,7 @@ struct outSimple
     float4 texWeights4 : TEXCOORD4;
     float fogDepth     : TEXCOORD5; // Distance from the camera in view space
 };
-/// <EndFilter />
+#endif
 
 struct outBlack {
   float4 pos      : POSITION;  // Position in clip space
@@ -163,7 +186,7 @@ float fogFactor(float viewDepth)
 float4 applyFog(float4 color, float viewDepth, uniform bool firstPass)
 { return float4(firstPass ? lerp(fogColor, color.rgb, fogFactor(viewDepth)) : color.rgb * fogFactor(viewDepth), color.a); }
 
-/// <BeginFilter Lighting="true" />
+#if LIGHTING
 
 float4 calcDirLight(float3 normal, float3 lightDir,
   float4 diffuseColor, float4 ambientColor) // Overload without shadows
@@ -216,12 +239,12 @@ float4 calcPointLight(float3 worldPos, float3 normal, float3 lightPos,
     // Simulate point-lighting by using pixel-wise directional-lighting
     return calcDirLight(normal, normalize(lightDir), diffuseColor, ambientColor) * attenuation;
 }
-/// <EndFilter />
+#endif
 
 
 //---------------- Vertex shaders ----------------
 
-/// <BeginFilter Lighting="true" />
+#if LIGHTING
 outLight VS_Light(inLight IN)
 {
     outLight OUT;
@@ -243,9 +266,9 @@ outLight VS_Light(inLight IN)
 
     return OUT;
 }
-/// <EndFilter />
+#endif
 
-/// <BeginFilter Lighting="false" />
+#if !LIGHTING
 outSimple VS_Simple(inSimple IN)
 {
     outSimple OUT;
@@ -263,7 +286,7 @@ outSimple VS_Simple(inSimple IN)
 
     return OUT;
 }
-/// <EndFilter />
+#endif
 
 // Position-only; works for both the lit and unlit vertex layouts since neither is actually referenced beyond entityPos
 outBlack VS_Black(inSimple IN)
@@ -292,23 +315,23 @@ outDepth VS_Depth(inSimple IN)
 
 //---------------- Pixel shaders ----------------
 
+// Adds the weighted color of texture i (counting from 1); compiled out if the texture is not enabled in TEXTURE_MASK
+#define BLEND_TEXTURE(i) if (textureEnabled(i - 1)) color += tex2D(texture##i##Sampler, texCoord) * texWeights[(i - 1) / 4][(i - 1) % 4];
+
+// Blends the textures enabled in TEXTURE_MASK
 float4 PS_Helper(float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3, float4 texWeights4)
 {
-    float4 color = 0;
-    /// <Counter ID="main" Type="int" Min="1" Max="16" />
-    /// <Counter ID="group" Type="int-step" Min="1" Max="4" Step="0.25" />
-    /// <Counter ID="component" Type="char">
-    ///   <Char>x</Char>
-    ///   <Char>y</Char>
-    ///   <Char>z</Char>
-    ///   <Char>w</Char>
-    /// </Counter>
-    /// <Code Type="Sync" Controller="textures" Max="16"><![CDATA[    color += tex2D(texture{main}Sampler, texCoord) * texWeights{group}.{component};]]></Code>
+    float4 texWeights[4] = {texWeights1, texWeights2, texWeights3, texWeights4};
 
+    float4 color = 0;
+    BLEND_TEXTURE(1)  BLEND_TEXTURE(2)  BLEND_TEXTURE(3)  BLEND_TEXTURE(4)
+    BLEND_TEXTURE(5)  BLEND_TEXTURE(6)  BLEND_TEXTURE(7)  BLEND_TEXTURE(8)
+    BLEND_TEXTURE(9)  BLEND_TEXTURE(10) BLEND_TEXTURE(11) BLEND_TEXTURE(12)
+    BLEND_TEXTURE(13) BLEND_TEXTURE(14) BLEND_TEXTURE(15) BLEND_TEXTURE(16)
     return color;
 }
 
-/// <BeginFilter Lighting="true" />
+#if LIGHTING
 // Samples every texture twice, at a coarse scale for high camera distances and at a fine scale for low camera distances
 float4 PS_HelperDetail(float zDepth, float2 texCoord, float4 texWeights1, float4 texWeights2, float4 texWeights3, float4 texWeights4)
 {
@@ -361,14 +384,14 @@ float4 PS_Light(outLight IN, uniform bool detail, uniform bool firstPass,  // Ov
         : PS_Helper(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4);
     return applyFog(texColor * diffAmbColor * IN.color, IN.depth.y, firstPass);
 }
-/// <EndFilter />
+#endif
 
-/// <BeginFilter Lighting="false" />
+#if !LIGHTING
 float4 PS_Simple(outSimple IN) : COLOR
 {
     return applyFog(PS_Helper(IN.texCoord, IN.texWeights1, IN.texWeights2, IN.texWeights3, IN.texWeights4), IN.fogDepth, /*firstPass*/true);
 }
-/// <EndFilter />
+#endif
 
 float4 PS_Black(outBlack IN) : COLOR
 { return applyFog(float4(0, 0, 0, 1), IN.fogDepth, /*firstPass*/true); }
@@ -381,7 +404,7 @@ float4 PS_Depth(outDepth IN) : COLOR
 
 #define ADDITIVE_STATES ZWriteEnable = false; ZFunc = LessEqual; CullMode = None; AlphaBlendEnable = true; SrcBlend = One; DestBlend = One;
 
-/// <BeginFilter Lighting="false" />
+#if !LIGHTING
 technique Simple
 {
   pass NoLights
@@ -390,9 +413,9 @@ technique Simple
     PixelShader = compile ps_3_0 PS_Simple();
   }
 }
-/// <EndFilter />
+#endif
 
-/// <BeginFilter Lighting="true" />
+#if LIGHTING
 #define LIGHT_PASSES(detail) \
   pass AmbientLight \
   { \
@@ -442,7 +465,7 @@ technique LightDetail
 {
   LIGHT_PASSES(/*detail*/true)
 }
-/// <EndFilter />
+#endif
 
 technique Black
 {

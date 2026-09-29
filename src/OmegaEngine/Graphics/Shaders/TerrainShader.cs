@@ -9,8 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using JetBrains.Annotations;
-using NanoByte.Common.Values;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
@@ -61,26 +61,16 @@ public class TerrainShader : LightingShader
     /// Creates a specialized instance of the shader
     /// </summary>
     /// <param name="lighting">Shall this shader apply lighting to the terrain?</param>
-    /// <param name="textureMask">A bitmask that indicates which textures are enabled</param>
-    /// <exception cref="ShaderCompileException">The expanded shader code could not be compiled.</exception>
+    /// <param name="textureMask">A bitmask that indicates which textures are enabled (bit 0 = first texture)</param>
+    /// <exception cref="ShaderCompileException">The shader code could not be compiled.</exception>
     public TerrainShader(bool lighting, int textureMask)
     {
         _lighting = lighting;
-
-        var textureIndexes = new List<int>();
-        for (int i = 0; i < 16; i++)
+        _effectCode = DynamicShader.FromContent("Terrain.fx", new Dictionary<string, string>
         {
-            if (textureMask.HasFlag(1 << i))
-                textureIndexes.Add(i + 1);
-        }
-
-        using var stream = DynamicShader.FromContent(
-            "Terrain.fxd",
-            controllers: new() {["textures"] = textureIndexes},
-            lighting);
-        stream.Position = 0;
-        _effectCode = new byte[stream.Length];
-        stream.Read(_effectCode, 0, _effectCode.Length); // Copy to managed array to avoid memory leak if not disposed
+            ["LIGHTING"] = lighting ? "1" : "0",
+            ["TEXTURE_MASK"] = textureMask.ToString(CultureInfo.InvariantCulture)
+        });
     }
     #endregion
 

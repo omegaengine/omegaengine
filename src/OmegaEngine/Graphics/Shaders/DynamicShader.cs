@@ -8,11 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using NanoByte.Common.Streams;
 using OmegaEngine.Foundation.Storage;
 using SlimDX;
@@ -22,161 +19,44 @@ using Resources = OmegaEngine.Properties.Resources;
 namespace OmegaEngine.Graphics.Shaders;
 
 /// <summary>
-/// Helper class for dynamically generating <see cref="Shader"/> code
+/// Helper class for compiling <see cref="Shader"/> code at runtime
 /// </summary>
-/// <remarks>Uses partial .fx files with XML control comments as input</remarks>
-public static partial class DynamicShader
+/// <remarks>Uses .fx files containing HLSL that generates different variants depending on preprocessor defines.</remarks>
+public static class DynamicShader
 {
     /// <summary>
     /// Loads a dynamic shader file via the <see cref="ContentManager"/> and compiles it.
     /// </summary>
     /// <param name="id">The ID of the shader to be loaded</param>
-    /// <param name="controllers">A set of int arrays that control the counters; <c>null</c> if there is no sync-code in the shader</param>
-    /// <param name="lighting">Optimize the shader for lighting or no lighting</param>
-    /// <returns>The compiled shader</returns>
-    public static DataStream FromContent(string id, Dictionary<string, IEnumerable<int>> controllers, bool lighting)
+    /// <param name="defines">Preprocessor macros (name and definition) that select the variant of the shader to compile</param>
+    /// <returns>The compiled effect bytecode</returns>
+    /// <exception cref="ShaderCompileException">The shader code could not be compiled.</exception>
+    public static byte[] FromContent(string id, IReadOnlyDictionary<string, string> defines)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
-        if (controllers == null) throw new ArgumentNullException(nameof(controllers));
+        if (defines == null) throw new ArgumentNullException(nameof(defines));
         #endregion
 
-        string[] lines = File.ReadAllLines(ContentManager.GetFilePath("Graphics/Shaders", id));
-
-        var xmlBuffer = new StringBuilder(); // Accumulates XML data until it is complete and ready to be parsed
-        var fxBuffer = new StringBuilder(); // Accumulates the actual HLSL code until it is ready to be compiled
-        bool filtered = false;
-
-        foreach (string line in lines)
-        {
-            string trimmedLine = line.Trim();
-            if (trimmedLine.StartsWith("///", StringComparison.Ordinal))
-            {
-                // Store XML code for later parsing
-                xmlBuffer.AppendLine(trimmedLine.Length > 3 && trimmedLine[3] == ' '
-                    ? trimmedLine[4..]
-                    : trimmedLine[3..]);
-            }
-            else if (!trimmedLine.StartsWith("//", StringComparison.Ordinal))
-            { // Parse XML code once it stops coming
-                string xmlData = xmlBuffer.ToString();
-                if (!string.IsNullOrEmpty(xmlData))
-                {
-                    var xmlDoc = new XmlDocument();
-                    xmlDoc.LoadXml($"<Data>{xmlData}</Data>");
-
-                    var counters = new LinkedList<Counter>();
-                    XmlElement element = xmlDoc["Data"];
-                    if (element != null)
-                    {
-                        foreach (XmlNode node in element.ChildNodes)
-                        {
-                            switch (node.Name)
-                            {
-                                case "Counter" when !filtered:
-                                    ProcessCounterNode(node, counters);
-                                    break;
-
-                                case "Code" when !filtered:
-                                    ProcessCodeNode(node, controllers, counters, fxBuffer);
-                                    break;
-
-                                case "BeginFilter":
-                                    filtered = ProcessBeginFilterNode(node, lighting);
-                                    break;
-
-                                case "EndFilter":
-                                    filtered = false;
-                                    break;
-                            }
-                        }
-                    }
-
-                    xmlBuffer = new();
-                }
-
-                // Store normal code for later compilation
-                if (!filtered && !string.IsNullOrEmpty(line))
-                    fxBuffer.AppendLine(line);
-            }
-        }
-
-        return Compile(fxBuffer.ToString());
+        return Compile(File.ReadAllText(ContentManager.GetFilePath("Graphics/Shaders", id)), defines);
     }
 
-    private static void ProcessCounterNode(XmlNode node, LinkedList<Counter> counters)
+    private static byte[] Compile(string fxCode, IReadOnlyDictionary<string, string> defines)
     {
-        switch (node.Attributes["Type"].Value)
-        {
-            case "int":
-                counters.AddLast(new IntCounter(node.Attributes["ID"].Value,
-                    int.Parse(node.Attributes["Min"].Value, CultureInfo.InvariantCulture),
-                    int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture)));
-                break;
-
-            case "int-step":
-                counters.AddLast(new IntCounter(node.Attributes["ID"].Value,
-                    int.Parse(node.Attributes["Min"].Value, CultureInfo.InvariantCulture),
-                    int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture),
-                    float.Parse(node.Attributes["Step"].Value, CultureInfo.InvariantCulture)));
-                break;
-
-            case "char":
-                var chars = new LinkedList<char>();
-                foreach (XmlNode subNode in node.ChildNodes)
-                    if (subNode.Name == "Char") chars.AddLast(subNode.InnerText[0]);
-                counters.AddLast(new CharCounter(node.Attributes["ID"].Value, chars));
-                break;
-        }
-    }
-
-    private static void ProcessCodeNode(XmlNode node, IDictionary<string, IEnumerable<int>> controllers, LinkedList<Counter> counters, StringBuilder fxBuffer)
-    {
-        switch (node.Attributes["Type"].Value)
-        {
-            case "Repeat":
-                int count = int.Parse(node.Attributes["Count"].Value, CultureInfo.InvariantCulture);
-                for (int i = 1; i <= count; i++)
-                    fxBuffer.AppendLine(HandleCounters(node.InnerText, counters, i));
-                break;
-
-            case "Sync":
-                int max = int.Parse(node.Attributes["Max"].Value, CultureInfo.InvariantCulture);
-                foreach (int i in controllers[node.Attributes["Controller"].Value])
-                {
-                    if (i <= max)
-                        fxBuffer.AppendLine(HandleCounters(node.InnerText, counters, i));
-                }
-                break;
-        }
-    }
-
-    private static string HandleCounters(string source, IEnumerable<Counter> counters, int run)
-        => counters.Aggregate(source, (current, counter) => current.Replace($"{{{counter.ID}}}", counter.GetValue(run)));
-
-    private static bool ProcessBeginFilterNode(XmlNode node, bool lighting)
-    {
-        if (node.Attributes["Lighting"] is {} lightingFlag)
-        {
-            if (!lighting && lightingFlag.Value == "true")
-                return true;
-            if (lighting && lightingFlag.Value == "false")
-                return true;
-        }
-
-        return false;
-    }
-
-    private static DataStream Compile(string fxCode)
-    {
+        var macros = defines.Select(x => new Macro {Name = x.Key, Definition = x.Value}).ToArray();
         try
         {
-            using var compiler = EffectCompiler.FromStream(fxCode.ToStream(), ShaderFlags.None);
-            return compiler.CompileEffect(ShaderFlags.None);
+            using var compiler = EffectCompiler.FromStream(fxCode.ToStream(), macros, includeFile: null, ShaderFlags.None);
+            using var stream = compiler.CompileEffect(ShaderFlags.None);
+            stream.Position = 0;
+            var bytecode = new byte[stream.Length];
+            stream.Read(bytecode, 0, bytecode.Length); // Copy to managed array to avoid memory leak if not disposed
+            return bytecode;
         }
         catch (Exception ex) when (ex is CompilationException or Direct3D9Exception)
         {
-            throw new ShaderCompileException(Resources.DynamicShaderCompileFail, ex, fxCode);
+            string definesText = string.Join(", ", defines.Select(x => $"{x.Key}={x.Value}"));
+            throw new ShaderCompileException($"{Resources.DynamicShaderCompileFail} ({definesText})", ex, fxCode);
         }
     }
 }

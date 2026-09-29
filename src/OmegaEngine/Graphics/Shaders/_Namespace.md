@@ -60,67 +60,31 @@ view.PostShaders.Add(new PostSepiaShader());
 
 ## Dynamic shaders
 
-Shaders can be generated and compiled at runtime using a templating system. This allows the engine to optimize shaders for specific use cases without requiring pre-compiled variants for every combination of features.
+Shaders can be compiled at runtime in multiple variants. This allows the engine to optimize shaders for specific use cases without requiring pre-compiled variants for every combination of features.
 
-These templates files use the file ending `.fxd`. They combine standard HLSL code with XML directives embedded in triple-slash (`///`) comments that control code generation. The <xref:OmegaEngine.Graphics.Shaders.DynamicShader> class processes `.fxd` files to generate final HLSL code that is then compiled.
+These shader files use the file ending `.fx` and are loaded via the <xref:OmegaEngine.Foundation.Storage.ContentManager>. They contain HLSL that selects a variant based on preprocessor defines. <xref:OmegaEngine.Graphics.Shaders.DynamicShader.FromContent(System.String,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})> compiles such a file with a specific set of defines.
 
-### Counter
-
-Defines a counter variable that can be substituted into generated code:
-
-```
-/// <Counter ID="main" Type="int" Min="1" Max="16" />
-```
-
-Counter types:
-- `int` - Integer counter with min and max values
-- `int-step` - Integer counter with fractional step increments (requires `Step` attribute)
-- `char` - Character counter with explicit character list defined in `<Char>` child elements
-
-### Code
-
-Generates code blocks using counter values:
-
-```
-/// <Code Type="Repeat" Count="16"><![CDATA[texture Texture{main};
-/// sampler2D texture{main}Sampler = sampler_state { texture = <Texture{main}>; };]]></Code>
-```
-
-Code types:
-- `Repeat` - Repeats code block N times (requires `Count` attribute)
-- `Sync` - Generates code synchronized with controller values (requires `Controller` and `Max` attributes)
-
-### Filters
-
-Conditionally include/exclude code depending on whether the shader is generated for lighting:
-
-```
-/// <BeginFilter Lighting="true" />
-struct outLight { /* ... */ };
-/// <EndFilter />
-```
-
-Filter attributes:
-- `Lighting` - Whether code is for lighting (`true`) or non-lighting (`false`) shaders
+- Use `#if`/`#else`/`#endif` to include code only in certain variants.
+- Use macros with token pasting (`##`) to generate repetitive code. Branches on compile-time constants derived from the defines are compiled out entirely.
+- Do not use sampler arrays: the effect framework ignores the states (e.g. `sRGBTexture`) of their elements. Declare samplers individually instead.
+- Shader Model 3.0 has no integer bit operations. Test bits of a mask with division and modulo instead (see below).
+- Provide defaults with `#ifndef`, so that the file can also be compiled standalone with `fxc.exe` for testing.
 
 ### Sample
 
-The <xref:OmegaEngine.Graphics.Shaders.TerrainShader> class demonstrates dynamic shader generation. It creates shader code based on the number of textures, lighting requirements, and other terrain-specific parameters, then compiles the shader on-demand.
+The <xref:OmegaEngine.Graphics.Shaders.TerrainShader> class compiles `Terrain.fx` once for each combination of textures a terrain subset uses, with the defines `LIGHTING` (`0` or `1`) and `TEXTURE_MASK` (a bitmask of the used textures).
 
-This code from `Terrain.fxd` generates texture sampling code for up to 16 textures, accessing texture ights from `texWeights1.x`, `texWeights1.y`, etc.:
+This code blends up to 16 textures, reading the weight of the texture with index `i - 1` from component `(i - 1) % 4` of `texWeights[(i - 1) / 4]`. Textures not in `TEXTURE_MASK` are not sampled at all:
 
-```
-/// <Counter ID="main" Type="int" Min="1" Max="16" />
-/// <Counter ID="group" Type="int-step" Min="1" Max="4" Step="0.25" />
-/// <Counter ID="component" Type="char">
-///   <Char>x</Char>
-///   <Char>y</Char>
-///   <Char>z</Char>
-///   <Char>w</Char>
-/// </Counter>
-/// <Code Type="Sync" Controller="textures" Max="16"><![CDATA[
-///   color += tex2D(texture{main}Sampler, texCoord) * texWeights{group}.{component};
-/// ]]></Code>
+```hlsl
+static const int textureBits[16] = {0x1, 0x2, 0x4, 0x8, /* ... */ 0x8000};
+bool textureEnabled(int i)
+{ return (TEXTURE_MASK / textureBits[i]) % 2 == 1; }
+
+#define BLEND_TEXTURE(i) if (textureEnabled(i - 1)) color += tex2D(texture##i##Sampler, texCoord) * texWeights[(i - 1) / 4][(i - 1) % 4];
+
+float4 color = 0;
+BLEND_TEXTURE(1) BLEND_TEXTURE(2) /* ... */ BLEND_TEXTURE(16)
 ```
 
 ## API

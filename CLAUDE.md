@@ -88,7 +88,7 @@ Runtime assets. Some of them are bundled in the `OmegaEngine` NuGet (see `src\Om
   - `Language/*.locale`: localization strings (referenced in `.xml` files via `[LocalizationKey]`).
   - `Textures/`: GUI-specific textures (`base.png` skin sheet, `logo.png`).
 - `Graphics/CpuParticleSystem/*.xml`: `CpuParticlePreset` definitions for particle effects (e.g. `FusionDrive.xml`, `Explosion.xml`).
-- `Graphics/Shaders/*.fxd`: Templates for dynamic shader templates that are evaluated and compiled at runtime.
+- `Graphics/Shaders/*.fx`: HLSL effects compiled at runtime in variants selected by preprocessor defines (see `DynamicShader`). They cannot `#include` from `shaders/include/`.
 - `Meshes/`: 3D mesh assets and paired textures.
 - `Textures/`: shared textures.
   - `Skybox/<name>/`: six-face cubemap (`ft`, `bk`, `lf`, `rt`, `up`, `dn`). The name matches the `<Skybox>` element in the map XML.
