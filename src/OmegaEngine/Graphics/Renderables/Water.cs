@@ -115,19 +115,22 @@ public class Water : Model
     /// <inheritdoc/>
     internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
     {
-        // Rendering this without a shader isn't possible (non-standard FVF)
-        if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
-
         // Note: Doesn't call base methods
         PrepareRender();
         Engine.State.WorldTransform = WorldTransform;
 
         SelectShader();
 
-        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLights: []);
-        if (DrawBoundingBox && WorldBoundingBox is {} box && SurfaceEffect < SurfaceEffect.Glow)
+        var surfaceEffect = GetEffectiveSurfaceEffect(getEffectiveLights);
+        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLights: [], surfaceEffect);
+        if (DrawBoundingBox && WorldBoundingBox is {} box && surfaceEffect < SurfaceEffect.Glow)
             Engine.DrawBoundingBox(box);
     }
+
+    /// <inheritdoc/>
+    /// <remarks>Rendering this without a shader isn't possible (non-standard FVF).</remarks>
+    protected override SurfaceEffect GetEffectiveSurfaceEffect(GetEffectiveLights? getEffectiveLights)
+        => SurfaceEffect < SurfaceEffect.Shader ? SurfaceEffect.Shader : SurfaceEffect;
 
     private void SelectShader()
     {
@@ -139,9 +142,9 @@ public class Water : Model
                 Alpha = 128;
                 if (WaterShader.MinShaderModel > Engine.Capabilities.MaxShaderModel)
                 {
-                    // No shader usage at all, render the surface map with the fixed-function pipeline
+                    // No shader usage at all, render the surface map with the fixed-function pipeline (RenderHelper falls back to it without a SurfaceShader)
                     Materials[0].DiffuseMap = _waterTexture;
-                    SurfaceEffect = SurfaceEffect.FixedFunction;
+                    SurfaceShader = null;
                 }
                 else SurfaceShader = Engine.SimpleWaterShader;
                 break;

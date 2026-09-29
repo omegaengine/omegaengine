@@ -74,11 +74,12 @@ public class FloatingModel : Model
             _ => transform * camera.SimpleView * Matrix.Translation((Vector3)Position)
         };
 
-        // Never light a floating model
-        SurfaceEffect = SurfaceEffect.Plain;
-
         for (int i = 0; i < NumberSubsets; i++)
-            RenderSubset(i, camera, getEffectiveLights: null);
+            RenderSubset(i, camera, getEffectiveLights: null, GetEffectiveSurfaceEffect(getEffectiveLights: null));
     }
+
+    /// <inheritdoc/>
+    protected override SurfaceEffect GetEffectiveSurfaceEffect(GetEffectiveLights? getEffectiveLights)
+        => SurfaceEffect.Plain;
     #endregion
 }

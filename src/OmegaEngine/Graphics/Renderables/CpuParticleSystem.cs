@@ -365,8 +365,7 @@ public class CpuParticleSystem : PositionableRenderable
         // Reload textures when they change
         if (Preset.TexturesDirty) UpdateSpriteTextures();
 
-        // Never light a particle system
-        SurfaceEffect = SurfaceEffect.Plain;
+        // Note: Particle systems are never lit, regardless of SurfaceEffect.
 
         // Note: No user clip plane here, even if camera.ClipPlane is set.
         // Fixed-function draws with world-space clip planes make drivers mis-clip subsequent shader draws that use clip-space planes (e.g. terrain blocks vanishing in water views).

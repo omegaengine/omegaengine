@@ -205,6 +205,7 @@ public partial class Model : PositionableRenderable
 
         Engine.State.WorldTransform = WorldTransform;
 
+        var surfaceEffect = GetEffectiveSurfaceEffect(getEffectiveLights);
         bool firstClippedSubsetRendered = false;
         for (int i = 0; i < NumberSubsets; i++)
         {
@@ -218,18 +219,18 @@ public partial class Model : PositionableRenderable
                 if (boundingBox is {} box && !camera.InFrustum(box, ignoreFarClip)) continue;
             }
 
-            RenderSubset(i, camera, getEffectiveLights);
+            RenderSubset(i, camera, getEffectiveLights, surfaceEffect);
 
             if (camera.ClipPlane != default && !firstClippedSubsetRendered)
             {
                 // Drivers may apply user-clip-plane changes one clip-enabled draw late, so the first clipped draw can go out with a stale plane.
                 // Render the first subset again: the repeat runs with the now-latched current plane and fills in any missing pixels.
-                RenderSubset(i, camera, getEffectiveLights);
+                RenderSubset(i, camera, getEffectiveLights, surfaceEffect);
                 firstClippedSubsetRendered = true;
             }
 
             // Draw per-subset bounding bodies
-            if (SurfaceEffect < SurfaceEffect.Glow)
+            if (surfaceEffect < SurfaceEffect.Glow)
             {
                 if (DrawBoundingSphere && boundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
                 if (DrawBoundingBox && boundingBox is {} box) Engine.DrawBoundingBox(box);
@@ -237,18 +238,25 @@ public partial class Model : PositionableRenderable
         }
     }
 
-    protected virtual void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights)
+    /// <summary>
+    /// Renders a single subset of the <see cref="Mesh"/>.
+    /// </summary>
+    /// <param name="i">The index of the subset to render.</param>
+    /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
+    /// <param name="getEffectiveLights">A delegate that will be called to get lighting information. <c>null</c> if lighting is disabled.</param>
+    /// <param name="surfaceEffect">The surface effect to apply in this render call, from <see cref="PositionableRenderable.GetEffectiveSurfaceEffect"/>.</param>
+    protected virtual void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights, SurfaceEffect surfaceEffect)
     {
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
             // Load the subset-material (default to first one, if the subset has no own)
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-            var effectiveLights = SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader && getEffectiveLights != null
+            var effectiveLights = surfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader && getEffectiveLights != null
                 ? getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), ShadowReceiver)
                 : [];
 
-            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLights);
+            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLights, surfaceEffect);
         }
     }
     #endregion

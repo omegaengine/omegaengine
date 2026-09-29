@@ -277,17 +277,21 @@ public partial class Terrain : Model
     #endregion
 
     #region Render
-    protected override void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights)
+    /// <inheritdoc/>
+    /// <remarks>Rendering this without a shader isn't possible (non-standard FVF).</remarks>
+    protected override SurfaceEffect GetEffectiveSurfaceEffect(GetEffectiveLights? getEffectiveLights)
+        => SurfaceEffect < SurfaceEffect.Shader ? SurfaceEffect.Shader : SurfaceEffect;
+
+    /// <inheritdoc/>
+    protected override void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights, SurfaceEffect surfaceEffect)
     {
-        // Rendering this without a shader isn't possible (non-standard FVF)
-        if (SurfaceEffect < SurfaceEffect.Shader) SurfaceEffect = SurfaceEffect.Shader;
         if (_subsetShaders?[i] is not {} shader) return;
 
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
             Action renderSubset = () => Mesh.DrawSubset(i);
 
-            switch (SurfaceEffect)
+            switch (surfaceEffect)
             {
                 case SurfaceEffect.Glow:
                     // The terrain will always appear completely black on the glow map
@@ -319,7 +323,7 @@ public partial class Terrain : Model
                         ? []
                         : getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), shadowing: false);
 
-                    RenderHelper(renderSubset, currentMaterial, camera, effectiveLights);
+                    RenderHelper(renderSubset, currentMaterial, camera, effectiveLights, surfaceEffect);
                     break;
             }
         }
