@@ -58,16 +58,34 @@ engine.Views.Add(view);
 
 ## Render hierarchy
 
-<xref:OmegaEngine.Graphics.Scene.Positionables> holds the _roots_ of the scene. Every <xref:OmegaEngine.Graphics.Renderables.PositionableRenderable> in turn has a `Children` collection, so renderables can be grouped under a shared transform. <xref:OmegaEngine.Graphics.Renderables.Pivot> is a renderable without geometry meant purely for grouping.
-
-```csharp
-var ship = new Pivot { Position = new(0, 0, 100) };
-ship.Children.Add(new Model(XMesh.Get(engine, "Hull.x")));
-ship.Children.Add(new Model(XMesh.Get(engine, "Engine.x")) { Position = new(0, 0, -5) });
-scene.Positionables.Add(ship);
-```
+<xref:OmegaEngine.Graphics.Scene.Positionables> holds the _roots_ of the scene. Every <xref:OmegaEngine.Graphics.Renderables.PositionableRenderable> in turn has a `Children` collection, so renderables can be grouped under a shared transform.
 
 A root's `Position` is absolute world space, a child's `Position` is an offset in its parent's coordinate system. `WorldPosition` always gives the absolute position.
+
+```csharp
+scene.Positionables.Add(new Model(XMesh.Get(engine, "Spaceship.x"))
+{
+    Position = new(0, 0, 100),
+    Children =
+    {
+        new Model(XMesh.Get(engine, "Engine.x")) { Position = new(0, 0, -5) }
+    }
+});
+```
+
+<xref:OmegaEngine.Graphics.Renderables.Pivot> is a renderable without geometry meant purely for grouping.
+
+```csharp
+scene.Positionables.Add(new Pivot
+{
+    Position = new(0, 0, 100),
+    Children =
+    {
+        new Model(XMesh.Get(engine, "Hull.x")),
+        new Model(XMesh.Get(engine, "Engine.x")) { Position = new(0, 0, -5) }
+    }
+});
+```
 
 Adding a renderable to a collection removes it from its previous one and keeps its local `Position`, `Rotation`, `Scale` and `PreTransform`, i.e. its world position changes to match the new parent.
 
