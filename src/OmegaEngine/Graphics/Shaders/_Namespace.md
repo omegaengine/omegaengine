@@ -70,6 +70,8 @@ These shader files use the file ending `.fx` and are loaded via the <xref:OmegaE
 - Shader Model 3.0 has no integer bit operations. Test bits of a mask with division and modulo instead (see below).
 - Provide defaults with `#ifndef`, so that the file can also be compiled standalone with `fxc.exe` for testing.
 
+Compiling takes a while, so the resulting bytecode is stored in a <xref:OmegaEngine.Graphics.Shaders.ShaderCache> on disk. The cache key includes the source code, the defines and the compiler version, so modified or modded `.fx` files are recompiled automatically. Set <xref:OmegaEngine.Graphics.Shaders.DynamicShader.Cache> to `null` to always compile.
+
 ### Sample
 
 The <xref:OmegaEngine.Graphics.Shaders.TerrainShader> class compiles `Terrain.fx` once for each combination of textures a terrain subset uses, with the defines `LIGHTING` (`0` or `1`) and `TEXTURE_MASK` (a bitmask of the used textures).

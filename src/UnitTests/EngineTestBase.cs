@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
+using OmegaEngine.Graphics.Shaders;
 using Xunit;
 
 namespace OmegaEngine;
@@ -25,6 +26,9 @@ public abstract class EngineTestBase : IDisposable
     static EngineTestBase()
     {
         ContentManager.BaseDir = new DirectoryInfo(GetContentDir());
+
+        // Always compile, rather than depending on and adding to the user's shader cache
+        DynamicShader.Cache = null;
     }
 
     private static string GetContentDir([CallerFilePath] string thisFile = "")

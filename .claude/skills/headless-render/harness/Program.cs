@@ -93,7 +93,8 @@ internal static class Program
             // immediate screenshot catches a half-built scene
             for (int i = 0; i < options.WarmupFrames; i++)
             {
-                engine.Render(elapsedGameTime: 0, noPresent: true);
+                // Advance the game time (for time-animated shaders) in the first frame only, so the result does not depend on the warmup length
+                engine.Render(elapsedGameTime: i == 0 ? options.GameTime : 0, noPresent: true);
                 Application.DoEvents();
             }
 
@@ -237,6 +238,7 @@ internal static class Program
               --no-aniso             Disable anisotropic filtering
               --fog <distance>       Turn on the map's fog, fully obscuring everything beyond <distance>
               --post-shader <n>[,..] Add post-screen shaders by short name, e.g. Sepia,Bleach,RadialBlur
+              --time <seconds>       Advance the game time before capturing, for time-animated effects (default: 0)
               --dump-render-targets  Also write the child views' textures as PNG
               --seed <n>             Seed the random numbers (particle systems) for repeatable images
             """;
@@ -256,6 +258,7 @@ internal static class Program
         public bool Anisotropic = true;
         public float? FogDistance;
         public IReadOnlyList<string> PostShaders = [];
+        public double GameTime;
         public bool DumpRenderTargets;
         public int? Seed;
 
@@ -282,6 +285,7 @@ internal static class Program
                     case "--no-aniso": options.Anisotropic = false; break;
                     case "--fog": options.FogDistance = ParseFloat(Next()); break;
                     case "--post-shader": options.PostShaders = Next().Split(','); break;
+                    case "--time": options.GameTime = ParseFloat(Next()); break;
                     case "--dump-render-targets": options.DumpRenderTargets = true; break;
                     case "--seed": options.Seed = int.Parse(Next(), CultureInfo.InvariantCulture); break;
                     default: throw new ArgumentException($"Unknown argument: {args[i]}");

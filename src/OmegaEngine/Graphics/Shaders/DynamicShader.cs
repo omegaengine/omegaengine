@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NanoByte.Common.Storage;
 using NanoByte.Common.Streams;
 using OmegaEngine.Foundation.Storage;
 using SlimDX;
@@ -25,7 +26,25 @@ namespace OmegaEngine.Graphics.Shaders;
 public static class DynamicShader
 {
     /// <summary>
-    /// Loads a dynamic shader file via the <see cref="ContentManager"/> and compiles it.
+    /// Caches compiled shaders on disk across application runs; <c>null</c> to always compile.
+    /// </summary>
+    public static ShaderCache? Cache { get; set; } = CreateDefaultCache();
+
+    private static ShaderCache? CreateDefaultCache()
+    {
+        try
+        {
+            return new(Locations.GetCacheDirPath("OmegaEngine", machineWide: false, "Shaders"));
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            Log.Warn("Shader cache unavailable", ex);
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Loads a dynamic shader file via the <see cref="ContentManager"/> and compiles it, or gets it from the <see cref="Cache"/>.
     /// </summary>
     /// <param name="id">The ID of the shader to be loaded</param>
     /// <param name="defines">Preprocessor macros (name and definition) that select the variant of the shader to compile</param>
@@ -38,7 +57,10 @@ public static class DynamicShader
         if (defines == null) throw new ArgumentNullException(nameof(defines));
         #endregion
 
-        return Compile(File.ReadAllText(ContentManager.GetFilePath("Graphics/Shaders", id)), defines);
+        string source = File.ReadAllText(ContentManager.GetFilePath("Graphics/Shaders", id));
+        return Cache is {} cache
+            ? cache.GetOrAdd(source, defines, () => Compile(source, defines))
+            : Compile(source, defines);
     }
 
     private static byte[] Compile(string fxCode, IReadOnlyDictionary<string, string> defines)
