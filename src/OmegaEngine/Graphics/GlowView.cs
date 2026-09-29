@@ -6,9 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Drawing;
-using OmegaEngine.Graphics.Renderables;
 
 namespace OmegaEngine.Graphics;
 
@@ -27,19 +25,5 @@ public sealed class GlowView : SpecialView
     }
 
     /// <inheritdoc/>
-    protected override void RenderBody(PositionableRenderable body)
-    {
-        #region Sanity checks
-        if (body == null) throw new ArgumentNullException(nameof(body));
-        #endregion
-
-        // Backup the current surface effect and replace it by a special one for glow
-        var surfaceEffect = body.SurfaceEffect;
-        body.SurfaceEffect = SurfaceEffect.Glow;
-
-        base.RenderBody(body);
-
-        // Restore the original surface effect
-        body.SurfaceEffect = surfaceEffect;
-    }
+    internal override RenderPass Pass => RenderPass.Glow;
 }

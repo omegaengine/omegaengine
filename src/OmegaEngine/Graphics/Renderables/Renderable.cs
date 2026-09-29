@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using SlimDX.Direct3D9;
-using OmegaEngine.Graphics.Cameras;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -111,9 +110,8 @@ public abstract class Renderable : EngineElement, IFrameResettable
     /// <summary>
     /// To be called when this object ist to be rendered.
     /// </summary>
-    /// <param name="camera">Supplies information for the view transformation.</param>
-    /// <param name="getEffectiveLights">A delegate that will be called to get lighting information. <c>null</c> if lighting is disabled.</param>
-    internal virtual void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+    /// <param name="context">Information about the current render pass.</param>
+    internal virtual void Render(RenderContext context)
     {
         PrepareRender();
     }

@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Storage;
-using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX.Direct3D9;
 
@@ -83,9 +82,9 @@ public sealed class SimpleSkybox : Skybox
     }
 
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+    internal override void Render(RenderContext context)
     {
-        base.Render(camera, getEffectiveLights);
+        base.Render(context);
 
         Engine.State.SetVertexBuffer(_vb);
         Engine.Device.Indices = _ib;

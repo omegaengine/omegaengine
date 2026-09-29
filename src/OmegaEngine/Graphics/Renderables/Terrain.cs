@@ -13,7 +13,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using OmegaEngine.Foundation.Geometry;
-using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
 using SlimDX;
@@ -275,12 +274,14 @@ public partial class Terrain : Model
 
     #region Render
     /// <inheritdoc/>
-    /// <remarks>Rendering this without a shader isn't possible (non-standard FVF).</remarks>
-    protected override SurfaceEffect GetEffectiveSurfaceEffect(GetEffectiveLights? getEffectiveLights)
-        => SurfaceEffect < SurfaceEffect.Shader ? SurfaceEffect.Shader : SurfaceEffect;
+    /// <remarks>Rendering this without a shader isn't possible (non-standard FVF), so it always uses the subset's <see cref="TerrainShader"/>, even if lighting is disabled.</remarks>
+    private protected override SurfaceEffect GetSurfaceEffect(RenderContext context, SurfaceShader? shader)
+        => RenderContext.GetSurfaceEffect(
+            configured: SurfaceEffect < SurfaceEffect.Shader ? SurfaceEffect.Shader : SurfaceEffect,
+            context.Pass, lighting: true, shaderAvailable: true);
 
     /// <inheritdoc/>
-    protected override void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights, SurfaceEffect surfaceEffect)
+    private protected override void RenderSubset(int i, RenderContext context)
     {
         if (_subsetShaders[i] is not {} shader) return;
 
@@ -288,39 +289,28 @@ public partial class Terrain : Model
         {
             Action renderSubset = () => Mesh.DrawSubset(i);
 
-            switch (surfaceEffect)
+            switch (GetSurfaceEffect(context, shader))
             {
                 case SurfaceEffect.Glow:
                     // The terrain will always appear completely black on the glow map
                     using (new ProfilerEvent(() => $"Apply black {shader}"))
-                        shader.Apply(renderSubset, XMaterial.Default, camera);
+                        shader.Apply(renderSubset, XMaterial.Default, context.Camera);
                     break;
 
                 case SurfaceEffect.Depth:
                     using (new ProfilerEvent(() => $"Apply depth {shader}"))
-                    {
-                        shader.RenderDepthOnly = true;
-                        try
-                        {
-                            shader.Apply(renderSubset, XMaterial.Default, camera);
-                        }
-                        finally
-                        {
-                            shader.RenderDepthOnly = false;
-                        }
-                    }
+                        shader.ApplyDepth(renderSubset, context.Camera);
                     break;
 
                 default:
                     // Apply the regular terrain shader
-                    SurfaceShader = shader;
                     XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-                    var effectiveLights = getEffectiveLights == null
-                        ? []
-                        : getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), shadowing: false);
+                    var effectiveLights = context.Lights is {} getEffectiveLights
+                        ? getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), shadowing: false)
+                        : [];
 
-                    RenderHelper(renderSubset, currentMaterial, camera, effectiveLights, surfaceEffect);
+                    RenderHelper(renderSubset, currentMaterial, context, shader, effectiveLights);
                     break;
             }
         }

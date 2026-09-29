@@ -163,9 +163,9 @@ public class EngineSrgbRenderTest : EngineTestBase
     /// <summary>A <see cref="CpuParticleSystem"/> that reports device state right after rendering its particles.</summary>
     private sealed class ProbingParticleSystem(System.Action sampleAfter) : CpuParticleSystem
     {
-        internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+        internal override void Render(RenderContext context)
         {
-            base.Render(camera, getEffectiveLights);
+            base.Render(context);
             sampleAfter();
         }
     }
@@ -173,9 +173,9 @@ public class EngineSrgbRenderTest : EngineTestBase
     /// <summary>A <see cref="PositionableRenderable"/> that only reports device state while the scene pass runs.</summary>
     private sealed class Probe(System.Action sample) : PositionableRenderable
     {
-        internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+        internal override void Render(RenderContext context)
         {
-            base.Render(camera, getEffectiveLights);
+            base.Render(context);
             sample();
         }
     }

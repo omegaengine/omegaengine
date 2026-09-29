@@ -12,7 +12,6 @@ using SlimDX;
 using SlimDX.Direct3D9;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Light;
-using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
 using Resources = OmegaEngine.Properties.Resources;
@@ -22,6 +21,7 @@ namespace OmegaEngine.Graphics.Renderables;
 /// <summary>
 /// Displays a water plane with reflections and refraction
 /// </summary>
+/// <remarks>The transparency and shader are determined by <see cref="EngineEffects.WaterEffects"/>; <see cref="Renderable.Alpha"/> and <see cref="PositionableRenderable.SurfaceShader"/> are ignored.</remarks>
 public class Water : Model
 {
     #region Variables
@@ -104,55 +104,69 @@ public class Water : Model
         _viewSource = WaterViewSource.FromEngine(Engine, WorldPosition.Y, view, clipTolerance);
         RequiredViews.Add(_viewSource.RefractedView);
         RequiredViews.Add(_viewSource.ReflectedView);
+
+        // Make sure the shaders are ready for use (disposed by the view source)
+        RegisterChild(_viewSource.RefractionOnlyShader, autoDispose: false);
+        RegisterChild(_viewSource.RefractionReflectionShader, autoDispose: false);
     }
     #endregion
 
     #region Render
+    /// <summary>
+    /// The <see cref="EngineEffects.WaterEffects"/> <see cref="_appearance"/> was resolved for; <c>null</c> if it has not been resolved yet.
+    /// </summary>
+    private WaterEffectsType? _appearanceEffects;
+
+    /// <summary>
+    /// How to render the water surface, based on <see cref="EngineEffects.WaterEffects"/>.
+    /// </summary>
+    /// <remarks>Used instead of <see cref="Renderable.Alpha"/> and <see cref="PositionableRenderable.SurfaceShader"/>.</remarks>
+    private (int Alpha, SurfaceShader Shader) _appearance;
+
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+    internal override void Render(RenderContext context)
     {
+        if (_viewSource == null) throw new InvalidOperationException($"Must call {nameof(SetupChildViews)} before rendering {nameof(Water)}.");
+
+        // Only re-resolve when the effects settings change instead of every frame
+        var waterEffects = Engine.Effects.WaterEffects;
+        if (_appearanceEffects != waterEffects)
+        {
+            _appearance = GetAppearance(waterEffects, _viewSource);
+            _appearanceEffects = waterEffects;
+        }
+        var (alpha, shader) = _appearance;
+
         // Note: Doesn't call base methods
         PrepareRender();
+        Engine.State.AlphaBlend = alpha;
         Engine.State.WorldTransform = WorldTransform;
 
-        SelectShader();
+        // Transfer the reflection view matrix to the shader
+        _viewSource.RefractionReflectionShader.ReflectionViewProjection = _viewSource.ReflectedView.Camera.ViewProjection;
 
-        var surfaceEffect = GetEffectiveSurfaceEffect(getEffectiveLights);
-        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], camera, effectiveLights: [], surfaceEffect);
-        if (DrawBoundingBox && WorldBoundingBox is {} box && surfaceEffect < SurfaceEffect.Glow)
+        RenderHelper(() => Mesh.DrawSubset(0), Materials[0], context, shader, effectiveLights: []);
+        if (DrawBoundingBox && WorldBoundingBox is {} box && GetSurfaceEffect(context, shader) < SurfaceEffect.Glow)
             Engine.DrawBoundingBox(box);
     }
 
+    /// <summary>
+    /// Determines how to render the water surface.
+    /// </summary>
+    private (int Alpha, SurfaceShader Shader) GetAppearance(WaterEffectsType waterEffects, WaterViewSource viewSource)
+        => waterEffects switch
+        {
+            WaterEffectsType.None => (128, Engine.SimpleWaterShader),
+            WaterEffectsType.RefractionOnly => (EngineState.Opaque, viewSource.RefractionOnlyShader),
+            _ => (EngineState.Opaque, viewSource.RefractionReflectionShader)
+        };
+
     /// <inheritdoc/>
     /// <remarks>Rendering this without a shader isn't possible (non-standard FVF).</remarks>
-    protected override SurfaceEffect GetEffectiveSurfaceEffect(GetEffectiveLights? getEffectiveLights)
-        => SurfaceEffect < SurfaceEffect.Shader ? SurfaceEffect.Shader : SurfaceEffect;
-
-    private void SelectShader()
-    {
-        if (_viewSource == null) throw new InvalidOperationException($"Must call ${nameof(SetupChildViews)} before rendering {nameof(Water)}.");
-
-        switch (Engine.Effects.WaterEffects)
-        {
-            case WaterEffectsType.None:
-                Alpha = 128;
-                SurfaceShader = Engine.SimpleWaterShader;
-                break;
-            case WaterEffectsType.RefractionOnly:
-                Alpha = EngineState.Opaque;
-                SurfaceShader = _viewSource.RefractionOnlyShader;
-                break;
-            case WaterEffectsType.ReflectTerrain:
-            case WaterEffectsType.ReflectAll:
-                Alpha = EngineState.Opaque;
-                SurfaceShader = _viewSource.RefractionReflectionShader;
-                break;
-        }
-
-        // Transfer the reflection view matrix and the current time value to the shader
-        if (_viewSource != null)
-            _viewSource.RefractionReflectionShader.ReflectionViewProjection = _viewSource.ReflectedView.Camera.ViewProjection;
-    }
+    private protected override SurfaceEffect GetSurfaceEffect(RenderContext context, SurfaceShader? shader)
+        => RenderContext.GetSurfaceEffect(
+            configured: SurfaceEffect < SurfaceEffect.Shader ? SurfaceEffect.Shader : SurfaceEffect,
+            context.Pass, lighting: true, shaderAvailable: shader != null);
     #endregion
 
     //--------------------//

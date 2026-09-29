@@ -32,12 +32,6 @@ public class TerrainShader : LightingShader
 
     private readonly bool _lighting;
     private readonly byte[] _effectCode;
-
-    /// <summary>
-    /// When set to <c>true</c> before calling <see cref="Apply"/>, causes the shader's technique selection to be overridden to output normalized camera-relative depth as a grayscale color instead of its normal appearance.
-    /// </summary>
-    /// <seealso cref="SurfaceEffect.Depth"/>
-    internal bool RenderDepthOnly { get; set; }
     #endregion
 
     #region Properties
@@ -93,9 +87,7 @@ public class TerrainShader : LightingShader
         #endregion
 
         #region Auto-select technique
-        if (RenderDepthOnly)
-            Effect.Technique = _depth;
-        else if (lights.Count == 0 && _lighting)
+        if (lights.Count == 0 && _lighting)
             Effect.Technique = _black;
         else if (!_lighting)
             Effect.Technique = _simple;
@@ -103,6 +95,31 @@ public class TerrainShader : LightingShader
             Effect.Technique = Engine.Effects.DetailMapping ? _lightDetail : _light;
         #endregion
 
+        ApplyTechnique(render, material, camera, lights);
+    }
+
+    /// <summary>
+    /// Applies the shader to the content in the render delegate, outputting normalized camera-relative depth as a grayscale color instead of its normal appearance.
+    /// </summary>
+    /// <param name="render">The render delegate (is called once for every shader pass).</param>
+    /// <param name="camera">The camera for transformation information.</param>
+    /// <seealso cref="SurfaceEffect.Depth"/>
+    internal void ApplyDepth([InstantHandle] Action render, Camera camera)
+    {
+        #region Sanity checks
+        if (render == null) throw new ArgumentNullException(nameof(render));
+        if (camera == null) throw new ArgumentNullException(nameof(camera));
+        #endregion
+
+        Effect.Technique = _depth;
+        ApplyTechnique(render, XMaterial.Default, camera, lights: []);
+    }
+
+    /// <summary>
+    /// Applies the shader with the previously selected technique.
+    /// </summary>
+    private void ApplyTechnique([InstantHandle] Action render, XMaterial material, Camera camera, IReadOnlyList<LightSource> lights)
+    {
         if (_lighting) base.Apply(render, material, camera, lights);
         else base.Apply(render, material, camera);
     }

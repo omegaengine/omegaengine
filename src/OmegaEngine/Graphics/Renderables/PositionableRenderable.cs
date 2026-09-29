@@ -746,18 +746,17 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+    internal override void Render(RenderContext context)
     {
         #region Sanity checks
         if (IsDisposed) throw new ObjectDisposedException(ToString());
-        if (camera == null) throw new ArgumentNullException(nameof(camera));
         #endregion
 
         // Note: Assumes IsVisible() was called in this frame, which in turn triggered UpdateInternalTransformations()
 
-        base.Render(camera, getEffectiveLights);
+        base.Render(context);
 
-        if (GetEffectiveSurfaceEffect(getEffectiveLights) < SurfaceEffect.Glow)
+        if (GetSurfaceEffect(context, SurfaceShader) < SurfaceEffect.Glow)
         {
             if (DrawBoundingSphere && WorldBoundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
             if (DrawBoundingBox && WorldBoundingBox is {} box) Engine.DrawBoundingBox(box);
@@ -765,18 +764,12 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
-    /// Determines the <see cref="SurfaceEffect"/> to actually apply in a single render call.
+    /// Determines the surface effect to actually apply in a render pass, without modifying <see cref="SurfaceEffect"/>.
     /// </summary>
-    /// <param name="getEffectiveLights">A delegate that will be called to get lighting information. <c>null</c> if lighting is disabled.</param>
-    /// <remarks>
-    /// Must not modify <see cref="SurfaceEffect"/>, since the same body may be rendered in multiple <see cref="View"/>s with different settings (e.g. <see cref="View.Lighting"/>).
-    /// <see cref="RenderHelper"/> additionally falls back from <see cref="SurfaceEffect.Shader"/> to <see cref="SurfaceEffect.FixedFunction"/> if no <see cref="SurfaceShader"/> is set.
-    /// </remarks>
-    protected virtual SurfaceEffect GetEffectiveSurfaceEffect(GetEffectiveLights? getEffectiveLights)
-        // Fall back to plain rendering if lighting is disabled
-        => getEffectiveLights == null && SurfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader
-            ? SurfaceEffect.Plain
-            : SurfaceEffect;
+    /// <param name="context">Information about the current render pass.</param>
+    /// <param name="shader">The shader to apply for <see cref="Renderables.SurfaceEffect.Shader"/>; <c>null</c> if there is none.</param>
+    private protected virtual SurfaceEffect GetSurfaceEffect(RenderContext context, SurfaceShader? shader)
+        => context.GetSurfaceEffect(SurfaceEffect, shaderAvailable: shader != null);
 
     private void UpdateInternalTransformations(Camera camera)
     {
@@ -824,22 +817,28 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     /// <param name="render">A delegate that will be called once per rendering pass to display the actual content.</param>
     /// <param name="material">The material to apply to everything rendered.</param>
-    /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
+    /// <param name="context">Information about the current render pass.</param>
+    /// <param name="shader">The shader to apply for <see cref="Renderables.SurfaceEffect.Shader"/>; <c>null</c> if there is none.</param>
     /// <param name="effectiveLights">The currently effective lighting information for the renderable's position.</param>
-    /// <param name="surfaceEffect">The surface effect to apply in this render call, usually from <see cref="GetEffectiveSurfaceEffect"/>.</param>
-    protected void RenderHelper([InstantHandle] Action render, XMaterial material, Camera camera, IReadOnlyList<LightSource> effectiveLights, SurfaceEffect surfaceEffect)
+    private protected void RenderHelper([InstantHandle] Action render, XMaterial material, RenderContext context, SurfaceShader? shader, IReadOnlyList<LightSource> effectiveLights)
     {
         #region Sanity checks
         if (render == null) throw new ArgumentNullException(nameof(render));
-        if (camera == null) throw new ArgumentNullException(nameof(camera));
         #endregion
 
-        // Fall back to fixed-function pipeline if no shader was set for this body
-        if (surfaceEffect == SurfaceEffect.Shader && SurfaceShader == null)
-            surfaceEffect = SurfaceEffect.FixedFunction;
+        var surfaceEffect = GetSurfaceEffect(context, shader);
 
-        SetEngineState(material);
-        SetEngineState(camera, surfaceEffect);
+        // Set texture
+        Engine.State.SetTexture(material.DiffuseMap);
+        Engine.State.SrgbTexture = true; // Diffuse maps hold color data
+
+        // Activate user clip plane if it is set.
+        // Only do this for shader-based rendering (transformed into camera space):
+        // Mixing fixed-function draws (world-space plane) and shader draws (clip-space plane) makes drivers mis-clip the first shader draw after a fixed-function one, wiping out entire draw calls.
+        // Bodies rendered without shaders are still culled against the clip plane at the body level by the view frustum check.
+        var camera = context.Camera;
+        if (camera.ClipPlane != default && surfaceEffect == SurfaceEffect.Shader)
+            Engine.State.UserClipPlane = Plane.Transform(camera.EffectiveClipPlane, camera.ViewProjection);
 
         switch (surfaceEffect)
         {
@@ -853,7 +852,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 RenderFixedFunction(render, material, effectiveLights);
                 break;
             case SurfaceEffect.Shader:
-                RenderShader(render, material, camera, effectiveLights);
+                RenderShader(render, material, camera, shader, effectiveLights);
                 break;
             case SurfaceEffect.Depth:
                 RenderDepth(render, material, camera);
@@ -861,23 +860,6 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
 
         Engine.State.UserClipPlane = default;
-    }
-
-    private void SetEngineState(XMaterial material)
-    {
-        // Set texture
-        Engine.State.SetTexture(material.DiffuseMap);
-        Engine.State.SrgbTexture = true; // Diffuse maps hold color data
-    }
-
-    private void SetEngineState(Camera camera, SurfaceEffect surfaceEffect)
-    {
-        // Activate user clip plane if it is set.
-        // Only do this for shader-based rendering (transformed into camera space):
-        // Mixing fixed-function draws (world-space plane) and shader draws (clip-space plane) makes drivers mis-clip the first shader draw after a fixed-function one, wiping out entire draw calls.
-        // Bodies rendered without shaders are still culled against the clip plane at the body level by the view frustum check.
-        if (camera.ClipPlane != default && surfaceEffect == SurfaceEffect.Shader)
-            Engine.State.UserClipPlane = Plane.Transform(camera.EffectiveClipPlane, camera.ViewProjection);
     }
 
     private void RenderPlain([InstantHandle] Action render, XMaterial material)
@@ -951,16 +933,16 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    private void RenderShader([InstantHandle] Action render, XMaterial material, Camera camera, IReadOnlyList<LightSource> lights)
+    private void RenderShader([InstantHandle] Action render, XMaterial material, Camera camera, SurfaceShader? shader, IReadOnlyList<LightSource> lights)
     {
         using (new ProfilerEvent("Surface effect: Shader"))
         {
             Engine.State.FfpLighting = false;
 
-            if (SurfaceShader != null)
+            if (shader != null)
             {
-                using (new ProfilerEvent(() => $"Apply {SurfaceShader}"))
-                    SurfaceShader.Apply(render, material, camera, lights);
+                using (new ProfilerEvent(() => $"Apply {shader}"))
+                    shader.Apply(render, material, camera, lights);
             }
         }
     }

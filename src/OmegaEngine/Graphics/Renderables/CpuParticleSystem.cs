@@ -358,20 +358,18 @@ public class CpuParticleSystem : PositionableRenderable
     }
 
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+    internal override void Render(RenderContext context)
     {
-        base.Render(camera, getEffectiveLights);
+        base.Render(context);
 
         // Reload textures when they change
         if (Preset.TexturesDirty) UpdateSpriteTextures();
 
-        // Note: Particle systems are never lit, regardless of SurfaceEffect.
-
-        // Note: No user clip plane here, even if camera.ClipPlane is set.
+        // Note: Particle systems are never lit, and there is no user clip plane here, even if camera.ClipPlane is set.
         // Fixed-function draws with world-space clip planes make drivers mis-clip subsequent shader draws that use clip-space planes (e.g. terrain blocks vanishing in water views).
         // Particle systems are still culled against the clip plane at the body level by the view frustum check.
 
-        RenderParticles(camera);
+        RenderParticles(context.Camera);
 
         // Restore defaults
         Engine.State.ZBufferMode = ZBufferMode.Normal;

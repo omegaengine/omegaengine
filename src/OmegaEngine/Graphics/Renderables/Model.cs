@@ -10,7 +10,6 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using OmegaEngine.Assets;
-using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -199,13 +198,14 @@ public partial class Model : PositionableRenderable
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+    internal override void Render(RenderContext context)
     {
-        base.Render(camera, getEffectiveLights);
+        base.Render(context);
 
         Engine.State.WorldTransform = WorldTransform;
 
-        var surfaceEffect = GetEffectiveSurfaceEffect(getEffectiveLights);
+        var camera = context.Camera;
+        bool drawBoundingBodies = GetSurfaceEffect(context, SurfaceShader) < SurfaceEffect.Glow;
         bool firstClippedSubsetRendered = false;
         for (int i = 0; i < NumberSubsets; i++)
         {
@@ -219,18 +219,18 @@ public partial class Model : PositionableRenderable
                 if (boundingBox is {} box && !camera.InFrustum(box, ignoreFarClip)) continue;
             }
 
-            RenderSubset(i, camera, getEffectiveLights, surfaceEffect);
+            RenderSubset(i, context);
 
             if (camera.ClipPlane != default && !firstClippedSubsetRendered)
             {
                 // Drivers may apply user-clip-plane changes one clip-enabled draw late, so the first clipped draw can go out with a stale plane.
                 // Render the first subset again: the repeat runs with the now-latched current plane and fills in any missing pixels.
-                RenderSubset(i, camera, getEffectiveLights, surfaceEffect);
+                RenderSubset(i, context);
                 firstClippedSubsetRendered = true;
             }
 
             // Draw per-subset bounding bodies
-            if (surfaceEffect < SurfaceEffect.Glow)
+            if (drawBoundingBodies)
             {
                 if (DrawBoundingSphere && boundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
                 if (DrawBoundingBox && boundingBox is {} box) Engine.DrawBoundingBox(box);
@@ -242,21 +242,19 @@ public partial class Model : PositionableRenderable
     /// Renders a single subset of the <see cref="Mesh"/>.
     /// </summary>
     /// <param name="i">The index of the subset to render.</param>
-    /// <param name="camera">The currently effective <see cref="Camera"/>.</param>
-    /// <param name="getEffectiveLights">A delegate that will be called to get lighting information. <c>null</c> if lighting is disabled.</param>
-    /// <param name="surfaceEffect">The surface effect to apply in this render call, from <see cref="PositionableRenderable.GetEffectiveSurfaceEffect"/>.</param>
-    protected virtual void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights, SurfaceEffect surfaceEffect)
+    /// <param name="context">Information about the current render pass.</param>
+    private protected virtual void RenderSubset(int i, RenderContext context)
     {
         using (new ProfilerEvent(() => $"Subset {i}"))
         {
             // Load the subset-material (default to first one, if the subset has no own)
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
-            var effectiveLights = surfaceEffect is SurfaceEffect.FixedFunction or SurfaceEffect.Shader && getEffectiveLights != null
+            var effectiveLights = GetSurfaceEffect(context, SurfaceShader) is SurfaceEffect.FixedFunction or SurfaceEffect.Shader && context.Lights is {} getEffectiveLights
                 ? getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), ShadowReceiver)
                 : [];
 
-            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, camera, effectiveLights, surfaceEffect);
+            RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, context, SurfaceShader, effectiveLights);
         }
     }
     #endregion

@@ -151,7 +151,7 @@ partial class View
                 {
                     // ReSharper disable once AccessToForEachVariableInClosure
                     using (new ProfilerEvent(() => $"Render {model}"))
-                        model.Render(Camera);
+                        model.Render(new(Camera, Pass));
                 }
             }
         }
@@ -210,7 +210,7 @@ partial class View
                 Engine.State.ZBufferMode = ZBufferMode.Off;
                 Engine.State.ViewTransform = Camera.SimpleView;
                 Engine.State.ProjectionTransform = Camera.SimpleProjection;
-                Scene.Skybox.Render(Camera);
+                Scene.Skybox.Render(new(Camera, Pass));
                 Engine.State.ZBufferMode = ZBufferMode.Normal;
             }
         }
@@ -219,6 +219,8 @@ partial class View
     #endregion
 
     #region Render body
+    private GetEffectiveLights? _getEffectiveLights;
+
     /// <summary>
     /// Renders a <see cref="PositionableRenderable"/> from the <see cref="Scene"/>
     /// </summary>
@@ -231,8 +233,11 @@ partial class View
 
         body.SetFloatingOrigin(Camera);
 
+        // Cache the delegate to avoid allocating a new one for every body
+        var lights = Lighting ? (_getEffectiveLights ??= Scene.GetEffectiveLights) : null;
+
         using (new ProfilerEvent(() => $"Render {body}"))
-            body.Render(Camera, Lighting ? Scene.GetEffectiveLights : null);
+            body.Render(new(Camera, Pass, lights));
     }
     #endregion
 

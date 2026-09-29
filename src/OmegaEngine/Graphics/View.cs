@@ -157,6 +157,11 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
     /// </summary>
     /// <seealso cref="EngineState.SrgbWrite"/>
     protected virtual bool SrgbOutput => true;
+
+    /// <summary>
+    /// The kind of output <see cref="RenderScene"/> produces.
+    /// </summary>
+    internal virtual RenderPass Pass => RenderPass.Scene;
     #endregion
 
     #region Content

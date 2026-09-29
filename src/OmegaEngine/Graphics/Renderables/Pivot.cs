@@ -6,8 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using OmegaEngine.Graphics.Cameras;
-
 namespace OmegaEngine.Graphics.Renderables;
 
 /// <summary>
@@ -25,7 +23,7 @@ public sealed class Pivot : PositionableRenderable
     }
 
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+    internal override void Render(RenderContext context)
     {
         // Nothing to draw; children are rendered on their own
     }

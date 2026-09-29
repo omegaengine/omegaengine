@@ -8,6 +8,7 @@
 
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.Shaders;
 using SlimDX;
 using SlimDX.Direct3D9;
 
@@ -60,12 +61,13 @@ public class FloatingModel : Model
 
     #region Render
     /// <inheritdoc/>
-    internal override void Render(Camera camera, GetEffectiveLights? getEffectiveLights = null)
+    internal override void Render(RenderContext context)
     {
         // Note: Doesn't call base methods
         PrepareRender();
 
         // Set floating view transformation
+        var camera = context.Camera;
         Matrix transform = Matrix.Scaling(Scale) * Matrix.RotationQuaternion(Rotation);
         Engine.State.WorldTransform = Billboard switch
         {
@@ -75,11 +77,12 @@ public class FloatingModel : Model
         };
 
         for (int i = 0; i < NumberSubsets; i++)
-            RenderSubset(i, camera, getEffectiveLights: null, GetEffectiveSurfaceEffect(getEffectiveLights: null));
+            RenderSubset(i, context);
     }
 
     /// <inheritdoc/>
-    protected override SurfaceEffect GetEffectiveSurfaceEffect(GetEffectiveLights? getEffectiveLights)
+    /// <remarks>A floating model is never lit.</remarks>
+    private protected override SurfaceEffect GetSurfaceEffect(RenderContext context, SurfaceShader? shader)
         => SurfaceEffect.Plain;
     #endregion
 }
