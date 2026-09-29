@@ -209,7 +209,7 @@ public class XMesh : Asset
                     material.HoldReference();
 
                 // Generate normals (plus tangents if normal/height maps are available)
-                if (needsTangents && engine.Capabilities.PerPixelEffects)
+                if (needsTangents)
                     TexturedMeshUtils.GenerateTBN(engine.Device, ref _mesh, weldVertexes: true);
                 else
                     TexturedMeshUtils.GenerateNormals(engine.Device, ref _mesh);

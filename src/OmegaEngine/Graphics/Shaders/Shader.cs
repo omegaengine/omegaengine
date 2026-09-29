@@ -106,7 +106,13 @@ public enum SemanticID
     ViewProjectionTranspose,
     ViewProjectionInverse,
     ViewProjectionInverseTranspose,
-    FilterMode
+    FilterMode,
+
+    /// <summary>Linear fog parameters: start distance, end distance and 1 if fog is enabled (0 otherwise).</summary>
+    Fog,
+
+    /// <summary>The color of the fog in linear space.</summary>
+    FogColor
 }
 #endregion
 

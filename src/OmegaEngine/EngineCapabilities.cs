@@ -108,35 +108,8 @@ public sealed class EngineCapabilities
         Log.Info(_hardware.ToString());
         #endregion
 
-        #region Pixel shader
-        if (_engineConfig.ForceShaderModel == null)
-        {
-            // Detect pixel shader version (and find subversions of Pixel Shader 2.0)
-            MaxShaderModel = _capabilities.PixelShaderVersion;
-            if (MaxShaderModel == new Version(2, 0) && _capabilities.MaxPixelShader30InstructionSlots >= 96)
-            {
-                if (_capabilities.PS20Caps.TempCount >= 22 &&
-                    _capabilities.PS20Caps.Caps.HasFlag(PixelShaderCaps.ArbitrarySwizzle | PixelShaderCaps.GradientInstructions | PixelShaderCaps.Predication | PixelShaderCaps.NoDependentReadLimit | PixelShaderCaps.NoTextureInstructionLimit))
-                { // Pixel shader 2.0a
-                    MaxShaderModel = new(2, 0, 1);
-                }
-                else if (_capabilities.PS20Caps.TempCount >= 32 &&
-                         _capabilities.PS20Caps.Caps.HasFlag(PixelShaderCaps.NoTextureInstructionLimit))
-                { // Pixel shader 2.0b
-                    MaxShaderModel = new(2, 0, 2);
-                }
-            }
-        }
-        else MaxShaderModel = _engineConfig.ForceShaderModel;
-        #endregion
-
-        #region sRGB
-        // Note: The write query is only meaningful for render-target surfaces, the read query only for textures
-        SrgbWrite = _direct3D.CheckDeviceFormat(_engineConfig.Adapter, DeviceType.Hardware, Format.X8R8G8B8,
-            Usage.RenderTarget | Usage.QuerySrgbWrite, ResourceType.Surface, Format.X8R8G8B8);
-        SrgbRead = _direct3D.CheckDeviceFormat(_engineConfig.Adapter, DeviceType.Hardware, Format.X8R8G8B8,
-            Usage.QuerySrgbRead, ResourceType.Texture, Format.X8R8G8B8);
-        #endregion
+        // Vertex shaders are not checked, since software vertex processing can emulate any version
+        MaxShaderModel = _capabilities.PixelShaderVersion;
 
         // Log GPU capabilities
         Log.Info($"""
@@ -147,13 +120,7 @@ public sealed class EngineCapabilities
                   Vertex Shader Version: {_capabilities.VertexShaderVersion}
                   Pixel Shader Version: {MaxShaderModel}
                   Supported AA: {SupportedAA}
-                  sRGB Read: {SrgbRead}
-                  sRGB Write: {SrgbWrite}
                   """);
-
-        // The engine always renders in linear space and encodes on output; there is no fallback path
-        if (!SrgbRead) Log.Warn("Missing support for sRGB texture sampling; colors will be over-bright");
-        if (!SrgbWrite) Log.Warn("Missing support for sRGB render target writes; the image will come out too dark");
 
         // Ensure support for linear texture filtering
         if (!_capabilities.TextureFilterCaps.HasFlag(FilterCaps.MinLinear | FilterCaps.MagLinear | FilterCaps.MipLinear))
@@ -196,37 +163,15 @@ public sealed class EngineCapabilities
     public bool Anisotropic => (_direct3D.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps).HasFlag(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic);
 
     /// <summary>
-    /// The maximum shader model version to be used (2.a is replaced by 2.0.1, 2.b is replaced by 2.0.2)
+    /// The minimum shader model version the hardware must support for the <see cref="Engine"/> to run.
     /// </summary>
+    public static Version MinShaderModel { get; } = new(3, 0);
+
+    /// <summary>
+    /// The highest pixel shader model version supported by the hardware.
+    /// </summary>
+    /// <seealso cref="MinShaderModel"/>
     public Version MaxShaderModel { get; }
-
-    /// <summary>
-    /// Does the hardware the engine is running on support per-pixel effects?
-    /// </summary>
-    /// <seealso cref="EngineEffects.PerPixelLighting"/>
-    /// <seealso cref="EngineEffects.NormalMapping"/>
-    /// <seealso cref="EngineEffects.PostScreenEffects"/>
-    public bool PerPixelEffects => MaxShaderModel >= new Version(2, 0);
-
-    /// <summary>
-    /// Can the hardware the engine is running on gamma-encode pixels when writing them to a render target?
-    /// </summary>
-    /// <remarks>The engine uses this unconditionally; a <c>false</c> here means the image will come out too dark.</remarks>
-    /// <seealso cref="EngineState.SrgbWrite"/>
-    public bool SrgbWrite { get; }
-
-    /// <summary>
-    /// Can the hardware the engine is running on linearize gamma-encoded textures when sampling them?
-    /// </summary>
-    /// <remarks>The engine uses this unconditionally; a <c>false</c> here means colors will be over-bright.</remarks>
-    /// <seealso cref="EngineState.SrgbTexture"/>
-    public bool SrgbRead { get; }
-
-    /// <summary>
-    /// Does the hardware the engine is running on support detail mapping (sampling textures twice with different texture coordinates)?
-    /// </summary>
-    /// <seealso cref="EngineEffects.DetailMapping"/>
-    public bool DetailMapping => MaxShaderModel >= new Version(2, 0, 1);
     #endregion
 
     #region Resolution check

@@ -33,6 +33,8 @@ the full list (it also lives at the bottom of `harness\Program.cs`). The ones th
 | `--water-effects ReflectAll` | Force a water quality level; the paths differ a lot, so test the one that is broken. |
 | `--no-post` | Disable post-screen effects. Essential for checking that the scene pass is right on its own. |
 | `--seed <n>` | Seed the random numbers, so particle systems (fire, smoke, ...) come out identical across runs and builds. Use it whenever a comparison includes particles. |
+| `--fog <distance>` | Turn on the map's fog. None of the stock maps enable it, so this is the only way to check shader-side fog. |
+| `--post-shader <names>` | Add post-screen shaders by short name (`Sepia`, `Bleach`, `Halo`, `RadialBlur`, `CameraShake`, `ScratchedFilm`, ...). Only glow and color correction are active otherwise. |
 | `--dump-render-targets` | Also write each child view's texture (reflection, refraction, glow) as PNG. |
 
 ## Before/after against another commit

@@ -267,15 +267,6 @@ namespace OmegaEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This shader is not supported by your graphics card..
-        /// </summary>
-        internal static string NotSupportedShader {
-            get {
-                return ResourceManager.GetString("NotSupportedShader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The value must be a real number..
         /// </summary>
         internal static string NumberNotReal {

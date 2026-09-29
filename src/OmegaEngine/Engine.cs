@@ -19,7 +19,6 @@ using OmegaEngine.Audio;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics.Renderables;
-using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Properties;
 using SlimDX.Direct3D9;
 
@@ -141,11 +140,13 @@ public sealed partial class Engine : EngineElement
         {
             _direct3D = new();
             Capabilities = new(_direct3D, config);
+            if (Capabilities.MaxShaderModel < EngineCapabilities.MinShaderModel)
+                throw new NotSupportedException(string.Format(Resources.MinimumShaderModel, EngineCapabilities.MinShaderModel));
 
             // Must happen after Capabilities, because building the presentation parameters enumerates display modes
             Config = config;
 
-            Effects = new(Capabilities)
+            Effects = new()
             {
                 PerPixelLighting = true,
                 NormalMapping = true,
@@ -165,8 +166,7 @@ public sealed partial class Engine : EngineElement
             SetupTextureFiltering();
             Performance = new(Device, RenderPure);
 
-            if (GeneralShader.MinShaderModel <= Capabilities.MaxShaderModel)
-                RegisterChild(DefaultShader = new());
+            RegisterChild(DefaultShader = new());
 
             // Create simple default meshes ready
             SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);

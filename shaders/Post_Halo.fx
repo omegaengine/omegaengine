@@ -189,18 +189,18 @@ technique Main < string Script =
 > {
     pass BlurGlowBuffer_Horz < string Script ="RenderColorTarget0=GlowMap2;" "Draw=Buffer;"; >
     {
-        VertexShader = compile vs_2_0 VS_Quad_Horizontal_9tap();
+        VertexShader = compile vs_3_0 VS_Quad_Horizontal_9tap();
         ZEnable = false;
         ZWriteEnable = false;
         CullMode = None;
-        PixelShader  = compile ps_2_0 PS_Blur_Horizontal_9tap();
+        PixelShader  = compile ps_3_0 PS_Blur_Horizontal_9tap();
     }
     pass BlurGlowBuffer_Vert < string Script = "RenderColorTarget0=; Draw=Buffer;"; >
     {
-        VertexShader = compile vs_2_0 VS_Quad_Vertical_9tap();
+        VertexShader = compile vs_3_0 VS_Quad_Vertical_9tap();
         ZEnable = false;
         ZWriteEnable = false;
         CullMode = None;
-        PixelShader  = compile ps_2_0 PS_Blur_Vertical_9tap();
+        PixelShader  = compile ps_3_0 PS_Blur_Vertical_9tap();
     }
 }

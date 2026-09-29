@@ -33,14 +33,12 @@ public static partial class DynamicShader
     /// <param name="id">The ID of the shader to be loaded</param>
     /// <param name="controllers">A set of int arrays that control the counters; <c>null</c> if there is no sync-code in the shader</param>
     /// <param name="lighting">Optimize the shader for lighting or no lighting</param>
-    /// <param name="capabilities">The rendering capabilities available to the shader</param>
     /// <returns>The compiled shader</returns>
-    public static DataStream FromContent(string id, Dictionary<string, IEnumerable<int>> controllers, bool lighting, EngineCapabilities capabilities)
+    public static DataStream FromContent(string id, Dictionary<string, IEnumerable<int>> controllers, bool lighting)
     {
         #region Sanity checks
         if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
         if (controllers == null) throw new ArgumentNullException(nameof(controllers));
-        if (capabilities == null) throw new ArgumentNullException(nameof(capabilities));
         #endregion
 
         string[] lines = File.ReadAllLines(ContentManager.GetFilePath("Graphics/Shaders", id));
@@ -84,7 +82,7 @@ public static partial class DynamicShader
                                     break;
 
                                 case "BeginFilter":
-                                    filtered = ProcessBeginFilterNode(node, lighting, capabilities);
+                                    filtered = ProcessBeginFilterNode(node, lighting);
                                     break;
 
                                 case "EndFilter":
@@ -156,22 +154,8 @@ public static partial class DynamicShader
     private static string HandleCounters(string source, IEnumerable<Counter> counters, int run)
         => counters.Aggregate(source, (current, counter) => current.Replace($"{{{counter.ID}}}", counter.GetValue(run)));
 
-    private static bool ProcessBeginFilterNode(XmlNode node, bool lighting, EngineCapabilities capabilities)
+    private static bool ProcessBeginFilterNode(XmlNode node, bool lighting)
     {
-        if (node.Attributes["Target"] is {} targetValue)
-        {
-            if (targetValue.Value switch
-                {
-                    "PS14" => capabilities.MaxShaderModel != new Version(1, 4),
-                    "PS20" => capabilities.MaxShaderModel != new Version(2, 0),
-                    "PS2x" => capabilities.MaxShaderModel < new Version(2, 0),
-                    "PS2ab" => capabilities.MaxShaderModel <= new Version(2, 0),
-                    "PS2a" => capabilities.MaxShaderModel != new Version(2, 0, 1),
-                    "PS2b" => capabilities.MaxShaderModel < new Version(2, 0, 2),
-                    _ => false
-                }) return true;
-        }
-
         if (node.Attributes["Lighting"] is {} lightingFlag)
         {
             if (!lighting && lightingFlag.Value == "true")
@@ -188,7 +172,7 @@ public static partial class DynamicShader
         try
         {
             using var compiler = EffectCompiler.FromStream(fxCode.ToStream(), ShaderFlags.None);
-            return compiler.CompileEffect(ShaderFlags.EnableBackwardsCompatibility);
+            return compiler.CompileEffect(ShaderFlags.None);
         }
         catch (Exception ex) when (ex is CompilationException or Direct3D9Exception)
         {

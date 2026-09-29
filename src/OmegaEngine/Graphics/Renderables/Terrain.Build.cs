@@ -43,7 +43,7 @@ partial class Terrain
     /// <param name="subsetShaders">Shaders for all subsets the mesh was split into</param>
     /// <param name="subsetBoundingBoxes">Bounding boxes for all subsets the mesh was split into</param>
     /// <returns>The model that was created</returns>
-    private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid? occlusionIntervalMap, bool lighting, int blockSize, out TerrainShader?[]? subsetShaders, out BoundingBox[] subsetBoundingBoxes)
+    private static Mesh BuildMesh(Engine engine, Size size, float stretchH, float stretchV, ByteGrid heightMap, NibbleGrid textureMap, ByteVector4Grid? occlusionIntervalMap, bool lighting, int blockSize, out TerrainShader?[] subsetShaders, out BoundingBox[] subsetBoundingBoxes)
     {
         #region Sanity checks
         if (heightMap.Width != size.Width || heightMap.Height != size.Height)
@@ -201,10 +201,8 @@ partial class Terrain
         return indexes;
     }
 
-    private static TerrainShader?[]? GetSubsetShaders(Engine engine, bool lighting, ushort[] textureMasks)
+    private static TerrainShader?[] GetSubsetShaders(Engine engine, bool lighting, ushort[] textureMasks)
     {
-        if (TerrainShader.MinShaderModel > engine.Capabilities.MaxShaderModel) return null;
-
         using (new TimedLogEvent("Compiling terrain shaders"))
             return engine.GetTerrainShaders(lighting, textureMasks);
     }

@@ -17,7 +17,6 @@ using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
 using SlimDX;
 using SlimDX.Direct3D9;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -35,11 +34,6 @@ public class WaterShader : SurfaceShader
     #endregion
 
     #region Properties
-    /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public static Version MinShaderModel => new(1, 1);
-
     private Color _dullColor;
 
     /// <summary>
@@ -175,8 +169,6 @@ public class WaterShader : SurfaceShader
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
-        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
-
         LoadShaderFile("Water.fxo");
 
         _reflectionMapHandle = Effect.GetParameter(null, "ReflectionMap");

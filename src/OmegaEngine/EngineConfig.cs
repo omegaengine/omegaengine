@@ -6,7 +6,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Drawing;
 
 namespace OmegaEngine;
@@ -41,9 +40,4 @@ public struct EngineConfig
     /// The level of anti-aliasing to be employed
     /// </summary>
     public int AntiAliasing { get; set; }
-
-    /// <summary>
-    /// Forces the usage of a certain shader model version without checking the hardware capabilities - requires restart to become effective
-    /// </summary>
-    public Version? ForceShaderModel { get; set; }
 }

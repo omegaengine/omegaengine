@@ -4,10 +4,12 @@
 // - Light 1+2: directional
 // - Light 3+4: point or directional
 //
+// All techniques require Shader Model 3.0.
+//
 // Techniques:
-// - RefractionReflection (ps_2_0, 1, refraction and refrection map)
-// - Refraction (ps_2_0, refraction map and scrolling texture)
-// - Simple (ps_1_1, scrolling texture)
+// - RefractionReflection (refraction and reflection map)
+// - Refraction (refraction map and scrolling texture)
+// - Simple (scrolling texture)
 //---------------- Parameters ----------------
 
 // Camera
@@ -37,6 +39,8 @@ float WindForce <
 > = 0.2;
 float4x4 WindDirection;
 float time : Time;
+
+#include <include\\Fog.fxh>
 
 
 //---------------- Texture samplers ----------------
@@ -86,6 +90,7 @@ struct outRefractionReflection
     float2 bumpMapSamplingPos       : TEXCOORD2;
     float3 refractionMapSamplingPos : TEXCOORD3;
     float3 reflectionMapSamplingPos : TEXCOORD4;
+    float fogDepth                  : TEXCOORD5;
 };
 
 struct outRefraction
@@ -96,12 +101,14 @@ struct outRefraction
     float2 texCoord                 : TEXCOORD2;
     float2 bumpMapSamplingPos       : TEXCOORD3;
     float3 refractionMapSamplingPos : TEXCOORD4;
+    float fogDepth                  : TEXCOORD5;
 };
 
 struct outSimple
 {
     float4 pos      : POSITION;
     float2 texCoord : TEXCOORD0;
+    float fogDepth  : TEXCOORD1;
 };
 
 
@@ -132,6 +139,7 @@ outRefractionReflection VS_RefractionReflection(inWater IN)
     // Transform data into world space
     float4x4 worldReflectionViewProjection = mul(world, ReflectionViewProjection);
     OUT.pos = mul(float4(IN.position.xyz, 1.0), worldViewProjection); OUT.worldPos = mul(float4(IN.position.xyz, 1.0), world);
+    OUT.fogDepth = OUT.pos.w;
     OUT.normal = normalize(mul(normalize(IN.normal), world));
     OUT.reflectionMapSamplingPos = mul(IN.position, worldReflectionViewProjection).xyw;
     OUT.refractionMapSamplingPos = mul(IN.position, worldViewProjection).xyw;
@@ -146,6 +154,7 @@ outRefraction VS_Refraction(inWater IN)
 
     // Transform data into world space
     OUT.pos = mul(float4(IN.position.xyz, 1.0), worldViewProjection); OUT.worldPos = mul(float4(IN.position.xyz, 1.0), world);
+    OUT.fogDepth = OUT.pos.w;
     OUT.normal = normalize(mul(normalize(IN.normal), world));
     OUT.texCoord = calcSamplingCoord(IN.texCoord);
     OUT.refractionMapSamplingPos = mul(IN.position, worldViewProjection).xyw;
@@ -160,7 +169,7 @@ outSimple VS_Simple(inWater IN)
 
     // Transform data into world space
     OUT.pos = mul(float4(IN.position.xyz, 1.0), worldViewProjection);
-    OUT.texCoord = calcSamplingCoord(IN.texCoord);
+    OUT.fogDepth = OUT.pos.w;
     OUT.texCoord = calcSamplingCoord(IN.texCoord);
 
     return OUT;
@@ -194,7 +203,8 @@ float4 PS_RefractionReflection(outRefractionReflection IN) : COLOR
     float reflectance = fresnelReflectance(eyeVector, IN.normal);
     float4 combinedColor = lerp(refractiveColor, reflectiveColor, reflectance);
 
-    return DullBlendFactor*DullColor + (1-DullBlendFactor)*combinedColor;
+    float4 color = DullBlendFactor*DullColor + (1-DullBlendFactor)*combinedColor;
+    return float4(applyFog(color.rgb, IN.fogDepth, /*firstPass*/true), color.a);
 }
 
 float4 PS_Refraction(outRefraction IN) : COLOR
@@ -218,13 +228,14 @@ float4 PS_Refraction(outRefraction IN) : COLOR
     float fresnelTerm = dot(eyeVector, IN.normal);
     float4 combinedColor = refractiveColor*fresnelTerm + reflectiveColor*(1-fresnelTerm);
 
-    return DullBlendFactor*DullColor + (1-DullBlendFactor)*combinedColor;
+    float4 color = DullBlendFactor*DullColor + (1-DullBlendFactor)*combinedColor;
+    return float4(applyFog(color.rgb, IN.fogDepth, /*firstPass*/true), color.a);
 }
 
 float4 PS_Simple(outSimple IN) : COLOR
 {
-    // Calculate wave offset for reflection
-    return tex2D(ReflectionSampler, IN.texCoord);
+    float4 color = tex2D(ReflectionSampler, IN.texCoord);
+    return float4(applyFog(color.rgb, IN.fogDepth, /*firstPass*/true), color.a);
 }
 
 
@@ -234,8 +245,8 @@ technique RefractionReflection
 {
   pass p0
   {
-    VertexShader = compile vs_1_1 VS_RefractionReflection();
-    PixelShader = compile ps_2_0 PS_RefractionReflection();
+    VertexShader = compile vs_3_0 VS_RefractionReflection();
+    PixelShader = compile ps_3_0 PS_RefractionReflection();
   }
 }
 
@@ -243,8 +254,8 @@ technique Refraction
 {
   pass p0
   {
-    VertexShader = compile vs_1_1 VS_Refraction();
-    PixelShader = compile ps_2_0 PS_Refraction();
+    VertexShader = compile vs_3_0 VS_Refraction();
+    PixelShader = compile ps_3_0 PS_Refraction();
   }
 }
 
@@ -252,7 +263,7 @@ technique Simple
 {
   pass p0
   {
-    VertexShader = compile vs_1_1 VS_Simple();
-    PixelShader = compile ps_1_1 PS_Simple();
+    VertexShader = compile vs_3_0 VS_Simple();
+    PixelShader = compile ps_3_0 PS_Simple();
   }
 }

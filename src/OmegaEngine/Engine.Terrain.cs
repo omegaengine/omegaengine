@@ -49,11 +49,7 @@ partial class Engine
     /// <param name="lighting">Get a shader with lighting enabled?</param>
     /// <param name="textureMask">A bitmask that indicates which textures are enabled.</param>
     /// <returns>The newly generated or previously cached shader; <c>null</c> if no usable shader could be built.</returns>
-    /// <remarks>
-    /// This method is thread-safe.
-    /// Shader Model 2.0 hardware runs out of arithmetic instruction slots from 9 textures on when lighting is enabled.
-    /// Such a mask falls back to an unlit shader, which keeps the terrain correctly textured but flatly lit.
-    /// </remarks>
+    /// <remarks>This method is thread-safe.</remarks>
     private TerrainShader? GetTerrainShader(bool lighting, int textureMask)
     {
         var terrainShaders = lighting ? _terrainShadersLighting : _terrainShadersNoLighting;
@@ -64,12 +60,12 @@ partial class Engine
         TerrainShader shader;
         try
         {
-            shader = new TerrainShader(lighting, Capabilities, textureMask);
+            shader = new TerrainShader(lighting, textureMask);
         }
         catch (ShaderCompileException ex)
         {
-            Log.Error($"Failed to compile terrain shader for {BitCount(textureMask)} textures with lighting {(lighting ? "enabled" : "disabled")} on Shader Model {Capabilities.MaxShaderModel}", ex);
-            return Fallback();
+            Log.Error($"Failed to compile terrain shader for {BitCount(textureMask)} textures with lighting {(lighting ? "enabled" : "disabled")}", ex);
+            return null;
         }
 
         // Assigning the Engine creates the effect on the device and is not thread-safe
@@ -91,18 +87,11 @@ partial class Engine
                 Log.Error($"Failed to create terrain shader for {BitCount(textureMask)} textures with lighting {(lighting ? "enabled" : "disabled")} on the device", ex);
                 UnregisterChild(shader);
                 shader.Dispose();
-                return Fallback();
+                return null;
             }
 
             return terrainShaders[textureMask] = shader;
         }
-
-        // Rendering the terrain unlit is preferable to not rendering it at all.
-        // The result is cached under the requested mask too, so the failed attempt is not repeated for every subset.
-        TerrainShader? Fallback()
-            => lighting
-                ? terrainShaders[textureMask] = GetTerrainShader(lighting: false, textureMask)
-                : null;
     }
 
     /// <summary>

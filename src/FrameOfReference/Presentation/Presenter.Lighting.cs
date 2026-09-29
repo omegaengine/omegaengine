@@ -51,17 +51,13 @@ partial class Presenter
     /// </summary>
     private void SetupLighting()
     {
-        // Prepare post-screen shaders if the hardware supports them
-        if (Engine.Capabilities.MaxShaderModel >= PostBleachShader.MinShaderModel)
-        {
-            // Auto-setup glow shader
-            View.SetupGlow();
+        // Auto-setup glow shader
+        View.SetupGlow();
 
-            // Pre-load deactivated effects for later use
-            View.PostShaders.Add(_bleachShader = new() {Enabled = false});
-            View.PostShaders.Add(_colorCorrectionShader = new());
-            View.PostShaders.Add(_sepiaShader = new() {Enabled = false, Desaturation = 0, Toning = 0});
-        }
+        // Pre-load deactivated effects for later use
+        View.PostShaders.Add(_bleachShader = new() {Enabled = false});
+        View.PostShaders.Add(_colorCorrectionShader = new());
+        View.PostShaders.Add(_sepiaShader = new() {Enabled = false, Desaturation = 0, Toning = 0});
 
         // Add the lights to the scene
         Scene.Lights.Add(_lightSun);

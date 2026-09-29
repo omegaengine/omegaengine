@@ -12,7 +12,6 @@ using JetBrains.Annotations;
 using SlimDX.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -29,13 +28,6 @@ public class GeneralShader : LightingShader
         _texturedSpecularMap = "TexturedSpecularMap", _texturedNormalSpecularMap = "TexturedNormalSpecularMap",
         _texturedEmissiveMap = "TexturedEmissiveMap", _texturedNormalEmissiveMap = "TexturedNormalEmissiveMap",
         _texturedNormalSpecularEmissiveMap = "TexturedNormalSpecularEmissiveMap", _texturedEmissiveOnly = "TexturedEmissiveOnly", _texturedEmissiveMapOnly = "TexturedEmissiveMapOnly";
-    #endregion
-
-    #region Properties
-    /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public static Version MinShaderModel => new(1, 1);
     #endregion
 
     //--------------------//
@@ -95,8 +87,6 @@ public class GeneralShader : LightingShader
     #region Engine
     protected override void OnEngineSet()
     {
-        if (MinShaderModel > Engine.Capabilities.MaxShaderModel)
-            throw new NotSupportedException(Resources.NotSupportedShader);
         LoadShaderFile("General.fxo");
 
         base.OnEngineSet();

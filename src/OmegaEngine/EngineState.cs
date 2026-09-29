@@ -127,7 +127,6 @@ public sealed class EngineState
     /// Whether <c>Device.Clear</c> is affected by this is hardware-dependent, so turn it off around clears
     /// of already-encoded colors rather than relying on either behavior.
     /// </remarks>
-    /// <seealso cref="EngineCapabilities.SrgbWrite"/>
     public bool SrgbWrite { get => _srgbWrite; set => value.To(ref _srgbWrite, () => _device.SetRenderState(RenderState.SrgbWriteEnable, value)); }
 
     private bool _srgbTexture;
@@ -139,7 +138,6 @@ public sealed class EngineState
     /// Applies to color textures (diffuse, glow, skybox) in the scene pass, but not to data textures
     /// (normal, height, specular maps). Applies to sampler 0, like <see cref="SetTexture"/>.
     /// </remarks>
-    /// <seealso cref="EngineCapabilities.SrgbRead"/>
     public bool SrgbTexture { get => _srgbTexture; set => value.To(ref _srgbTexture, () => _device.SetSamplerState(0, SamplerState.SrgbTexture, value ? 1 : 0)); }
     #endregion
 

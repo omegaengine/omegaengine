@@ -45,6 +45,8 @@ You additionally need to ensure these native dependencies are installed or bundl
 - [Visual C++ 2010 Redistributable x86](https://www.microsoft.com/en-us/download/details.aspx?id=26999)
 - [DirectX June 2010 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=8109)
 
+The engine requires a graphics card with Shader Model 3.0 support. Every GPU with a Windows 10/11 driver meets this.
+
 ## Project templates
 
 The **[project templates](https://www.nuget.org/packages/OmegaEngine.Templates#readme-body-tab)** help you create C# projects that use OmegaEngine, OmegaGUI and AlphaFramework.

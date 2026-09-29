@@ -26,8 +26,6 @@ public class Water : Model
 {
     #region Variables
     private WaterViewSource? _viewSource;
-    //private readonly WaterShader _simpleWaterShader;
-    private readonly ITextureProvider _waterTexture;
     #endregion
 
     #region Properties
@@ -53,8 +51,6 @@ public class Water : Model
         Materials[0].Emissive = Color.LightBlue;
 
         BoundingBox = new(minimum: new(), maximum: new(size.Width, 0, -size.Height));
-        _waterTexture = XTexture.Get(Engine, @"Water\surface.png");
-        _waterTexture.HoldReference();
     }
 
     private static Mesh BuildMesh(Engine engine, SizeF size)
@@ -140,13 +136,7 @@ public class Water : Model
         {
             case WaterEffectsType.None:
                 Alpha = 128;
-                if (WaterShader.MinShaderModel > Engine.Capabilities.MaxShaderModel)
-                {
-                    // No shader usage at all, render the surface map with the fixed-function pipeline (RenderHelper falls back to it without a SurfaceShader)
-                    Materials[0].DiffuseMap = _waterTexture;
-                    SurfaceShader = null;
-                }
-                else SurfaceShader = Engine.SimpleWaterShader;
+                SurfaceShader = Engine.SimpleWaterShader;
                 break;
             case WaterEffectsType.RefractionOnly:
                 Alpha = EngineState.Opaque;
@@ -173,8 +163,6 @@ public class Water : Model
     {
         try
         {
-            _waterTexture?.ReleaseReference();
-
             foreach (XMaterial material in Materials)
                 material.ReleaseReference();
 

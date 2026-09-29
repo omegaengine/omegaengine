@@ -6,10 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
 using SlimDX;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -23,11 +21,6 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostCameraShakeShader : PostShader
 {
     #region Properties
-    /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public static Version MinShaderModel => new(2, 0);
-
     private float _speed = 20.0f, _shakiness = 0.25f, _sharpness = 2.2f;
 
     /// <summary>
@@ -81,7 +74,6 @@ public class PostCameraShakeShader : PostShader
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
-        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
         LoadShaderFile("Post_CameraShake.fxo");
 
         base.OnEngineSet();

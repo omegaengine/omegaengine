@@ -21,7 +21,6 @@ using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
-using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Input;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -163,7 +162,7 @@ public partial class RenderHost : IRenderHost, IDisposable
         catch (NotSupportedException ex)
         {
             Log.Error($"{ex}\n{ex.InnerException}");
-            Msg.Inform(Form, Resources.BadGraphics, MsgSeverity.Error);
+            Msg.Inform(Form, $"{Resources.BadGraphics}\n{ex.Message}", MsgSeverity.Error);
             Exit();
             return false;
         }
@@ -180,14 +179,6 @@ public partial class RenderHost : IRenderHost, IDisposable
             return false;
         }
         #endregion
-
-        if (Engine.Capabilities.MaxShaderModel < TerrainShader.MinShaderModel)
-        {
-            Log.Error($"No support for Pixel Shader {TerrainShader.MinShaderModel}");
-            Msg.Inform(Form, $"{Resources.BadGraphics}\n{string.Format(Resources.MinimumShaderModel, TerrainShader.MinShaderModel)}", MsgSeverity.Warn);
-            Exit();
-            return false;
-        }
 
         return true;
     }

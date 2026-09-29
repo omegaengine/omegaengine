@@ -59,8 +59,6 @@ public class TerrainTest : EngineTestBase
             // Shader compilation happens in parallel, so failures arrive wrapped
             AggregateException aggregate => aggregate.Flatten().InnerExceptions.Any(IsShaderUnavailable),
             CompilationException or SlimDX.Direct3D9.Direct3DX9NotFoundException => true,
-            // Thrown when the graphics card does not meet TerrainShader.MinShaderModel
-            NotSupportedException => true,
             _ => false
         };
 

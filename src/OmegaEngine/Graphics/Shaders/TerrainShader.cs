@@ -27,10 +27,8 @@ public class TerrainShader : LightingShader
 {
     #region Variables
     private readonly EffectHandle
-        _simple14 = "Simple14", _simple20 = "Simple20",
-        _light14 = "Light14", _light20 = "Light20", _light2A = "Light2a", _light2B = "Light2b",
-        _simpleBlack = "SimpleBlack", _lightBlack = "LightBlack",
-        _depth = "Depth";
+        _simple = "Simple", _light = "Light", _lightDetail = "LightDetail",
+        _black = "Black", _depth = "Depth";
 
     private readonly bool _lighting;
     private readonly byte[] _effectCode;
@@ -43,11 +41,6 @@ public class TerrainShader : LightingShader
     #endregion
 
     #region Properties
-    /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public static Version MinShaderModel => new(1, 4);
-
     private float _blendDistance = 400, _blendWidth = 700;
 
     /// <summary>
@@ -68,11 +61,9 @@ public class TerrainShader : LightingShader
     /// Creates a specialized instance of the shader
     /// </summary>
     /// <param name="lighting">Shall this shader apply lighting to the terrain?</param>
-    /// <param name="capabilities">The rendering capabilities available to the shader</param>
     /// <param name="textureMask">A bitmask that indicates which textures are enabled</param>
-    /// <exception cref="NotSupportedException">The graphics card does not support this shader.</exception>
-    /// <exception cref="ShaderCompileException">The expanded shader code could not be compiled, e.g. because <paramref name="textureMask"/> selects more textures than the profile implied by <paramref name="capabilities"/> has instruction slots for.</exception>
-    public TerrainShader(bool lighting, EngineCapabilities capabilities, int textureMask)
+    /// <exception cref="ShaderCompileException">The expanded shader code could not be compiled.</exception>
+    public TerrainShader(bool lighting, int textureMask)
     {
         _lighting = lighting;
 
@@ -86,8 +77,7 @@ public class TerrainShader : LightingShader
         using var stream = DynamicShader.FromContent(
             "Terrain.fxd",
             controllers: new() {["textures"] = textureIndexes},
-            lighting,
-            capabilities);
+            lighting);
         stream.Position = 0;
         _effectCode = new byte[stream.Length];
         stream.Read(_effectCode, 0, _effectCode.Length); // Copy to managed array to avoid memory leak if not disposed
@@ -116,21 +106,11 @@ public class TerrainShader : LightingShader
         if (RenderDepthOnly)
             Effect.Technique = _depth;
         else if (lights.Count == 0 && _lighting)
-            Effect.Technique = _lighting ? _lightBlack : _simpleBlack;
+            Effect.Technique = _black;
+        else if (!_lighting)
+            Effect.Technique = _simple;
         else
-        {
-            if (Engine.Effects.DetailMapping && _lighting)
-            {
-                if (Engine.Capabilities.MaxShaderModel >= new Version(2, 0, 2))
-                    Effect.Technique = _light2B;
-                else if (Engine.Capabilities.MaxShaderModel == new Version(2, 0, 1))
-                    Effect.Technique = _light2A;
-            }
-            else if (Engine.Capabilities.MaxShaderModel >= new Version(2, 0))
-                Effect.Technique = _lighting ? _light20 : _simple20;
-            else
-                Effect.Technique = _lighting ? _light14 : _simple14;
-        }
+            Effect.Technique = Engine.Effects.DetailMapping ? _lightDetail : _light;
         #endregion
 
         if (_lighting) base.Apply(render, material, camera, lights);

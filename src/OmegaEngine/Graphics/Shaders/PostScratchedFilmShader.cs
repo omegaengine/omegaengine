@@ -6,10 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
 using OmegaEngine.Assets;
-using OmegaEngine.Properties;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -23,11 +21,6 @@ public class PostScratchedFilmShader : PostShader
     #endregion
 
     #region Properties
-    /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public static Version MinShaderModel => new(2, 0);
-
     private float _speed = 0.03f, _speed2 = 0.02f, _scratchIntensity = 0.65f, _scratchWidth = 0.0075f;
 
     /// <summary>
@@ -59,7 +52,6 @@ public class PostScratchedFilmShader : PostShader
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
-        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
         LoadShaderFile("Post_ScratchedFilm.fxo");
 
         // Load noise texture

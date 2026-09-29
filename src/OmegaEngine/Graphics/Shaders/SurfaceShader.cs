@@ -178,6 +178,9 @@ public abstract class SurfaceShader : Shader
                             SemanticID.Ambient when !_lightParametersHandled => StoreHandle(_lightAmbientHandles),
                             SemanticID.Specular when !_lightParametersHandled => StoreHandle(_lightSpecularHandles),
                             SemanticID.Emissive => SetValue(material.Emissive.SrgbToLinear()),
+                            // Shader Model 3.0 ignores fixed-function fog, so the shaders apply it themselves
+                            SemanticID.Fog => SetValue(new Vector3(Engine.State.FogStart, Engine.State.FogEnd, Engine.State.Fog ? 1 : 0)),
+                            SemanticID.FogColor => SetValue(Engine.State.FogColor.SrgbToLinear()),
                             _ => null
                         },
                         ParameterClass.MatrixRows or ParameterClass.MatrixColumns => info.SemanticID switch

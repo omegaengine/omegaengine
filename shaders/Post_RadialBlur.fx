@@ -151,11 +151,11 @@ technique RadialBlur < string Script =
 > {
     pass p0 < string Script = "RenderColorTarget0=;" "Draw=Buffer;"; >
     {
-        VertexShader = compile vs_2_0 VS_RadialBlur();
+        VertexShader = compile vs_3_0 VS_RadialBlur();
         ZEnable = false;
         ZWriteEnable = false;
         CullMode = None;
-        PixelShader  = compile ps_2_0 PS_RadialBlur(SceneSamp, 16);
+        PixelShader  = compile ps_3_0 PS_RadialBlur(SceneSamp, 16);
     }
 }
 
@@ -167,10 +167,10 @@ technique RadialBlurFast < string Script =
 > {
     pass p0 < string Script = "RenderColorTarget0=;" "Draw=Buffer;"; >
     {
-        VertexShader = compile vs_2_0 VS_RadialBlurFast(8);
+        VertexShader = compile vs_3_0 VS_RadialBlurFast(8);
         ZEnable = false;
         ZWriteEnable = false;
         CullMode = None;
-        PixelShader  = compile ps_2_0 PS_RadialBlurFast(SceneSamp, 8);
+        PixelShader  = compile ps_3_0 PS_RadialBlurFast(SceneSamp, 8);
     }
 }

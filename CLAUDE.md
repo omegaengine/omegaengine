@@ -9,6 +9,8 @@ This repository also bundles **Frame of Reference** (`src/FrameOfReference`), th
 - C# 13 on **.NET Framework 4.7.2**, `x86` only. `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts (`OmegaEngine.Foundation`, the `World` layers) multi-target .NET Framework 4.7.2 and .NET 10.
 - Direct3D 9Ex (`Direct3DEx`/`DeviceEx`) via SlimDX.
   - Note the D3D9Ex rules: `Pool.Managed` is rejected, so all resources live in `Pool.Default` (see `BufferUtils.DefaultPool`/`ToDefaultPool()`).
+  - Shader Model 3.0 is the minimum (`EngineCapabilities.MinShaderModel`, checked in the `Engine` constructor). All shaders compile as `vs_3_0`/`ps_3_0`; there are no lower-profile fallbacks.
+  - `ps_3_0` ignores fixed-function fog, so every surface shader applies fog itself via the `Fog`/`FogColor` semantics (see `shaders/include/Fog.fxh`). A `vs_3_0` pass also always needs an explicit pixel shader.
 
 ## Layered architecture
 

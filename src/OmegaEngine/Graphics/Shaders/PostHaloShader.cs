@@ -6,10 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
-using OmegaEngine.Properties;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -19,11 +17,6 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostHaloShader : PostShader
 {
     #region Properties
-    /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public static Version MinShaderModel => new(2, 0);
-
     private Color _glowColor = Color.White;
 
     /// <summary>
@@ -45,7 +38,6 @@ public class PostHaloShader : PostShader
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
-        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
         LoadShaderFile("Post_Halo.fxo");
 
         base.OnEngineSet();

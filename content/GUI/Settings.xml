@@ -64,22 +64,17 @@ FieldOfView.Value = Settings.Graphics.FieldOfView
 FieldOfViewValueLabel.Text = string.format("%.0f°", Settings.Graphics.FieldOfView)
 
 -- Effects
-PostScreenEffects.Enabled = Engine.Capabilities.PerPixelEffects
 PostScreenEffects.Checked = Settings.Graphics.PostScreenEffects
 Anisotropic.Enabled = Engine.Capabilities.Anisotropic
 Anisotropic.Checked = Settings.Graphics.Anisotropic
 Shadows.Checked = Settings.Graphics.Shadows
-NormalMapping.Enabled = Engine.Capabilities.PerPixelEffects
 NormalMapping.Checked = Settings.Graphics.NormalMapping
-DetailMapping.Enabled = Engine.Capabilities.DetailMapping
 DetailMapping.Checked = Settings.Graphics.DetailMapping
 Gamma.Value = math.floor(Settings.Graphics.Gamma * 10 + 0.5)
 Gamma.Enabled = Settings.Graphics.PostScreenEffects
 GammaValueLabel.Text = string.format("%.1f", Settings.Graphics.Gamma)
 
 --- Water effects
-WaterEffectsLabel.Enabled = Engine.Capabilities.PerPixelEffects
-WaterEffects.Enabled = WaterEffectsLabel.Enabled
 WaterEffects.SelectedItem = "["..Settings.Graphics.WaterEffects:ToString().."]"
 
 -- Audio

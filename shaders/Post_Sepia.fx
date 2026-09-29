@@ -109,10 +109,10 @@ technique Main < string Script =
 > {
     pass PostP0 < string Script = "RenderColorTarget0=; Draw=Buffer;"; >
     {
-        VertexShader = compile vs_2_0 ScreenQuadVS();
+        VertexShader = compile vs_3_0 ScreenQuadVS();
         ZEnable = false;
         ZWriteEnable = false;
         CullMode = None;
-        PixelShader = compile ps_2_a sepiaPS();
+        PixelShader = compile ps_3_0 sepiaPS();
     }
 }

@@ -123,9 +123,6 @@ public abstract class LightingShader : SurfaceShader
                     Effect.EndPass();
                 }
                 #endregion
-
-                // Only apply one pass if fog is turned on, since it would mess up additive blending
-                if (Engine.State.Fog) break;
             }
         }
 

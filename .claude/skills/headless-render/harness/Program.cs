@@ -20,6 +20,7 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.Shaders;
 using SlimDX.Direct3D9;
 using EngineView = OmegaEngine.Graphics.View; // System.Windows.Forms.View collides with this
 
@@ -73,6 +74,11 @@ internal static class Program
 
         var universe = Universe.FromContent($"{options.Map}.FrameOfReferenceMap");
         universe.LightPhase = lightPhase;
+        if (options.FogDistance is {} fogDistance)
+        {
+            universe.Fog = true;
+            universe.FogDistance = fogDistance;
+        }
 
         var (target, radius) = ResolveCamera(options, universe);
         var presenter = new FixedCameraPresenter(engine, universe, target, options.Yaw, options.Pitch, radius);
@@ -80,6 +86,8 @@ internal static class Program
         {
             presenter.Initialize();
             presenter.HookIn();
+            foreach (string postShader in options.PostShaders)
+                presenter.View.PostShaders.Add(CreatePostShader(postShader));
 
             // Terrain, shaders and textures load lazily over the first frames, so an
             // immediate screenshot catches a half-built scene
@@ -116,6 +124,16 @@ internal static class Program
         var field = typeof(NanoByte.Common.RandomShared).GetField("_local", BindingFlags.NonPublic | BindingFlags.Static)
                  ?? throw new InvalidOperationException("RandomShared no longer has a '_local' field; update the harness");
         field.SetValue(null, new Random(seed));
+    }
+
+    /// <summary>
+    /// Creates a post-screen shader by its short name, e.g. <c>Sepia</c> for <see cref="PostSepiaShader"/>.
+    /// </summary>
+    private static PostShader CreatePostShader(string name)
+    {
+        var type = typeof(PostShader).Assembly.GetType($"{typeof(PostShader).Namespace}.Post{name}Shader", throwOnError: false, ignoreCase: true)
+                ?? throw new ArgumentException($"Unknown post-screen shader: {name}");
+        return (PostShader)Activator.CreateInstance(type);
     }
 
     /// <summary>
@@ -217,6 +235,8 @@ internal static class Program
               --water-effects <n>    None | RefractionOnly | ReflectTerrain | ReflectAll
               --no-post              Disable post-screen effects
               --no-aniso             Disable anisotropic filtering
+              --fog <distance>       Turn on the map's fog, fully obscuring everything beyond <distance>
+              --post-shader <n>[,..] Add post-screen shaders by short name, e.g. Sepia,Bleach,RadialBlur
               --dump-render-targets  Also write the child views' textures as PNG
               --seed <n>             Seed the random numbers (particle systems) for repeatable images
             """;
@@ -234,6 +254,8 @@ internal static class Program
         public WaterEffectsType? WaterEffects;
         public bool PostScreenEffects = true;
         public bool Anisotropic = true;
+        public float? FogDistance;
+        public IReadOnlyList<string> PostShaders = [];
         public bool DumpRenderTargets;
         public int? Seed;
 
@@ -258,6 +280,8 @@ internal static class Program
                     case "--water-effects": options.WaterEffects = (WaterEffectsType)Enum.Parse(typeof(WaterEffectsType), Next(), ignoreCase: true); break;
                     case "--no-post": options.PostScreenEffects = false; break;
                     case "--no-aniso": options.Anisotropic = false; break;
+                    case "--fog": options.FogDistance = ParseFloat(Next()); break;
+                    case "--post-shader": options.PostShaders = Next().Split(','); break;
                     case "--dump-render-targets": options.DumpRenderTargets = true; break;
                     case "--seed": options.Seed = int.Parse(Next(), CultureInfo.InvariantCulture); break;
                     default: throw new ArgumentException($"Unknown argument: {args[i]}");

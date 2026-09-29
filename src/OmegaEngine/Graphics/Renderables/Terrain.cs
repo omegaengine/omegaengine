@@ -28,8 +28,8 @@ namespace OmegaEngine.Graphics.Renderables;
 public partial class Terrain : Model
 {
     #region Variables
-    /// <summary>Shaders for all subsets (blocks); <c>null</c> if the hardware cannot run them at all, individual entries <c>null</c> if that subset's texture combination could not be compiled.</summary>
-    private TerrainShader?[]? _subsetShaders;
+    /// <summary>Shaders for all subsets (blocks); individual entries <c>null</c> if that subset's texture combination could not be compiled.</summary>
+    private TerrainShader?[] _subsetShaders = [];
 
     private readonly int[] _indexBuffer;
     private readonly Vector3[] _vertexBuffer;
@@ -172,9 +172,6 @@ public partial class Terrain : Model
         if (textures == null) throw new ArgumentNullException(nameof(textures));
         #endregion
 
-        if (TerrainShader.MinShaderModel > engine.Capabilities.MaxShaderModel)
-            throw new NotSupportedException(Resources.NotSupportedShader);
-
         // Generate mesh with subsets and bounding bodies
         var terrain = new Terrain(
             BuildMesh(engine, size, stretchH, stretchV, heightMap, textureMap, occlusionIntervalMap, lighting, blockSize, out var subsetShaders, out var subsetBoundingBoxes),
@@ -285,7 +282,7 @@ public partial class Terrain : Model
     /// <inheritdoc/>
     protected override void RenderSubset(int i, Camera camera, GetEffectiveLights? getEffectiveLights, SurfaceEffect surfaceEffect)
     {
-        if (_subsetShaders?[i] is not {} shader) return;
+        if (_subsetShaders[i] is not {} shader) return;
 
         using (new ProfilerEvent(() => $"Subset {i}"))
         {

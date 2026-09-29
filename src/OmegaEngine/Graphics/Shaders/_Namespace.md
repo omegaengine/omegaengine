@@ -2,6 +2,8 @@
 uid: OmegaEngine.Graphics.Shaders
 summary: Shaders are small pieces of code executed directly on the graphics card. They govern how vertexes are transformed and how each individual pixel color is calculated.
 ---
+All shaders target Shader Model 3.0 (`vs_3_0`/`ps_3_0`), the minimum the engine requires (see <xref:OmegaEngine.EngineCapabilities.MinShaderModel>).
+
 ## Surface shaders
 
 <xref:OmegaEngine.Graphics.Shaders.SurfaceShader>s control the appearance of individual renderable objects' surfaces. They determine how materials, textures, and lighting interact to produce the final look of a model or terrain.
@@ -15,6 +17,15 @@ This is the default shader used if no other shader is specified.
 
 <xref:OmegaEngine.Graphics.Shaders.WaterShader> renders an animated water surface with reflections and refractions.  
 This is used automatically by <xref:OmegaEngine.Graphics.Renderables.Water>.
+
+### Fog
+
+Shader Model 3.0 pixel shaders bypass Direct3D's fixed-function fog, so surface shaders must apply fog themselves. <xref:OmegaEngine.Graphics.Shaders.SurfaceShader> fills parameters with these semantics from <xref:OmegaEngine.EngineState>:
+
+- `Fog` (`float3`): start distance, end distance, and `1` if fog is enabled (`0` otherwise)
+- `FogColor` (`float3`): the fog color in linear space
+
+The fog distance is the view-space depth, i.e. the `w` component of the clip-space position. See `shaders/include/Fog.fxh` for a reference implementation.
 
 ## Post-screen shaders
 
@@ -81,16 +92,15 @@ Code types:
 
 ### Filters
 
-Conditionally include/exclude code based on capabilities:
+Conditionally include/exclude code depending on whether the shader is generated for lighting:
 
 ```
-/// <BeginFilter Target="PS2x" Lighting="true" />
-struct outLight2x { /* ... */ };
+/// <BeginFilter Lighting="true" />
+struct outLight { /* ... */ };
 /// <EndFilter />
 ```
 
 Filter attributes:
-- `Target` - Shader model requirement (`PS14`, `PS20`, `PS2x`, `PS2ab`, `PS2a`, `PS2b`)
 - `Lighting` - Whether code is for lighting (`true`) or non-lighting (`false`) shaders
 
 ### Sample

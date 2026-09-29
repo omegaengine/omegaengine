@@ -2,11 +2,11 @@ This directory contains the shaders used by OmegaEngine.
 
 .fx files contain the shader source code in DirectX's HLSL format.
 
-Run "build.ps1 /LD" to compile the shaders to .fxo files. This requires the DirectX SDK to be installed.
+All techniques target Shader Model 3.0 (vs_3_0/ps_3_0), the minimum the engine requires.
+
+Run "build.ps1" to compile the shaders to .fxo files. This requires the DirectX SDK to be installed.
 The compiled files are placed in ..\src\OmegaEngine\Shaders and are packaged together with the engine.
 
-Command-line arguments:
+Additional command-line arguments are passed on to fxc.exe, e.g.:
 
-/LD = Support Shader Model 1.1
-/Gec /Gis = Upgrade Shader Model 1.1 to 2.0
 /Zi = Enable Debug information

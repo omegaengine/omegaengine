@@ -307,12 +307,12 @@ technique Main < string Script =
 	"RenderDepthStencilTarget=;"
 	"Draw=Buffer;";
     > {
-	VertexShader = compile vs_2_0 colorControlsVS(QuadTexelOffsets);
+	VertexShader = compile vs_3_0 colorControlsVS(QuadTexelOffsets);
 		ZEnable = false;
 		ZWriteEnable = false;
 		AlphaBlendEnable = false;
 		CullMode = None;
-	PixelShader = compile ps_2_0 colorControlsPS(gSceneSampler);
+	PixelShader = compile ps_3_0 colorControlsPS(gSceneSampler);
     }
 }
 

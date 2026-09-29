@@ -58,12 +58,4 @@ public class EngineStateTest : EngineTestBase
         Engine.State.SrgbTexture.Should().BeFalse();
         Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture).Should().Be(0);
     }
-
-    [Fact]
-    public void SrgbCapabilitiesAreSupported()
-    {
-        // Expected on any hardware we test on; there is no fallback path
-        Engine.Capabilities.SrgbRead.Should().BeTrue();
-        Engine.Capabilities.SrgbWrite.Should().BeTrue();
-    }
 }

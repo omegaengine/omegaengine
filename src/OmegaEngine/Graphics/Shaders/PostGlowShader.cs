@@ -24,11 +24,6 @@ public class PostGlowShader : PostBlurShader
 
     #region Properties
     /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public new static Version MinShaderModel => new(2, 0);
-
-    /// <summary>
     /// Does this post-screen shader use overlay rendering instead of a scene map?
     /// </summary>
     [Description("Does this post-screen shader use overlay rendering instead of a scene map?")]
@@ -56,7 +51,6 @@ public class PostGlowShader : PostBlurShader
     /// Creates a new instance of the shader
     /// </summary>
     /// <param name="glowView">A render target storing the glow map of the current view</param>
-    /// <exception cref="NotSupportedException">The graphics card does not support this shader.</exception>
     public PostGlowShader(TextureView glowView)
     {
         _glowView = glowView ?? throw new ArgumentNullException(nameof(glowView));

@@ -6,10 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
 using OmegaEngine.Foundation.Light;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -19,11 +17,6 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostColorCorrectionShader : PostShader
 {
     #region Properties
-    /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public static Version MinShaderModel => new(2, 0);
-
     private float _brightness = 1, _contrast = 1, _saturation = 1, _hue, _gamma = DefaultGamma;
 
     /// <summary>
@@ -100,7 +93,6 @@ public class PostColorCorrectionShader : PostShader
     #region Engine
     protected override void OnEngineSet()
     {
-        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
         LoadShaderFile("Post_ColorCorrection.fxo");
 
         base.OnEngineSet();

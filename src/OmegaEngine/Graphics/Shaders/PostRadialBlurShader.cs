@@ -6,10 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
 using SlimDX;
-using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -19,11 +17,6 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostRadialBlurShader : PostShader
 {
     #region Properties
-    /// <summary>
-    /// The minimum shader model version required to use this shader
-    /// </summary>
-    public static Version MinShaderModel => new(2, 0);
-
     private float _blurStart = 5.0f, _blurWidth = -0.05f;
 
     /// <summary>
@@ -67,7 +60,6 @@ public class PostRadialBlurShader : PostShader
     /// <inheritdoc/>
     protected override void OnEngineSet()
     {
-        if (MinShaderModel > Engine.Capabilities.MaxShaderModel) throw new NotSupportedException(Resources.NotSupportedShader);
         LoadShaderFile("Post_RadialBlur.fxo");
 
         base.OnEngineSet();

@@ -186,9 +186,6 @@
   <data name="NotFoundShaderFile" xml:space="preserve">
     <value>Die folgende Shader-Datei konnte nicht gefunden werden:</value>
   </data>
-  <data name="NotSupportedShader" xml:space="preserve">
-    <value>Dieser Shader wird von Ihrer Grafikkarte nicht unterstützt.</value>
-  </data>
   <data name="NumberNotReal" xml:space="preserve">
     <value>Der Wert muss eine reelle Zahl sein.</value>
   </data>
