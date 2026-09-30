@@ -33,7 +33,7 @@ namespace OmegaEngine;
 /// </summary>
 /// <remarks>
 ///   <para>By using this class, you don't need to create a window, set up <see cref="InputProvider"/>s, provide access to <see cref="DebugConsole"/>, etc. yourself.</para>
-///   <para>You should override at least <see cref="Initialize"/> and <see cref="Render"/>. This corresponds to the template method pattern.</para>
+///   <para>You should override at least <see cref="Initialize"/> and <see cref="Update"/> or <see cref="Render"/>. This corresponds to the template method pattern.</para>
 /// </remarks>
 public partial class RenderHost : IRenderHost, IDisposable
 {
@@ -273,10 +273,29 @@ public partial class RenderHost : IRenderHost, IDisposable
     }
 
     /// <summary>
-    /// Called when the next frame needs to be rendered.
+    /// Runs a single frame: <see cref="Update"/>, then <see cref="Render"/>, then <see cref="OmegaEngine.Engine.UpdateAudio"/>.
     /// </summary>
-    /// <param name="elapsedTime">The number of seconds that have passed since this method was last called.</param>
-    protected virtual void Render(double elapsedTime)
+    /// <param name="elapsedTime">The number of seconds of real time that have passed since the last frame.</param>
+    /// <remarks>Input has already been handled when this is called, since the window message loop runs between frames.</remarks>
+    private void RunFrame(double elapsedTime)
+    {
+        double elapsedGameTime = Update(elapsedTime);
+        Render(elapsedGameTime);
+        Engine.UpdateAudio();
+    }
+
+    /// <summary>
+    /// Called once per frame before <see cref="Render"/> to advance the application state (e.g. game simulation, GUI scripts).
+    /// </summary>
+    /// <param name="elapsedTime">The number of seconds of real time that have passed since the last frame.</param>
+    /// <returns>The number of seconds of game time that have passed. Passed on to <see cref="Render"/> to drive time-based visual effects.</returns>
+    protected virtual double Update(double elapsedTime) => elapsedTime;
+
+    /// <summary>
+    /// Called once per frame after <see cref="Update"/> to render the frame.
+    /// </summary>
+    /// <param name="elapsedGameTime">The number of seconds of game time returned by <see cref="Update"/>.</param>
+    protected virtual void Render(double elapsedGameTime)
     {
         // Use the form's WindowState to determine whether fullscreen mode was intended
         if (Form.WindowState == FormWindowState.Maximized)
@@ -289,8 +308,7 @@ public partial class RenderHost : IRenderHost, IDisposable
             ResetEngine();
         }
 
-        Engine.Render(elapsedTime);
-        Engine.UpdateAudio();
+        Engine.Render(elapsedGameTime);
     }
 
     /// <summary>

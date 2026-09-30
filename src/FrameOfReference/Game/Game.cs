@@ -164,8 +164,8 @@ public class Game(Settings settings)
     protected override void ApplyGeneralSettings() => Program.UpdateLocale();
 
     /// <inheritdoc/>
-    protected override double GetElapsedGameTime(double elapsedTime)
-        => _state?.GetElapsedGameTime(elapsedTime) ?? elapsedTime;
+    protected override double UpdateGame(double elapsedTime)
+        => _state?.Update(elapsedTime) ?? elapsedTime;
 
     /// <inheritdoc/>
     [LuaHide]

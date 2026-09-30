@@ -54,6 +54,13 @@ public class MyApp : RenderHost(name: "My Application")
 
         return true;
     }
+
+    protected override double Update(double elapsedTime)
+    {
+        // TODO: Update world
+
+        return elapsedTime;
+    }
 }
 
 static class Program
@@ -91,6 +98,13 @@ public class MyGame(Settings settings) : GameBase(settings, name: "My Applicatio
         LoadDialog("MainMenu");
 
         return true;
+    }
+
+    protected override double UpdateGame(double elapsedTime)
+    {
+        // TODO: Update game world
+
+        return elapsedTime;
     }
 }
 

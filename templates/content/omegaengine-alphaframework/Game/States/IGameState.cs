@@ -16,7 +16,8 @@ public interface IGameState : IDisposable
     void Exit();
 
     /// <summary>
-    /// Returns the amount of in-game time that corresponds to <paramref name="elapsedTime"/> real time.
+    /// Advances the state by <paramref name="elapsedTime"/> seconds of real time. Called once per frame.
     /// </summary>
-    double GetElapsedGameTime(double elapsedTime);
+    /// <returns>The amount of game time that has passed.</returns>
+    double Update(double elapsedTime);
 }

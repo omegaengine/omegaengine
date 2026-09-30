@@ -19,7 +19,7 @@ public abstract class SessionStateBase(Game game, Session session) : IGameState
     public abstract void Exit();
 
     /// <inheritdoc/>
-    public virtual double GetElapsedGameTime(double elapsedTime)
+    public virtual double Update(double elapsedTime)
         => session.Update(elapsedTime);
 
     /// <inheritdoc/>

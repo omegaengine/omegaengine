@@ -35,7 +35,7 @@ public class MainMenu(Game game, Universe universe) : IGameState
     public void Exit() => _presenter.HookOut();
 
     /// <inheritdoc/>
-    public double GetElapsedGameTime(double elapsedTime) => elapsedTime;
+    public double Update(double elapsedTime) => elapsedTime;
 
     /// <inheritdoc/>
     public void BindLua(Lua lua)

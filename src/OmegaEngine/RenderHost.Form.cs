@@ -162,8 +162,8 @@ partial class RenderHost
                     double elapsedTime = _timer.Elapsed.TotalSeconds;
                     _timer.Restart();
 
-                    // Loop the Render method
-                    Render(elapsedTime);
+                    // Loop the frame phases
+                    RunFrame(elapsedTime);
                 }
             };
 

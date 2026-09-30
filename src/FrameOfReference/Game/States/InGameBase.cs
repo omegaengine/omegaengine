@@ -86,11 +86,11 @@ public abstract class InGameBase : SessionStateBase
 
     /// <inheritdoc/>
     [LuaHide]
-    public override double GetElapsedGameTime(double elapsedTime)
+    public override double Update(double elapsedTime)
         => _isPaused
             // Universe.Time frozen, but time still slowly progressing for animations
             ? elapsedTime / 10
-            : base.GetElapsedGameTime(elapsedTime);
+            : base.Update(elapsedTime);
 
     /// <inheritdoc/>
     [LuaHide]

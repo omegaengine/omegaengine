@@ -30,7 +30,7 @@ public sealed class MainMenu(Game game, Universe universe) : IGameState
 
     /// <inheritdoc/>
     // The menu backdrop is not part of the simulation, so real time is not converted to game time.
-    public double GetElapsedGameTime(double elapsedTime) => elapsedTime;
+    public double Update(double elapsedTime) => elapsedTime;
 
     /// <inheritdoc/>
     public void Dispose() => _presenter.Dispose();

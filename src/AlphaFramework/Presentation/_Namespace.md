@@ -101,11 +101,8 @@ public class MyGame(Settings settings)
         return true;
     }
 
-    protected override void Render(double elapsedTime)
-    {
-        _session!.Update(elapsedTime);
-        base.Render(elapsedTime);
-    }
+    protected override double UpdateGame(double elapsedTime)
+        => _session!.Update(elapsedTime);
 }
 ```
 

@@ -119,7 +119,18 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     }
 
     /// <inheritdoc/>
-    protected override void Render(double elapsedTime)
+    protected override double Update(double elapsedTime)
+        => UpdateGame(elapsedTime);
+
+    /// <summary>
+    /// Advances the game state (e.g. simulation and presenters). Called once per frame by <see cref="Update"/>.
+    /// </summary>
+    /// <param name="elapsedTime">The number of seconds of real time that have passed since the last frame.</param>
+    /// <returns>The number of seconds of game time that have passed. Drives time-based visual effects.</returns>
+    protected virtual double UpdateGame(double elapsedTime) => elapsedTime;
+
+    /// <inheritdoc/>
+    protected override void Render(double elapsedGameTime)
     {
         // Note: Doesn't call base methods
 
@@ -131,9 +142,7 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
             ResetEngine();
         }
 
-        double elapsedGameTime = GetElapsedGameTime(elapsedTime);
         Engine.Render(elapsedGameTime);
-        Engine.UpdateAudio();
     }
 
     /// <inheritdoc/>
@@ -187,11 +196,6 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// </summary>
     protected virtual void ApplyAudioSettings()
         => settings.Audio.ApplyTo(Engine);
-
-    /// <summary>
-    /// Determines the amount of elapsed game time from the amount of elapsed real time.
-    /// </summary>
-    protected virtual double GetElapsedGameTime(double elapsedTime) => elapsedTime;
 
     /// <inheritdoc/>
     protected override void ShowDebugConsole()

@@ -16,9 +16,10 @@ public interface IGameState : IDisposable
     void Exit();
 
     /// <summary>
-    /// Returns the amount of in-game time that corresponds to <paramref name="elapsedTime"/> real time.
+    /// Advances the state by <paramref name="elapsedTime"/> seconds of real time. Called once per frame before rendering.
     /// </summary>
-    double GetElapsedGameTime(double elapsedTime);
+    /// <returns>The amount of game time that has passed. Drives time-based visual effects.</returns>
+    double Update(double elapsedTime);
 
     /// <summary>
     /// Registers state-specific values in the given Lua environment.
