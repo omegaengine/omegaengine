@@ -204,6 +204,19 @@ public sealed partial class Engine : EngineElement
 
     //--------------------//
 
+    #region Audio
+    /// <summary>
+    /// Updates the placement of positional sounds and the music playlist. Call once per frame after <see cref="Render()"/>.
+    /// </summary>
+    public void UpdateAudio()
+    {
+        Audio.Update();
+        Music.Update();
+    }
+    #endregion
+
+    //--------------------//
+
     #region Dispose
     protected override void OnDispose()
     {

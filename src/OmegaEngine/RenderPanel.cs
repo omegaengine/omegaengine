@@ -64,7 +64,7 @@ public class RenderPanel : TouchPanel, IRenderHost
     #region Constructor
     public RenderPanel()
     {
-        _renderTimer.Tick += delegate { Engine?.Render(); };
+        _renderTimer.Tick += delegate { RenderFrame(); };
 
         // Constantly steal focus so the scroll wheel will work
         MouseMove += delegate { Focus(); };
@@ -74,7 +74,15 @@ public class RenderPanel : TouchPanel, IRenderHost
     //--------------------//
 
     #region Event hooks
-    protected override void OnPaint(PaintEventArgs e) => Engine?.Render();
+    protected override void OnPaint(PaintEventArgs e) => RenderFrame();
+
+    private void RenderFrame()
+    {
+        if (Engine == null) return;
+
+        Engine.Render();
+        Engine.UpdateAudio();
+    }
 
     protected override void OnResize(EventArgs eventargs)
     {

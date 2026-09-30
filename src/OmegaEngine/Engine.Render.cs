@@ -345,11 +345,7 @@ partial class Engine
             #endregion
         }
 
-        if (!noPresent)
-        {
-            PostRender?.Invoke();
-            Audio.Update();
-        }
+        if (!noPresent) PostRender?.Invoke();
     }
 
     /// <summary>

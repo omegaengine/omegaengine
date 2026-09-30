@@ -290,8 +290,7 @@ public partial class RenderHost : IRenderHost, IDisposable
         }
 
         Engine.Render(elapsedTime);
-
-        Engine.Music.Update();
+        Engine.UpdateAudio();
     }
 
     /// <summary>
