@@ -57,6 +57,8 @@ public class MyApp : RenderHost(name: "My Application")
 
     protected override double Update(double elapsedTime)
     {
+        // If you use OmegaGUI: _guiManager.Update(elapsedTime);
+
         // TODO: Update world
 
         return elapsedTime;
@@ -77,7 +79,7 @@ static class Program
 
 <xref:AlphaFramework.Presentation.GameBase> extends `RenderHost` with <xref:AlphaFramework>-specific features:
 
-- **GUI system** - Automatically initializes <xref:OmegaGUI>
+- **GUI system** - Automatically initializes and updates <xref:OmegaGUI>
 - **Settings management** - Automatically applies [settings](xref:AlphaFramework.Presentation.Config) to the engine and input system when they change
 
 **Use when:** Building a game using AlphaFramework.

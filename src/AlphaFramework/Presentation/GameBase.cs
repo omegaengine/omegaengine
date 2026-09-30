@@ -120,7 +120,11 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
 
     /// <inheritdoc/>
     protected override double Update(double elapsedTime)
-        => UpdateGame(elapsedTime);
+    {
+        double elapsedGameTime = UpdateGame(elapsedTime);
+        GuiManager.Update(elapsedTime);
+        return elapsedGameTime;
+    }
 
     /// <summary>
     /// Advances the game state (e.g. simulation and presenters). Called once per frame by <see cref="Update"/>.

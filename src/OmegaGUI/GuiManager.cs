@@ -43,8 +43,8 @@ public sealed class GuiManager : IDisposable
     private readonly List<DialogPresenter> _modalDialogs = [];
     private readonly List<Lua> _pendingLuaDisposes = [];
 
-    private Stopwatch? _timer;
-    private float _timeSinceLastUpdate;
+    private Stopwatch? _renderTimer;
+    private double _timeSinceLastUpdate;
 
     /// <summary>
     /// Manages shared resources of all <see cref="OmegaGUI.Render.Dialog"/>s.
@@ -137,6 +137,16 @@ public sealed class GuiManager : IDisposable
 
         _timeSinceLastUpdate = 0;
     }
+
+    /// <summary>
+    /// Invokes <see cref="Update()"/> once per second. Call once per frame before rendering.
+    /// </summary>
+    /// <param name="elapsedTime">The number of seconds of real time that have passed since the last frame.</param>
+    public void Update(double elapsedTime)
+    {
+        _timeSinceLastUpdate += elapsedTime;
+        if (_timeSinceLastUpdate >= 1) Update();
+    }
     #endregion
 
     //--------------------//
@@ -147,16 +157,10 @@ public sealed class GuiManager : IDisposable
     /// </summary>
     private void Render()
     {
-        #region Timer
-        if (_timer == null) _timer = Stopwatch.StartNew();
-        var elapsedTime = (float)_timer.Elapsed.TotalSeconds;
-        _timer.Reset();
-        _timer.Start();
-
-        // Run update scripts once per second
-        _timeSinceLastUpdate += elapsedTime;
-        if (_timeSinceLastUpdate >= 1) Update();
-        #endregion
+        // Drives animations only, update scripts are run by Update(double)
+        _renderTimer ??= Stopwatch.StartNew();
+        var elapsedTime = (float)_renderTimer.Elapsed.TotalSeconds;
+        _renderTimer.Restart();
 
         using (new ProfilerEvent("Render GUI"))
         {

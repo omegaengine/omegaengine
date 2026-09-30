@@ -65,6 +65,12 @@ public class MyRenderHost : RenderHost
         presenter.Show();
     }
 
+    protected override double Update(double elapsedTime)
+    {
+        _guiManager?.Update(elapsedTime);
+        return elapsedTime;
+    }
+
     protected override void Dispose(bool disposing)
     {
         try
