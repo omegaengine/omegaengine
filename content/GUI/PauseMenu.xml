@@ -30,14 +30,14 @@
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>Me:Close()
-LoadDialog("SavegameSave", {Modal = true})</OnClick>
+LoadDialog("Savegame/Save", {Modal = true})</OnClick>
   </Button>
   <Button Name="LoadGame" Text="[Load]" Hotkey="L">
     <Location X="0" Y="188" />
     <Size Width="180" Height="48" />
     <AlignHorizontal>Center</AlignHorizontal>
     <OnClick>Me:Close()
-LoadDialog("SavegameLoad", {Modal = true})</OnClick>
+LoadDialog("Savegame/Load", {Modal = true})</OnClick>
   </Button>
   <Button Name="Settings" Text="[Settings]" Hotkey="C">
     <Location X="0" Y="276" />

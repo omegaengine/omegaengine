@@ -32,7 +32,7 @@ Game:LoadMap("Tutorial")</OnClick>
     <Size Width="200" Height="50" />
     <AlignVertical>Center</AlignVertical>
     <OnClick>Me:Close()
-LoadDialog("SavegameLoad", {Modal = true})</OnClick>
+LoadDialog("Savegame/Load", {Modal = true})</OnClick>
   </Button>
   <Button Name="Settings" Text="[Settings]" Hotkey="C">
     <Location X="40" Y="60" />
