@@ -41,7 +41,7 @@ public sealed class GuiManager : IDisposable
 
     private readonly List<DialogPresenter> _normalDialogs = [];
     private readonly List<DialogPresenter> _modalDialogs = [];
-    private readonly List<Lua> _pendingLuaDisposes = [];
+    private readonly List<(Lua Lua, DialogPresenter Owner)> _pendingLuaDisposes = [];
 
     private Stopwatch? _renderTimer;
     private double _timeSinceLastUpdate;
@@ -132,8 +132,11 @@ public sealed class GuiManager : IDisposable
     [LuaMember]
     public void Update()
     {
-        _normalDialogs.ForEach(dialog => dialog.Update());
-        _modalDialogs.ForEach(dialog => dialog.Update());
+        // Iterate over copies, since update scripts may open or close dialogs
+        foreach (var dialog in _normalDialogs.Concat(_modalDialogs).ToList())
+        {
+            if (!dialog.Disposed) dialog.Update();
+        }
 
         _timeSinceLastUpdate = 0;
     }
@@ -170,11 +173,11 @@ public sealed class GuiManager : IDisposable
                 dialog.Render.OnRender(dialog.Model.Animate ? elapsedTime : 1);
         }
 
-        var readyToRemove = _pendingLuaDisposes.FindAll(lua => !lua.IsExecuting);
-        foreach (var lua in readyToRemove)
+        var readyToRemove = _pendingLuaDisposes.FindAll(x => !x.Owner.IsExecuting && !x.Lua.IsExecuting);
+        foreach (var pending in readyToRemove)
         {
-            lua.Dispose();
-            _pendingLuaDisposes.Remove(lua);
+            pending.Lua.Dispose();
+            _pendingLuaDisposes.Remove(pending);
         }
     }
     #endregion
@@ -261,9 +264,10 @@ public sealed class GuiManager : IDisposable
     /// Queues a Lua controller for disposal as soon as it stops executing its current script
     /// </summary>
     /// <param name="lua">The object to be disposed</param>
-    internal void QueueLuaDispose(Lua lua)
+    /// <param name="owner">The dialog whose scripts run on <paramref name="lua"/>.</param>
+    internal void QueueLuaDispose(Lua lua, DialogPresenter owner)
     {
-        _pendingLuaDisposes.Add(lua);
+        _pendingLuaDisposes.Add((lua, owner));
     }
     #endregion
 

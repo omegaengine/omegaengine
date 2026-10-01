@@ -40,6 +40,11 @@ public sealed class DialogPresenter : IDisposable
     private readonly GuiManager _manager;
     private readonly Point _location;
     private readonly Lua? _lua;
+
+    /// <summary>
+    /// The number of this dialog's scripts currently running. More than one when a script calls .NET code that runs another script of the same dialog (e.g., <see cref="GuiManager.Update()"/>).
+    /// </summary>
+    private int _scriptDepth;
     #endregion
 
     #region Properties
@@ -48,6 +53,12 @@ public sealed class DialogPresenter : IDisposable
     /// </summary>
     [Browsable(false)]
     public bool Disposed { get; private set; }
+
+    /// <summary>
+    /// Is one of this dialog's scripts currently running?
+    /// </summary>
+    /// <remarks><see cref="Lua.IsExecuting"/> cannot be used for this, because a nested script resets it to <c>false</c> when it finishes, even though the outer script is still running.</remarks>
+    internal bool IsExecuting => _scriptDepth > 0;
 
     /// <summary>
     /// Text value to make it easier to identify a particular dialog
@@ -238,6 +249,7 @@ public sealed class DialogPresenter : IDisposable
         if (_lua == null || string.IsNullOrEmpty(script)) return;
         #endregion
 
+        _scriptDepth++;
         try
         {
             _lua.DoString(script);
@@ -247,6 +259,10 @@ public sealed class DialogPresenter : IDisposable
             // Prepend additional source information and then rethrow the exception
             ex.Source = $"{Name}:{source}:{ex.Source}";
             throw;
+        }
+        finally
+        {
+            _scriptDepth--;
         }
     }
     #endregion
@@ -288,7 +304,7 @@ public sealed class DialogPresenter : IDisposable
         if (_lua != null)
         {
             Model.ScriptFired -= LuaExecute;
-            _manager.QueueLuaDispose(_lua);
+            _manager.QueueLuaDispose(_lua, this);
         }
 
         GC.SuppressFinalize(this);
