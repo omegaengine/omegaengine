@@ -66,8 +66,11 @@ public class Game(Settings settings)
     }
 
     /// <inheritdoc/>
-    protected override double UpdateGame(double elapsedTime)
-        => _state?.Update(elapsedTime) ?? elapsedTime;
+    protected override double Update(double elapsedTime)
+    {
+        elapsedTime = base.Update(elapsedTime);
+        return _state?.Update(elapsedTime) ?? elapsedTime;
+    }
 
     /// <inheritdoc/>
     protected override void Dispose(bool disposing)

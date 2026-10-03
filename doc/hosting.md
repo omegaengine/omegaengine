@@ -57,10 +57,9 @@ public class MyApp : RenderHost(name: "My Application")
 
     protected override double Update(double elapsedTime)
     {
+        elapsedTime = base.Update(elapsedTime);
         // If you use OmegaGUI: _guiManager.Update(elapsedTime);
-
         // TODO: Update world
-
         return elapsedTime;
     }
 }
@@ -102,10 +101,10 @@ public class MyGame(Settings settings) : GameBase(settings, name: "My Applicatio
         return true;
     }
 
-    protected override double UpdateGame(double elapsedTime)
+    protected override double Update(double elapsedTime)
     {
+        elapsedTime = base.Update(elapsedTime);
         // TODO: Update game world
-
         return elapsedTime;
     }
 }

@@ -121,17 +121,10 @@ public abstract class GameBase(SettingsBase settings, string name, Icon? icon = 
     /// <inheritdoc/>
     protected override double Update(double elapsedTime)
     {
-        double elapsedGameTime = UpdateGame(elapsedTime);
+        elapsedTime = base.Update(elapsedTime);
         GuiManager.Update(elapsedTime);
-        return elapsedGameTime;
+        return elapsedTime;
     }
-
-    /// <summary>
-    /// Advances the game state (e.g. simulation and presenters). Called once per frame by <see cref="Update"/>.
-    /// </summary>
-    /// <param name="elapsedTime">The number of seconds of real time that have passed since the last frame.</param>
-    /// <returns>The number of seconds of game time that have passed. Drives time-based visual effects.</returns>
-    protected virtual double UpdateGame(double elapsedTime) => elapsedTime;
 
     /// <inheritdoc/>
     protected override void Render(double elapsedGameTime)
