@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Scenes | OmegaEngine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Scenes | OmegaEngine ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="docs/toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/omegaengine/omegaengine/blob/1.23.3/doc/scenes.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="icon-omega.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="scenes">Scenes</h1>
+
+<p>A <strong><a class="xref" href="api/OmegaEngine.Graphics.Scene.html">Scene</a></strong> contains all the objects to be rendered. It manages collections of renderables and light sources.</p>
+<p><strong><a class="xref" href="api/OmegaEngine.Graphics.Renderables.html">Renderables</a></strong> are objects that can be rendered by the engine, such as models, <a href="terrain.html">terrain</a>, particle systems, or skyboxes.</p>
+<p><strong><a class="xref" href="api/OmegaEngine.Graphics.LightSources.html">Light sources</a></strong> illuminate renderables in the scene.</p>
+<p><strong><a class="xref" href="api/OmegaEngine.Graphics.Cameras.html">Cameras</a></strong> determines the perspective from which a scene is viewed. They define the position, orientation, and projection parameters.</p>
+<p>A <strong><a class="xref" href="api/OmegaEngine.Graphics.View.html">View</a></strong> represents a viewport with a specific scene and camera. The view handles rendering and can apply <a class="xref" href="api/OmegaEngine.Graphics.Shaders.PostShader.html">PostShader</a>s to the final output. Multiple views can render the same scene with different cameras.</p>
+<pre><code class="lang-mermaid">graph TD
+    Scene -- contains --&gt; Renderables
+    Scene -- contains --&gt; LightSources
+    View -- shows --&gt; Scene
+    View -- uses --&gt; Camera
+</code></pre>
+<h2 id="coordinate-system">Coordinate system</h2>
+<p>OmegaEngine uses a left-handed coordinate system (as used by DirectX) with the following default orientation:</p>
+<ul>
+<li><strong>Positive X axis</strong> - Points to the right</li>
+<li><strong>Positive Y axis</strong> - Points upward</li>
+<li><strong>Positive Z axis</strong> - Points into the screen (away from the viewer)</li>
+</ul>
+<p>The standard camera orientation is a view along the negative Z axis, looking into the positive Z direction.</p>
+<p><img src="images/coord_3d.gif" alt=""></p>
+<h2 id="setup">Setup</h2>
+<p>Basic example of setting up a scene with a model and <a href="lighting.html">lighting</a>:</p>
+<pre><code class="lang-csharp">var scene = new Scene
+{
+    Positionables =
+    {
+        new Model(XMesh.Get(engine, &quot;MyModel.x&quot;))
+    },
+    Lights =
+    {
+        new DirectionalLight { Direction = new(-1, -1, 1), Diffuse = Color.White }
+    }
+};
+
+var camera = new FreeFlyCamera
+{
+    Position = new(0, 10, -20)
+};
+
+var view = new View(scene, camera) { Lighting = true };
+engine.Views.Add(view);
+</code></pre>
+<h2 id="render-hierarchy">Render hierarchy</h2>
+<p><a class="xref" href="api/OmegaEngine.Graphics.Scene.html#OmegaEngine_Graphics_Scene_Positionables">Positionables</a> holds the <em>roots</em> of the scene. Every <a class="xref" href="api/OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> in turn has a <code>Children</code> collection, so renderables can be grouped under a shared transform.</p>
+<p>A root's <code>Position</code> is absolute world space, a child's <code>Position</code> is an offset in its parent's coordinate system. <code>WorldPosition</code> always gives the absolute position.</p>
+<pre><code class="lang-csharp">scene.Positionables.Add(new Model(XMesh.Get(engine, &quot;Spaceship.x&quot;))
+{
+    Position = new(0, 0, 100),
+    Children =
+    {
+        new Model(XMesh.Get(engine, &quot;Engine.x&quot;)) { Position = new(0, 0, -5) }
+    }
+});
+</code></pre>
+<p><a class="xref" href="api/OmegaEngine.Graphics.Renderables.Pivot.html">Pivot</a> is a renderable without geometry meant purely for grouping.</p>
+<pre><code class="lang-csharp">scene.Positionables.Add(new Pivot
+{
+    Position = new(0, 0, 100),
+    Children =
+    {
+        new Model(XMesh.Get(engine, &quot;Hull.x&quot;)),
+        new Model(XMesh.Get(engine, &quot;Engine.x&quot;)) { Position = new(0, 0, -5) }
+    }
+});
+</code></pre>
+<p>Adding a renderable to a collection removes it from its previous one and keeps its local <code>Position</code>, <code>Rotation</code>, <code>Scale</code> and <code>PreTransform</code>, i.e. its world position changes to match the new parent.</p>
+<p>Rotation, scale and <code>PreTransform</code> are inherited in full, so non-uniform scaling on a parent combined with a rotated child produces shear.</p>
+<p>Setting <code>Visible = false</code> on a renderable hides it together with its entire subtree.</p>
+<p><a class="xref" href="api/OmegaEngine.Graphics.LightSources.PointLight.html">PointLight</a> and <a class="xref" href="api/OmegaEngine.Audio.Sound3D.html">Sound3D</a> can follow a renderable instead of holding an absolute position: set <code>AttachedTo</code> and give them a local <code>Offset</code>.</p>
+<h2 id="camera-dependent-effects">Camera-dependent effects</h2>
+<p>Some properties of <a class="xref" href="api/OmegaEngine.Graphics.Renderables.PositionableRenderable.html">PositionableRenderable</a> adjust how a renderable is drawn based on its relation to the camera. They are evaluated per view, so a renderable shown by multiple views with different cameras is adjusted separately for each of them. They only affect rendering; the renderable's <code>Position</code>, <code>Rotation</code> and <code>Scale</code> stay unchanged.</p>
+<h3 id="billboard">Billboard</h3>
+<p><a class="xref" href="api/OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_Billboard">Billboard</a> rotates a renderable to face the camera, which is useful for flat sprites such as sun flares, labels or impostors standing in for distant geometry. The <a class="xref" href="api/OmegaEngine.Graphics.Renderables.BillboardMode.html">BillboardMode</a> controls how:</p>
+<ul>
+<li><strong>Spherical</strong>: The renderable always faces the camera fully, regardless of the camera's elevation.</li>
+<li><strong>Cylindrical</strong>: The renderable only rotates around its vertical axis, so it stays upright, e.g. for trees or characters.</li>
+</ul>
+<p>This applies to leaf nodes only; it has no effect while a renderable has children.</p>
+<h3 id="minimum-screen-size">Minimum screen size</h3>
+<p><a class="xref" href="api/OmegaEngine.Graphics.Renderables.PositionableRenderable.html#OmegaEngine_Graphics_Renderables_PositionableRenderable_MinScreenSizeDistance">MinScreenSizeDistance</a> keeps distant renderables from shrinking to nothing on screen. While closer to the camera than this distance, a renderable is drawn at its natural size. Farther away, it is scaled up so that it never appears smaller than it would at this distance, i.e. its apparent size (angular diameter) stays constant.</p>
+<p>This is useful for objects that should remain visible and selectable at any distance, such as markers or units on a strategic map.</p>
+<p>This applies to leaf nodes only; it has no effect while a renderable has children. The scaling is applied on top of <code>Scale</code>.</p>
+<h3 id="distance-compression">Distance compression</h3>
+<p>Distance compression lets very distant objects, such as planets or moons, be shown in a scene without pushing the camera's <a class="xref" href="api/OmegaEngine.Graphics.Cameras.Camera.html#OmegaEngine_Graphics_Cameras_Camera_FarClip">FarClip</a> out so far that depth buffer precision suffers. It is enabled by setting the scene's <a class="xref" href="api/OmegaEngine.Graphics.Scene.html#OmegaEngine_Graphics_Scene_DistanceCompressionStart">DistanceCompressionStart</a> (<code>null</code>, the default, disables it). Renderables farther away than this distance are then pulled in closer to the camera and scaled down correspondingly, so their outline on screen is unchanged and only their depth differs. While enabled, renderables are not culled by <code>FarClip</code>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Distance compression serves a similar purpose as a logarithmic depth buffer (logarithmic Z-buffer): it lets a scene span vast distances without running out of depth buffer precision. However, instead of remapping depth values per vertex or pixel in shaders, it scales entire subtrees around the camera on the CPU. It therefore works with any shader and with hardware depth tests unchanged, but only orders renderables correctly as whole subtrees (see below).</p>
+</div>
+<p>This applies to each top-level renderable together with all its children, which are pulled in alike and stay in place relative to each other. It is measured to the surface of the subtree's bounding sphere, so no part of the subtree is rendered closer than <code>DistanceCompressionStart</code>, unless the subtree has to be pulled in further to keep its far side within <code>FarClip</code>.</p>
+<p>Renderables beyond <code>DistanceCompressionStart</code> are pulled in logarithmically. A surface at distance <code>x</code> is rendered at <code>d + r * (1 - exp(-d * ln(x / d) / r))</code>, where <code>d</code> is <code>DistanceCompressionStart</code> and <code>r</code> the room left up to <code>FarClip</code>. This is close to <code>d * (1 + ln(x / d))</code> while far short of <code>FarClip</code>, but approaches it instead of exceeding it.</p>
+<p>This keeps pulled-in renderables at clearly different distances in the right Z-order. It is not guaranteed for renderables whose depth ranges overlap, since each subtree is scaled as a whole by a factor measured to its own nearest surface, nor for subtrees pulled in further to fit within <code>FarClip</code>. They are spread across the depth range between <code>DistanceCompressionStart</code> and <code>FarClip</code>, so leave enough room between the two.</p>
+<p>Fog is applied at the distance a renderable is rendered at, not the one it actually has. Pulled-in renderables are therefore usually fogged less than their actual distance would call for.</p>
+<p>Distance compression can be combined with <code>MinScreenSizeDistance</code> for very large, very distant objects that should also stay visible.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/omegaengine/omegaengine/blob/1.23.3/doc/scenes.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          Copyright Bastian Eicher
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
