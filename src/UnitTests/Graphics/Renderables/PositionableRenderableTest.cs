@@ -51,7 +51,7 @@ public class PositionableRenderableTest : EngineTestBase
 
         // Camera closer than the start distance: the factor is clamped to 1, so no scaling occurs
         var camera = new ArcballCamera {Radius = 50, Size = new Size(800, 600)};
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000);
+        model.IsVisible(camera);
 
         model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius, 0.001f);
     }
@@ -66,7 +66,7 @@ public class PositionableRenderableTest : EngineTestBase
 
         // Camera at twice the start distance: factor = distance / AutoScaleDistance = 2
         var camera = new ArcballCamera {Radius = 200, Size = new Size(800, 600)};
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000);
+        model.IsVisible(camera);
 
         model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
     }
@@ -79,25 +79,25 @@ public class PositionableRenderableTest : EngineTestBase
 
         model.AutoScaleDistance = 100;
         var camera = new ArcballCamera {Radius = 200, Size = new Size(800, 600)};
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000);
+        model.IsVisible(camera);
         model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
 
         // Auto-scaling is a leaf-only camera effect, so it must stop applying once the body becomes a parent
         using var child = new Pivot();
         model.Children.Add(child);
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000);
+        model.IsVisible(camera);
         model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius, 0.001f);
 
         // ... and start applying again once it is a leaf again
         model.Children.Remove(child);
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000);
+        model.IsVisible(camera);
         model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
     }
 
     /// <summary>
     /// Returns where the <paramref name="model"/>'s origin is actually rendered when looked at with the <paramref name="camera"/>.
     /// </summary>
-    private static DoubleVector3 GetRenderedPosition(Model model, Camera camera, float forcedPerspectiveDistance)
+    private static DoubleVector3 GetRenderedPosition(Model model, Camera camera, float? forcedPerspectiveDistance)
     {
         model.IsVisible(camera, forcedPerspectiveDistance);
         var transform = model.WorldTransform;
@@ -107,13 +107,13 @@ public class PositionableRenderableTest : EngineTestBase
     /// <summary>
     /// Returns how far from the <paramref name="camera"/> the <paramref name="model"/>'s origin is actually rendered.
     /// </summary>
-    private static double GetRenderedDistance(Model model, Camera camera, float forcedPerspectiveDistance)
+    private static double GetRenderedDistance(Model model, Camera camera, float? forcedPerspectiveDistance)
         => (GetRenderedPosition(model, camera, forcedPerspectiveDistance) - camera.Position).Length();
 
     /// <summary>
     /// Returns by how much the <paramref name="model"/> is scaled around the <paramref name="camera"/> by forced perspective.
     /// </summary>
-    private static double GetRenderedScaling(Model model, Camera camera, float forcedPerspectiveDistance)
+    private static double GetRenderedScaling(Model model, Camera camera, float? forcedPerspectiveDistance)
         => GetRenderedDistance(model, camera, forcedPerspectiveDistance) / (model.WorldPosition - camera.Position).Length();
 
     /// <summary>
@@ -143,7 +143,6 @@ public class PositionableRenderableTest : EngineTestBase
     public void ForcedPerspectiveKeepsDistancesInOrder()
     {
         using var model = Sphere(radius: 10);
-        model.ForcedPerspective = true;
 
         var near = new ArcballCamera {Radius = 1010, FarClip = DistantFarClip, Size = new Size(800, 600)};
         var far = new ArcballCamera {Radius = 5010, FarClip = DistantFarClip, Size = new Size(800, 600)};
@@ -156,7 +155,6 @@ public class PositionableRenderableTest : EngineTestBase
     public void ForcedPerspectiveFollowsTheDistance()
     {
         using var model = Sphere(radius: 10);
-        model.ForcedPerspective = true;
 
         var camera = new ArcballCamera {Radius = 5010, FarClip = DistantFarClip, Size = new Size(800, 600)};
         GetRenderedDistance(model, camera, 100).Should().BeApproximately(5010 * PullIn(5000, 100) / 5000, 0.01);
@@ -167,7 +165,6 @@ public class PositionableRenderableTest : EngineTestBase
     public void ForcedPerspectiveApproachesFarClip()
     {
         using var model = Sphere(radius: 10);
-        model.ForcedPerspective = true;
 
         double previousSurfaceDistance = 100;
         foreach (float radius in new[] {10_000f, 100_000f, 10_000_000f})
@@ -187,7 +184,6 @@ public class PositionableRenderableTest : EngineTestBase
     public void ForcedPerspectiveKeepsTheFarSideWithinFarClip()
     {
         using var model = Sphere(radius: 500);
-        model.ForcedPerspective = true;
 
         // Pulling the surface in to at least 950 would put the far side at 5500 * 950 / 4500 > 1000, so it is pulled in further
         var camera = new ArcballCamera {Radius = 5_000, FarClip = 1_000, Size = new Size(800, 600)};
@@ -201,7 +197,6 @@ public class PositionableRenderableTest : EngineTestBase
     {
         using var model = Sphere(radius: 10);
         model.AutoScaleDistance = 100;
-        model.ForcedPerspective = true;
 
         // Auto-scaled by 10_000 / 100, so the surface is 9_000 away
         var camera = new ArcballCamera {Radius = 10_000, FarClip = DistantFarClip, Size = new Size(800, 600)};
@@ -212,7 +207,6 @@ public class PositionableRenderableTest : EngineTestBase
     public void ForcedPerspectiveLeavesCloseRenderablesAlone()
     {
         using var model = Sphere(radius: 10);
-        model.ForcedPerspective = true;
 
         // The center is beyond the distance, but the surface is not
         var camera = new ArcballCamera {Radius = 105, Size = new Size(800, 600)};
@@ -220,19 +214,19 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveLeavesRenderablesWithoutItAlone()
+    public void ForcedPerspectiveOffLeavesRenderablesAlone()
     {
         using var model = Sphere(radius: 10);
 
         var camera = new ArcballCamera {Radius = 5_000, FarClip = 1_000, Size = new Size(800, 600)};
-        GetRenderedDistance(model, camera, 100).Should().BeApproximately(5_000, 0.01);
-        model.IsVisible(camera, 100).Should().BeFalse("it is still culled by the far clip plane");
+        GetRenderedDistance(model, camera, null).Should().BeApproximately(5_000, 0.01);
+        model.IsVisible(camera, null).Should().BeFalse("it is still culled by the far clip plane");
     }
 
     [Fact]
     public void ForcedPerspectivePullsInTheWholeSubtreeAlike()
     {
-        using var parent = new Pivot {ForcedPerspective = true};
+        using var parent = new Pivot();
         using var center = Sphere(radius: 10);
         using var offCenter = Sphere(radius: 10);
         offCenter.Position = new(0, 300, 0);
@@ -256,13 +250,13 @@ public class PositionableRenderableTest : EngineTestBase
         // Pulled in from beyond the far clip plane
         center.IsVisible(camera, 100).Should().BeTrue();
         offCenter.IsVisible(camera, 100).Should().BeTrue();
-        parent.SubtreeInFrustum(camera).Should().BeTrue();
+        parent.SubtreeInFrustum(camera, 100).Should().BeTrue();
     }
 
     [Fact]
     public void ForcedPerspectivePullsInSubtreeSurface()
     {
-        using var parent = new Pivot {ForcedPerspective = true};
+        using var parent = new Pivot();
         using var center = Sphere(radius: 10);
         using var offCenter = Sphere(radius: 10);
         offCenter.Position = new(0, 300, 0);
@@ -281,20 +275,19 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void NestedForcedPerspectiveAppliesOnce()
+    public void ForcedPerspectiveAppliesOnceToNestedRenderables()
     {
-        using var parent = new Pivot {ForcedPerspective = true};
+        using var parent = new Pivot();
         using var child = Sphere(radius: 10);
-        child.ForcedPerspective = true;
         parent.Children.Add(child);
 
-        // The parent pulls in its whole subtree, measured to the child's surface 9_990 away; the child adds nothing on top
+        // The root pulls in its whole subtree, measured to the child's surface 9_990 away; the child adds nothing on top
         var camera = new ArcballCamera {Radius = 10_000, FarClip = DistantFarClip, Size = new Size(800, 600)};
         GetRenderedScaling(child, camera, 100).Should().BeApproximately(PullIn(9_990, 100) / 9_990, 1e-6);
     }
 
     [Fact]
-    public void ForcedPerspectiveOfAncestorDisablesFarClipCullingForDescendants()
+    public void ForcedPerspectiveDisablesFarClipCulling()
     {
         using var root = new Pivot();
         using var middle = Sphere(radius: 10);
@@ -303,12 +296,11 @@ public class PositionableRenderableTest : EngineTestBase
         middle.Children.Add(leaf);
 
         var camera = new ArcballCamera {Radius = 5_000, FarClip = 1_000, Size = new Size(800, 600)};
-        middle.SubtreeInFrustum(camera).Should().BeFalse();
-        leaf.IsVisible(camera, 100).Should().BeFalse();
+        middle.SubtreeInFrustum(camera, null).Should().BeFalse();
+        leaf.IsVisible(camera, null).Should().BeFalse();
 
-        // Neither the middle body nor its subtree uses forced perspective itself, but the root pulls them in
-        root.ForcedPerspective = true;
-        middle.SubtreeInFrustum(camera).Should().BeTrue();
+        // The root pulls in its entire subtree
+        middle.SubtreeInFrustum(camera, 100).Should().BeTrue();
         leaf.IsVisible(camera, 100).Should().BeTrue();
     }
 
@@ -319,7 +311,6 @@ public class PositionableRenderableTest : EngineTestBase
         using var child = Sphere(radius: 10);
         child.Position = new(0, 300, 0);
         parent.Children.Add(child);
-        parent.ForcedPerspective = true;
 
         var camera = new ArcballCamera {Radius = 10_000, FarClip = 100_000, Size = new Size(800, 600)};
         var renderedParent = GetRenderedPosition(parent, camera, 100);
@@ -339,7 +330,6 @@ public class PositionableRenderableTest : EngineTestBase
         child.Position = new(0, 300, 0);
         parent.Children.Add(child);
         parent.Position = new(1e9, 0, 0);
-        parent.ForcedPerspective = true;
 
         // Far beyond what single precision can resolve to within 0.01, so this only holds if the floating origin is applied in double precision
         var camera = new ArcballCamera {Target = parent.Position, Radius = 10_000, FarClip = DistantFarClip, Size = new Size(800, 600)};
@@ -373,11 +363,11 @@ public class PositionableRenderableTest : EngineTestBase
             Size = new Size(800, 600)
         };
 
-        child.IsVisible(camera, forcedPerspectiveDistance: 10_000).Should().BeTrue();
+        child.IsVisible(camera).Should().BeTrue();
 
         // Moving the parent takes the child out of the frustum, even though the child's own position is unchanged
         parent.Position = new(0, 0, 10_000);
-        child.IsVisible(camera, forcedPerspectiveDistance: 10_000).Should().BeFalse();
+        child.IsVisible(camera).Should().BeFalse();
     }
 
     [Fact]
@@ -387,11 +377,11 @@ public class PositionableRenderableTest : EngineTestBase
         var camera = new ArcballCamera {Radius = 20, Size = new Size(800, 600)};
 
         model.Visible = false;
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000).Should().BeFalse();
+        model.IsVisible(camera).Should().BeFalse();
 
         model.Visible = true;
         model.Alpha = EngineState.Invisible;
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000).Should().BeFalse();
+        model.IsVisible(camera).Should().BeFalse();
     }
 
     [Fact]
@@ -425,10 +415,10 @@ public class PositionableRenderableTest : EngineTestBase
 
         // The model sits at the origin, well within the camera's near/far clip range
         model.Position = new();
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000).Should().BeTrue();
+        model.IsVisible(camera).Should().BeTrue();
 
         // Moving it far beyond the far clip plane must cull it
         model.Position = new(0, 0, 10_000);
-        model.IsVisible(camera, forcedPerspectiveDistance: 10_000).Should().BeFalse();
+        model.IsVisible(camera).Should().BeFalse();
     }
 }

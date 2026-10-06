@@ -207,7 +207,7 @@ public partial class Model : PositionableRenderable
         var camera = context.Camera;
         bool drawBoundingBodies = GetSurfaceEffect(context, SurfaceShader) < SurfaceEffect.Glow;
         bool firstClippedSubsetRendered = false;
-        bool ignoreFarClip = IsPulledIn;
+        bool ignoreFarClip = IgnoresFarClip;
         for (int i = 0; i < NumberSubsets; i++)
         {
             var boundingSphere = SubsetWorldBoundingSpheres?[i];

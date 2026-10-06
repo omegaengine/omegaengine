@@ -277,19 +277,6 @@ public class SceneGraphTest
     }
 
     [Fact]
-    public void ForcedPerspectiveLeafDisablesFarClipCullingForItsAncestors()
-    {
-        using var root = new Pivot();
-        using var leaf = new Probe();
-        root.Children.Add(leaf);
-        root.SubtreeIgnoresFarClip.Should().BeFalse();
-
-        leaf.ForcedPerspective = true;
-        root.SubtreeIgnoresFarClip.Should().BeTrue();
-        root.SubtreeBoundingSphere.Should().NotBeNull("forced perspective only disables far clip culling");
-    }
-
-    [Fact]
     public void BillboardedLeafSubtreeBoundsAreCameraIndependent()
     {
         using var root = new Pivot {Position = new(10, 0, 0)};
@@ -297,12 +284,12 @@ public class SceneGraphTest
         root.Children.Add(leaf);
         var expected = root.SubtreeBoundingSphere!.Value;
 
-        leaf.IsVisible(new ArcballCamera {Radius = 20, Size = new Size(800, 600)}, forcedPerspectiveDistance: 10_000);
+        leaf.IsVisible(new ArcballCamera {Radius = 20, Size = new Size(800, 600)});
         var firstCenter = leaf.WorldBoundingSphere!.Value.Center;
         root.SubtreeBoundingSphere.Should().Be(expected, "the subtree bounds cover every possible billboard rotation");
         ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);
 
-        leaf.IsVisible(new ArcballCamera {Radius = 20, Yaw = 90, Pitch = 45, Size = new Size(800, 600)}, forcedPerspectiveDistance: 10_000);
+        leaf.IsVisible(new ArcballCamera {Radius = 20, Yaw = 90, Pitch = 45, Size = new Size(800, 600)});
         leaf.WorldBoundingSphere!.Value.Center.Should().NotBe(firstCenter, "the billboard turns with the camera");
         root.SubtreeBoundingSphere.Should().Be(expected, "the subtree bounds cover every possible billboard rotation");
         ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);

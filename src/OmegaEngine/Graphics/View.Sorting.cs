@@ -155,7 +155,7 @@ partial class View
         if (!body.Visible) return;
 
         // Leaves skip this, since it would only duplicate their own frustum check below
-        if (body.ChildCollection.Count != 0 && !body.SubtreeInFrustum(Camera)) return;
+        if (body.ChildCollection.Count != 0 && !body.SubtreeInFrustum(Camera, Scene.ForcedPerspectiveDistance)) return;
 
         // Filter out pivots (nothing to draw) and bodies that don't belong in this type of view
         if (body is not Pivot && IsToRender(body))
