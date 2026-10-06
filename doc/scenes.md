@@ -108,9 +108,9 @@ Some properties of <xref:OmegaEngine.Graphics.Renderables.PositionableRenderable
 
 This applies to leaf nodes only; it has no effect while a renderable has children.
 
-### Auto scale
+### Minimum screen size
 
-<xref:OmegaEngine.Graphics.Renderables.PositionableRenderable.AutoScaleDistance> keeps distant renderables from shrinking to nothing on screen. While closer to the camera than this distance, a renderable is drawn at its natural size. Farther away, it is scaled up so that it never appears smaller than it would at this distance, i.e. its apparent size (angular diameter) stays constant.
+<xref:OmegaEngine.Graphics.Renderables.PositionableRenderable.MinScreenSizeDistance> keeps distant renderables from shrinking to nothing on screen. While closer to the camera than this distance, a renderable is drawn at its natural size. Farther away, it is scaled up so that it never appears smaller than it would at this distance, i.e. its apparent size (angular diameter) stays constant.
 
 This is useful for objects that should remain visible and selectable at any distance, such as markers or units on a strategic map.
 
@@ -131,4 +131,4 @@ This keeps pulled-in renderables at clearly different distances in the right Z-o
 
 Fog is applied at the distance a renderable is rendered at, not the one it actually has. Pulled-in renderables are therefore usually fogged less than their actual distance would call for.
 
-Distance compression can be combined with `AutoScaleDistance` for very large, very distant objects that should also stay visible.
+Distance compression can be combined with `MinScreenSizeDistance` for very large, very distant objects that should also stay visible.

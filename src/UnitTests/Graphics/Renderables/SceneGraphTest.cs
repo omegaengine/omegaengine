@@ -261,18 +261,18 @@ public class SceneGraphTest
     }
 
     [Fact]
-    public void AutoScaledLeafMakesItsAncestorsUncullable()
+    public void MinScreenSizeLeafMakesItsAncestorsUncullable()
     {
         using var root = new Pivot();
         using var leaf = new Probe();
         root.Children.Add(leaf);
         root.SubtreeBoundingSphere.Should().NotBeNull();
 
-        leaf.AutoScaleDistance = 100;
-        root.SubtreeBoundingSphere.Should().BeNull("auto-scaling grows without bound as the camera moves away");
-        root.SubtreeBoundingBox.Should().BeNull("auto-scaling grows without bound as the camera moves away");
+        leaf.MinScreenSizeDistance = 100;
+        root.SubtreeBoundingSphere.Should().BeNull("minimum screen size scaling grows without bound as the camera moves away");
+        root.SubtreeBoundingBox.Should().BeNull("minimum screen size scaling grows without bound as the camera moves away");
 
-        leaf.AutoScaleDistance = null;
+        leaf.MinScreenSizeDistance = null;
         root.SubtreeBoundingSphere.Should().NotBeNull();
     }
 

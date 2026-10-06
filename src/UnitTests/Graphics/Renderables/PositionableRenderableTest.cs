@@ -42,14 +42,14 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void AutoScaleDistanceKeepsNaturalSizeWhenClose()
+    public void MinScreenSizeDistanceKeepsNaturalSizeWhenClose()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
         float originalRadius = model.WorldBoundingSphere!.Value.Radius;
 
-        model.AutoScaleDistance = 100;
+        model.MinScreenSizeDistance = 100;
 
-        // Camera closer than the start distance: the factor is clamped to 1, so no scaling occurs
+        // Camera closer than MinScreenSizeDistance: the factor is clamped to 1, so no scaling occurs
         var camera = new ArcballCamera {Radius = 50, Size = new Size(800, 600)};
         model.IsVisible(camera);
 
@@ -57,14 +57,14 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void AutoScaleDistanceScalesUpWhenFar()
+    public void MinScreenSizeDistanceScalesUpWhenFar()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
         float originalRadius = model.WorldBoundingSphere!.Value.Radius;
 
-        model.AutoScaleDistance = 100;
+        model.MinScreenSizeDistance = 100;
 
-        // Camera at twice the start distance: factor = distance / AutoScaleDistance = 2
+        // Camera at twice MinScreenSizeDistance: factor = distance / MinScreenSizeDistance = 2
         var camera = new ArcballCamera {Radius = 200, Size = new Size(800, 600)};
         model.IsVisible(camera);
 
@@ -72,17 +72,17 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void AutoScaleDistanceIsIgnoredWhileTheBodyHasChildren()
+    public void MinScreenSizeDistanceIsIgnoredWhileTheBodyHasChildren()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
         float originalRadius = model.WorldBoundingSphere!.Value.Radius;
 
-        model.AutoScaleDistance = 100;
+        model.MinScreenSizeDistance = 100;
         var camera = new ArcballCamera {Radius = 200, Size = new Size(800, 600)};
         model.IsVisible(camera);
         model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
 
-        // Auto-scaling is a leaf-only camera effect, so it must stop applying once the body becomes a parent
+        // Minimum screen size is a leaf-only camera effect, so it must stop applying once the body becomes a parent
         using var child = new Pivot();
         model.Children.Add(child);
         model.IsVisible(camera);
@@ -193,12 +193,12 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void DistanceCompressionMeasuresAutoScaledLeaves()
+    public void DistanceCompressionMeasuresMinScreenSizeLeaves()
     {
         using var model = Sphere(radius: 10);
-        model.AutoScaleDistance = 100;
+        model.MinScreenSizeDistance = 100;
 
-        // Auto-scaled by 10_000 / 100, so the surface is 9_000 away
+        // Scaled up by 10_000 / 100 for its minimum screen size, so the surface is 9_000 away
         var camera = new ArcballCamera {Radius = 10_000, FarClip = DistantFarClip, Size = new Size(800, 600)};
         GetRenderedDistance(model, camera, 1_000).Should().BeApproximately(10_000 * PullIn(9_000, 1_000) / 9_000, 0.01);
     }

@@ -235,7 +235,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private Matrix _billboardRotation = Matrix.Identity;
     private double _distanceCompressionScaling = 1;
     private DoubleVector3 _distanceCompressionCenter;
-    private float _autoScaleFactor = 1;
+    private float _minScreenSizeScaling = 1;
 
     /// <summary>
     /// A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes
@@ -294,17 +294,17 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    private float? _autoScaleDistance;
+    private float? _minScreenSizeDistance;
 
     /// <summary>
-    /// The distance from the <see cref="Camera"/> beyond which the renderable is automatically scaled up to preserve its apparent size (angular diameter), keeping distant objects visible.
+    /// The renderable never appears smaller on screen than it does at this distance from the <see cref="Camera"/>, keeping distant objects visible.
     /// </summary>
     /// <remarks>
-    /// <para>While closer than this distance the renderable renders at its natural size; farther away it is scaled up so that it never appears smaller than it does at this distance.</para>
-    /// <para>The auto-scaling is applied on top of <see cref="Scale"/> and is reflected in the bounding bodies used for culling. Combine with <see cref="Scene.DistanceCompressionStart"/> for very large, very distant objects.</para>
+    /// <para>While closer than this distance the renderable renders at its natural size; farther away it is scaled up to preserve its apparent size (angular diameter) at this distance.</para>
+    /// <para>The scaling is applied on top of <see cref="Scale"/> and is reflected in the bounding bodies used for culling. Combine with <see cref="Scene.DistanceCompressionStart"/> for very large, very distant objects.</para>
     /// </remarks>
-    [Description("The distance from the camera beyond which the renderable is automatically scaled up to preserve its apparent size (angular diameter), keeping distant objects visible."), Category("Layout")]
-    public float? AutoScaleDistance { get => _autoScaleDistance; set => value.To(ref _autoScaleDistance, MarkDirty); }
+    [Description("The renderable never appears smaller on screen than it does at this distance from the camera, keeping distant objects visible."), Category("Layout")]
+    public float? MinScreenSizeDistance { get => _minScreenSizeDistance; set => value.To(ref _minScreenSizeDistance, MarkDirty); }
     #endregion
 
     #region Transform results
@@ -435,18 +435,18 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
-    /// Applies auto-scaling and billboarding to the <paramref name="physicalWorldTransform"/>.
+    /// Applies minimum screen size scaling and billboarding to the <paramref name="physicalWorldTransform"/>.
     /// </summary>
     /// <remarks>These apply to leaves only, so they never distort a body's descendants.</remarks>
     private Matrix ApplyLeafEffects(Matrix physicalWorldTransform)
     {
-        if (_children.Count != 0 || (_autoScaleFactor == 1 && _billboardRotation.IsIdentity)) return physicalWorldTransform;
+        if (_children.Count != 0 || (_minScreenSizeScaling == 1 && _billboardRotation.IsIdentity)) return physicalWorldTransform;
 
         // Peel the body's own floating position off the physical transform, apply the camera effects around it and put it back on
         var floatingPosition = this.ApplyFloatingOriginTo(_worldPosition);
         return physicalWorldTransform
              * Matrix.Translation(-floatingPosition)
-             * Matrix.Scaling(new(_autoScaleFactor))
+             * Matrix.Scaling(new(_minScreenSizeScaling))
              * _billboardRotation
              * Matrix.Translation(floatingPosition);
     }
@@ -480,7 +480,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <summary>
     /// The world transformation matrix for this entity, composed purely from the hierarchy's transforms.
     /// </summary>
-    /// <remarks>Unlike <see cref="WorldTransformCached"/> this carries no billboarding, distance compression or auto-scaling. Its translation is still relative to the floating origin.</remarks>
+    /// <remarks>Unlike <see cref="WorldTransformCached"/> this carries no billboarding, distance compression or minimum screen size scaling. Its translation is still relative to the floating origin.</remarks>
     protected Matrix PhysicalWorldTransform
     {
         get
@@ -596,7 +596,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// A sphere that completely encompasses this body and all its <see cref="Children"/> (in floating world space, used for culling whole subtrees).
     /// </summary>
     /// <remarks>
-    /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="AutoScaleDistance"/>.</para>
+    /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="MinScreenSizeDistance"/>.</para>
     /// <para>Unlike <see cref="WorldBoundingSphere"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a sphere enclosing every possible rotation and <see cref="Scene.DistanceCompressionStart"/> is not applied.</para>
     /// </remarks>
     [Browsable(false)]
@@ -613,7 +613,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// An axis-aligned box that completely encompasses this body and all its <see cref="Children"/> (in floating world space, used for culling whole subtrees).
     /// </summary>
     /// <remarks>
-    /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="AutoScaleDistance"/>.</para>
+    /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="MinScreenSizeDistance"/>.</para>
     /// <para>Unlike <see cref="WorldBoundingBox"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a box enclosing every possible rotation and <see cref="Scene.DistanceCompressionStart"/> is not applied.</para>
     /// </remarks>
     [Browsable(false)]
@@ -669,11 +669,11 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         box = null;
         if (this is Pivot) return true; // Nothing to draw
 
-        // Auto-scaling and billboarding apply to leaves only
+        // Minimum screen size and billboarding apply to leaves only
         bool isLeaf = _children.Count == 0;
 
-        // The auto-scaling grows without bound as the camera moves away
-        if (isLeaf && _autoScaleDistance != null) return false;
+        // The minimum screen size scaling grows without bound as the camera moves away
+        if (isLeaf && _minScreenSizeDistance != null) return false;
 
         sphere = _boundingSphere?.Transform(_physicalWorldTransform);
         box = _boundingBox?.Transform(_physicalWorldTransform);
@@ -767,7 +767,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (_children.Count == 0)
         {
             double distanceFromCamera = (camera.Position - WorldPosition).Length();
-            GetAutoScale(distanceFromCamera).To(ref _autoScaleFactor, MarkRenderDirty);
+            GetMinScreenSizeScaling(distanceFromCamera).To(ref _minScreenSizeScaling, MarkRenderDirty);
 
             (Billboard switch
             {
@@ -818,7 +818,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 return cache.scaling;
         }
 
-        // A leaf's own bounds with auto-scaling and billboarding; else the subtree's bounds or the body's own without camera effects; else just its position
+        // A leaf's own bounds with minimum screen size scaling and billboarding; else the subtree's bounds or the body's own without camera effects; else just its position
         var sphere = (cacheable
                          ? SubtreeBoundingSphere ?? _boundingSphere?.Transform(PhysicalWorldTransform)
                          : _boundingSphere?.Transform(ApplyLeafEffects(PhysicalWorldTransform)))
@@ -856,9 +856,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         return maxDistance + range * (1 - Math.Exp(-logarithmicOffset / range));
     }
 
-    private float GetAutoScale(double distanceFromCamera)
-        => AutoScaleDistance is {} startDistance
-            ? (float)Math.Max(1, distanceFromCamera / startDistance)
+    private float GetMinScreenSizeScaling(double distanceFromCamera)
+        => MinScreenSizeDistance is {} minScreenSizeDistance
+            ? (float)Math.Max(1, distanceFromCamera / minScreenSizeDistance)
             : 1;
     #endregion
 
