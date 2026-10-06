@@ -65,15 +65,13 @@ public sealed class Scene : EngineElement
     public ICollection<LightSource> Lights => _lights;
 
     /// <summary>
-    /// When a <see cref="PositionableRenderable"/> is farther than this distance from the <see cref="Camera"/>, it is instead pulled in logarithmically beyond this distance, with corresponding scaling applied to preserve its apparent size (angular diameter). <c>null</c> to disable forced perspective.
+    /// Renderables farther than this from the <see cref="Camera"/> are pulled in logarithmically and scaled down to preserve their apparent size. <c>null</c> to disable.
     /// </summary>
     /// <remarks>
-    /// <para>While enabled, renderables are not culled by <see cref="Camera.FarClip"/>.</para>
-    /// <para>The surface is rendered at <c>d + r * (1 - exp(-d * ln(x / d) / r))</c>, where <c>d</c> is this distance, <c>x</c> the distance it actually has and <c>r</c> the room left up to <see cref="Camera.FarClip"/>. This is close to <c>d * (1 + ln(x / d))</c> while far short of <see cref="Camera.FarClip"/>, but approaches it instead of exceeding it. This keeps renderables at clearly different distances in order and squeezes even very large distances into the depth range up to <see cref="Camera.FarClip"/>.</para>
-    /// <para>The order is not guaranteed for renderables whose depth ranges overlap: each subtree is scaled as a whole by a factor measured to its own nearest surface, so its far parts may end up behind another renderable that is actually behind them.</para>
-    /// <para>Leave enough room between this value and <see cref="Camera.FarClip"/> of every <see cref="View"/> showing this scene, since that is the depth range the pulled-in renderables are spread across.</para>
+    /// <para>Serves a similar purpose as a logarithmic depth buffer: very distant renderables fit within <see cref="Camera.FarClip"/> without sacrificing depth buffer precision. However, it scales entire top-level subtrees on the CPU instead of remapping depth per pixel.</para>
+    /// <para>While enabled, renderables are not culled by <see cref="Camera.FarClip"/>. Leave enough room between this value and <see cref="Camera.FarClip"/>, since that is the depth range pulled-in renderables are spread across.</para>
     /// </remarks>
-    public float? ForcedPerspectiveDistance { get; set; }
+    public float? DistanceCompressionStart { get; set; }
     #endregion
 
     #region Constructor

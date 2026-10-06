@@ -142,7 +142,7 @@ public partial class Model : PositionableRenderable
                 {
                     _subsetWorldBoundingSpheresCached ??= new BoundingSphere[SubsetBoundingSpheres.Length];
                     for (int i = 0; i < _subsetWorldBoundingSpheresCached.Length; i++)
-                        _subsetWorldBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(WorldTransformWithoutForcedPerspectiveCached);
+                        _subsetWorldBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(WorldTransformWithoutDistanceCompressionCached);
                 }
                 _subsetWorldBoundingSpheresDirty = false;
             }
@@ -177,7 +177,7 @@ public partial class Model : PositionableRenderable
                 {
                     _subsetWorldBoundingBoxesCached ??= new BoundingBox[SubsetBoundingBoxes.Length];
                     for (int i = 0; i < _subsetWorldBoundingBoxesCached.Length; i++)
-                        _subsetWorldBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(WorldTransformWithoutForcedPerspectiveCached);
+                        _subsetWorldBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(WorldTransformWithoutDistanceCompressionCached);
                 }
                 _subsetWorldBoundingBoxesDirty = false;
             }
@@ -207,7 +207,6 @@ public partial class Model : PositionableRenderable
         var camera = context.Camera;
         bool drawBoundingBodies = GetSurfaceEffect(context, SurfaceShader) < SurfaceEffect.Glow;
         bool firstClippedSubsetRendered = false;
-        bool ignoreFarClip = IgnoresFarClip;
         for (int i = 0; i < NumberSubsets; i++)
         {
             var boundingSphere = SubsetWorldBoundingSpheres?[i];
@@ -215,8 +214,8 @@ public partial class Model : PositionableRenderable
 
             // Per-subset frustum culling
             {
-                if (boundingSphere is {} sphere && !camera.InFrustum(sphere, ignoreFarClip)) continue;
-                if (boundingBox is {} box && !camera.InFrustum(box, ignoreFarClip)) continue;
+                if (boundingSphere is {} sphere && !camera.InFrustum(sphere, IgnoresFarClip)) continue;
+                if (boundingBox is {} box && !camera.InFrustum(box, IgnoresFarClip)) continue;
             }
 
             RenderSubset(i, context);

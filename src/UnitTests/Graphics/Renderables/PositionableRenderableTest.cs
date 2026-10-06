@@ -97,9 +97,9 @@ public class PositionableRenderableTest : EngineTestBase
     /// <summary>
     /// Returns where the <paramref name="model"/>'s origin is actually rendered when looked at with the <paramref name="camera"/>.
     /// </summary>
-    private static DoubleVector3 GetRenderedPosition(Model model, Camera camera, float? forcedPerspectiveDistance)
+    private static DoubleVector3 GetRenderedPosition(Model model, Camera camera, float? distanceCompressionStart)
     {
-        model.IsVisible(camera, forcedPerspectiveDistance);
+        model.IsVisible(camera, distanceCompressionStart);
         var transform = model.WorldTransform;
         return new(transform.M41, transform.M42, transform.M43);
     }
@@ -107,17 +107,17 @@ public class PositionableRenderableTest : EngineTestBase
     /// <summary>
     /// Returns how far from the <paramref name="camera"/> the <paramref name="model"/>'s origin is actually rendered.
     /// </summary>
-    private static double GetRenderedDistance(Model model, Camera camera, float? forcedPerspectiveDistance)
-        => (GetRenderedPosition(model, camera, forcedPerspectiveDistance) - camera.Position).Length();
+    private static double GetRenderedDistance(Model model, Camera camera, float? distanceCompressionStart)
+        => (GetRenderedPosition(model, camera, distanceCompressionStart) - camera.Position).Length();
 
     /// <summary>
-    /// Returns by how much the <paramref name="model"/> is scaled around the <paramref name="camera"/> by forced perspective.
+    /// Returns by how much the <paramref name="model"/> is scaled around the <paramref name="camera"/> by distance compression.
     /// </summary>
-    private static double GetRenderedScaling(Model model, Camera camera, float? forcedPerspectiveDistance)
-        => GetRenderedDistance(model, camera, forcedPerspectiveDistance) / (model.WorldPosition - camera.Position).Length();
+    private static double GetRenderedScaling(Model model, Camera camera, float? distanceCompressionStart)
+        => GetRenderedDistance(model, camera, distanceCompressionStart) / (model.WorldPosition - camera.Position).Length();
 
     /// <summary>
-    /// Returns how far from the <paramref name="camera"/> the surface of the <paramref name="sphere"/> is, without forced perspective.
+    /// Returns how far from the <paramref name="camera"/> the surface of the <paramref name="sphere"/> is, without distance compression.
     /// </summary>
     private static double GetSurfaceDistance(SlimDX.BoundingSphere sphere, Camera camera)
         => (new DoubleVector3(sphere.Center.X, sphere.Center.Y, sphere.Center.Z) - camera.Position).Length() - sphere.Radius;
@@ -140,7 +140,7 @@ public class PositionableRenderableTest : EngineTestBase
     private const float DistantFarClip = 1e12f;
 
     [Fact]
-    public void ForcedPerspectiveKeepsDistancesInOrder()
+    public void DistanceCompressionKeepsDistancesInOrder()
     {
         using var model = Sphere(radius: 10);
 
@@ -152,7 +152,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveFollowsTheDistance()
+    public void DistanceCompressionFollowsTheDistance()
     {
         using var model = Sphere(radius: 10);
 
@@ -162,7 +162,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveApproachesFarClip()
+    public void DistanceCompressionApproachesFarClip()
     {
         using var model = Sphere(radius: 10);
 
@@ -181,7 +181,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveKeepsTheFarSideWithinFarClip()
+    public void DistanceCompressionKeepsTheFarSideWithinFarClip()
     {
         using var model = Sphere(radius: 500);
 
@@ -193,7 +193,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveMeasuresAutoScaledLeaves()
+    public void DistanceCompressionMeasuresAutoScaledLeaves()
     {
         using var model = Sphere(radius: 10);
         model.AutoScaleDistance = 100;
@@ -204,7 +204,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveLeavesCloseRenderablesAlone()
+    public void DistanceCompressionLeavesCloseRenderablesAlone()
     {
         using var model = Sphere(radius: 10);
 
@@ -214,7 +214,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveOffLeavesRenderablesAlone()
+    public void DistanceCompressionOffLeavesRenderablesAlone()
     {
         using var model = Sphere(radius: 10);
 
@@ -224,7 +224,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectivePullsInTheWholeSubtreeAlike()
+    public void DistanceCompressionPullsInTheWholeSubtreeAlike()
     {
         using var parent = new Pivot();
         using var center = Sphere(radius: 10);
@@ -254,7 +254,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectivePullsInSubtreeSurface()
+    public void DistanceCompressionPullsInSubtreeSurface()
     {
         using var parent = new Pivot();
         using var center = Sphere(radius: 10);
@@ -275,7 +275,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveAppliesOnceToNestedRenderables()
+    public void DistanceCompressionAppliesOnceToNestedRenderables()
     {
         using var parent = new Pivot();
         using var child = Sphere(radius: 10);
@@ -287,7 +287,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveDisablesFarClipCulling()
+    public void DistanceCompressionDisablesFarClipCulling()
     {
         using var root = new Pivot();
         using var middle = Sphere(radius: 10);
@@ -305,7 +305,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveAppliesToParentsAndTheirChildren()
+    public void DistanceCompressionAppliesToParentsAndTheirChildren()
     {
         using var parent = Sphere(radius: 10);
         using var child = Sphere(radius: 10);
@@ -323,7 +323,7 @@ public class PositionableRenderableTest : EngineTestBase
     }
 
     [Fact]
-    public void ForcedPerspectiveIsPreciseFarFromTheWorldOrigin()
+    public void DistanceCompressionIsPreciseFarFromTheWorldOrigin()
     {
         using var parent = Sphere(radius: 10);
         using var child = Sphere(radius: 10);
