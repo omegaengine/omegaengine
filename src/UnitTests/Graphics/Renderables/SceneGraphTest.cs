@@ -284,7 +284,7 @@ public class SceneGraphTest
         root.Children.Add(leaf);
         root.SubtreeIgnoresFarClip.Should().BeFalse();
 
-        leaf.ForcedPerspectiveDistance = 100;
+        leaf.ForcedPerspective = true;
         root.SubtreeIgnoresFarClip.Should().BeTrue();
         root.SubtreeBoundingSphere.Should().NotBeNull("forced perspective only disables far clip culling");
     }
@@ -297,12 +297,12 @@ public class SceneGraphTest
         root.Children.Add(leaf);
         var expected = root.SubtreeBoundingSphere!.Value;
 
-        leaf.IsVisible(new ArcballCamera {Radius = 20, Size = new Size(800, 600)});
+        leaf.IsVisible(new ArcballCamera {Radius = 20, Size = new Size(800, 600)}, forcedPerspectiveDistance: 10_000);
         var firstCenter = leaf.WorldBoundingSphere!.Value.Center;
         root.SubtreeBoundingSphere.Should().Be(expected, "the subtree bounds cover every possible billboard rotation");
         ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);
 
-        leaf.IsVisible(new ArcballCamera {Radius = 20, Yaw = 90, Pitch = 45, Size = new Size(800, 600)});
+        leaf.IsVisible(new ArcballCamera {Radius = 20, Yaw = 90, Pitch = 45, Size = new Size(800, 600)}, forcedPerspectiveDistance: 10_000);
         leaf.WorldBoundingSphere!.Value.Center.Should().NotBe(firstCenter, "the billboard turns with the camera");
         root.SubtreeBoundingSphere.Should().Be(expected, "the subtree bounds cover every possible billboard rotation");
         ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);

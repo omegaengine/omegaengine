@@ -162,7 +162,7 @@ partial class View
             body.OnPreVisibilityCheck();
 
             // Filter out invisible bodies
-            if (body.IsVisible(Camera))
+            if (body.IsVisible(Camera, Scene.ForcedPerspectiveDistance))
             {
                 // Calculate the distance once per body, instead of repeatedly during sorting
                 double distanceSquared = (body.WorldPosition - cameraPosition).LengthSquared();

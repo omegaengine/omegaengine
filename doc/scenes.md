@@ -118,12 +118,12 @@ This applies to leaf nodes only; it has no effect while a renderable has childre
 
 ### Forced perspective
 
-<xref:OmegaEngine.Graphics.Renderables.PositionableRenderable.ForcedPerspectiveDistance> lets very distant objects, such as planets or moons, be shown in a scene without pushing the camera's <xref:OmegaEngine.Graphics.Cameras.Camera.FarClip> out so far that depth buffer precision suffers. Renderables farther away than this distance are pulled in closer to the camera and scaled down correspondingly, so their outline on screen is unchanged and only their depth differs.
+<xref:OmegaEngine.Graphics.Renderables.PositionableRenderable.ForcedPerspective> lets very distant objects, such as planets or moons, be shown in a scene without pushing the camera's <xref:OmegaEngine.Graphics.Cameras.Camera.FarClip> out so far that depth buffer precision suffers. Renderables that opt in to this and are farther away than the scene's <xref:OmegaEngine.Graphics.Scene.ForcedPerspectiveDistance> are pulled in closer to the camera and scaled down correspondingly, so their outline on screen is unchanged and only their depth differs.
 
-Unlike `Billboard` and `AutoScaleDistance`, this applies to a renderable together with all its children, which are pulled in alike and stay in place relative to each other. It is measured to the surface of the subtree's bounding sphere, so no part of the subtree is rendered closer than this distance, unless the subtree has to be pulled in further to keep its far side within `FarClip`.
+Unlike `Billboard` and `AutoScaleDistance`, this applies to a renderable together with all its children, which are pulled in alike and stay in place relative to each other. Enabling it again on a descendant has no additional effect. It is measured to the surface of the subtree's bounding sphere, so no part of the subtree is rendered closer than `ForcedPerspectiveDistance`, unless the subtree has to be pulled in further to keep its far side within `FarClip`.
 
 Renderables beyond `ForcedPerspectiveDistance` are pulled in logarithmically, which keeps pulled-in renderables at clearly different distances in the right Z-order. This is not guaranteed for renderables whose depth ranges overlap, since each subtree is scaled as a whole by a factor measured to its own nearest surface, nor for subtrees pulled in further to fit within `FarClip`. They are spread across the depth range between `ForcedPerspectiveDistance` and `FarClip`, so leave enough room between the two.
 
 Fog is applied at the distance a renderable is rendered at, not the one it actually has. Pulled-in renderables are therefore usually fogged less than their actual distance would call for, and more distant ones get more fog as they approach `FarClip`. If `FarClip` is set to the fog's end distance, the most distant renderables fade almost completely into the fog.
 
-`ForcedPerspectiveDistance` can be combined with `AutoScaleDistance` for very large, very distant objects that should also stay visible.
+`ForcedPerspective` can be combined with `AutoScaleDistance` for very large, very distant objects that should also stay visible.

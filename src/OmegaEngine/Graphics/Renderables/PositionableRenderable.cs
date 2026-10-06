@@ -294,22 +294,19 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    private float? _forcedPerspectiveDistance;
+    private bool _forcedPerspective;
 
     /// <summary>
-    /// When the renderable is farther than this distance from the <see cref="Camera"/>, it is instead pulled in logarithmically beyond this distance, with corresponding scaling applied to preserve its apparent size (angular diameter).
+    /// When the renderable is farther than <see cref="Scene.ForcedPerspectiveDistance"/> from the <see cref="Camera"/>, it is instead pulled in logarithmically beyond that distance, with corresponding scaling applied to preserve its apparent size (angular diameter).
     /// </summary>
     /// <remarks>
-    /// <para>Applies to the renderable together with all its <see cref="Children"/>, which are pulled in alike and so stay in place relative to each other. The distance is measured to the surface of <see cref="SubtreeBoundingSphere"/>, so no part of the subtree is rendered closer than this. If the subtree has no such sphere, it is measured to the renderable's own bounding sphere or, failing that, to its <see cref="Position"/>. For a renderable without children, it is measured to its own bounding sphere, including <see cref="AutoScaleDistance"/> and <see cref="Billboard"/>.</para>
-    /// <para>The surface is rendered at <c>d + r * (1 - exp(-d * ln(x / d) / r))</c>, where <c>d</c> is this distance, <c>x</c> the distance it actually has and <c>r</c> the room left up to <see cref="Camera.FarClip"/>. This is close to <c>d * (1 + ln(x / d))</c> while far short of <see cref="Camera.FarClip"/>, but approaches it instead of exceeding it. This keeps renderables at clearly different distances in order and squeezes even very large distances into the depth range up to <see cref="Camera.FarClip"/>.</para>
-    /// <para>The order is not guaranteed for renderables whose depth ranges overlap: each subtree is scaled as a whole by a factor measured to its own nearest surface, so its far parts may end up behind another renderable that is actually behind them.</para>
-    /// <para>The subtree is pulled in further whenever needed to keep the far side of that sphere within <see cref="Camera.FarClip"/>, which would cut it off otherwise. Very large subtrees may therefore end up closer than this distance, and closer than smaller renderables that are actually in front of them.</para>
-    /// <para>Leave enough room between this value and <see cref="Camera.FarClip"/>, since that is the depth range the pulled-in renderables are spread across.</para>
+    /// <para>Applies to the renderable together with all its <see cref="Children"/>, which are pulled in alike and so stay in place relative to each other. The distance is measured to the surface of <see cref="SubtreeBoundingSphere"/>, so no part of the subtree is rendered closer than <see cref="Scene.ForcedPerspectiveDistance"/>. If the subtree has no such sphere, it is measured to the renderable's own bounding sphere or, failing that, to its <see cref="Position"/>. For a renderable without children, it is measured to its own bounding sphere, including <see cref="AutoScaleDistance"/> and <see cref="Billboard"/>.</para>
+    /// <para>The subtree is pulled in further whenever needed to keep the far side of that sphere within <see cref="Camera.FarClip"/>, which would cut it off otherwise. Very large subtrees may therefore end up closer than <see cref="Scene.ForcedPerspectiveDistance"/>, and closer than smaller renderables that are actually in front of them.</para>
     /// <para>Since the effect amounts to scaling the subtree around the camera, it does not change its outline on screen, only the depth buffer values. Pulling distant renderables in this way therefore also improves depth buffer precision for them.</para>
-    /// <para>Setting this on a renderable that is already pulled in by an ancestor scales it once more, measured without the ancestor's effect.</para>
+    /// <para>Setting this on a renderable that is already pulled in by an ancestor has no additional effect.</para>
     /// </remarks>
-    [Description("When the renderable is farther than this distance from the camera, it is instead pulled in logarithmically beyond this distance, with corresponding scaling applied to preserve its apparent size (angular diameter)."), Category("Layout")]
-    public float? ForcedPerspectiveDistance { get => _forcedPerspectiveDistance; set => value.To(ref _forcedPerspectiveDistance, MarkDirty); }
+    [DefaultValue(false), Description("When the renderable is farther than the scene's forced perspective distance from the camera, it is instead pulled in logarithmically beyond that distance, with corresponding scaling applied to preserve its apparent size (angular diameter)."), Category("Layout")]
+    public bool ForcedPerspective { get => _forcedPerspective; set => value.To(ref _forcedPerspective, MarkDirty); }
 
     private float? _autoScaleDistance;
 
@@ -318,7 +315,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     /// <remarks>
     /// <para>While closer than this distance the renderable renders at its natural size; farther away it is scaled up so that it never appears smaller than it does at this distance.</para>
-    /// <para>The auto-scaling is applied on top of <see cref="Scale"/> and is reflected in the bounding bodies used for culling. Combine with <see cref="ForcedPerspectiveDistance"/> for very large, very distant objects.</para>
+    /// <para>The auto-scaling is applied on top of <see cref="Scale"/> and is reflected in the bounding bodies used for culling. Combine with <see cref="ForcedPerspective"/> for very large, very distant objects.</para>
     /// </remarks>
     [Description("The distance from the camera beyond which the renderable is automatically scaled up to preserve its apparent size (angular diameter), keeping distant objects visible."), Category("Layout")]
     public float? AutoScaleDistance { get => _autoScaleDistance; set => value.To(ref _autoScaleDistance, MarkDirty); }
@@ -347,13 +344,17 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <summary>
     /// Invalidates only the camera-dependent render transform of this body.
     /// </summary>
-    /// <remarks>Used for the per-view camera effects, which affect neither <see cref="SubtreeBoundingSphere"/>/<see cref="SubtreeBoundingBox"/> nor, since each body works out the forced perspective of its ancestors for itself, any descendants.</remarks>
+    /// <remarks>Used for the per-view camera effects, which affect neither <see cref="SubtreeBoundingSphere"/>/<see cref="SubtreeBoundingBox"/> nor, since each body looks up the forced perspective of its subtree's root for itself, any descendants.</remarks>
     private void MarkRenderTransformDirty()
         => _renderTransformDirty = true;
 
     private Matrix _physicalWorldTransform = Matrix.Identity;
     private DoubleVector3 _worldOrigin, _worldPosition;
-    private bool _isPulledIn;
+
+    /// <summary>
+    /// The outermost body among this one and its ancestors with <see cref="ForcedPerspective"/>, which pulls in its entire subtree; <c>null</c> if there is none.
+    /// </summary>
+    private PositionableRenderable? _forcedPerspectiveRoot;
 
     /// <summary>
     /// Ensures the physical transforms (i.e. without per-view camera effects) of this body and all its ancestors are up-to-date.
@@ -392,8 +393,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             _worldOrigin = _worldPosition + (DoubleVector3)Vector3.TransformNormal(localOrigin, parent._physicalWorldTransform);
         }
 
-        // Setting ForcedPerspectiveDistance marks the transform dirty, so descendants observe it here too
-        _isPulledIn = _forcedPerspectiveDistance != null || parent is {_isPulledIn: true};
+        // Setting ForcedPerspective marks the transform dirty, so descendants observe it here too
+        _forcedPerspectiveRoot = parent?._forcedPerspectiveRoot ?? (_forcedPerspective ? this : null);
 
         _physicalTransformDirty = false;
     }
@@ -618,7 +619,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     /// <remarks>
     /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="AutoScaleDistance"/>.</para>
-    /// <para>Unlike <see cref="WorldBoundingSphere"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a sphere enclosing every possible rotation and <see cref="ForcedPerspectiveDistance"/> is not applied.</para>
+    /// <para>Unlike <see cref="WorldBoundingSphere"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a sphere enclosing every possible rotation and <see cref="ForcedPerspective"/> is not applied.</para>
     /// </remarks>
     [Browsable(false)]
     public BoundingSphere? SubtreeBoundingSphere
@@ -635,7 +636,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     /// <remarks>
     /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="AutoScaleDistance"/>.</para>
-    /// <para>Unlike <see cref="WorldBoundingBox"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a box enclosing every possible rotation and <see cref="ForcedPerspectiveDistance"/> is not applied.</para>
+    /// <para>Unlike <see cref="WorldBoundingBox"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a box enclosing every possible rotation and <see cref="ForcedPerspective"/> is not applied.</para>
     /// </remarks>
     [Browsable(false)]
     public BoundingBox? SubtreeBoundingBox
@@ -648,7 +649,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
-    /// Indicates whether this body or any of its descendants uses <see cref="ForcedPerspectiveDistance"/>, so the subtree must not be culled by the far clip plane.
+    /// Indicates whether this body or any of its descendants uses <see cref="ForcedPerspective"/>, so the subtree must not be culled by the far clip plane.
     /// </summary>
     internal bool SubtreeIgnoresFarClip
     {
@@ -669,7 +670,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (!_subtreeBoundsDirty) return;
 
         bool cullable = TryGetOwnSubtreeBounds(out var sphere, out var box);
-        bool ignoreFarClip = _forcedPerspectiveDistance != null;
+        bool ignoreFarClip = _forcedPerspective;
 
         foreach (var child in _children)
         {
@@ -793,7 +794,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private protected virtual SurfaceEffect GetSurfaceEffect(RenderContext context, SurfaceShader? shader)
         => context.GetSurfaceEffect(SurfaceEffect, shaderAvailable: shader != null);
 
-    private void UpdateInternalTransformations(Camera camera)
+    private void UpdateInternalTransformations(Camera camera, float forcedPerspectiveDistance)
     {
         // These factors change every frame and only feed the render transform, so they must not invalidate the physical transform or the ancestors' subtree bounds
 
@@ -812,21 +813,21 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
 
         // Comes last, since it measures leaves with the effects above applied.
-        // Each body works out the forced perspective of its ancestors for itself, so a change does not need to be passed on to its descendants.
-        double forcedPerspectiveScaling = GetForcedPerspectiveScaling(camera);
+        // Each body looks up the forced perspective of its subtree's root for itself, so a change does not need to be passed on to its descendants.
+        double forcedPerspectiveScaling = GetForcedPerspectiveScaling(camera, forcedPerspectiveDistance);
         forcedPerspectiveScaling.To(ref _forcedPerspectiveScaling, MarkRenderDirty);
         if (forcedPerspectiveScaling != 1) camera.Position.To(ref _forcedPerspectiveCenter, MarkRenderDirty);
     }
 
     /// <summary>
-    /// Indicates whether this body or any of its ancestors uses <see cref="ForcedPerspectiveDistance"/>, so it must not be culled by the far clip plane.
+    /// Indicates whether this body or any of its ancestors uses <see cref="ForcedPerspective"/>, so it must not be culled by the far clip plane.
     /// </summary>
     private protected bool IsPulledIn
     {
         get
         {
             EnsurePhysicalTransform();
-            return _isPulledIn;
+            return _forcedPerspectiveRoot != null;
         }
     }
 
@@ -836,26 +837,27 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private const double ForcedPerspectiveFarClipMargin = 0.99;
 
     /// <summary>
-    /// The last result of <see cref="GetOwnForcedPerspectiveScaling"/> for a body with <see cref="Children"/>, which each work out the forced perspective of their ancestors.
+    /// The last result of <see cref="GetOwnForcedPerspectiveScaling"/> for a body with <see cref="Children"/>, shared by all its descendants it pulls in.
     /// </summary>
-    private (DoubleVector3 cameraPosition, float farClip, double scaling)? _forcedPerspectiveCache;
+    private (DoubleVector3 cameraPosition, float farClip, float maxDistance, double scaling)? _forcedPerspectiveCache;
 
     /// <summary>
-    /// Determines how much this body is scaled around the <paramref name="camera"/> by its own <see cref="ForcedPerspectiveDistance"/> and those of its ancestors.
+    /// Determines how much this body is scaled around the <paramref name="camera"/> by the <see cref="ForcedPerspective"/> of itself or one of its ancestors.
     /// </summary>
-    private double GetForcedPerspectiveScaling(Camera camera)
+    /// <param name="camera">The camera to scale around.</param>
+    /// <param name="maxDistance">The <see cref="Scene.ForcedPerspectiveDistance"/>.</param>
+    private double GetForcedPerspectiveScaling(Camera camera, float maxDistance)
     {
-        if (!IsPulledIn) return 1;
-
-        double scaling = Parent?.GetForcedPerspectiveScaling(camera) ?? 1;
-        if (_forcedPerspectiveDistance is {} maxDistance) scaling *= GetOwnForcedPerspectiveScaling(camera, maxDistance);
-        return scaling;
+        EnsurePhysicalTransform();
+        return _forcedPerspectiveRoot?.GetOwnForcedPerspectiveScaling(camera, maxDistance) ?? 1;
     }
 
     /// <summary>
-    /// Determines how much this body's own <see cref="ForcedPerspectiveDistance"/> scales its subtree around the <paramref name="camera"/>.
+    /// Determines how much this body's own <see cref="ForcedPerspective"/> scales its subtree around the <paramref name="camera"/>.
     /// </summary>
-    private double GetOwnForcedPerspectiveScaling(Camera camera, double maxDistance)
+    /// <param name="camera">The camera to scale around.</param>
+    /// <param name="maxDistance">The <see cref="Scene.ForcedPerspectiveDistance"/>.</param>
+    private double GetOwnForcedPerspectiveScaling(Camera camera, float maxDistance)
     {
         // A leaf is measured by itself only, so there is nothing to share with descendants. Its billboarding also depends on the camera's orientation, not just its position.
         bool cacheable = _children.Count != 0;
@@ -863,7 +865,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         {
             // May recalculate the subtree bounds and thereby invalidate the cache
             EnsureSubtreeBounds();
-            if (_forcedPerspectiveCache is {} cache && cache.cameraPosition == camera.Position && cache.farClip == camera.FarClip)
+            if (_forcedPerspectiveCache is {} cache && cache.cameraPosition == camera.Position && cache.farClip == camera.FarClip && cache.maxDistance == maxDistance)
                 return cache.scaling;
         }
 
@@ -885,7 +887,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         double farSideDistance = centerDistance + sphere.Radius;
         if (farSideDistance * scaling > farLimit) scaling = farLimit / farSideDistance;
 
-        if (cacheable) _forcedPerspectiveCache = (camera.Position, camera.FarClip, scaling);
+        if (cacheable) _forcedPerspectiveCache = (camera.Position, camera.FarClip, maxDistance, scaling);
         return scaling;
     }
 
@@ -893,7 +895,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// Determines the distance from the camera a <paramref name="distance"/> beyond <paramref name="maxDistance"/> is rendered at.
     /// </summary>
     /// <param name="distance">The distance from the camera the renderable actually has.</param>
-    /// <param name="maxDistance">The <see cref="ForcedPerspectiveDistance"/>.</param>
+    /// <param name="maxDistance">The <see cref="Scene.ForcedPerspectiveDistance"/>.</param>
     /// <param name="farLimit">The distance from the camera not to exceed, to stay within the far clip plane.</param>
     private static double PullIn(double distance, double maxDistance, double farLimit)
     {
@@ -955,7 +957,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 RenderShader(render, material, camera, shader, effectiveLights);
                 break;
             case SurfaceEffect.Depth:
-                RenderDepth(render, material, camera);
+                RenderDepth(render, camera);
                 break;
         }
 
@@ -1047,7 +1049,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    private void RenderDepth([InstantHandle] Action render, XMaterial material, Camera camera)
+    private void RenderDepth([InstantHandle] Action render, Camera camera)
     {
         using (new ProfilerEvent("Surface effect: Depth"))
         {
@@ -1101,11 +1103,12 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// Checks whether this object is visible at the moment (includes Frustum Culling and other filtering criteria).
     /// </summary>
     /// <param name="camera">The <see cref="Camera"/> used to look the object.</param>
+    /// <param name="forcedPerspectiveDistance">The <see cref="Scene.ForcedPerspectiveDistance"/> to apply if <see cref="ForcedPerspective"/> is enabled.</param>
     /// <returns><c>true</c> if the object is visible.</returns>
     /// <remarks>Only checks this body itself. A <see cref="View"/> additionally skips the entire subtree of a body that is hidden (<see cref="Renderable.Visible"/>) or fails <see cref="SubtreeInFrustum"/>, without calling this for any of its descendants.</remarks>
     /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingSphere,bool)"/>
     /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingBox,bool)"/>
-    internal bool IsVisible(Camera camera)
+    internal bool IsVisible(Camera camera, float forcedPerspectiveDistance)
     {
         #region Sanity checks
         if (camera == null) throw new ArgumentNullException(nameof(camera));
@@ -1115,7 +1118,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             return false;
 
         // Ensure automatic scaling and transformation effects are applied to bounding bodies
-        UpdateInternalTransformations(camera);
+        UpdateInternalTransformations(camera, forcedPerspectiveDistance);
 
         bool ignoreFarClip = IsPulledIn;
         if (WorldBoundingSphere is {} sphere)
