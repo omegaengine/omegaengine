@@ -105,17 +105,18 @@ partial class View
         _terrainSortKeys.Clear();
         #endregion
 
+        // Apply the floating origin here, so sorting will work. Only roots carry one; descendants inherit it.
+        // We may need to re-apply it later because ChildViews messed with it.
+        foreach (PositionableRenderable root in Scene.Positionables)
+            root.SetFloatingOrigin(Camera);
+
+        PreCull?.Invoke();
+
         var cameraPosition = Camera.Position;
 
         #region Build master list
         foreach (PositionableRenderable root in Scene.Positionables)
-        {
-            // Apply the floating origin here, so sorting will work. Only roots carry one; descendants inherit it.
-            // We may need to re-apply it later because ChildViews messed with it.
-            root.SetFloatingOrigin(Camera);
-
             SortBody(root, cameraPosition);
-        }
 
         // Sort the bodies near-to-far (or the other way round if culling is inverted) with the original index as a stable tie-breaker
         _bodySortKeys.Sort(CompareSortKey);

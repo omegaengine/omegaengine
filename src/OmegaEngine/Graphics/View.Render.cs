@@ -23,10 +23,18 @@ partial class View
 {
     #region Events
     /// <summary>
+    /// Occurs before the bodies in the <see cref="Scene"/> are culled against the <see cref="Camera"/>'s view frustum, once their floating origins are up-to-date.
+    /// </summary>
+    /// <remarks>
+    /// <para>Unlike <see cref="PreRender"/>, changes to the <see cref="Camera"/>'s projection (e.g., its clip planes) made here are reflected in culling and in the <see cref="ChildViews"/>.</para>
+    /// <para>Handlers may measure the bodies' world bounding bodies against the <see cref="Camera"/>, but must not move or replace it.</para>
+    /// </remarks>
+    public event Action? PreCull;
+
+    /// <summary>
     /// Occurs immediately before the <see cref="Scene"/> begins rendering.
     /// <see cref="ChildViews"/> will have been rendered already.
     /// </summary>
-    [Description("Occurs immediately before the Scene begins rendering. Child views will have been rendered already.")]
     public event Action? PreRender;
     #endregion
 
