@@ -93,10 +93,37 @@ Rotation, scale and `PreTransform` are inherited in full, so non-uniform scaling
 
 Setting `Visible = false` on a renderable hides it together with its entire subtree.
 
-`Billboard` and `AutoScaleDistance` are per-view effects applied to leaf nodes only; they have no effect while a renderable has children.
+<xref:OmegaEngine.Graphics.LightSources.PointLight> and <xref:OmegaEngine.Audio.Sound3D> can follow a renderable instead of holding an absolute position: set `AttachedTo` and give them a local `Offset`.
 
-`ForcedPerspectiveDistance` is a per-view effect too, but applies to a renderable together with all its children, which are pulled in alike. It is measured to the surface of the subtree's bounding sphere, so no part of the subtree is rendered closer than this distance, unless the subtree has to be pulled in further to keep its far side within the camera's `FarClip`.  
-Renderables beyond `ForcedPerspectiveDistance` are pulled in logarithmically, which keeps pulled-in renderables at clearly different distances in the right Z-order. This is not guaranteed for renderables whose depth ranges overlap, since each subtree is scaled as a whole by a factor measured to its own nearest surface, nor for subtrees pulled in further to fit within `FarClip`. They are spread across the depth range between `ForcedPerspectiveDistance` and `FarClip`, so leave enough room between the two.  
+## Camera-dependent effects
+
+Some properties of <xref:OmegaEngine.Graphics.Renderables.PositionableRenderable> adjust how a renderable is drawn based on its relation to the camera. They are evaluated per view, so a renderable shown by multiple views with different cameras is adjusted separately for each of them. They only affect rendering; the renderable's `Position`, `Rotation` and `Scale` stay unchanged.
+
+### Billboard
+
+<xref:OmegaEngine.Graphics.Renderables.PositionableRenderable.Billboard> rotates a renderable to face the camera, which is useful for flat sprites such as sun flares, labels or impostors standing in for distant geometry. The <xref:OmegaEngine.Graphics.Renderables.BillboardMode> controls how:
+
+- **Spherical**: The renderable always faces the camera fully, regardless of the camera's elevation.
+- **Cylindrical**: The renderable only rotates around its vertical axis, so it stays upright, e.g. for trees or characters.
+
+This applies to leaf nodes only; it has no effect while a renderable has children.
+
+### Auto scale
+
+<xref:OmegaEngine.Graphics.Renderables.PositionableRenderable.AutoScaleDistance> keeps distant renderables from shrinking to nothing on screen. While closer to the camera than this distance, a renderable is drawn at its natural size. Farther away, it is scaled up so that it never appears smaller than it would at this distance, i.e. its apparent size (angular diameter) stays constant. This is useful for objects that should remain visible and selectable at any distance, such as markers or units on a strategic map.
+
+The scaling is applied on top of `Scale` and is reflected in the bounding bodies used for culling.
+
+This applies to leaf nodes only; it has no effect while a renderable has children.
+
+### Forced perspective
+
+<xref:OmegaEngine.Graphics.Renderables.PositionableRenderable.ForcedPerspectiveDistance> lets very distant objects, such as planets or moons, be shown in a scene without pushing the camera's <xref:OmegaEngine.Graphics.Cameras.Camera.FarClip> out so far that depth buffer precision suffers. Renderables farther away than this distance are pulled in closer to the camera and scaled down correspondingly, so their outline on screen is unchanged and only their depth differs.
+
+Unlike `Billboard` and `AutoScaleDistance`, this applies to a renderable together with all its children, which are pulled in alike and stay in place relative to each other. It is measured to the surface of the subtree's bounding sphere, so no part of the subtree is rendered closer than this distance, unless the subtree has to be pulled in further to keep its far side within `FarClip`.
+
+Renderables beyond `ForcedPerspectiveDistance` are pulled in logarithmically, which keeps pulled-in renderables at clearly different distances in the right Z-order. This is not guaranteed for renderables whose depth ranges overlap, since each subtree is scaled as a whole by a factor measured to its own nearest surface, nor for subtrees pulled in further to fit within `FarClip`. They are spread across the depth range between `ForcedPerspectiveDistance` and `FarClip`, so leave enough room between the two.
+
 Fog is applied at the distance a renderable is rendered at, not the one it actually has. Pulled-in renderables are therefore usually fogged less than their actual distance would call for, and more distant ones get more fog as they approach `FarClip`. If `FarClip` is set to the fog's end distance, the most distant renderables fade almost completely into the fog.
 
-<xref:OmegaEngine.Graphics.LightSources.PointLight> and <xref:OmegaEngine.Audio.Sound3D> can follow a renderable instead of holding an absolute position: set `AttachedTo` and give them a local `Offset`.
+`ForcedPerspectiveDistance` can be combined with `AutoScaleDistance` for very large, very distant objects that should also stay visible.
