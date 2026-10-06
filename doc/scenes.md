@@ -124,6 +124,6 @@ Unlike `Billboard` and `AutoScaleDistance`, this applies to a renderable togethe
 
 Renderables beyond `ForcedPerspectiveDistance` are pulled in logarithmically, which keeps pulled-in renderables at clearly different distances in the right Z-order. This is not guaranteed for renderables whose depth ranges overlap, since each subtree is scaled as a whole by a factor measured to its own nearest surface, nor for subtrees pulled in further to fit within `FarClip`. They are spread across the depth range between `ForcedPerspectiveDistance` and `FarClip`, so leave enough room between the two.
 
-Fog is applied at the distance a renderable is rendered at, not the one it actually has. Pulled-in renderables are therefore usually fogged less than their actual distance would call for, and more distant ones get more fog as they approach `FarClip`. If `FarClip` is set to the fog's end distance, the most distant renderables fade almost completely into the fog.
+Fog is applied at the distance a renderable is rendered at, not the one it actually has. Pulled-in renderables are therefore usually fogged less than their actual distance would call for.
 
 `ForcedPerspective` can be combined with `AutoScaleDistance` for very large, very distant objects that should also stay visible.
