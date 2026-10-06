@@ -207,6 +207,7 @@ public partial class Model : PositionableRenderable
         var camera = context.Camera;
         bool drawBoundingBodies = GetSurfaceEffect(context, SurfaceShader) < SurfaceEffect.Glow;
         bool firstClippedSubsetRendered = false;
+        bool ignoreFarClip = IsPulledIn;
         for (int i = 0; i < NumberSubsets; i++)
         {
             var boundingSphere = SubsetWorldBoundingSpheres?[i];
@@ -214,7 +215,6 @@ public partial class Model : PositionableRenderable
 
             // Per-subset frustum culling
             {
-                bool ignoreFarClip = ForcedPerspectiveDistance != null;
                 if (boundingSphere is {} sphere && !camera.InFrustum(sphere, ignoreFarClip)) continue;
                 if (boundingBox is {} box && !camera.InFrustum(box, ignoreFarClip)) continue;
             }

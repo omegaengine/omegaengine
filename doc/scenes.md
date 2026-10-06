@@ -93,6 +93,10 @@ Rotation, scale and `PreTransform` are inherited in full, so non-uniform scaling
 
 Setting `Visible = false` on a renderable hides it together with its entire subtree.
 
-`Billboard`, `ForcedPerspectiveDistance` and `AutoScaleDistance` are per-view effects applied to leaf nodes only; they have no effect while a renderable has children.
+`Billboard` and `AutoScaleDistance` are per-view effects applied to leaf nodes only; they have no effect while a renderable has children.
+
+`ForcedPerspectiveDistance` is a per-view effect too, but applies to a renderable together with all its children, which are pulled in alike. It is measured to the surface of the subtree's bounding sphere, so no part of the subtree is rendered closer than this distance, unless the subtree has to be pulled in further to keep its far side within the camera's `FarClip`.  
+Renderables beyond `ForcedPerspectiveDistance` are pulled in logarithmically, which keeps pulled-in renderables at clearly different distances in the right Z-order. This is not guaranteed for renderables whose depth ranges overlap, since each subtree is scaled as a whole by a factor measured to its own nearest surface, nor for subtrees pulled in further to fit within `FarClip`. They are spread across the depth range between `ForcedPerspectiveDistance` and `FarClip`, so leave enough room between the two.  
+Fog is applied at the distance a renderable is rendered at, not the one it actually has. Pulled-in renderables are therefore usually fogged less than their actual distance would call for, and more distant ones get more fog as they approach `FarClip`. If `FarClip` is set to the fog's end distance, the most distant renderables fade almost completely into the fog.
 
 <xref:OmegaEngine.Graphics.LightSources.PointLight> and <xref:OmegaEngine.Audio.Sound3D> can follow a renderable instead of holding an absolute position: set `AttachedTo` and give them a local `Offset`.

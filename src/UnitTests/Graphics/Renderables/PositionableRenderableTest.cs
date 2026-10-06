@@ -6,8 +6,10 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Drawing;
 using AwesomeAssertions;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using Xunit;
 
@@ -90,6 +92,249 @@ public class PositionableRenderableTest : EngineTestBase
         model.Children.Remove(child);
         model.IsVisible(camera);
         model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
+    }
+
+    /// <summary>
+    /// Returns where the <paramref name="model"/>'s origin is actually rendered when looked at with the <paramref name="camera"/>.
+    /// </summary>
+    private static DoubleVector3 GetRenderedPosition(Model model, Camera camera)
+    {
+        model.IsVisible(camera);
+        var transform = model.WorldTransform;
+        return new(transform.M41, transform.M42, transform.M43);
+    }
+
+    /// <summary>
+    /// Returns how far from the <paramref name="camera"/> the <paramref name="model"/>'s origin is actually rendered.
+    /// </summary>
+    private static double GetRenderedDistance(Model model, Camera camera)
+        => (GetRenderedPosition(model, camera) - camera.Position).Length();
+
+    /// <summary>
+    /// Returns by how much the <paramref name="model"/> is scaled around the <paramref name="camera"/> by forced perspective.
+    /// </summary>
+    private static double GetRenderedScaling(Model model, Camera camera)
+        => GetRenderedDistance(model, camera) / (model.WorldPosition - camera.Position).Length();
+
+    /// <summary>
+    /// Returns how far from the <paramref name="camera"/> the surface of the <paramref name="sphere"/> is, without forced perspective.
+    /// </summary>
+    private static double GetSurfaceDistance(SlimDX.BoundingSphere sphere, Camera camera)
+        => (new DoubleVector3(sphere.Center.X, sphere.Center.Y, sphere.Center.Z) - camera.Position).Length() - sphere.Radius;
+
+    /// <summary>
+    /// A sphere whose bounding sphere has exactly the given <paramref name="radius"/>.
+    /// </summary>
+    private Model Sphere(float radius)
+        => Model.Sphere(Engine, XMaterial.Default, radius, slices: 8, stacks: 8);
+
+    /// <summary>
+    /// Returns the distance from the camera a <paramref name="distance"/> beyond <paramref name="maxDistance"/> is pulled in to, far short of the far clip plane.
+    /// </summary>
+    private static double PullIn(double distance, double maxDistance)
+        => maxDistance * (1 + Math.Log(distance / maxDistance));
+
+    /// <summary>
+    /// A far clip plane far enough away for <see cref="PullIn"/> to hold.
+    /// </summary>
+    private const float DistantFarClip = 1e12f;
+
+    [Fact]
+    public void ForcedPerspectiveKeepsDistancesInOrder()
+    {
+        using var model = Sphere(radius: 10);
+        model.ForcedPerspectiveDistance = 100;
+
+        var near = new ArcballCamera {Radius = 1010, FarClip = DistantFarClip, Size = new Size(800, 600)};
+        var far = new ArcballCamera {Radius = 5010, FarClip = DistantFarClip, Size = new Size(800, 600)};
+
+        GetRenderedDistance(model, near).Should().BeApproximately(1010 * PullIn(1000, 100) / 1000, 0.01);
+        GetRenderedDistance(model, far).Should().BeApproximately(5010 * PullIn(5000, 100) / 5000, 0.01);
+    }
+
+    [Fact]
+    public void ForcedPerspectiveApproachesFarClip()
+    {
+        using var model = Sphere(radius: 10);
+        model.ForcedPerspectiveDistance = 100;
+
+        double previousSurfaceDistance = 100;
+        foreach (float radius in new[] {10_000f, 100_000f, 10_000_000f})
+        {
+            var camera = new ArcballCamera {MaxRadius = radius, Radius = radius, FarClip = 1_000, Size = new Size(800, 600)};
+            double scaling = GetRenderedScaling(model, camera);
+
+            // Still in order, but the far side never reaches the far clip plane
+            double surfaceDistance = (radius - 10) * scaling;
+            surfaceDistance.Should().BeGreaterThan(previousSurfaceDistance);
+            ((radius + 10) * scaling).Should().BeLessThan(camera.FarClip);
+            previousSurfaceDistance = surfaceDistance;
+        }
+    }
+
+    [Fact]
+    public void ForcedPerspectiveKeepsTheFarSideWithinFarClip()
+    {
+        using var model = Sphere(radius: 500);
+        model.ForcedPerspectiveDistance = 950;
+
+        // Pulling the surface in to at least 950 would put the far side at 5500 * 950 / 4500 > 1000, so it is pulled in further
+        var camera = new ArcballCamera {Radius = 5_000, FarClip = 1_000, Size = new Size(800, 600)};
+        double scaling = GetRenderedScaling(model, camera);
+        (5_500 * scaling).Should().BeLessThanOrEqualTo(camera.FarClip);
+        (4_500 * scaling).Should().BeLessThan(950);
+    }
+
+    [Fact]
+    public void ForcedPerspectiveMeasuresAutoScaledLeaves()
+    {
+        using var model = Sphere(radius: 10);
+        model.AutoScaleDistance = 100;
+        model.ForcedPerspectiveDistance = 1_000;
+
+        // Auto-scaled by 10_000 / 100, so the surface is 9_000 away
+        var camera = new ArcballCamera {Radius = 10_000, FarClip = DistantFarClip, Size = new Size(800, 600)};
+        GetRenderedDistance(model, camera).Should().BeApproximately(10_000 * PullIn(9_000, 1_000) / 9_000, 0.01);
+    }
+
+    [Fact]
+    public void ForcedPerspectiveLeavesCloseRenderablesAlone()
+    {
+        using var model = Sphere(radius: 10);
+        model.ForcedPerspectiveDistance = 100;
+
+        // The center is beyond the distance, but the surface is not
+        var camera = new ArcballCamera {Radius = 105, Size = new Size(800, 600)};
+        GetRenderedDistance(model, camera).Should().BeApproximately(105, 0.01);
+    }
+
+    [Fact]
+    public void ForcedPerspectivePullsInTheWholeSubtreeAlike()
+    {
+        using var parent = new Pivot {ForcedPerspectiveDistance = 100};
+        using var center = Sphere(radius: 10);
+        using var offCenter = Sphere(radius: 10);
+        offCenter.Position = new(0, 300, 0);
+        parent.Children.Add(center);
+        parent.Children.Add(offCenter);
+
+        var camera = new ArcballCamera {Radius = 5_000, FarClip = 1_000, Size = new Size(800, 600)};
+        var renderedCenter = GetRenderedPosition(center, camera);
+        var renderedOffCenter = GetRenderedPosition(offCenter, camera);
+
+        // Both children are scaled around the camera by the same factor, so they keep their places relative to each other
+        double scaling = (renderedCenter - camera.Position).Length() / 5_000;
+        (renderedOffCenter - renderedCenter).Length().Should().BeApproximately(300 * scaling, 0.001);
+
+        // Measured to the surface of the sphere enclosing both children, not to either child
+        var subtree = parent.SubtreeBoundingSphere!.Value;
+        double surfaceDistance = GetSurfaceDistance(subtree, camera);
+        (surfaceDistance * scaling).Should().BeGreaterThan(100);
+        ((surfaceDistance + 2 * subtree.Radius) * scaling).Should().BeLessThan(camera.FarClip);
+
+        // Pulled in from beyond the far clip plane
+        center.IsVisible(camera).Should().BeTrue();
+        offCenter.IsVisible(camera).Should().BeTrue();
+        parent.SubtreeInFrustum(camera).Should().BeTrue();
+    }
+
+    [Fact]
+    public void ForcedPerspectivePullsInSubtreeSurface()
+    {
+        using var parent = new Pivot {ForcedPerspectiveDistance = 100};
+        using var center = Sphere(radius: 10);
+        using var offCenter = Sphere(radius: 10);
+        offCenter.Position = new(0, 300, 0);
+        parent.Children.Add(center);
+        parent.Children.Add(offCenter);
+
+        // The pulled-in scaling is cached per ancestor, so check it follows the camera
+        foreach (float radius in new[] {5_000f, 10_000f})
+        {
+            var camera = new ArcballCamera {Radius = radius, FarClip = DistantFarClip, Size = new Size(800, 600)};
+            double scaling = GetRenderedScaling(center, camera);
+            GetRenderedScaling(offCenter, camera).Should().BeApproximately(scaling, 1e-6);
+            double surfaceDistance = GetSurfaceDistance(parent.SubtreeBoundingSphere!.Value, camera);
+            (surfaceDistance * scaling).Should().BeApproximately(PullIn(surfaceDistance, 100), 0.01);
+        }
+    }
+
+    [Fact]
+    public void ForcedPerspectiveOfAncestorsAndDescendantsMultiplies()
+    {
+        using var parent = new Pivot {ForcedPerspectiveDistance = 100};
+        using var child = Sphere(radius: 10);
+        child.ForcedPerspectiveDistance = 1_000;
+        parent.Children.Add(child);
+
+        // Both measure the same surface, 9_990 away, without the other's effect
+        var camera = new ArcballCamera {Radius = 10_000, FarClip = DistantFarClip, Size = new Size(800, 600)};
+        GetRenderedScaling(child, camera).Should().BeApproximately(PullIn(9_990, 100) / 9_990 * (PullIn(9_990, 1_000) / 9_990), 1e-6);
+    }
+
+    [Fact]
+    public void ForcedPerspectiveOfAncestorDisablesFarClipCullingForDescendants()
+    {
+        using var root = new Pivot();
+        using var middle = Sphere(radius: 10);
+        using var leaf = Sphere(radius: 10);
+        root.Children.Add(middle);
+        middle.Children.Add(leaf);
+
+        var camera = new ArcballCamera {Radius = 5_000, FarClip = 1_000, Size = new Size(800, 600)};
+        middle.SubtreeInFrustum(camera).Should().BeFalse();
+        leaf.IsVisible(camera).Should().BeFalse();
+
+        // Neither the middle body nor its subtree uses forced perspective itself, but the root pulls them in
+        root.ForcedPerspectiveDistance = 100;
+        middle.SubtreeInFrustum(camera).Should().BeTrue();
+        leaf.IsVisible(camera).Should().BeTrue();
+    }
+
+    [Fact]
+    public void ForcedPerspectiveAppliesToParentsAndTheirChildren()
+    {
+        using var parent = Sphere(radius: 10);
+        using var child = Sphere(radius: 10);
+        child.Position = new(0, 300, 0);
+        parent.Children.Add(child);
+        parent.ForcedPerspectiveDistance = 100;
+
+        var camera = new ArcballCamera {Radius = 10_000, FarClip = 100_000, Size = new Size(800, 600)};
+        var renderedParent = GetRenderedPosition(parent, camera);
+        var renderedChild = GetRenderedPosition(child, camera);
+
+        // The parent is no leaf, but is pulled in all the same, together with its child
+        double scaling = (renderedParent - camera.Position).Length() / 10_000;
+        scaling.Should().BeLessThan(0.1);
+        (renderedChild - renderedParent).Length().Should().BeApproximately(300 * scaling, 0.001);
+    }
+
+    [Fact]
+    public void ForcedPerspectiveIsPreciseFarFromTheWorldOrigin()
+    {
+        using var parent = Sphere(radius: 10);
+        using var child = Sphere(radius: 10);
+        child.Position = new(0, 300, 0);
+        parent.Children.Add(child);
+        parent.Position = new(1e9, 0, 0);
+        parent.ForcedPerspectiveDistance = 100;
+
+        // Far beyond what single precision can resolve to within 0.01, so this only holds if the floating origin is applied in double precision
+        var camera = new ArcballCamera {Target = parent.Position, Radius = 10_000, FarClip = DistantFarClip, Size = new Size(800, 600)};
+        parent.SetFloatingOrigin(camera);
+
+        // Measured to the surface of the sphere enclosing both, which lives in floating space just like the camera here
+        var subtree = parent.SubtreeBoundingSphere!.Value;
+        double surfaceDistance = SlimDX.Vector3.Distance(subtree.Center, parent.ApplyFloatingOriginTo(camera.Position)) - subtree.Radius;
+        double scaling = PullIn(surfaceDistance, 100) / surfaceDistance;
+
+        // Scaled around the camera, far away from the world origin
+        foreach (var model in new[] {parent, child})
+        {
+            var expected = (DoubleVector3)model.ApplyFloatingOriginTo(camera.Position + (model.WorldPosition - camera.Position) * scaling);
+            (GetRenderedPosition(model, camera) - expected).Length().Should().BeLessThan(0.01);
+        }
     }
 
     [Fact]
