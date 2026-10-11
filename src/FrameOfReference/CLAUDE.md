@@ -4,28 +4,31 @@
 
 ## Tech stack
 
-- C# 13 on .NET Framework 4.7.2, `x86` only. Unlike `AlphaFramework.World`, the sample game's `World` project targets only .NET Framework 4.7.2.
-- built on OmegaEngine for 3D graphics (DirectX 9 / SlimDX).
-- uses the [AlphaFramework](../AlphaFramework/_Namespace.md) game framework to map the game world onto OmegaEngine rendering constructs.
-- UI uses [OmegaGUI](../OmegaGUI/_Namespace.md) XML dialogs with embedded Lua. Content lives under the repo-level `content/` directory.
+- C# 13 on .NET Framework 4.7.2, `x86` only. `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts multi-target .NET Framework 4.7.2 and .NET 10.
+- built using OmegaEngine for 3D graphics (using DirectX 9 / SlimDX).
+- uses the [AlphaFramework](../AlphaFramework/_Namespace.md) game framework to simplify mapping game world to OmegaEngine rendering constructors
+- UI uses [OmegaGUI](../OmegaGUI/_Namespace.md) XML dialogs with embedded Lua, loaded from `content/GUI/`.
+
+The game references the engine projects in this repository directly rather than through NuGet packages, so engine changes take effect in it without a release.
 
 ## Solution layout (`src/FrameOfReference/`)
 
-Layered the same way as AlphaFramework — `World` → `Presentation` → `Game`, with `Editor` alongside.
-
-- `World/`: pure simulation, no rendering. `Universe` (partials `Universe.Lighting`/`Universe.Pathfinding`/`Universe.Storage`) is the serialized world root; `Session` (with `Session.TimeTravel`) wraps a Universe for savegames and advances game time. Sub-areas:
-  - `Positionables/`: entities placed in the world.
-  - `Components/`: composable entity behavior/data.
-  - `Templates/`: data-driven templates loaded at startup to instantiate entities.
-- `Presentation/`: maps simulation entities to the OmegaEngine scene graph. `Presenter` (partials `.Entities`/`.Lighting`) is the base; concrete presenters specialize it — `InteractivePresenter`, `InGamePresenter`, `EditorPresenter`, `MenuPresenter`, `BenchmarkPresenter`.
+- `World/`: pure simulation, no rendering (see `World/CLAUDE.md`).
+- `Presentation/`: maps simulation entities to OmegaEngine scene graph. `Presenter` (partials `.Entities`/`.Lighting`) is the base; concrete presenters specialize it: `InteractivePresenter`, `InGamePresenter`, `EditorPresenter`, `MenuPresenter`, `BenchmarkPresenter`.
 - `Game/`: WinForms host, game loop, savegame management.
   - `States/`: game-state machine.
-- `Editor/`: separate WinForms map editor built on [AlphaEditor](../AlphaFramework/Editor/). Has a build dependency on `Game` (see `OmegaEngine.slnx`).
-- `UnitTests/`: xUnit tests.
+- `Editor/`: separate WinForms tool for editing maps; build using [AlphaEditor](../AlphaFramework/Editor/). Has a build dependency on `Game` (see `OmegaEngine.slnx`).
+- `UnitTests/`: xUnit tests. Multi-targets .NET Framework and .NET so simulation code can be tested cross-framework even though the game itself is .NET Framework-only.
+
+## Build & test
+
+- The game is built and tested together with the engine by the scripts in the root `CLAUDE.md`.
+- `.claude/skills/drive-game-headless/`: launches the game, posts input to it, takes screenshots, and builds savegame scenarios, for confirming changes in the running game without a human at the keyboard. Only works on Windows.
 
 ## Conventions
 
-- Follow `.editorconfig` strictly (see the engine-level [CLAUDE.md](../../CLAUDE.md) for the style summary).
+- Follow `.editorconfig` strictly: it pins extensive C# style rules (expression-bodied members preferred, `var` only when the type is apparent, braces required only for multiline blocks, no qualification for fields/properties, etc.).
 - File-scoped namespaces, primary constructors, and collection expressions are used throughout: match the surrounding style.
-- `World/` must stay free of rendering/UI dependencies. Anything that touches the OmegaEngine scene graph belongs in `Presentation/` or above.
+- `World/` must stay free of rendering/UI dependencies. Anything that touches OmegaEngine scene graph belongs in `Presentation/` or above.
 - Doc comments on public APIs are the norm (XML doc warning 1591 is suppressed but most public types have them).
+- Only the states derived from `SessionStateBase` (`InGame`, `Modify`, `Benchmark`) advance the simulation. While the pause menu is open, the simulation is frozen.

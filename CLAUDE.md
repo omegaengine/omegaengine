@@ -49,12 +49,14 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
   - `Presentation/`: `PresenterBase`/`GameBase` translate a World into renderable engine objects and drive the app lifecycle.
   - `Editor/`: AlphaEditor, reusable WinForms base (`MainFormBase`, undo `Tab`s, mod packaging) for building game editors.
   - `UnitTests/`: xUnit tests for AlphaFramework projects.
+- `FrameOfReference/`: the sample game (see `src/FrameOfReference/CLAUDE.md`).
 
 ## Build & test
 
 - `src/build.ps1`: creates a Release build of the engine and Frame of Reference. Only works on Windows.
 - `src/build.sh`: creates a Release build of the engine and Frame of Reference. Runs on Linux but creates build output for Windows.
 - `src/test.ps1`: runs unit tests. Requires a prior build. Only works on Windows.
+- `dotnet test` runs on Microsoft.Testing.Platform (`global.json` sets `test.runner`, `UnitTests.props` sets `UseMicrosoftTestingPlatformRunner`). **Do not pass `--nologo`.** MTP forwards unrecognised options to the test app, which then exits 5 with `Zero tests ran` instead of reporting a bad argument — this looks exactly like a broken test setup.
 - `.claude/skills/headless-render/`: renders maps to image files without a human at the keyboard, for checking rendering changes visually and for before/after comparison against another commit. Only works on Windows.
 
 ## Conventions
@@ -64,42 +66,11 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 - Respect the layering: `OmegaEngine.Foundation` stays rendering-agnostic; `World` layers stay free of rendering/UI dependencies; engine code must not depend on AlphaFramework or the sample game.
 - Code that multi-targets net472 + net10 may need `Shims/` polyfills rather than newer BCL APIs; check what the other target framework supports.
 - Doc comments on public APIs are the norm (XML doc warning 1591 is suppressed but most public types have them).
-- `[Description("...")]` (matching the XML doc comment) belongs on every concrete property implementation in `AlphaFramework.World/` and `FrameOfReference.World/` (not on the interface/abstract declaration).
-- Lua code in `content/GUI/` (both `.xml` and `.lua` files): Use `snake_case` for variables, function and parameters defined in Lua. GUI controls and C# objects that are merly accessed by Lua use `PascalCase`.
-- Lua embedded in `.xml` files (`<OnShow>`, `<OnUpdate>`, `<OnClick>`, ...) is XML text content, so it must be XML-escaped: write `&lt;` for `<` (e.g. `a &lt;= b`, `a &lt; b`) and `&amp;` for `&`.
-- Lua null checks: prefer `x and x.y` over `x ~= nil and x.y`. This is more concise and idiomatic in Lua, where `nil` and `false` are falsy.
-
-## Content layout (`content/`)
-
-Runtime assets. Some of them are bundled in the `OmegaEngine` NuGet (see `src\OmegaEngine\OmegaEngine.csproj`) while the rest is for [Frame of Reference](src/FrameOfReference/).
-
-- `World/`: serialized simulation data.
-  - `Maps/*.FrameOfReferenceMap`: ZIP files with alternate file ending
-    - `data.xml`: Serialized `Universe`
-    - `height.png`: Terrain height map
-    - `texture.png`: Terrain texture map
-    - `occlusion.png`: Terrain self-shadowing occlusion angles
-  - `*Templates.xml`: config for classes of terrain, entities, etc..
-- `GUI/`: OmegaGUI dialog definitions and scripts.
-  - `*.xml`: top-level screens (`MainMenu`, `PauseMenu`, etc.).
-  - `InGame/`: in-game HUD.
-  - `MsgBox/`: reusable message-box dialogs.
-  - `Utils.lua`: shared Lua helpers.
-  - `Language/*.locale`: localization strings (referenced in `.xml` files via `[LocalizationKey]`).
-  - `Textures/`: GUI-specific textures (`base.png` skin sheet, `logo.png`).
-- `Graphics/CpuParticleSystem/*.xml`: `CpuParticlePreset` definitions for particle effects (e.g. `FusionDrive.xml`, `Explosion.xml`).
-- `Graphics/Shaders/*.fx`: HLSL effects compiled at runtime in variants selected by preprocessor defines (see `DynamicShader`). They cannot `#include` from `shaders/include/`.
-- `Meshes/`: 3D mesh assets and paired textures.
-- `Textures/`: shared textures.
-  - `Skybox/<name>/`: six-face cubemap (`ft`, `bk`, `lf`, `rt`, `up`, `dn`). The name matches the `<Skybox>` element in the map XML.
-  - `Particles/`: particle textures referenced from `CpuParticlePreset` XML.
-  - `Terrain/`: terrain surface textures.
-  - `Water/`: water surface textures.
-  - `Shaders/`: textures sampled by shaders.
+- `[Description("...")]` (matching the XML doc comment) belongs on every concrete property implementation in `AlphaFramework/World/` (not on the interface/abstract declaration).
 
 ## Other directories
 
-- `content/`: runtime assets for the sample game (`Meshes/`, `Textures/`, `GUI/`, `World/`, `Music/`, `Sounds/`, `Graphics/`).
+- `content/`: runtime assets, partly bundled in the `OmegaEngine` NuGet, the rest for the sample game (see `content/CLAUDE.md`).
 - `shaders/`: HLSL shader source.
 - `templates/`: `OmegaEngine.Templates` project templates for scaffolding new engine-based projects.
 - `doc/`: source for the documentation site at <https://docs.omegaengine.de/>.
