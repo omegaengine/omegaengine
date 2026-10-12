@@ -14,7 +14,7 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Templates;
 using NLua;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 using Resources = AlphaFramework.World.Properties.Resources;
 
 namespace AlphaFramework.World.Terrains;

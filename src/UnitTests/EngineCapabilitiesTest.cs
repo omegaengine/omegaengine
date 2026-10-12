@@ -20,9 +20,9 @@ public class EngineCapabilitiesTest : EngineTestBase
     {
         var supported = Engine.Capabilities.DisplayModes.First();
 
-        var mode = Engine.Capabilities.GetFullscreenDisplayMode(new(supported.Width, supported.Height));
+        var mode = Engine.Capabilities.GetFullscreenDisplayMode(new((int)supported.Width, (int)supported.Height));
 
-        new Size(mode.Width, mode.Height).Should().Be(new Size(supported.Width, supported.Height));
+        new Size((int)mode.Width, (int)mode.Height).Should().Be(new Size((int)supported.Width, (int)supported.Height));
         mode.RefreshRate.Should().BePositive("Direct3D9Ex rejects a fullscreen display mode without a valid refresh rate");
     }
 
@@ -31,7 +31,7 @@ public class EngineCapabilitiesTest : EngineTestBase
     {
         var mode = Engine.Capabilities.GetFullscreenDisplayMode(new(1, 1));
 
-        Engine.Capabilities.CheckResolution(mode.Width, mode.Height).Should().BeTrue();
+        Engine.Capabilities.CheckResolution((int)mode.Width, (int)mode.Height).Should().BeTrue();
         mode.RefreshRate.Should().BePositive();
     }
 }

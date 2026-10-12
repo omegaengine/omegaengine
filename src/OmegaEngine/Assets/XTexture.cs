@@ -10,22 +10,23 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NanoByte.Common.Storage;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using SharpGen.Runtime;
 using OmegaEngine.Graphics;
 using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Assets;
 
 /// <summary>
-/// A texture loaded from one of DirectX's natively supported image formats (PNG, JPG, DDS, ...).
+/// A texture loaded from an image file (PNG, JPG, DDS, ...).
 /// </summary>
 public class XTexture : Asset, ITextureProvider
 {
     #region Properties
     /// <summary>
-    /// The <see cref="SlimDX.Direct3D9.Texture"/> inside this asset.
+    /// The <see cref="IDirect3DTexture9"/> inside this asset.
     /// </summary>
-    public Texture Texture { get; }
+    public IDirect3DTexture9 Texture { get; }
     #endregion
 
     #region Constructor
@@ -44,29 +45,22 @@ public class XTexture : Asset, ITextureProvider
         if (stream == null) throw new ArgumentNullException(nameof(stream));
         #endregion
 
-        // Color textures must be filtered in linear space, otherwise D3DX filters gamma-encoded values when generating mip-maps.
-        // Filter.Default is all-bits-set, so the sRGB flags have to be OR'ed into its explicit mip-filter equivalent (Box) instead.
-        var mipFilter = srgb ? Filter.Box | Filter.Srgb : Filter.Default;
-
         try
         {
             try
             {
-                Texture = Texture.FromStream(engine.Device, stream,
-                    D3DX.Default, D3DX.Default, 0, Usage.None, Format.Unknown, Pool.Default,
-                    Filter.Default, mipFilter, 0);
+                // Color textures must be filtered in linear space when generating mip-maps, otherwise gamma-encoded values get averaged
+                Texture = TextureLoader.FromStream(engine.Device, stream, mipmaps: true, srgb);
             }
-            catch (Direct3D9Exception ex) when (stream.CanSeek)
+            catch (SharpGenException ex) when (stream.CanSeek)
             {
-                Log.Warn("Texture.FromStream with D3DX defaults failed; retrying without mip-map generation", ex);
+                Log.Warn("Loading texture with mip-maps failed; retrying without mip-map generation", ex);
                 stream.Position = 0;
-                Texture = Texture.FromStream(engine.Device, stream,
-                    D3DX.Default, D3DX.Default, 1, Usage.None, Format.Unknown, Pool.Default,
-                    Filter.None, Filter.None, 0);
+                Texture = TextureLoader.FromStream(engine.Device, stream, mipmaps: false);
             }
         }
         #region Error handling
-        catch (Direct3D9Exception ex)
+        catch (Exception ex) when (ex is SharpGenException or InvalidDataException)
         {
             GC.SuppressFinalize(this); // Prevent "Forgot to call Dispose" error
             throw new InvalidDataException(ex.Message, ex);
@@ -119,9 +113,9 @@ public class XTexture : Asset, ITextureProvider
 
     #region Conversion
     /// <summary>
-    /// Convert a <see cref="XTexture"/> into its contained <see cref="SlimDX.Direct3D9.Texture"/>.
+    /// Convert a <see cref="XTexture"/> into its contained <see cref="IDirect3DTexture9"/>.
     /// </summary>
-    public static implicit operator Texture(XTexture xTexture) => xTexture?.Texture;
+    public static implicit operator IDirect3DTexture9?(XTexture? xTexture) => xTexture?.Texture;
     #endregion
 
     //--------------------//

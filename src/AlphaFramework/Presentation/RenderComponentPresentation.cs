@@ -4,7 +4,7 @@ using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 using LightSource = AlphaFramework.World.Components.LightSource;
 using CpuParticleSystem = AlphaFramework.World.Components.CpuParticleSystem;
 
@@ -60,7 +60,7 @@ public static class RenderComponentPresentation
     /// <remarks>The component's shift becomes the renderable's local <see cref="PositionableRenderable.Position"/>, i.e. an offset relative to its parent.</remarks>
     public static void ApplyPropertiesFrom(this PositionableRenderable presentation, Mesh component)
     {
-        presentation.PreTransform = Matrix.Scaling(component.Scale, component.Scale, component.Scale) *
+        presentation.PreTransform = Matrix4x4.CreateScale(component.Scale, component.Scale, component.Scale) *
                                     component.Rotation;
         presentation.Position = (DoubleVector3)component.Shift;
         presentation.Alpha = component.Alpha;

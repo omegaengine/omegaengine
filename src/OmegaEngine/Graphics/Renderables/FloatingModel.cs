@@ -9,8 +9,9 @@
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -68,12 +69,12 @@ public class FloatingModel : Model
 
         // Set floating view transformation
         var camera = context.Camera;
-        Matrix transform = Matrix.Scaling(Scale) * Matrix.RotationQuaternion(Rotation);
+        Matrix4x4 transform = Matrix4x4.CreateScale(Scale) * Matrix4x4.CreateFromQuaternion(Rotation);
         Engine.State.WorldTransform = Billboard switch
         {
-            BillboardMode.Spherical => transform * Matrix.Translation((Vector3)Position),
-            BillboardMode.Cylindrical => transform * camera.CylindricalBillboard * camera.SimpleView * Matrix.Translation((Vector3)Position),
-            _ => transform * camera.SimpleView * Matrix.Translation((Vector3)Position)
+            BillboardMode.Spherical => transform * Matrix4x4.CreateTranslation((Vector3)Position),
+            BillboardMode.Cylindrical => transform * camera.CylindricalBillboard * camera.SimpleView * Matrix4x4.CreateTranslation((Vector3)Position),
+            _ => transform * camera.SimpleView * Matrix4x4.CreateTranslation((Vector3)Position)
         };
 
         for (int i = 0; i < NumberSubsets; i++)

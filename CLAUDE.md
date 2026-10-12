@@ -6,8 +6,12 @@ This repository also bundles **Frame of Reference** (`src/FrameOfReference`), th
 
 ## Tech stack
 
-- C# 13 on **.NET Framework 4.7.2**, `x86` only. `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts (`OmegaEngine.Foundation`, the `World` layers) multi-target .NET Framework 4.7.2 and .NET 10.
-- Direct3D 9Ex (`Direct3DEx`/`DeviceEx`) via SlimDX.
+- C# 13 on **.NET 10** (`net10.0-windows`). `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts (`OmegaEngine.Foundation`, the `World` layers) additionally target plain `net10.0`; WinForms design-time code (`Foundation/Design/`, `[Editor]` attributes) only exists in the `-windows` build, behind `#if WINDOWS`.
+- Math uses `System.Numerics` (`Vector3`, `Matrix4x4`, `Quaternion`, `Plane`) plus `Vortice.Mathematics` (`Color4`, `BoundingBox`, `BoundingSphere`, `Ray`). Watch out for differences to D3DX conventions, see `VectorMath` (`TransformCoordinate` divides by W, `NormalizeOrZero` keeps zero vectors) and note that `System.Numerics` multiplies quaternions in the opposite order to D3DX (`a * b` applies `b` first).
+- Direct3D 9Ex (`IDirect3D9Ex`/`IDirect3DDevice9Ex`) via [Vortice.Direct3D9](https://github.com/amerkoleci/Vortice.Windows).
+  - Vortice wraps only core Direct3D 9, so `src/OmegaEngine/D3DX/` contains hand-written bindings for the parts of `d3dx9_43.dll` the engine uses (`Effect`, `EffectCompiler`, `Mesh`, `Font`, `Sprite`), calling the COM vtables directly. Vtable indices come from the DirectX SDK headers; `src/UnitTests/D3DX/` catches mistakes.
+  - Texture loading/saving (`Graphics/TextureLoader`, `SurfaceUtils`), render-to-texture (`RenderTarget`) and simple shapes (`MeshPrimitives`) are implemented in managed code instead of D3DX.
+  - `Graphics/Direct3D9Extensions` fills gaps and works around bugs in Vortice's bindings (missing `D3DERR_*` codes, `GetSamplerState`, display modes, device state, shader versions). Don't use Vortice's `Lock<T>()` on buffers: it sizes the span in bytes instead of elements.
   - Note the D3D9Ex rules: `Pool.Managed` is rejected, so all resources live in `Pool.Default` (see `BufferUtils.DefaultPool`/`ToDefaultPool()`).
   - Shader Model 3.0 is the minimum (`EngineCapabilities.MinShaderModel`, checked in the `Engine` constructor). All shaders compile as `vs_3_0`/`ps_3_0`; there are no lower-profile fallbacks.
   - `ps_3_0` ignores fixed-function fog, so every surface shader applies fog itself via the `Fog`/`FogColor` semantics (see `shaders/include/Fog.fxh`). A `vs_3_0` pass also always needs an explicit pixel shader.
@@ -35,9 +39,10 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 ## Solution layout (`src/`)
 
 - `OmegaEngine.Foundation/`: rendering-agnostic infrastructure shared across layers.
-  - `Storage/` (content/config loading), `Collections/`, `Geometry/`, `Light/`, `Design/`, `Shims/` (polyfills bridging the two target frameworks).
+  - `Storage/` (content/config loading), `Collections/`, `Geometry/`, `Light/`, `Design/` (WinForms design-time support, including `TypeConverter`s for `System.Numerics` types).
 - `OmegaEngine/`: the core engine. `Engine` (split across `Engine.*.cs` partials: `.Render`, `.Audio`, `.Terrain`, `.Debug`) is the central object; `RenderHost`/`RenderPanel` host it in WinForms. Sub-areas:
   - `Graphics/`: `Cameras/`, `LightSources/`, `Renderables/` (scene-graph objects), `Shaders/`, `VertexDecl/`.
+  - `D3DX/`: bindings for the used parts of D3DX 9.
   - `Audio/`, `Input/`, `Assets/` (cached GPU/asset resources).
   - `DebugConsole`/`DebugForm` provide the in-engine debug overlay.
 - `UnitTests/`: xUnit tests for `OmegaEngine` and `OmegaEngine.Foundation`.
@@ -64,7 +69,7 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 - Follow `.editorconfig` strictly: it pins extensive C# style rules (expression-bodied members preferred, `var` only when the type is apparent, braces required only for multiline blocks, no qualification for fields/properties, etc.).
 - File-scoped namespaces, primary constructors, and collection expressions are used throughout: match the surrounding style.
 - Respect the layering: `OmegaEngine.Foundation` stays rendering-agnostic; `World` layers stay free of rendering/UI dependencies; engine code must not depend on AlphaFramework or the sample game.
-- Code that multi-targets net472 + net10 may need `Shims/` polyfills rather than newer BCL APIs; check what the other target framework supports.
+- Code in the multi-targeted projects must compile for plain `net10.0` too, so put anything WinForms-specific behind `#if WINDOWS`.
 - Doc comments on public APIs are the norm (XML doc warning 1591 is suppressed but most public types have them).
 - `[Description("...")]` (matching the XML doc comment) belongs on every concrete property implementation in `AlphaFramework/World/` (not on the interface/abstract declaration).
 

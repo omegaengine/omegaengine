@@ -12,7 +12,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 using NanoByte.Common.Controls.Touch;
 using OmegaEngine.Input;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using SharpGen.Runtime;
 using TouchInputProvider = OmegaEngine.Input.TouchInputProvider;
 
 namespace OmegaEngine;
@@ -105,8 +106,8 @@ public class RenderPanel : TouchPanel, IRenderHost
     /// </summary>
     /// <returns>The newly initialized <see cref="Engine"/>.</returns>
     /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
-    /// <exception cref="Direct3DX9NotFoundException"><c>d3dx9_43.dll</c> is missing.</exception>
-    /// <exception cref="Direct3D9Exception">Internal errors occurred while initializing the graphics card.</exception>
+    /// <exception cref="DllNotFoundException"><c>d3dx9_43.dll</c> is missing.</exception>
+    /// <exception cref="SharpGenException">Internal errors occurred while initializing the graphics card.</exception>
     /// <remarks>Calling this multiple times will always return the same <see cref="OmegaEngine.Engine"/> instance.</remarks>
     [MemberNotNull(nameof(Engine))]
     [MemberNotNull(nameof(KeyboardInputProvider))]

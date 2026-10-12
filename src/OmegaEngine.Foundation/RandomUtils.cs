@@ -11,7 +11,7 @@ using System.Drawing;
 using JetBrains.Annotations;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation;
 

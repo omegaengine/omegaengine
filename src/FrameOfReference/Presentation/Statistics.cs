@@ -28,7 +28,7 @@ using FrameOfReference.World;
 using FrameOfReference.World.Positionables;
 using JetBrains.Annotations;
 using OmegaEngine.Foundation.Light;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.Presentation;
 

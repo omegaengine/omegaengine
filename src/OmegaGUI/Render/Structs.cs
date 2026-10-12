@@ -8,7 +8,8 @@
 
 using System;
 using System.Drawing;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
 
 namespace OmegaGUI.Render;
 

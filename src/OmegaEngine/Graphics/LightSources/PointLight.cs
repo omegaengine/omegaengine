@@ -12,8 +12,9 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics.LightSources;
 
@@ -125,7 +126,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
 
         var delta = target - this.GetFloatingPosition();
         float distance = delta.Length();
-        _directional.Direction = Vector3.Normalize(delta);
+        _directional.Direction = VectorMath.NormalizeOrZero(delta);
 
         _directional.SourceRadius = SourceRadius;
         // Approximates the distance to the shadow casters with the distance to the lit target; negligible as long as the casters are close to the receivers relative to the light source's distance
@@ -181,7 +182,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     }
 
     /// <inheritdoc/>
-    internal override Light ToFfpLight() => new()
+    internal override Light9 ToFfpLight() => new()
     {
         Type = LightType.Point,
         Position = this.GetFloatingPosition(),
@@ -189,8 +190,8 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         Attenuation0 = Attenuation.Constant,
         Attenuation1 = Attenuation.Linear,
         Attenuation2 = Attenuation.Quadratic,
-        Diffuse = Diffuse.SrgbToLinear(),
-        Specular = Specular.SrgbToLinear(),
-        Ambient = Ambient.SrgbToLinear()
+        Diffuse = Diffuse.SrgbToLinear().ToColorvalue(),
+        Specular = Specular.SrgbToLinear().ToColorvalue(),
+        Ambient = Ambient.SrgbToLinear().ToColorvalue()
     };
 }

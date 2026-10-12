@@ -25,9 +25,9 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using AlphaFramework.World;
 using AlphaFramework.World.Positionables;
-using SlimDX;
+using System.Numerics;
 
-#if NETFRAMEWORK
+#if WINDOWS
 using System.Drawing.Design;
 using OmegaEngine.Foundation.Design;
 #endif
@@ -64,7 +64,7 @@ public sealed partial class Trigger : Positionable<Vector2>
     /// A Lua script to execute when <see cref="TargetEntity"/> gets within <see cref="Range"/>.
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute when TargetEntity gets within range.")]
-#if NETFRAMEWORK
+#if WINDOWS
     [FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
 #endif
@@ -74,7 +74,7 @@ public sealed partial class Trigger : Positionable<Vector2>
     /// A Lua script to execute if the trigger was not activated by <see cref="DueTime"/>.
     /// </summary>
     [DefaultValue(""), Description("A Lua script to execute if the trigger was not activated by DueTime.")]
-#if NETFRAMEWORK
+#if WINDOWS
     [FileType("Lua")]
     [Editor(typeof(CodeEditor), typeof(UITypeEditor))]
 #endif

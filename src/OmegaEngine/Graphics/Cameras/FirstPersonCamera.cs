@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Cameras;
@@ -96,9 +96,10 @@ public sealed class FirstPersonCamera : QuaternionCamera
         if (!ViewDirty) return;
 
         (var axis, double rotation) = _defaultWorldUp.GetRotationTo(_worldUp);
-        Quaternion = Quaternion.RotationAxis((Vector3)axis, (float)rotation)
-                   * Quaternion.RotationYawPitchRoll((float)-_yaw, pitch: 0, roll: 0)
-                   * Quaternion.RotationYawPitchRoll(yaw: 0, (float)_pitch, roll: 0);
+        // System.Numerics multiplies quaternions in the opposite order to D3DX: the right-hand rotation is applied first
+        Quaternion = Quaternion.CreateFromYawPitchRoll(yaw: 0, (float)_pitch, roll: 0)
+                   * Quaternion.CreateFromYawPitchRoll((float)-_yaw, pitch: 0, roll: 0)
+                   * Quaternion.CreateFromAxisAngle(VectorMath.NormalizeOrZero((Vector3)axis), (float)rotation);
 
         base.UpdateView();
     }

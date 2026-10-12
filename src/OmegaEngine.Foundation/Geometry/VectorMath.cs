@@ -8,7 +8,8 @@
 
 using System;
 using JetBrains.Annotations;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
 
 namespace OmegaEngine.Foundation.Geometry;
 
@@ -139,6 +140,60 @@ public static class VectorMath
         var projectedPoint = ray.Position + ray.Direction * projection;
         return (point - projectedPoint).Length();
     }
+
+    /// <summary>
+    /// Transforms a coordinate by a matrix, including the division by the resulting W component.
+    /// </summary>
+    /// <remarks>Unlike <see cref="Vector3.Transform(Vector3,Matrix4x4)"/>, this also handles projection matrices.</remarks>
+    [Pure]
+    public static Vector3 TransformCoordinate(Vector3 coordinate, Matrix4x4 transform)
+    {
+        var result = Vector4.Transform(coordinate, transform);
+        return new Vector3(result.X, result.Y, result.Z) / result.W;
+    }
+
+    /// <summary>
+    /// Calculates the inverse of a matrix.
+    /// </summary>
+    /// <returns>The inverted matrix; all <see cref="float.NaN"/> if <paramref name="matrix"/> cannot be inverted.</returns>
+    [Pure]
+    public static Matrix4x4 Invert(Matrix4x4 matrix)
+    {
+        Matrix4x4.Invert(matrix, out var result);
+        return result;
+    }
+
+    /// <summary>
+    /// Scales a vector to a length of 1, leaving zero vectors unchanged instead of turning them into <see cref="float.NaN"/> like <see cref="Vector2.Normalize"/>.
+    /// </summary>
+    [Pure]
+    public static Vector2 NormalizeOrZero(Vector2 vector)
+    {
+        float length = vector.Length();
+        return length == 0 ? vector : vector / length;
+    }
+
+    /// <summary>
+    /// Scales a vector to a length of 1, leaving zero vectors unchanged instead of turning them into <see cref="float.NaN"/> like <see cref="Vector3.Normalize"/>.
+    /// </summary>
+    [Pure]
+    public static Vector3 NormalizeOrZero(Vector3 vector)
+    {
+        float length = vector.Length();
+        return length == 0 ? vector : vector / length;
+    }
+
+    /// <summary>
+    /// Gets the axis of the rotation described by a unit quaternion. Not normalized.
+    /// </summary>
+    [Pure]
+    public static Vector3 GetAxis(this Quaternion quaternion) => new(quaternion.X, quaternion.Y, quaternion.Z);
+
+    /// <summary>
+    /// Gets the angle of the rotation described by a unit quaternion in radians.
+    /// </summary>
+    [Pure]
+    public static float GetAngle(this Quaternion quaternion) => 2 * (float)Math.Acos(quaternion.W);
 
     /// <summary>
     /// Returns a normalized vector perpendicular to <paramref name="vector"/>.

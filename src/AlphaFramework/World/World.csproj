@@ -7,7 +7,7 @@ AlphaFramework.World provides a basis for building engine-agnostic models of gam
     <AssemblyName>AlphaFramework.World</AssemblyName>
     <RootNamespace>AlphaFramework.World</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
-    <TargetFrameworks>net472;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
     <Nullable>enable</Nullable>

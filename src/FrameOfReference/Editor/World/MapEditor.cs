@@ -49,7 +49,7 @@ using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Input;
 using OmegaEngine.Foundation.Storage;
-using SlimDX;
+using System.Numerics;
 using Resources = AlphaFramework.Editor.Properties.Resources;
 
 namespace FrameOfReference.Editor.World;

@@ -24,8 +24,10 @@
 
 using System;
 using System.Globalization;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using SharpGen.Runtime;
 
 namespace OmegaEngine.Graphics.Shaders.Dxsas;
 
@@ -132,7 +134,7 @@ internal static class SasHelper
                                 return 0.0f;
                         }
                     }
-                    catch (Direct3D9Exception)
+                    catch (SharpGenException)
                     {
                         return 0.0f;
                     }
@@ -198,7 +200,7 @@ internal static class SasHelper
                                 return ret;
                         }
                     }
-                    catch (Direct3D9Exception)
+                    catch (SharpGenException)
                     {
                         return ret;
                     }

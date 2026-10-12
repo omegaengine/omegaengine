@@ -9,7 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -90,7 +91,7 @@ partial class Camera
         UpdateViewFrustum();
 
         // Check if the sphere lies completely behind one of the frustum planes
-        if (GetPlanes(ignoreFarClip).Any(t => BoundingSphere.Intersects(boundingSphere, t) == PlaneIntersectionType.Back))
+        if (GetPlanes(ignoreFarClip).Any(t => boundingSphere.Intersects(t) == PlaneIntersectionType.Back))
             return false;
 
         // Otherwise the object is at least partially visible
@@ -112,7 +113,7 @@ partial class Camera
         UpdateViewFrustum();
 
         // Check if the box lies completely behind one of the frustum planes
-        return GetPlanes(ignoreFarClip).All(plane => BoundingBox.Intersects(boundingBox, plane) != PlaneIntersectionType.Back);
+        return GetPlanes(ignoreFarClip).All(plane => boundingBox.Intersects(plane) != PlaneIntersectionType.Back);
 
         // Otherwise the object is at least partially visible
     }

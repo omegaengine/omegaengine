@@ -12,7 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -62,7 +63,7 @@ public sealed class ShaderCache(string directory)
     {
         var builder = new StringBuilder();
         builder.Append(FormatVersion).Append('\0');
-        builder.Append(typeof(EffectCompiler).Assembly.GetName().Version).Append('\0'); // Determines the D3DX compiler version
+        builder.Append(D3DX9Native.DllName).Append('\0'); // Determines the D3DX compiler version
         foreach (var define in defines.OrderBy(x => x.Key, StringComparer.Ordinal))
             builder.Append(define.Key).Append('=').Append(define.Value).Append('\0');
         builder.Append(source);

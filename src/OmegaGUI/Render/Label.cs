@@ -6,7 +6,7 @@
  * under the Microsoft Public License.
  */
 
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 
 namespace OmegaGUI.Render;
 
@@ -35,7 +35,7 @@ public class Label : Control
     /// <summary>
     /// Render this control
     /// </summary>
-    public override void Render(Device device, float elapsedTime)
+    public override void Render(IDirect3DDevice9 device, float elapsedTime)
     {
         if (!IsVisible)
             return; // Nothing to do here
@@ -56,7 +56,7 @@ public class Label : Control
     /// </summary>
     public string GetTextCopy()
     {
-        return string.Copy(textData);
+        return textData;
     }
 
     /// <summary>

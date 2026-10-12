@@ -7,11 +7,13 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Management;
-using SlimDX.Direct3D9;
+using OmegaEngine.Graphics;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine;
 
@@ -21,7 +23,7 @@ namespace OmegaEngine;
 public sealed class EngineCapabilities
 {
     #region Dependencies
-    private readonly Direct3DEx _direct3D;
+    private readonly IDirect3D9Ex _direct3D;
     private readonly Capabilities _capabilities;
     private readonly EngineConfig _engineConfig;
 
@@ -30,7 +32,7 @@ public sealed class EngineCapabilities
     /// </summary>
     /// <param name="direct3D">Provides access to the Direct3D subsystem.</param>
     /// <param name="config">The settings used to initialize the <see cref="Engine"/>.</param>
-    internal EngineCapabilities(Direct3DEx direct3D, EngineConfig config)
+    internal EngineCapabilities(IDirect3D9Ex direct3D, EngineConfig config)
     {
         _direct3D = direct3D ?? throw new ArgumentNullException(nameof(direct3D));
         _capabilities = _direct3D.GetDeviceCaps(0, DeviceType.Hardware);
@@ -83,8 +85,8 @@ public sealed class EngineCapabilities
         #endregion
 
         #region GPU
-        DisplayModes = _direct3D.Adapters[_engineConfig.Adapter].GetDisplayModes(Format.X8R8G8B8);
-        var adapter = _direct3D.Adapters[_engineConfig.Adapter].Details;
+        DisplayModes = GetDisplayModes(_direct3D, _engineConfig.Adapter);
+        var adapter = _direct3D.GetAdapterIdentifier((uint)_engineConfig.Adapter);
         _hardware.Gpu.Manufacturer = adapter.VendorId;
         _hardware.Gpu.Name = adapter.Description;
 
@@ -109,7 +111,7 @@ public sealed class EngineCapabilities
         #endregion
 
         // Vertex shaders are not checked, since software vertex processing can emulate any version
-        MaxShaderModel = _capabilities.PixelShaderVersion;
+        MaxShaderModel = _capabilities.GetPixelShaderVersion();
 
         // Log GPU capabilities
         Log.Info($"""
@@ -117,7 +119,7 @@ public sealed class EngineCapabilities
                   HW Transform And Light: {_capabilities.DeviceCaps.HasFlag(DeviceCaps.HWTransformAndLight)}
                   Pure Device: {_capabilities.DeviceCaps.HasFlag(DeviceCaps.PureDevice)}
                   Anisotropic: {Anisotropic}
-                  Vertex Shader Version: {_capabilities.VertexShaderVersion}
+                  Vertex Shader Version: {_capabilities.GetVertexShaderVersion()}
                   Pixel Shader Version: {MaxShaderModel}
                   Supported AA: {SupportedAA}
                   """);
@@ -144,7 +146,7 @@ public sealed class EngineCapabilities
     /// <summary>
     /// A list of all supported monitor resolutions.
     /// </summary>
-    public DisplayModeCollection DisplayModes { get; }
+    public IReadOnlyList<DisplayMode> DisplayModes { get; }
 
     /// <summary>
     /// Does the graphics support rasterization, transform, lighting, and shading in hardware?
@@ -175,6 +177,15 @@ public sealed class EngineCapabilities
     #endregion
 
     #region Resolution check
+    private static DisplayMode[] GetDisplayModes(IDirect3D9 direct3D, int adapter)
+    {
+        uint count = direct3D.GetAdapterModeCount((uint)adapter, Format.X8R8G8B8);
+        var modes = new DisplayMode[count];
+        for (uint i = 0; i < count; i++)
+            modes[i] = direct3D.EnumAdapterModes((uint)adapter, Format.X8R8G8B8, i);
+        return modes;
+    }
+
     /// <summary>
     /// Checks whether the graphics card supports a certain monitor resolution
     /// </summary>
@@ -184,8 +195,8 @@ public sealed class EngineCapabilities
     /// <returns><c>true</c> if the level is supported</returns>
     public static bool CheckResolution(int adapter, int width, int height)
     {
-        using var manager = new Direct3DEx();
-        return manager.Adapters[adapter].GetDisplayModes(Format.X8R8G8B8).Any(mode => mode.Width == width && mode.Height == height);
+        using var manager = D3D9.Direct3DCreate9Ex();
+        return GetDisplayModes(manager, adapter).Any(mode => mode.Width == width && mode.Height == height);
     }
 
     /// <summary>
@@ -198,13 +209,13 @@ public sealed class EngineCapabilities
         => DisplayModes.Any(mode => mode.Width == width && mode.Height == height);
 
     /// <summary>
-    /// Checks whether a certain depth stencil format is supported by the <see cref="SlimDX.Direct3D9.Device"/>
+    /// Checks whether a certain depth stencil format is supported by the <see cref="IDirect3DDevice9"/>
     /// </summary>
     internal static bool TestDepthStencil(int adapter, Format depthFormat)
     {
-        using var manager = new Direct3DEx();
-        return manager.CheckDeviceFormat(adapter, DeviceType.Hardware, Format.X8R8G8B8,
-            Usage.DepthStencil, ResourceType.Surface, depthFormat);
+        using var manager = D3D9.Direct3DCreate9Ex();
+        return manager.CheckDeviceFormat((uint)adapter, DeviceType.Hardware, Format.X8R8G8B8,
+            (int)Usage.DepthStencil, ResourceType.Surface, depthFormat).Success;
     }
 
     /// <summary>
@@ -214,10 +225,9 @@ public sealed class EngineCapabilities
     /// <returns>The best matching display mode; the current desktop mode if no match was found.</returns>
     internal DisplayModeEx GetFullscreenDisplayMode(Size size)
     {
-        var current = _direct3D.GetAdapterDisplayModeEx(_engineConfig.Adapter);
+        var current = _direct3D.GetCurrentDisplayMode(_engineConfig.Adapter);
 
-        var candidates = _direct3D.AdaptersEx[_engineConfig.Adapter]
-                                  .GetDisplayModes(new() {Format = Format.X8R8G8B8, ScanlineOrdering = ScanlineOrdering.Progressive})
+        var candidates = _direct3D.GetDisplayModes(_engineConfig.Adapter, Format.X8R8G8B8, ScanlineOrdering.Progressive)
                                   .Where(mode => mode.Width == size.Width && mode.Height == size.Height)
                                   .ToList();
 
@@ -243,9 +253,8 @@ public sealed class EngineCapabilities
     /// <returns><c>true</c> if the level is supported</returns>
     public static bool CheckAA(int adapter, int sample)
     {
-        using var manager = new Direct3DEx();
-        return (manager.CheckDeviceMultisampleType(adapter, DeviceType.Hardware,
-            manager.Adapters[adapter].CurrentDisplayMode.Format, true, (MultisampleType)sample));
+        using var manager = D3D9.Direct3DCreate9Ex();
+        return CheckAA(manager, adapter, sample);
     }
 
     /// <summary>
@@ -254,12 +263,16 @@ public sealed class EngineCapabilities
     /// <param name="sample">The sample level to check</param>
     /// <returns><c>true</c> if the level is supported</returns>
     public bool CheckAA(int sample)
-        => _direct3D.CheckDeviceMultisampleType(
-            _engineConfig.Adapter,
+        => CheckAA(_direct3D, _engineConfig.Adapter, sample);
+
+    private static bool CheckAA(IDirect3D9 direct3D, int adapter, int sample)
+        => direct3D.CheckDeviceMultiSampleType(
+            (uint)adapter,
             DeviceType.Hardware,
-            _direct3D.Adapters[_engineConfig.Adapter].CurrentDisplayMode.Format,
+            direct3D.GetAdapterDisplayMode((uint)adapter).Format,
             windowed: true,
-            (MultisampleType)sample);
+            (MultisampleType)sample,
+            out _).Success;
 
     private static readonly int[] KnownAALevels = [2, 4, 8, 16];
 

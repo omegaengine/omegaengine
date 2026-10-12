@@ -14,8 +14,13 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using NanoByte.Common.Native;
 using OmegaEngine;
-using SlimDX;
-using SlimDX.Direct3D9;
+using OmegaEngine.Foundation.Light;
+using OmegaEngine.Graphics;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using OmegaEngine.Graphics.VertexDecl;
 using Resources = OmegaGUI.Properties.Resources;
 
@@ -39,7 +44,7 @@ public class Dialog
     private const int TooltipPadding = 4;
 
     public static readonly Color4 WhiteColorValue = new(1.0f, 1.0f, 1.0f);
-    public static readonly Color4 TransparentWhite = new(0.0f, 1.0f, 1.0f, 1.0f);
+    public static readonly Color4 TransparentWhite = new(1.0f, 1.0f, 1.0f, 0.0f);
     public static readonly Color4 BlackColorValue = new(0.0f, 0.0f, 0.0f);
     #endregion
 
@@ -1362,7 +1367,7 @@ public class Dialog
 
         using (new ProfilerEvent("Render GUI dialog"))
         {
-            Device device = DialogManager.Device;
+            IDirect3DDevice9 device = DialogManager.Device;
 
             using (new ProfilerEvent("Prepare Device for GUI rendering"))
             {
@@ -1519,14 +1524,14 @@ public class Dialog
         if (element == null) throw new ArgumentNullException(nameof(element));
 
         // No need to draw fully transparant layers
-        if (element.FontColor.Current.Alpha == 0)
+        if (element.FontColor.Current.A == 0)
             return; // Nothing to do
 
         Rectangle screenRect = rect;
         screenRect.Offset(dialogX, dialogY);
 
         // Set the identity transform
-        DialogManager.Sprite.Transform = Matrix.Identity;
+        DialogManager.Sprite.Transform = Matrix4x4.Identity;
 
         // Get the font node here
         FontNode fNode = GetFont(element.FontIndex);
@@ -1538,10 +1543,10 @@ public class Dialog
 
             // Black shadow for bright text, gray shadow for dark text
             Color shadowColor =
-                (element.FontColor.Current.Red + element.FontColor.Current.Green + element.FontColor.Current.Blue > 1.5f) ?
+                (element.FontColor.Current.R + element.FontColor.Current.G + element.FontColor.Current.B > 1.5f) ?
                     Color.Black : Color.Gray;
 
-            fNode.Font.DrawString(DialogManager.Sprite, text, shadowRect, element.textFormat, shadowColor);
+            fNode.Font.DrawString(DialogManager.Sprite, text, shadowRect, element.textFormat, shadowColor.ToArgb());
         }
 
         fNode.Font.DrawString(DialogManager.Sprite, text,
@@ -1554,7 +1559,7 @@ public class Dialog
         if (element == null) throw new ArgumentNullException(nameof(element));
 
         // No need to draw fully transparant layers
-        if (element.TextureColor.Current.Alpha == 0)
+        if (element.TextureColor.Current.A == 0)
             return; // Nothing to do
 
         Rectangle texRect = element.textureRect;
@@ -1567,7 +1572,7 @@ public class Dialog
         float scaleY = screenRect.Height / (float)texRect.Height;
 
         // Set the scaling transform
-        DialogManager.Sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1.0f);
+        DialogManager.Sprite.Transform = Matrix4x4.CreateScale(scaleX, scaleY, 1.0f);
 
         // Calculate the position
         var pos = new Vector3(screenRect.Left, screenRect.Top, 0.0f);
@@ -1575,7 +1580,7 @@ public class Dialog
         pos.Y /= scaleY;
 
         // Finally draw the sprite
-        DialogManager.Sprite.Draw(tNode.Texture, texRect, new Vector3(), pos, element.TextureColor.Current);
+        DialogManager.Sprite.Draw(tNode.Texture, texRect, new Vector3(), pos, element.TextureColor.Current.ToArgb());
     }
 
     /// <summary>Draw's some text</summary>
@@ -1604,12 +1609,12 @@ public class Dialog
         ];
 
         // Get the device
-        Device device = DialogManager.Device;
+        IDirect3DDevice9 device = DialogManager.Device;
 
         // Since we're doing our own drawing here, we need to flush the sprites
         DialogManager.Sprite.Flush();
         // Preserve the devices current vertex declaration
-        using VertexDeclaration decl = device.VertexDeclaration;
+        using IDirect3DVertexDeclaration9 decl = device.VertexDeclaration;
         // Set the vertex format
         device.VertexFormat = TransformedColoredTextured.Format;
 
@@ -1622,7 +1627,7 @@ public class Dialog
         else
         {
             device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 4, 4,
-                new short[] {0, 1, 2, 3, 0}, Format.Index16, vertexes, Marshal.SizeOf<TransformedColoredTextured>());
+                new short[] {0, 1, 2, 3, 0}, Format.Index16, vertexes);
         }
 
         // Reset some texture states

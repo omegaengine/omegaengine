@@ -10,8 +10,9 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using OmegaEngine.Graphics;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine;
 
@@ -32,7 +33,7 @@ public static class Profiler
     /// <summary>
     /// The current D3D device query to use for controlling the command buffer.
     /// </summary>
-    public static Query? DeviceQuery { get; set; }
+    public static IDirect3DQuery9? DeviceQuery { get; set; }
 
     private static XmlDocument? _currentLogXml;
 
@@ -90,7 +91,7 @@ public static class Profiler
     [Conditional("DEBUG")]
     internal static void BeginEvent(string name)
     {
-        Performance.BeginEvent(new(), name);
+        Direct3D9Extensions.BeginPerfEvent(name);
     }
 
     /// <summary>
@@ -99,7 +100,7 @@ public static class Profiler
     [Conditional("DEBUG")]
     internal static void EndEvent()
     {
-        Performance.EndEvent();
+        Direct3D9Extensions.EndPerfEvent();
     }
 
     /// <summary>
@@ -108,7 +109,7 @@ public static class Profiler
     [Conditional("DEBUG")]
     internal static void SetMarker(string name)
     {
-        Performance.SetMarker(new(), name);
+        Direct3D9Extensions.SetPerfMarker(name);
     }
     #endregion
 }
@@ -134,7 +135,7 @@ public readonly struct ProfilerEvent : IDisposable
     private static void PipelineStall()
     {
         Profiler.DeviceQuery.Issue(Issue.End);
-        while (!Profiler.DeviceQuery.CheckStatus(flush: true))
+        while (!Profiler.DeviceQuery.GetData(out int _, flush: true))
         {}
     }
     #endregion

@@ -11,14 +11,14 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation.Geometry;
 
 /// <summary>
 /// Defines a three-component vector with <see cref="double"/> accuracy.
 /// </summary>
-#if NETFRAMEWORK
+#if WINDOWS
 [TypeConverter(typeof(Design.DoubleVector3Converter))]
 #endif
 [StructLayout(LayoutKind.Sequential)]
@@ -159,7 +159,7 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// <param name="transformation">The transformation matrix to apply.</param>
     /// <remarks>Avoids cutting large vectors down to single precision before transforming them.</remarks>
     [Pure]
-    public static DoubleVector3 TransformNormal(DoubleVector3 normal, Matrix transformation)
+    public static DoubleVector3 TransformNormal(DoubleVector3 normal, Matrix4x4 transformation)
         => new(
             normal.X * transformation.M11 + normal.Y * transformation.M21 + normal.Z * transformation.M31,
             normal.X * transformation.M12 + normal.Y * transformation.M22 + normal.Z * transformation.M32,

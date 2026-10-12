@@ -8,8 +8,11 @@
 
 using System;
 using JetBrains.Annotations;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaEngine.Graphics;
 
@@ -19,34 +22,34 @@ namespace OmegaEngine.Graphics;
 public static class BoundingBodyUtils
 {
     /// <summary>
-    /// Generates a <see cref="BoundingBox"/> that completely contains all points within a <see cref="VertexBuffer"/>.
+    /// Generates a <see cref="BoundingBox"/> that completely contains all points within a <see cref="IDirect3DVertexBuffer9"/>.
     /// </summary>
-    /// <param name="vb">The <see cref="VertexBuffer"/> to be contained within the <see cref="BoundingBox"/>.</param>
+    /// <param name="vb">The <see cref="IDirect3DVertexBuffer9"/> to be contained within the <see cref="BoundingBox"/>.</param>
     /// <param name="vertexCount">The total number of vertex contained within <paramref name="vb"/>.</param>
-    public static BoundingBox ComputeBoundingBox(this VertexBuffer vb, int vertexCount)
-        => BoundingBox.FromPoints(vb.GetPoints(vertexCount));
+    public static BoundingBox ComputeBoundingBox(this IDirect3DVertexBuffer9 vb, int vertexCount)
+        => BoundingBox.CreateFromPoints(vb.GetPoints(vertexCount));
 
     /// <summary>
     /// Generates a <see cref="BoundingBox"/> that completely contains all points within a <see cref="Mesh"/>.
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> to be contained within the <see cref="BoundingBox"/>.</param>
     public static BoundingBox ComputeBoundingBox(this Mesh mesh)
-        => BoundingBox.FromPoints(mesh.GetPoints());
+        => BoundingBox.CreateFromPoints(mesh.GetPoints());
 
     /// <summary>
-    /// Generates a <see cref="BoundingSphere"/> that completely contains all points within a <see cref="VertexBuffer"/>.
+    /// Generates a <see cref="BoundingSphere"/> that completely contains all points within a <see cref="IDirect3DVertexBuffer9"/>.
     /// </summary>
-    /// <param name="vb">The <see cref="VertexBuffer"/> to be contained within the <see cref="BoundingSphere"/>.</param>
+    /// <param name="vb">The <see cref="IDirect3DVertexBuffer9"/> to be contained within the <see cref="BoundingSphere"/>.</param>
     /// <param name="vertexCount">The total number of vertexes contained within <paramref name="vb"/>.</param>
-    public static BoundingSphere ComputeBoundingSphere(this VertexBuffer vb, int vertexCount)
-        => BoundingSphere.FromPoints(vb.GetPoints(vertexCount));
+    public static BoundingSphere ComputeBoundingSphere(this IDirect3DVertexBuffer9 vb, int vertexCount)
+        => BoundingSphere.CreateFromPoints(vb.GetPoints(vertexCount));
 
     /// <summary>
     /// Generates a <see cref="BoundingSphere"/> that completely contains all points within a <see cref="Mesh"/>.
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> to be contained within the <see cref="BoundingSphere"/>.</param>
     public static BoundingSphere ComputeBoundingSphere(this Mesh mesh)
-        => BoundingSphere.FromPoints(mesh.GetPoints());
+        => BoundingSphere.CreateFromPoints(mesh.GetPoints());
 
     /// <summary>
     /// Applies a matrix transform to a bounding box.
@@ -55,7 +58,7 @@ public static class BoundingBodyUtils
     /// <param name="matrix">The transformation matrix to apply.</param>
     /// <returns>The transformed bounding box.</returns>
     [Pure]
-    public static BoundingBox Transform(this BoundingBox box, Matrix matrix)
+    public static BoundingBox Transform(this BoundingBox box, Matrix4x4 matrix)
     {
         var minimum = new Vector3(matrix.M41, matrix.M42, matrix.M43);
         var maximum = minimum;
@@ -64,8 +67,8 @@ public static class BoundingBodyUtils
         {
             for (int j = 0; j < 3; j++)
             {
-                float a = matrix[i, j] * box.Minimum[i];
-                float b = matrix[i, j] * box.Maximum[i];
+                float a = matrix[i, j] * box.Min[i];
+                float b = matrix[i, j] * box.Max[i];
                 if (a < b)
                 {
                     minimum[j] += a;
@@ -89,9 +92,9 @@ public static class BoundingBodyUtils
     /// <param name="matrix">The transformation matrix to apply.</param>
     /// <returns>The transformed bounding sphere.</returns>
     [Pure]
-    public static BoundingSphere Transform(this BoundingSphere sphere, Matrix matrix)
+    public static BoundingSphere Transform(this BoundingSphere sphere, Matrix4x4 matrix)
         => new(
-            center: Vector3.TransformCoordinate(sphere.Center, matrix),
+            center: VectorMath.TransformCoordinate(sphere.Center, matrix),
             radius: sphere.Radius * Math.Max(
                 Math.Max(
                     new Vector3(matrix.M11, matrix.M12, matrix.M13).Length(),
@@ -103,12 +106,12 @@ public static class BoundingBodyUtils
     /// </summary>
     [Pure]
     public static Vector3 Center(this BoundingBox box)
-        => (box.Maximum + box.Minimum) / 2;
+        => (box.Max + box.Min) / 2;
 
     /// <summary>
     /// A vector pointing from the minimum corner to the maximum corner of the bounding box.
     /// </summary>
     [Pure]
     public static Vector3 Diagonal(this BoundingBox box)
-        => box.Maximum - box.Minimum;
+        => box.Max - box.Min;
 }

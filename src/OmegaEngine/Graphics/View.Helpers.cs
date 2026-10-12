@@ -9,8 +9,9 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Linq;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
 
@@ -201,10 +202,10 @@ partial class View
 
         using (new ProfilerEvent("Copy BackBuffer to texture"))
         {
-            Engine.Device.StretchRectangle(
+            Engine.Device.StretchRect(
                 Engine.BackBuffer,
-                new(_viewport.X, _viewport.Y, _viewport.Width, _viewport.Height),
-                RenderTarget.Surface, new(0, 0, _viewport.Width, _viewport.Height),
+                new Rectangle(_viewport.X, _viewport.Y, _viewport.Width, _viewport.Height),
+                RenderTarget.Surface, new Rectangle(0, 0, _viewport.Width, _viewport.Height),
                 TextureFilter.None);
         }
     }

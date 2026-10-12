@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -41,8 +41,8 @@ public class TransitionCamera : QuaternionCamera
         if (engine == null) throw new ArgumentNullException(nameof(engine));
         #endregion
 
-        var startRotation = Quaternion.RotationMatrix(start.View);
-        var endRotation = Quaternion.RotationMatrix(end.View);
+        var startRotation = Quaternion.CreateFromRotationMatrix(start.View);
+        var endRotation = Quaternion.CreateFromRotationMatrix(end.View);
 
         // Make sure both quaternions are in the same hemisphere, to avoid going the long way round
         if (Quaternion.Dot(startRotation, endRotation) < 0)

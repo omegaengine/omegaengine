@@ -1,7 +1,4 @@
 <Solution>
-  <Configurations>
-    <Platform Name="x86" />
-  </Configurations>
   <Project Path="Editor\Editor.csproj">
     <BuildDependency Project="Game\Game.csproj" />
   </Project>

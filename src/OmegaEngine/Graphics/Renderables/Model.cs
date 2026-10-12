@@ -11,8 +11,11 @@ using System.ComponentModel;
 using System.Linq;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -262,7 +265,7 @@ public partial class Model : PositionableRenderable
     /// <inheritdoc/>
     protected override bool IntersectsGeometry(Ray ray, out float distance)
         // Check against the system memory copy, because the render mesh is write-only
-        => (_pickingMesh ?? Mesh).Intersects(ray, out distance, out int _, out _);
+        => (_pickingMesh ?? Mesh).Intersects(ray, out distance, out _);
     #endregion
 
     //--------------------//

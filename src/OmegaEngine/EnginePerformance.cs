@@ -2,14 +2,14 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Xml;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine;
 
 /// <summary>
 /// Tracks the performance/speed of the <see cref="Engine"/>.
 /// </summary>
-public sealed class EnginePerformance(Device device, Action renderPure)
+public sealed class EnginePerformance(IDirect3DDevice9 device, Action renderPure)
 {
     /// <summary>
     /// How many frames to consider for <see cref="Fps"/> calculation
@@ -57,7 +57,7 @@ public sealed class EnginePerformance(Device device, Action renderPure)
 
         if (stallGpu)
         {
-            Profiler.DeviceQuery = new(device, QueryType.Event);
+            Profiler.DeviceQuery = device.CreateQuery(QueryType.Event);
             Profiler.AddEvent("Forcing render pipeline stalls to log GPU performance");
         }
 

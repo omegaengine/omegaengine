@@ -78,7 +78,7 @@ leaves the user's own `Resume` there.
 ## Things that will bite you
 
 - **Saves are clobbered.** Portable-mode slots live in
-  `artifacts/Debug/net472/data/`, *not* the user profile, alongside many more
+  `artifacts/Debug/net10.0-windows/data/`, *not* the user profile, alongside many more
   of the user's saves that the backup does not cover. Give scenario slots names
   of their own (`Invoke-Scenario.ps1` refuses existing ones) and
   `Remove-GameSave` them afterwards.
@@ -124,7 +124,7 @@ textures), pass it everywhere content is resolved:
   `add-entity` can use them. Without it, a save that uses them fails to build.
 
 `<Dir>` is a path to the mod folder, or the name of a folder in
-`artifacts/Debug/net472/Mods/` (where the game itself looks for `/mod <name>`).
+`artifacts/Debug/net10.0-windows/Mods/` (where the game itself looks for `/mod <name>`).
 AlphaEditor keeps mods wherever the user created them, so you'll usually pass
 a path. The main one is `..\frame-of-reference-extra\content`, a sibling repo
 with most of the game's models, textures and maps, including the `Story` map.

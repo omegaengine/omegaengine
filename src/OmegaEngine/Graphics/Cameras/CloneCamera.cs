@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -45,7 +45,7 @@ public class CloneCamera(Camera parentCamera) : Camera
     /// <summary>
     /// Gets the current view matrix.
     /// </summary>
-    protected virtual Matrix GetView() => ParentCamera.View;
+    protected virtual Matrix4x4 GetView() => ParentCamera.View;
 
     /// <inheritdoc/>
     protected override void CacheSpecialMatrices()

@@ -11,7 +11,8 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
-using SlimDX;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
 
 namespace OmegaEngine.Foundation.Light;
 
@@ -61,7 +62,7 @@ public struct XColor(byte a, byte r, byte g, byte b) : IEquatable<XColor>
     public readonly XColor DropAlpha() => new(255, R, G, B);
 
     [Pure]
-    public readonly Color4 ToColor4() => new(Alpha, Red, Green, Blue);
+    public readonly Color4 ToColor4() => new(Red, Green, Blue, Alpha);
 
     /// <inheritdoc/>
     public readonly override string ToString() => ((Color)this).ToString();

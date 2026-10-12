@@ -12,7 +12,7 @@ using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 using Xunit;
 
 namespace OmegaEngine;
@@ -54,8 +54,8 @@ public class EngineSrgbRenderTest : EngineTestBase
         int srgbWrite = -1, srgbTexture = -1;
         Engine.ExtraRender += () =>
         {
-            srgbWrite = Engine.Device.GetRenderState(RenderState.SrgbWriteEnable);
-            srgbTexture = Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture);
+            srgbWrite = Engine.Device.GetRenderState<int>(RenderState.SrgbWriteEnable);
+            srgbTexture = Engine.Device.GetSamplerStateValue(0, SamplerState.SrgbTexture);
         };
 
         Engine.Render(elapsedGameTime: 0, noPresent: true);
@@ -71,7 +71,7 @@ public class EngineSrgbRenderTest : EngineTestBase
     /// The background color is already gamma-encoded, so it must reach the render target unchanged.
     /// </summary>
     /// <remarks>
-    /// Whether <see cref="SlimDX.Direct3D9.Device"/> clears honor <c>SrgbWriteEnable</c> is hardware-dependent:
+    /// Whether <see cref="IDirect3DDevice9"/> clears honor <c>SrgbWriteEnable</c> is hardware-dependent:
     /// classic Direct3D 9 parts ignore it, DX10-class ones apply it and would brighten every view's background.
     /// <see cref="View.RenderBackground"/> therefore clears with sRGB writes off.
     /// </remarks>
@@ -93,20 +93,9 @@ public class EngineSrgbRenderTest : EngineTestBase
 
     private Color ReadBackBufferPixel()
     {
-        var description = Engine.Device.GetBackBuffer(0, 0).Description;
-        using var systemSurface = Surface.CreateOffscreenPlain(
-            Engine.Device, description.Width, description.Height, description.Format, Pool.SystemMemory);
-        Engine.Device.GetRenderTargetData(Engine.Device.GetBackBuffer(0, 0), systemSurface);
-
-        var data = systemSurface.LockRectangle(LockFlags.ReadOnly).Data;
-        try
-        {
-            return Color.FromArgb(data.Read<int>());
-        }
-        finally
-        {
-            systemSurface.UnlockRectangle();
-        }
+        using var backBuffer = Engine.Device.GetBackBuffer(0, 0);
+        using var bitmap = backBuffer.ToBitmap(Engine.Device);
+        return bitmap.GetPixel(0, 0);
     }
 
     [Fact]
@@ -117,7 +106,7 @@ public class EngineSrgbRenderTest : EngineTestBase
         Engine.Render(elapsedGameTime: 0, noPresent: true);
 
         Engine.State.SrgbWrite.Should().BeFalse();
-        Engine.Device.GetRenderState(RenderState.SrgbWriteEnable).Should().Be(0);
+        Engine.Device.GetRenderState<int>(RenderState.SrgbWriteEnable).Should().Be(0);
     }
 
     [Fact]
@@ -127,7 +116,7 @@ public class EngineSrgbRenderTest : EngineTestBase
 
         // Sampled from inside the scene pass via a body that is rendered after the background
         int srgbWrite = -1;
-        view.Scene.Positionables.Add(new Probe(() => srgbWrite = Engine.Device.GetRenderState(RenderState.SrgbWriteEnable)));
+        view.Scene.Positionables.Add(new Probe(() => srgbWrite = Engine.Device.GetRenderState<int>(RenderState.SrgbWriteEnable)));
 
         Engine.Render(elapsedGameTime: 0, noPresent: true);
 
@@ -146,8 +135,8 @@ public class EngineSrgbRenderTest : EngineTestBase
         int srgbWriteAfter = -1, srgbTextureAfter = -1;
         view.Scene.Positionables.Add(new ProbingParticleSystem(() =>
         {
-            srgbWriteAfter = Engine.Device.GetRenderState(RenderState.SrgbWriteEnable);
-            srgbTextureAfter = Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture);
+            srgbWriteAfter = Engine.Device.GetRenderState<int>(RenderState.SrgbWriteEnable);
+            srgbTextureAfter = Engine.Device.GetSamplerStateValue(0, SamplerState.SrgbTexture);
         })
         {
             Preset = CpuParticlePreset.FromContent("CleanFire.xml")
