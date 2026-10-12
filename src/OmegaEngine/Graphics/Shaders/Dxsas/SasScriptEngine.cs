@@ -23,8 +23,9 @@
  */
 
 /*
-using SlimDX.Direct3D9;
-using SlimDX;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using System.Numerics;
 using System.Collections;
 using OmegaEngine.Assets;
 

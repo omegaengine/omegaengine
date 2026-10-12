@@ -11,7 +11,10 @@ using System.Drawing;
 using System.Xml.Serialization;
 using NLua;
 using OmegaEngine.Foundation.Light;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Size = System.Drawing.Size;
 
 namespace OmegaEngine.Graphics.Renderables;
 

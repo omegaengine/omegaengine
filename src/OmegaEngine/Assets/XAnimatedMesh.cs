@@ -11,11 +11,14 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Numerics;
 using NanoByte.Common.Storage;
+using OmegaEngine.D3DX;
+using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Foundation.Storage;
-using SlimDX;
-using SlimDX.Direct3D9;
+using SharpGen.Runtime;
+using Vortice.Mathematics;
 
 namespace OmegaEngine.Assets;
 
@@ -26,9 +29,7 @@ namespace OmegaEngine.Assets;
 public class XAnimatedMesh : Asset
 {
     #region Variables
-    private AnimationAllocation? _allocation;
-    private Frame? _rootFrame;
-    private AnimationController? _controller;
+    private FrameHierarchy? _hierarchy;
     #endregion
 
     #region Properties
@@ -44,7 +45,7 @@ public class XAnimatedMesh : Asset
     internal int[] FrameParents { get; private set; } = [];
 
     /// <summary>Each frame's local transformation matrix in the bind pose.</summary>
-    internal Matrix[] FrameBindLocal { get; private set; } = [];
+    internal Matrix4x4[] FrameBindLocal { get; private set; } = [];
 
     /// <summary>The decomposed scale of each frame's bind pose (for animation blending).</summary>
     internal Vector3[] FrameBindScale { get; private set; } = [];
@@ -93,22 +94,19 @@ public class XAnimatedMesh : Asset
 
         try
         {
-            // Load the frame hierarchy and animation controller into system memory
-            _allocation = new AnimationAllocation(engine, meshName);
-            _rootFrame = Frame.LoadHierarchyFromX(engine.Device, stream, MeshFlags.SystemMemory, _allocation, null, out var controller);
-            _controller = controller;
+            // Load the frame hierarchy and animation sets into system memory
+            _hierarchy = FrameHierarchy.FromStream(engine.Device, stream, MeshFlags.SystemMemory);
 
-            Containers = _allocation.Containers;
-            BuildSkeleton();
+            BuildSkeleton(engine, meshName);
 
-            // Compute bounding sphere from the bind pose (no bounding box for animated meshes)
-            var boundingSphere = Frame.CalculateBoundingSphere(_rootFrame);
+            // Use the bounding sphere of the bind pose (no bounding box for animated meshes)
+            var boundingSphere = _hierarchy.BoundingSphere;
             BoundingSphere = boundingSphere.Radius < 0.01 ? null : boundingSphere;
 
             BuildAnimations();
         }
         #region Error handling
-        catch (Direct3D9Exception ex)
+        catch (SharpGenException ex)
         {
             Dispose();
             throw new InvalidDataException(ex.Message, ex);
@@ -124,42 +122,37 @@ public class XAnimatedMesh : Asset
 
     /// <summary>
     /// Walks the frame hierarchy to flatten it into parallel arrays (parents-before-children), decomposes each bind pose,
-    /// and resolves each mesh container and bone to a frame index.
+    /// collects the mesh containers and resolves each of them and their bones to a frame index.
     /// </summary>
-    private void BuildSkeleton()
+    private void BuildSkeleton(Engine engine, string meshName)
     {
         var frames = new List<Frame>();
         var parents = new List<int>();
         var indexByName = new Dictionary<string, int>();
+        var containers = new List<ContainerData>();
 
-        void Traverse(Frame? frame, int parentIndex)
+        void Traverse(IEnumerable<Frame> siblings, int parentIndex)
         {
-            while (frame != null)
+            foreach (var frame in siblings)
             {
                 int index = frames.Count;
                 frames.Add(frame);
                 parents.Add(parentIndex);
                 if (!string.IsNullOrEmpty(frame.Name)) indexByName[frame.Name] = index;
 
-                for (var container = frame.MeshContainer; container != null; container = container.NextMeshContainer)
-                {
-                    // Match by mesh reference (SlimDX caches Mesh COM wrappers by pointer; MeshContainer wrappers are not stable)
-                    var mesh = container.MeshData?.Mesh;
-                    if (mesh == null) continue;
-                    foreach (var data in Containers)
-                        if (data.WorkMesh == mesh) data.FrameIndex = index;
-                }
+                foreach (var container in frame.MeshContainers)
+                    containers.Add(LoadContainer(engine, meshName, container, index));
 
-                Traverse(frame.FirstChild, index);
-                frame = frame.Sibling;
+                Traverse(frame.Children, index);
             }
         }
 
-        Traverse(_rootFrame, -1);
+        Traverse(_hierarchy!.RootFrames, -1);
+        Containers = containers;
 
         FrameCount = frames.Count;
         FrameParents = [..parents];
-        FrameBindLocal = new Matrix[FrameCount];
+        FrameBindLocal = new Matrix4x4[FrameCount];
         FrameBindScale = new Vector3[FrameCount];
         FrameBindRotation = new Quaternion[FrameCount];
         FrameBindTranslation = new Vector3[FrameCount];
@@ -168,7 +161,7 @@ public class XAnimatedMesh : Asset
         {
             var local = frames[i].TransformationMatrix;
             FrameBindLocal[i] = local;
-            FrameCanBlend[i] = local.Decompose(out FrameBindScale[i], out FrameBindRotation[i], out FrameBindTranslation[i]);
+            FrameCanBlend[i] = Matrix4x4.Decompose(local, out FrameBindScale[i], out FrameBindRotation[i], out FrameBindTranslation[i]);
         }
 
         // Resolve bone -> frame index now that all frames are known (done once at load, not per frame)
@@ -187,13 +180,42 @@ public class XAnimatedMesh : Asset
     private Dictionary<string, int> _frameIndexByName = [];
 
     /// <summary>
+    /// Loads the materials and bones of a mesh container.
+    /// </summary>
+    private static ContainerData LoadContainer(Engine engine, string meshName, MeshContainer container, int frameIndex)
+    {
+        var xMaterials = XMesh.LoadMaterials(engine, meshName, container.Materials, container.Effects, out _);
+        var data = new ContainerData
+        {
+            WorkMesh = container.Mesh,
+            SkinInfo = container.SkinInfo,
+            Materials = xMaterials.IsDefaultOrEmpty ? [XMaterial.Default] : [..xMaterials],
+            NumberSubsets = container.Materials is {Length: > 0} ? container.Materials.Length : 1,
+            FrameIndex = frameIndex
+        };
+
+        if (container.SkinInfo is {} skinInfo)
+        {
+            int boneCount = skinInfo.BoneCount;
+            data.BoneOffsets = new Matrix4x4[boneCount];
+            data.BoneNames = new string[boneCount];
+            for (int i = 0; i < boneCount; i++)
+            {
+                data.BoneOffsets[i] = skinInfo.GetBoneOffsetMatrix(i);
+                data.BoneNames[i] = skinInfo.GetBoneName(i);
+            }
+        }
+
+        return data;
+    }
+
+    /// <summary>
     /// Caches the animation sets and, for each, a map from animation index to the frame index it animates.
     /// </summary>
     private void BuildAnimations()
     {
-        if (_controller == null) return;
-
-        int setCount = _controller.AnimationSetCount;
+        var controllerSets = _hierarchy!.AnimationSets;
+        int setCount = controllerSets.Length;
         var sets = ImmutableArray.CreateBuilder<AnimationSet>(setCount);
         var names = ImmutableArray.CreateBuilder<string>(setCount);
         AnimationFrameMaps = new int[setCount][];
@@ -201,7 +223,7 @@ public class XAnimatedMesh : Asset
         for (int s = 0; s < setCount; s++)
         {
             // D3DX registers the sets in reverse, so the last one in the file has index 0; restore the file order
-            var set = _controller.GetAnimationSet<AnimationSet>(setCount - 1 - s);
+            var set = controllerSets[setCount - 1 - s];
             sets.Add(set);
             names.Add(set.Name);
 
@@ -266,14 +288,9 @@ public class XAnimatedMesh : Asset
             if (disposing)
             { // This block will only be executed on manual disposal, not by Garbage Collection
                 Log.Info($"Disposing {this}");
-                foreach (var set in AnimationSets)
-                    set.Dispose();
                 AnimationSets = [];
-                _controller?.Dispose();
-                if (_rootFrame != null && _allocation != null)
-                    Frame.DestroyHierarchy(_rootFrame, _allocation);
-                _rootFrame = null;
-                _controller = null;
+                _hierarchy?.Dispose();
+                _hierarchy = null;
             }
         }
         finally

@@ -7,7 +7,7 @@
  */
 
 using System.ComponentModel;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Graphics.Shaders;
 

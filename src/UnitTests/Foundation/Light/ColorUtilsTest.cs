@@ -8,6 +8,8 @@
 
 using System.Drawing;
 using AwesomeAssertions;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
 using Xunit;
 
 namespace OmegaEngine.Foundation.Light;
@@ -152,23 +154,23 @@ public class ColorUtilsTest
     {
         var result = Color.FromArgb(128, 255, 128, 0).SrgbToLinear();
 
-        result.Alpha.Should().BeApproximately(128 / 255f, 1e-6f); // Alpha is not a color channel
-        result.Red.Should().BeApproximately(1f, 1e-6f);
-        result.Green.Should().BeApproximately(ColorUtils.SrgbToLinear(128 / 255f), 1e-6f);
-        result.Blue.Should().Be(0f);
+        result.A.Should().BeApproximately(128 / 255f, 1e-6f); // Alpha is not a color channel
+        result.R.Should().BeApproximately(1f, 1e-6f);
+        result.G.Should().BeApproximately(ColorUtils.SrgbToLinear(128 / 255f), 1e-6f);
+        result.B.Should().Be(0f);
     }
 
     [Fact]
     public void TestSrgbToLinearColor4RoundTrip()
     {
-        var color = new SlimDX.Color4(0.5f, 0.25f, 0.75f, 1f);
+        var color = new Color4(0.25f, 0.75f, 1f, 0.5f);
 
         var result = color.SrgbToLinear().LinearToSrgb();
 
-        result.Alpha.Should().BeApproximately(color.Alpha, 1e-5f);
-        result.Red.Should().BeApproximately(color.Red, 1e-5f);
-        result.Green.Should().BeApproximately(color.Green, 1e-5f);
-        result.Blue.Should().BeApproximately(color.Blue, 1e-5f);
+        result.A.Should().BeApproximately(color.A, 1e-5f);
+        result.R.Should().BeApproximately(color.R, 1e-5f);
+        result.G.Should().BeApproximately(color.G, 1e-5f);
+        result.B.Should().BeApproximately(color.B, 1e-5f);
     }
 
     [Fact]

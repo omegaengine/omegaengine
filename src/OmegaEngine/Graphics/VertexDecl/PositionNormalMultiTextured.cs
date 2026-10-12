@@ -8,8 +8,9 @@
 
 using System;
 using System.Runtime.InteropServices;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.VertexDecl;
@@ -39,8 +40,9 @@ public struct PositionNormalMultiTextured
     /// <summary>Texture blending weights</summary>
     public Vector4 TexWeights1, TexWeights2, TexWeights3, TexWeights4;
 
-    /// <summary>A color by which the texture will be multiplied</summary>
-    public Color4 Color;
+    /// <summary>A color by which the texture will be multiplied (red, green, blue, alpha)</summary>
+    /// <remarks>Stored as a <see cref="Vector4"/> rather than a <see cref="Color4"/>, which has an internal SIMD representation.</remarks>
+    public Vector4 Color;
 
     /// <summary>
     /// Creates a new multi-textured vertex
@@ -67,7 +69,7 @@ public struct PositionNormalMultiTextured
         TexWeights2 = new(texWeights[4], texWeights[5], texWeights[6], texWeights[7]);
         TexWeights3 = new(texWeights[8], texWeights[9], texWeights[10], texWeights[11]);
         TexWeights4 = new(texWeights[12], texWeights[13], texWeights[14], texWeights[15]);
-        Color = color;
+        Color = color.ToVector4();
     }
 
     public override string ToString() => $"{nameof(PositionNormalMultiTextured)}(position={Position}, normal={Normal}, tu={Tu}, tv={Tv}, texWeights={TexWeights1}{TexWeights2}{TexWeights3}{TexWeights4})";

@@ -28,7 +28,7 @@ using System.Xml.Serialization;
 using NLua;
 using OmegaEngine.Foundation.Light;
 
-#if NETFRAMEWORK
+#if WINDOWS
 using System.Drawing.Design;
 using NanoByte.Common.Values.Design;
 using OmegaEngine.Foundation.Design;
@@ -57,7 +57,7 @@ partial class Universe
     /// </summary>
     [Category("Lighting"), Description("A value between 0 and 4 representing the current sun and moon positions. (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight)")]
     [Range(0f, 4f)]
-#if NETFRAMEWORK
+#if WINDOWS
     [Editor(typeof(SliderEditor), typeof(UITypeEditor))]
 #endif
     public float LightPhase { get => _lightPhase; set => (value.Modulo(4)).To(ref _lightPhase, OnLightingChanged); }
@@ -104,7 +104,7 @@ partial class Universe
     /// The angle of inclination of the sun's path away from the horizon towards south in degrees.
     /// </summary>
     [DefaultValue(70f), Category("Lighting"), Description("The angle of inclination of the sun's path away from the horizon towards south in degrees.")]
-#if NETFRAMEWORK
+#if WINDOWS
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
 #endif
     public float SunInclination
@@ -139,7 +139,7 @@ partial class Universe
     /// </summary>
     [Category("Lighting"), Description("The angle of inclination of the second moon's path away from the horizon towards south in degrees.")]
     [DefaultValue(70f)]
-#if NETFRAMEWORK
+#if WINDOWS
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
 #endif
     public float MoonInclination

@@ -12,8 +12,8 @@ using System.Drawing;
 using System.Linq;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
 
 namespace OmegaEngine.Graphics;
@@ -153,7 +153,7 @@ partial class View
             {
                 // Clear ZBuffer and turn off view transformation so the models float on top of everything else
                 Engine.Device.Clear(ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-                Engine.State.ViewTransform = Matrix.Identity;
+                Engine.State.ViewTransform = Matrix4x4.Identity;
 
                 foreach (FloatingModel model in FloatingModels.Where(model => model.Visible))
                 {

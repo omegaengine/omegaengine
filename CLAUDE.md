@@ -6,8 +6,12 @@ This repository also bundles **Frame of Reference** (`src/FrameOfReference`), th
 
 ## Tech stack
 
-- C# 13 on **.NET Framework 4.7.2**, `x86` only. `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts (`OmegaEngine.Foundation`, the `World` layers) multi-target .NET Framework 4.7.2 and .NET 10.
-- Direct3D 9Ex (`Direct3DEx`/`DeviceEx`) via SlimDX.
+- C# 13 on **.NET 10** (`net10.0-windows`). `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts (`OmegaEngine.Foundation`, the `World` layers) additionally target plain `net10.0`; WinForms design-time code (`Foundation/Design/`, `[Editor]` attributes) only exists in the `-windows` build, behind `#if WINDOWS`.
+- Math uses `System.Numerics` (`Vector3`, `Matrix4x4`, `Quaternion`, `Plane`) plus `Vortice.Mathematics` (`Color4`, `BoundingBox`, `BoundingSphere`, `Ray`). Watch out for differences to D3DX conventions, see `VectorMath` (`TransformCoordinate` divides by W, `NormalizeOrZero` keeps zero vectors) and note that `System.Numerics` multiplies quaternions in the opposite order to D3DX (`a * b` applies `b` first).
+- Direct3D 9Ex (`IDirect3D9Ex`/`IDirect3DDevice9Ex`) via [Vortice.Direct3D9](https://github.com/amerkoleci/Vortice.Windows).
+  - Vortice wraps only core Direct3D 9, so `src/OmegaEngine/D3DX/` contains hand-written bindings for the parts of `d3dx9_43.dll` the engine uses, calling the COM vtables directly. Vtable indices come from the DirectX SDK headers.
+  - Texture loading/saving (`Graphics/TextureLoader`, `SurfaceUtils`), render-to-texture (`RenderTarget`) and simple shapes (`MeshPrimitives`) are implemented in managed code instead of D3DX.
+  - `Graphics/Direct3D9Extensions` fills gaps and works around bugs in Vortice's bindings (missing `D3DERR_*` codes, `GetSamplerState`, display modes, device state, shader versions). Don't use Vortice's `Lock<T>()` on buffers: it sizes the span in bytes instead of elements.
   - Note the D3D9Ex rules: `Pool.Managed` is rejected, so all resources live in `Pool.Default` (see `BufferUtils.DefaultPool`/`ToDefaultPool()`).
   - Shader Model 3.0 is the minimum (`EngineCapabilities.MinShaderModel`, checked in the `Engine` constructor). All shaders compile as `vs_3_0`/`ps_3_0`; there are no lower-profile fallbacks.
   - `ps_3_0` ignores fixed-function fog, so every surface shader applies fog itself via the `Fog`/`FogColor` semantics (see `shaders/include/Fog.fxh`). A `vs_3_0` pass also always needs an explicit pixel shader.
@@ -37,9 +41,10 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 ## Solution layout (`src/`)
 
 - `OmegaEngine.Foundation/`: rendering-agnostic infrastructure shared across layers.
-  - `Storage/` (content/config loading), `Collections/`, `Geometry/`, `Light/`, `Design/` (WinForms design-time support, net472 only), `Shims/` (SlimDX math types for the net10 build, which has no SlimDX; net10 only).
-- `OmegaEngine/`: the core engine. `Engine` (split across `Engine.*.cs` partials: `.Render`, `.Terrain`, `.Debug`) is the central object; `RenderHost`/`RenderPanel` host it in WinForms. Sub-areas:
+  - `Storage/` (content/config loading), `Collections/`, `Geometry/`, `Light/`, `Design/` (WinForms design-time support, including `TypeConverter`s for `System.Numerics` types; `-windows` build only).
+- `OmegaEngine/`: the core engine. `Engine` (split across `Engine.*.cs` partials: `.Render`, `.Audio`, `.Terrain`, `.Debug`) is the central object; `RenderHost`/`RenderPanel` host it in WinForms. Sub-areas:
   - `Graphics/`: `Cameras/`, `LightSources/`, `Renderables/` (scene-graph objects), `Shaders/`, `VertexDecl/`.
+  - `D3DX/`: bindings for the used parts of D3DX 9.
   - `Audio/`, `Input/`, `Assets/` (cached GPU/asset resources).
   - `DebugConsole`/`DebugForm` provide the in-engine debug overlay.
 - `UnitTests/`: xUnit tests for `OmegaEngine` and `OmegaEngine.Foundation`.
@@ -66,8 +71,8 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 - Follow `.editorconfig` strictly: it pins extensive C# style rules (expression-bodied members preferred, `var` only when the type is apparent, braces required only for multiline blocks, no qualification for fields/properties, etc.).
 - File-scoped namespaces, primary constructors, and collection expressions are used throughout: match the surrounding style.
 - Respect the layering: engine code must not depend on AlphaFramework or the sample game.
-- `OmegaEngine.Foundation` and the `World` layers stay rendering-agnostic: no Direct3D device, engine or scene-graph use. They do use SlimDX's math types (`Vector3`, `Color4`, ...), and on net472 WinForms design-time support (`[Editor]` attributes, UI type editors, `Foundation/Design/`). In code that also builds for net10, put the latter behind `#if NETFRAMEWORK`.
-- Code that multi-targets net472 + net10 must compile against both: check that net472 has a BCL API before using it. `Shims/` is not a polyfill for that. It only stands in for SlimDX's math types on net10, so if multi-targeted code needs a SlimDX math member the shim lacks, add it there.
+- `OmegaEngine.Foundation` and the `World` layers stay rendering-agnostic: no Direct3D device, engine or scene-graph use. They do use the math types of `System.Numerics` and `Vortice.Mathematics` (`Vector3`, `Color4`, ...), and in the `-windows` build WinForms design-time support (`[Editor]` attributes, UI type editors, `Foundation/Design/`).
+- Code in the multi-targeted projects must compile for plain `net10.0` too, so put anything WinForms-specific behind `#if WINDOWS`.
 - Doc comments on public APIs are the norm (XML doc warning 1591 is suppressed but most public types have them).
 - `[Description("...")]` (matching the XML doc comment) belongs on every concrete property implementation in a `World` layer (`AlphaFramework/World/`, `FrameOfReference/World/`), not on the interface/abstract declaration.
 - Deep copies in the `World` layers are generated by [NanoByte.CloneGenerator](https://clone-generator.nano-byte.net/) via `[Cloneable]` on a `partial class`.

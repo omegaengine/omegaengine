@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using JetBrains.Annotations;
 using OmegaEngine.Foundation.Collections;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics;
 
@@ -24,20 +24,20 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
 {
     #region Variables
     private readonly Engine _engine;
-    private RenderToSurface? _rtsHelper;
-    private Size _rtsHelperSize;
+    private IDirect3DSurface9? _depthStencil;
+    private Size _depthStencilSize;
     #endregion
 
     #region Properties
     /// <summary>
     /// The surface to render onto.
     /// </summary>
-    internal Surface Surface { get; private set; }
+    internal IDirect3DSurface9 Surface { get; private set; }
 
     /// <summary>
     /// The texture containing the rendered content.
     /// </summary>
-    public Texture Texture { get; private set; }
+    public IDirect3DTexture9 Texture { get; private set; }
 
     /// <summary>
     /// Was this object already disposed?
@@ -63,9 +63,9 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
 
     #region Conversion
     /// <summary>
-    /// Convert a <see cref="RenderTarget"/> into its contained <see cref="SlimDX.Direct3D9.Texture"/>.
+    /// Convert a <see cref="RenderTarget"/> into its contained <see cref="IDirect3DTexture9"/>.
     /// </summary>
-    public static implicit operator Texture(RenderTarget renderTarget) => renderTarget?.Texture;
+    public static implicit operator IDirect3DTexture9?(RenderTarget? renderTarget) => renderTarget?.Texture;
     #endregion
 
     #region Constructor
@@ -103,7 +103,8 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
         {
             Texture.Dispose();
             Surface.Dispose();
-            _rtsHelper?.OnLostDevice();
+            _depthStencil?.Dispose();
+            _depthStencil = null;
         }
     }
     #endregion
@@ -116,21 +117,15 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
             // Use the engine's default viewport if selected
             Viewport = (Size == Size.Empty) ? _engine.RenderViewport : new() {Width = Size.Width, Height = Size.Height, MaxZ = 1};
 
-            // Dispose the _rtsHelper if it already exists but the size has changed
-            new Size(Viewport.Width, Viewport.Height).To(ref _rtsHelperSize, delegate
+            // Dispose the depth-stencil surface if it already exists but the size has changed
+            new Size(Viewport.Width, Viewport.Height).To(ref _depthStencilSize, delegate
             {
-                if (_rtsHelper != null)
-                {
-                    _rtsHelper.Dispose();
-                    _rtsHelper = null;
-                }
+                _depthStencil?.Dispose();
+                _depthStencil = null;
             });
 
-            // Reset the _rtsHelper if it already exists and is still valid
-            _rtsHelper?.OnResetDevice();
-
             // Create the target texture and surface
-            Texture = new(_engine.Device, Viewport.Width, Viewport.Height, 1,
+            Texture = _engine.Device.CreateTexture((uint)Viewport.Width, (uint)Viewport.Height, 1,
                 Usage.RenderTarget, _engine.PresentParams.BackBufferFormat, Pool.Default);
             try
             {
@@ -161,14 +156,32 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
         #endregion
 
         // Don't initialise this earlier, would cause trouble with resetting the device
-        _rtsHelper ??= new(_engine.Device, _rtsHelperSize.Width, _rtsHelperSize.Height,
-            _engine.PresentParams.BackBufferFormat, _engine.PresentParams.AutoDepthStencilFormat);
+        var device = _engine.Device;
+        _depthStencil ??= device.CreateDepthStencilSurface((uint)_depthStencilSize.Width, (uint)_depthStencilSize.Height,
+            _engine.PresentParams.AutoDepthStencilFormat, MultisampleType.None, multisampleQuality: 0, discard: false);
 
         using (new ProfilerEvent("Rendering to texture"))
         {
-            _rtsHelper.BeginScene(Surface, Viewport);
-            render();
-            _rtsHelper.EndScene(Filter.None);
+            // Redirect rendering to the texture and a matching depth-stencil surface, then restore everything afterwards
+            using var previousTarget = device.GetRenderTarget(0);
+            using var previousDepthStencil = device.DepthStencilSurface;
+            var previousViewport = device.Viewport;
+
+            device.SetRenderTarget(0, Surface);
+            device.DepthStencilSurface = _depthStencil;
+            device.Viewport = Viewport;
+            device.BeginScene();
+            try
+            {
+                render();
+            }
+            finally
+            {
+                device.EndScene();
+                device.SetRenderTarget(0, previousTarget);
+                device.DepthStencilSurface = previousDepthStencil;
+                device.Viewport = previousViewport;
+            }
         }
     }
     #endregion
@@ -193,7 +206,7 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
 
     #region Dispose
     /// <summary>
-    /// Disposes the <see cref="Texture"/> this object wraps
+    /// Disposes the <see cref="IDirect3DTexture9"/> this object wraps
     /// </summary>
     public void Dispose()
     {
@@ -222,7 +235,7 @@ public sealed class RenderTarget : ITextureProvider, IDisposable, IPoolable<Rend
             _engine.DeviceReset -= Initialize;
 
             if (_engine.IsDisposed) return;
-            _rtsHelper?.Dispose();
+            _depthStencil?.Dispose();
             Surface?.Dispose();
             Texture?.Dispose();
         }

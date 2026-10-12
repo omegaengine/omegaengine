@@ -17,8 +17,10 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.VertexDecl;
 using OmegaEngine.Foundation.Storage;
-using SlimDX;
-using SlimDX.Direct3D9;
+using OmegaEngine.Foundation.Light;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -34,7 +36,7 @@ public class CpuParticleSystem : PositionableRenderable
     /// <summary>A free-list of <see cref="CpuParticle"/>s to be reused</summary>
     private readonly Stack<CpuParticle> _deadParticles = new();
 
-    private VertexBuffer? _vb;
+    private IDirect3DVertexBuffer9? _vb;
     private XMaterial
         _material1 = XMaterial.Default,
         _material2 = XMaterial.Default;
@@ -151,7 +153,7 @@ public class CpuParticleSystem : PositionableRenderable
             // Identify particles that have begun their second life
             if (particle.SecondLife)
             {
-                particle.Color = RandomUtils.GetRandomColor(Preset.LowerParameters2.Color, Preset.UpperParameters2.Color);
+                particle.Color = RandomUtils.GetRandomColor(Preset.LowerParameters2.Color, Preset.UpperParameters2.Color).ToColor4();
                 _secondLifeParticles.Add(particle);
                 return true; // Remove from the pool
             }
@@ -219,7 +221,7 @@ public class CpuParticleSystem : PositionableRenderable
         var particleOffset = LocalSpace ? new() : EmitterOrigin;
         Vector3 particlePosition = particle.Position.ApplyOffset(particleOffset);
         float particleDistance = particlePosition.Length();
-        Vector3 particleDirection = Vector3.Normalize(particlePosition);
+        Vector3 particleDirection = VectorMath.NormalizeOrZero(particlePosition);
 
         if (particleDistance < Preset.EmitterRepelRange)
         {
@@ -294,7 +296,7 @@ public class CpuParticleSystem : PositionableRenderable
             particle.Velocity = default;
             particle.Parameters1 = parameters1;
             particle.Parameters2 = parameters2;
-            particle.Color = parameters1.Color;
+            particle.Color = parameters1.Color.ToColor4();
             particle.SecondLife = false;
             _firstLifeParticles.Add(particle);
         }

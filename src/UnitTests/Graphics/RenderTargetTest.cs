@@ -10,7 +10,7 @@ using System;
 using System.Drawing;
 using AwesomeAssertions;
 using OmegaEngine.Foundation.Light;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 using Xunit;
 
 namespace OmegaEngine.Graphics;
@@ -43,7 +43,7 @@ public class RenderTargetTest : EngineTestBase
     {
         using var renderTarget = new RenderTarget(Engine, new Size(64, 64));
 
-        Texture texture = renderTarget;
+        IDirect3DTexture9 texture = renderTarget;
         texture.Should().BeSameAs(renderTarget.Texture);
     }
 
@@ -133,19 +133,7 @@ public class RenderTargetTest : EngineTestBase
     /// </summary>
     private Color ReadPixel(RenderTarget renderTarget)
     {
-        var description = renderTarget.Texture.GetLevelDescription(0);
-        using var systemSurface = Surface.CreateOffscreenPlain(
-            Engine.Device, description.Width, description.Height, description.Format, Pool.SystemMemory);
-        Engine.Device.GetRenderTargetData(renderTarget.Surface, systemSurface);
-
-        var data = systemSurface.LockRectangle(LockFlags.ReadOnly).Data;
-        try
-        {
-            return Color.FromArgb(data.Read<int>());
-        }
-        finally
-        {
-            systemSurface.UnlockRectangle();
-        }
+        using var bitmap = renderTarget.Surface.ToBitmap(Engine.Device);
+        return bitmap.GetPixel(0, 0);
     }
 }

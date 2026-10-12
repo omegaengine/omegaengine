@@ -11,8 +11,8 @@ using System.Drawing;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine;
@@ -38,7 +38,7 @@ public enum ZBufferMode
 public sealed class EngineState
 {
     #region Dependencies
-    private readonly Device _device;
+    private readonly IDirect3DDevice9 _device;
     private readonly bool _depthBiasSupported, _slopeScaleDepthBiasSupported;
 
     /// <summary>
@@ -46,7 +46,7 @@ public sealed class EngineState
     /// </summary>
     /// <param name="device">The Direct3D device to be manipulated internally.</param>
     /// <param name="capabilities">The rendering capabilities of the graphics hardware.</param>
-    internal EngineState(Device device, EngineCapabilities capabilities)
+    internal EngineState(IDirect3DDevice9 device, EngineCapabilities capabilities)
     {
         _device = device ?? throw new ArgumentNullException(nameof(device));
         if (capabilities == null) throw new ArgumentNullException(nameof(capabilities));
@@ -371,30 +371,30 @@ public sealed class EngineState
     //--------------------//
 
     #region Transforms
-    private Matrix _worldTransform, _viewTransform, _projectionTransform;
+    private Matrix4x4 _worldTransform, _viewTransform, _projectionTransform;
 
     /// <summary>
     /// The currently active world transformation matrix
     /// </summary>
-    public Matrix WorldTransform
+    public Matrix4x4 WorldTransform
     {
         get => _worldTransform;
         set
         {
             _worldTransform = value;
-            _device.SetTransform(TransformState.World, value);
+            _device.SetTransform(D3DTransformState.World, value);
         }
     }
 
     /// <summary>
     /// The currently active view transformation matrix
     /// </summary>
-    public Matrix ViewTransform { get => _viewTransform; set => value.To(ref _viewTransform, () => _device.SetTransform(TransformState.View, value)); }
+    public Matrix4x4 ViewTransform { get => _viewTransform; set => value.To(ref _viewTransform, () => _device.SetTransform(TransformState.View, value)); }
 
     /// <summary>
     /// The currently active projection transformation matrix
     /// </summary>
-    public Matrix ProjectionTransform { get => _projectionTransform; set => value.To(ref _projectionTransform, () => _device.SetTransform(TransformState.Projection, value)); }
+    public Matrix4x4 ProjectionTransform { get => _projectionTransform; set => value.To(ref _projectionTransform, () => _device.SetTransform(TransformState.Projection, value)); }
     #endregion
 
     #region User clip plane
@@ -419,7 +419,7 @@ public sealed class EngineState
                 }
                 else
                 { // Apply new plane
-                    _device.SetClipPlane(0, value);
+                    _device.SetClipPlane(0, new Vector4(value.Normal, value.D));
                     _device.SetRenderState(RenderState.ClipPlaneEnable, 1);
                 }
             });
@@ -430,18 +430,19 @@ public sealed class EngineState
 
     #region Vertex buffer
     /// <summary>
-    /// Sets a <see cref="VertexBuffer"/> with a fixed-function vertex format as the current active stream source.
+    /// Sets a <see cref="IDirect3DVertexBuffer9"/> with a fixed-function vertex format as the current active stream source.
     /// </summary>
-    /// <param name="buffer">The <see cref="VertexBuffer"/> with a fixed-function vertex format.</param>
-    public void SetVertexBuffer(VertexBuffer buffer)
+    /// <param name="buffer">The <see cref="IDirect3DVertexBuffer9"/> with a fixed-function vertex format.</param>
+    public void SetVertexBuffer(IDirect3DVertexBuffer9 buffer)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
-        if (buffer.Description.FVF == VertexFormat.None) throw new ArgumentException(Resources.VBMustBeFVF, nameof(buffer));
+        var format = buffer.Description.VertexFormat;
+        if (format == VertexFormat.None) throw new ArgumentException(Resources.VBMustBeFVF, nameof(buffer));
         #endregion
 
-        _device.SetStreamSource(0, buffer, 0, D3DX.GetFVFVertexSize(buffer.Description.FVF));
-        _device.VertexFormat = buffer.Description.FVF;
+        _device.SetStreamSource(0, buffer, 0, (uint)format.GetVertexSize());
+        _device.VertexFormat = format;
     }
     #endregion
 
@@ -450,7 +451,7 @@ public sealed class EngineState
     /// Sets the currently active texture for the first texture stage.
     /// </summary>
     /// <param name="texture">The object providing the texture.</param>
-    /// <remarks>Corresponds to calling <see cref="SlimDX.Direct3D9.Device.SetTexture"/> with the texture stage parameter set to 0.</remarks>
+    /// <remarks>Corresponds to calling <see cref="IDirect3DDevice9.SetTexture"/> with the texture stage parameter set to 0.</remarks>
     public void SetTexture(ITextureProvider? texture)
     {
         _device.SetTexture(0, texture?.Texture);

@@ -11,7 +11,9 @@ using System.Drawing;
 using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
+using Size = System.Drawing.Size;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -43,8 +45,8 @@ public class SceneGraphTest
         var box = subtree.SubtreeBoundingBox ?? throw new InvalidOperationException("No subtree bounding box");
         for (int i = 0; i < 3; i++)
         {
-            (inner.Center[i] - inner.Radius).Should().BeGreaterThanOrEqualTo(box.Minimum[i] - 0.001f);
-            (inner.Center[i] + inner.Radius).Should().BeLessThanOrEqualTo(box.Maximum[i] + 0.001f);
+            (inner.Center[i] - inner.Radius).Should().BeGreaterThanOrEqualTo(box.Min[i] - 0.001f);
+            (inner.Center[i] + inner.Radius).Should().BeLessThanOrEqualTo(box.Max[i] + 0.001f);
         }
     }
 
@@ -74,7 +76,7 @@ public class SceneGraphTest
     [Fact]
     public void ChildPositionIsRotatedByItsParent()
     {
-        using var parent = new Pivot {Rotation = Quaternion.RotationYawPitchRoll((float)(Math.PI / 2), 0, 0)};
+        using var parent = new Pivot {Rotation = Quaternion.CreateFromYawPitchRoll((float)(Math.PI / 2), 0, 0)};
         using var child = new Pivot {Position = new(1, 0, 0)};
         parent.Children.Add(child);
 
@@ -191,7 +193,7 @@ public class SceneGraphTest
         using var parent = new Pivot
         {
             Position = new(10, 0, 0),
-            Rotation = Quaternion.RotationYawPitchRoll((float)(Math.PI / 2), 0, 0)
+            Rotation = Quaternion.CreateFromYawPitchRoll((float)(Math.PI / 2), 0, 0)
         };
 
         // A 90° yaw turns the parent's +X axis into the world's -Z axis

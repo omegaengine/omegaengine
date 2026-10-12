@@ -9,7 +9,7 @@
 using System;
 using System.Drawing;
 using NanoByte.Common.Native;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 
 namespace OmegaGUI.Render;
 
@@ -178,7 +178,7 @@ public class ScrollBar : Control
     }
 
     /// <summary>Render the scroll bar control</summary>
-    public override void Render(Device device, float elapsedTime)
+    public override void Render(IDirect3DDevice9 device, float elapsedTime)
     {
         var state = ControlState.Normal;
         if (IsVisible == false)

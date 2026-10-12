@@ -31,7 +31,7 @@ using OmegaEngine;
 using OmegaEngine.Audio;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 using CpuParticleSystem = AlphaFramework.World.Components.CpuParticleSystem;
 using LightSource = AlphaFramework.World.Components.LightSource;
 using Water = AlphaFramework.World.Positionables.Water;
@@ -166,7 +166,7 @@ partial class Presenter
         if (_anchorStates.TryGetValue(anchor, out var applied) && applied.Value == state) return;
 
         anchor.Position = Universe.Terrain.ToEngineCoords(element.Position);
-        anchor.Rotation = Quaternion.RotationYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
+        anchor.Rotation = Quaternion.CreateFromYawPitchRoll(element.Rotation.DegreeToRadian(), 0, 0);
 
         if (applied == null) _anchorStates.Add(anchor, new(state));
         else applied.Value = state;

@@ -13,7 +13,7 @@ using System.Drawing.Design;
 using NanoByte.Common.Values.Design;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Cameras;

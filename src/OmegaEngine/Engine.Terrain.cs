@@ -9,8 +9,9 @@
 using System;
 using System.Linq;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D9;
+using SharpGen.Runtime;
 
 namespace OmegaEngine;
 
@@ -82,7 +83,7 @@ partial class Engine
             {
                 RegisterChild(shader);
             }
-            catch (Exception ex) when (ex is CompilationException or Direct3D9Exception)
+            catch (SharpGenException ex)
             {
                 Log.Error($"Failed to create terrain shader for {BitCount(textureMask)} textures with lighting {(lighting ? "enabled" : "disabled")} on the device", ex);
                 UnregisterChild(shader);

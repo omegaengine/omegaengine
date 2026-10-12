@@ -12,7 +12,9 @@ using System.IO;
 using System.Xml.Serialization;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
-using SlimDX;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Mathematics;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -186,7 +188,7 @@ public record CpuParticlePreset
 
             return new(
                 // Move half the way in gravity direction, handle first half of repelling force
-                center: gravity > 0 ? Gravity / gravity * (maxDistance / 2f - EmitterRepelRange) : new(),
+                center: VectorMath.NormalizeOrZero(Gravity) * (maxDistance / 2f - EmitterRepelRange),
                 // Encapsulate the entire gravity area, handle second half of repelling force
                 radius: maxDistance / 2 + EmitterRepelRange + firstRepel + secondRepel);
         }

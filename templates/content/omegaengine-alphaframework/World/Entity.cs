@@ -1,6 +1,6 @@
 using AlphaFramework.World.Positionables;
 using NanoByte.CloneGenerator;
-using SlimDX;
+using System.Numerics;
 
 namespace Template.AlphaFramework.World;
 

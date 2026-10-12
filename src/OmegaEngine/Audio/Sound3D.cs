@@ -13,7 +13,7 @@ using NAudio.Wave;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Audio;
 
@@ -78,7 +78,7 @@ public class Sound3D(XSound sound) : Sound(sound)
         if (distance > 1e-6)
         {
             var direction = (Vector3)(delta / distance);
-            var right = Vector3.Normalize(Vector3.Cross(listener.Up, listener.Forward));
+            var right = VectorMath.NormalizeOrZero(Vector3.Cross(listener.Up, listener.Forward));
             pan = Math.Max(-1f, Math.Min(1f, Vector3.Dot(direction, right)));
         }
 

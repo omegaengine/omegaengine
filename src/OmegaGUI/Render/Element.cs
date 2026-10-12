@@ -8,8 +8,10 @@
 
 using System;
 using System.Drawing;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaGUI.Render;
 

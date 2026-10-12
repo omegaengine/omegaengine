@@ -37,7 +37,9 @@ using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
+using Box = FrameOfReference.World.Components.Box;
 
 namespace FrameOfReference.Presentation;
 
@@ -87,7 +89,7 @@ public sealed class EditorPresenter : InteractivePresenter
             Name = "AxisArrows",
             Alpha = 160,
             Position = new(-16, -12, 40),
-            Rotation = Quaternion.RotationYawPitchRoll(0, 0, 0)
+            Rotation = Quaternion.CreateFromYawPitchRoll(0, 0, 0)
         };
         axisArrows.SetScale(0.03f);
         View.FloatingModels.Add(axisArrows);
@@ -105,7 +107,7 @@ public sealed class EditorPresenter : InteractivePresenter
             (Trigger trigger) =>
             {
                 var area = Model.Cylinder(Engine, XTexture.Get(Engine, "flag.png"), radiusBottom: trigger.Range, radiusTop: trigger.Range, length: 150);
-                area.Rotation = Quaternion.RotationYawPitchRoll(0, (float)Math.PI / 2, 0);
+                area.Rotation = Quaternion.CreateFromYawPitchRoll(0, (float)Math.PI / 2, 0);
                 area.Alpha = 160;
                 return area;
             },
@@ -156,8 +158,8 @@ public sealed class EditorPresenter : InteractivePresenter
             {
                 // Update painting brush mesh sizes
                 float scaleHorizontal = value.Value.Size * Universe.Terrain.Size.StretchH;
-                _terrainPaintingBrushCircle.PreTransform = Matrix.Scaling(scaleHorizontal / 30, 1, scaleHorizontal / 30);
-                _terrainPaintingBrushSquare.PreTransform = Matrix.Translation(-0.5f, 0, 0.5f) * Matrix.Scaling(scaleHorizontal, 1, scaleHorizontal) * Matrix.Translation(0, 20, 0);
+                _terrainPaintingBrushCircle.PreTransform = Matrix4x4.CreateScale(scaleHorizontal / 30, 1, scaleHorizontal / 30);
+                _terrainPaintingBrushSquare.PreTransform = Matrix4x4.CreateTranslation(-0.5f, 0, 0.5f) * Matrix4x4.CreateScale(scaleHorizontal, 1, scaleHorizontal) * Matrix4x4.CreateTranslation(0, 20, 0);
 
                 // Update painting brush mesh visibility
                 _terrainPaintingBrushCircle.Visible = value.Value.Circle;
@@ -275,11 +277,11 @@ public sealed class EditorPresenter : InteractivePresenter
         return new()
         {
             Minimum = new(
-                boundingBoxes.Min(box => box.Minimum.X),
-                boundingBoxes.Min(box => -box.Maximum.Z)),
+                boundingBoxes.Min(box => box.Min.X),
+                boundingBoxes.Min(box => -box.Max.Z)),
             Maximum = new(
-                boundingBoxes.Max(box => box.Maximum.X),
-                boundingBoxes.Max(box => -box.Minimum.Z))
+                boundingBoxes.Max(box => box.Max.X),
+                boundingBoxes.Max(box => -box.Min.Z))
         };
     }
     #endregion

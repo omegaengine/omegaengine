@@ -6,13 +6,13 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 using OmegaEngine.Assets;
 
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// An object that can provide a <see cref="Texture"/> for rendering.
+/// An object that can provide a <see cref="IDirect3DTexture9"/> for rendering.
 /// </summary>
 /// <remarks>
 /// This provides a common interface for static (unchanging) <see cref="XTexture"/> assets and dynamic <see cref="RenderTarget"/>s.
@@ -20,7 +20,7 @@ namespace OmegaEngine.Graphics;
 public interface ITextureProvider : IReferenceCount
 {
     /// <summary>
-    /// The <see cref="SlimDX.Direct3D9.Texture"/> this object represents.
+    /// The <see cref="IDirect3DTexture9"/> this object represents.
     /// </summary>
-    Texture Texture { get; }
+    IDirect3DTexture9 Texture { get; }
 }

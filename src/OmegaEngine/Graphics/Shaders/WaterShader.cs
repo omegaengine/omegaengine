@@ -15,8 +15,9 @@ using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaEngine.Graphics.Shaders;
 
@@ -102,21 +103,21 @@ public class WaterShader : SurfaceShader
         }
     }
 
-    private Matrix _windDirection;
+    private Matrix4x4 _windDirection;
 
     /// <summary>
     /// The direction of the wind moving the waves
     /// </summary>
     [Description("The direction of the wind moving the waves")]
-    public Matrix WindDirection { get => _windDirection; set => value.To(ref _windDirection, () => SetShaderParameter("WindDirection", value)); }
+    public Matrix4x4 WindDirection { get => _windDirection; set => value.To(ref _windDirection, () => SetShaderParameter("WindDirection", value)); }
 
-    private Matrix _reflectionViewProjection;
+    private Matrix4x4 _reflectionViewProjection;
 
     /// <summary>
     /// The reflected view-projection from the <see cref="Camera"/>
     /// </summary>
     [Browsable(false)]
-    public Matrix ReflectionViewProjection { get => _reflectionViewProjection; set => value.To(ref _reflectionViewProjection, () => SetShaderParameter("ReflectionViewProjection", value)); }
+    public Matrix4x4 ReflectionViewProjection { get => _reflectionViewProjection; set => value.To(ref _reflectionViewProjection, () => SetShaderParameter("ReflectionViewProjection", value)); }
     #endregion
 
     #region Constructor
@@ -131,7 +132,7 @@ public class WaterShader : SurfaceShader
         _reflectionView = reflectionView;
 
         DullColor = Color.FromArgb(77, 77, 128);
-        WindDirection = Matrix.RotationZ(2.0f);
+        WindDirection = Matrix4x4.CreateRotationZ(2.0f);
     }
     #endregion
 

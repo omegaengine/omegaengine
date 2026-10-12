@@ -18,9 +18,12 @@ using OmegaEngine.Assets;
 using OmegaEngine.Audio;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
+using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Properties;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using SharpGen.Runtime;
 
 namespace OmegaEngine;
 
@@ -30,7 +33,7 @@ namespace OmegaEngine;
 public sealed partial class Engine : EngineElement
 {
     #region Variables
-    private readonly Direct3DEx _direct3D;
+    private readonly IDirect3D9Ex _direct3D;
 
     /// <summary>
     /// A list of possible <see cref="View"/>s usable for rendering <see cref="Water"/>
@@ -69,7 +72,7 @@ public sealed partial class Engine : EngineElement
             value.To(ref _config, delegate
             {
                 // The device needs to be reset with changed presentation parameters
-                if (PresentParams != null)
+                if (Device != null)
                 {
                     Log.Info("Engine.Config modified");
                     NeedsReset = true;
@@ -122,8 +125,8 @@ public sealed partial class Engine : EngineElement
     /// <param name="target">The <see cref="System.Windows.Forms.Control"/> the engine should draw onto.</param>
     /// <param name="config">Settings for initializing the engine.</param>
     /// <exception cref="NotSupportedException">The graphics card does not meet the engine's minimum requirements.</exception>
-    /// <exception cref="Direct3DX9NotFoundException"><c>d3dx9_43.dll</c> is missing.</exception>
-    /// <exception cref="Direct3D9Exception">Internal errors occurred while initializing the graphics card.</exception>
+    /// <exception cref="DllNotFoundException"><c>d3dx9_43.dll</c> is missing.</exception>
+    /// <exception cref="SharpGenException">Internal errors occurred while initializing the graphics card.</exception>
     public Engine(Control target, EngineConfig config)
     {
         #region Sanity checks
@@ -138,7 +141,7 @@ public sealed partial class Engine : EngineElement
 
         try
         {
-            _direct3D = new();
+            _direct3D = D3D9.Direct3DCreate9Ex();
             Capabilities = new(_direct3D, config);
             if (Capabilities.MaxShaderModel < EngineCapabilities.MinShaderModel)
                 throw new NotSupportedException(string.Format(Resources.MinimumShaderModel, EngineCapabilities.MinShaderModel));
@@ -157,8 +160,9 @@ public sealed partial class Engine : EngineElement
             };
 
             Device = FullscreenDisplayMode is {} displayMode
-                ? new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams, displayMode)
-                : new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams);
+                ? _direct3D.CreateDeviceEx((uint)Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams, displayMode)
+                : _direct3D.CreateDeviceEx((uint)Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams);
+            DeviceCapabilities = Device.GetCapabilities();
 
             RenderViewport = Device.Viewport;
             BackBuffer = Device.GetBackBuffer(0, 0);
@@ -169,15 +173,15 @@ public sealed partial class Engine : EngineElement
             RegisterChild(DefaultShader = new());
 
             // Create simple default meshes ready
-            SimpleSphere = Mesh.CreateSphere(Device, 1, 12, 12);
-            SimpleBox = Mesh.CreateBox(Device, 1, 1, 1);
+            using (var sphere = MeshPrimitives.Sphere(Device, 1, 12, 12)) SimpleSphere = sphere.ToDefaultPool();
+            using (var box = MeshPrimitives.Box(Device, 1, 1, 1)) SimpleBox = box.ToDefaultPool();
 
             Music = new MusicManager(this);
             if (ContentManager.FileExists("Music", "list.txt"))
                 Music.LoadLibrary("list.txt");
         }
         #region Error handling
-        catch (Direct3D9Exception ex) when (ex.ResultCode == ResultCode.NotAvailable)
+        catch (SharpGenException ex) when (ex.ResultCode == D3DResultCode.NotAvailable)
         {
             Dispose();
             throw new NotSupportedException(Resources.NotAvailable, ex);
@@ -226,7 +230,7 @@ public sealed partial class Engine : EngineElement
         Audio?.Dispose();
         Music?.Dispose();
 
-        // SlimDX releases COM objects on the GC finalizer thread when they are collected, which is not thread-safe against the explicit COM releases performed throughout the rest of this method.
+        // Let pending finalizers run now rather than concurrently with the explicit COM releases performed throughout the rest of this method.
         GC.Collect();
         GC.WaitForPendingFinalizers();
 

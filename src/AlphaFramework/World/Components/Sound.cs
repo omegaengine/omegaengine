@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace AlphaFramework.World.Components;
 

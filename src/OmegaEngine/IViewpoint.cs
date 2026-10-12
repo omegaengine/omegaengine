@@ -7,7 +7,7 @@
  */
 
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine;
 

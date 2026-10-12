@@ -25,7 +25,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using AlphaFramework.World.Components;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.World.Components;
 

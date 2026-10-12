@@ -18,7 +18,7 @@ The game references the engine projects in this repository directly rather than 
 - `Game/`: WinForms host, game loop, savegame management.
   - `States/`: game-state machine.
 - `Editor/`: separate WinForms tool for editing maps; build using [AlphaEditor](../AlphaFramework/Editor/). Has a build dependency on `Game` (see `OmegaEngine.slnx`).
-- `UnitTests/`: xUnit tests. Multi-targets .NET Framework and .NET so simulation code can be tested cross-framework even though the game itself is .NET Framework-only.
+- `UnitTests/`: xUnit tests. Multi-targets `net10.0-windows` and `net10.0` so simulation code is also tested without the Windows-only parts.
 
 ## Build & test
 

@@ -11,8 +11,10 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using NanoByte.Common.Native;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaGUI.Render;
 
@@ -131,7 +133,7 @@ public class TextBox : Control
     /// <summary>Gets a copy of the text</summary>
     public string GetTextCopy()
     {
-        return string.Copy(textData.Text);
+        return textData.Text;
     }
     #endregion
 
@@ -160,7 +162,7 @@ public class TextBox : Control
         if (parent.DarkFields)
         {
             textColor = caretColor = parent.FieldTextColor;
-            selectedBackColor = new(0.35f, 1.0f, 1.0f, 1.0f);
+            selectedBackColor = new(1.0f, 1.0f, 1.0f, 0.35f);
         }
         else
         {
@@ -614,7 +616,7 @@ public class TextBox : Control
     }
 
     /// <summary>Render the control</summary>
-    public override void Render(Device device, float elapsedTime)
+    public override void Render(IDirect3DDevice9 device, float elapsedTime)
     {
         if (!IsVisible)
             return; // Nothing to render

@@ -9,7 +9,8 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 

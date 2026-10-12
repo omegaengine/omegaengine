@@ -28,7 +28,7 @@ using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.Presentation;
 

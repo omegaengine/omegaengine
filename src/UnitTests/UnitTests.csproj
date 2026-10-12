@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj" />
     <ProjectReference Include="..\OmegaEngine.Foundation\OmegaEngine.Foundation.csproj" />
+    <ProjectReference Include="..\OmegaGUI\OmegaGUI.csproj" />
   </ItemGroup>
 
 </Project>

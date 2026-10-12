@@ -8,7 +8,9 @@
 
 using System;
 using System.Drawing;
-using SlimDX.Direct3D9;
+using System.Drawing.Imaging;
+using OmegaEngine.Graphics;
+using Vortice.Direct3D9;
 using OmegaEngine.Graphics.Renderables;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -68,7 +70,7 @@ partial class Engine
         Render(elapsedGameTime: 0, noPresent: true);
 
         // Copy the BackBuffer to the file
-        Surface.ToFile(BackBuffer, filename, ImageFileFormat.Jpg, new(new(), size));
+        BackBuffer.SaveToFile(Device, filename, ImageFormat.Jpeg, new(new(), size));
         Log.Info("Screenshot created");
 
         if (sizeBackup != Size.Empty)

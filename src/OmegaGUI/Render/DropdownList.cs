@@ -12,7 +12,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using NanoByte.Common.Native;
 using OmegaEngine;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 
 namespace OmegaGUI.Render;
 
@@ -418,7 +418,7 @@ public class DropdownList : Button
     }
 
     /// <summary>Called when the control should be rendered</summary>
-    public override void Render(Device device, float elapsedTime)
+    public override void Render(IDirect3DDevice9 device, float elapsedTime)
     {
         var state = ControlState.Normal;
         if (!isComboOpen)

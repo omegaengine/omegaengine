@@ -9,10 +9,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common.Controls;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using SharpGen.Runtime;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
@@ -368,9 +370,9 @@ internal partial class DebugForm : Form
                 return;
             }
 
-            Surface.ToFile(view.GetRenderTarget().Surface, dumpViewSaveFileDialog.FileName, ImageFileFormat.Png);
+            view.GetRenderTarget().Surface.SaveToFile(_engine.Device, dumpViewSaveFileDialog.FileName, ImageFormat.Png);
         }
-        catch (Direct3D9Exception)
+        catch (Exception ex) when (ex is SharpGenException or NotSupportedException)
         {
             Msg.Inform(this, Resources.DumpFail, MsgSeverity.Warn);
         }

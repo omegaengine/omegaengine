@@ -5,14 +5,14 @@
   <!-- Build config -->
   <PropertyGroup>
     <RootNamespace>FrameOfReference</RootNamespace>
-    <TargetFrameworks>net472;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <!-- Dependencies -->
   <ItemGroup>
     <ProjectReference Include="..\World\World.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net472'">
+  <ItemGroup Condition="$(TargetFramework.EndsWith('-windows'))">
     <ProjectReference Include="..\Presentation\Presentation.csproj" />
   </ItemGroup>
 

@@ -27,7 +27,7 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
 using FrameOfReference.World.Components;
 using FrameOfReference.World.Positionables;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.World.Templates;
 

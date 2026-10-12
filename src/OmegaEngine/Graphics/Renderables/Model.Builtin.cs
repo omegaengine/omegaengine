@@ -7,8 +7,10 @@
  */
 
 using System;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -57,7 +59,7 @@ partial class Model
 
         var mesh = material.IsTextured
             ? TexturedMesh.Box(engine.Device, size, material.NeedsTBN)
-            : CreateInSystemMemory(() => Mesh.CreateBox(engine.Device, size.X, size.Y, size.Z));
+            : MeshPrimitives.Box(engine.Device, size.X, size.Y, size.Z);
 
         return new(mesh, material)
         {
@@ -84,7 +86,7 @@ partial class Model
 
         var mesh = material.IsTextured
             ? TexturedMesh.Sphere(engine.Device, radius, slices, stacks, material.NeedsTBN)
-            : CreateInSystemMemory(() => Mesh.CreateSphere(engine.Device, radius, slices, stacks));
+            : MeshPrimitives.Sphere(engine.Device, radius, slices, stacks);
 
         return new(mesh, material)
         {
@@ -112,7 +114,7 @@ partial class Model
 
         var mesh = material.IsTextured
             ? TexturedMesh.Cylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks, material.NeedsTBN)
-            : CreateInSystemMemory(() => Mesh.CreateCylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks));
+            : MeshPrimitives.Cylinder(engine.Device, radiusBottom, radiusTop, length, slices, stacks);
 
         float radiusMax = Math.Max(radiusBottom, radiusTop);
         return new(mesh, material)
@@ -179,8 +181,8 @@ partial class Model
             for (int i = 0; i < subsets; i++)
             {
                 var points = mesh.GetPoints(subset: i);
-                model.SubsetBoundingSpheres[i] = SlimDX.BoundingSphere.FromPoints(points);
-                model.SubsetBoundingBoxes[i] = SlimDX.BoundingBox.FromPoints(points);
+                model.SubsetBoundingSpheres[i] = Vortice.Mathematics.BoundingSphere.CreateFromPoints(points);
+                model.SubsetBoundingBoxes[i] = Vortice.Mathematics.BoundingBox.CreateFromPoints(points);
             }
         }
 
@@ -204,15 +206,9 @@ partial class Model
             (int)(radiusMean * radiusMean).Clamp(8, 1024));
     }
 
-    private static Mesh CreateInSystemMemory(Func<Mesh> create)
-    {
-        using var mesh = create();
-        return mesh.ToSystemMemory();
-    }
-
     private static BoundingSphere CenteredBoundingSphere(float radius)
         => new(center: new(), radius);
 
     private static BoundingBox CenteredBoundingBox(Vector3 corner)
-        => new(minimum: -corner, maximum: corner);
+        => new(min: -corner, max: corner);
 }

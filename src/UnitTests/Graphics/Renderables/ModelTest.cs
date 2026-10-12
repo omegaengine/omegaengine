@@ -9,9 +9,10 @@
 using System;
 using System.Drawing;
 using AwesomeAssertions;
+using System.Numerics;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
-using SlimDX;
+using Vortice.Mathematics;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -105,7 +106,7 @@ public class ModelTest : EngineTestBase
     public void IntersectsWorldAppliesParentTransform()
     {
         using var parent = FarAwayBox();
-        parent.Rotation = Quaternion.RotationAxis(Vector3.UnitY, (float)Math.PI / 2);
+        parent.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, (float)Math.PI / 2);
         parent.SetScale(2);
 
         // Long along its own Z axis, which the parent turns into the world X axis
@@ -125,7 +126,7 @@ public class ModelTest : EngineTestBase
     public void IntersectsWorldAppliesPreTransform()
     {
         using var model = FarAwayBox();
-        model.PreTransform = Matrix.Translation(5, 0, 0);
+        model.PreTransform = Matrix4x4.CreateTranslation(5, 0, 0);
         model.SetScale(2);
 
         // The scaling also applies to the pre-transform, so the box spans 8 to 12 along X
@@ -140,7 +141,7 @@ public class ModelTest : EngineTestBase
     /// <returns>The camera position, the box's rendered center and its rendered scaling, all in floating space.</returns>
     private static (Vector3 camera, Vector3 center, float scaling) CompressDistance(Model model)
     {
-        var camera = new ArcballCamera {Target = model.Position, Radius = 10_000, FarClip = 1e12f, Size = new Size(800, 600)};
+        var camera = new ArcballCamera {Target = model.Position, Radius = 10_000, FarClip = 1e12f, Size = new(800, 600)};
         model.SetFloatingOrigin(camera);
         model.IsVisible(camera, distanceCompressionStart: 100);
 

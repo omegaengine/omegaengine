@@ -6,7 +6,7 @@ using AlphaFramework.World.Templates;
 using AlphaFramework.World.Terrains;
 using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 using RenderableTerrain = OmegaEngine.Graphics.Renderables.Terrain;
 
 namespace AlphaFramework.Presentation;

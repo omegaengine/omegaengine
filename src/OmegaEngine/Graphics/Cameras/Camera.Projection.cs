@@ -6,7 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SlimDX;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -15,12 +16,12 @@ partial class Camera
     /// <summary>Does <see cref="_projection"/> need to be recalculated?</summary>
     protected bool ProjectionDirty = true;
 
-    private Matrix _projection;
+    private Matrix4x4 _projection;
 
     /// <summary>
     /// A projection matrix for the current camera setting
     /// </summary>
-    internal Matrix Projection
+    internal Matrix4x4 Projection
     {
         get
         {
@@ -29,12 +30,12 @@ partial class Camera
         }
     }
 
-    private Matrix _simpleProjection;
+    private Matrix4x4 _simpleProjection;
 
     /// <summary>
     /// A projection matrix overriding the clip planes (defaulting to near=1 and far=10)
     /// </summary>
-    internal Matrix SimpleProjection
+    internal Matrix4x4 SimpleProjection
     {
         get
         {
@@ -43,12 +44,12 @@ partial class Camera
         }
     }
 
-    private Matrix _projectionInverse;
+    private Matrix4x4 _projectionInverse;
 
     /// <summary>
     /// An inverted projection matrix for the current camera setting
     /// </summary>
-    internal Matrix ProjectionInverse
+    internal Matrix4x4 ProjectionInverse
     {
         get
         {
@@ -57,12 +58,12 @@ partial class Camera
         }
     }
 
-    private Matrix _projectionTranspose;
+    private Matrix4x4 _projectionTranspose;
 
     /// <summary>
     /// A transposed projection matrix for the current camera setting
     /// </summary>
-    internal Matrix ProjectionTranspose
+    internal Matrix4x4 ProjectionTranspose
     {
         get
         {
@@ -71,12 +72,12 @@ partial class Camera
         }
     }
 
-    private Matrix _projectionInverseTranspose;
+    private Matrix4x4 _projectionInverseTranspose;
 
     /// <summary>
     /// An inverted and transposed projection matrix for the current camera setting
     /// </summary>
-    internal Matrix ProjectionInverseTranspose
+    internal Matrix4x4 ProjectionInverseTranspose
     {
         get
         {
@@ -92,13 +93,13 @@ partial class Camera
     {
         if (!ProjectionDirty) return;
 
-        _projection = Matrix.PerspectiveFovLH(_fieldOfView, (float)_size.Width / _size.Height, _nearClip, _farClip);
-        _simpleProjection = Matrix.PerspectiveFovLH(_fieldOfView, (float)_size.Width / _size.Height, 1, 10);
+        _projection = Matrix4x4.CreatePerspectiveFieldOfViewLeftHanded(_fieldOfView, (float)_size.Width / _size.Height, _nearClip, _farClip);
+        _simpleProjection = Matrix4x4.CreatePerspectiveFieldOfViewLeftHanded(_fieldOfView, (float)_size.Width / _size.Height, 1, 10);
 
         // Cache special matrices
-        _projectionInverse = Matrix.Invert(_projection);
-        _projectionTranspose = Matrix.Transpose(_projection);
-        _projectionInverseTranspose = Matrix.Transpose(_projectionInverse);
+        _projectionInverse = VectorMath.Invert(_projection);
+        _projectionTranspose = Matrix4x4.Transpose(_projection);
+        _projectionInverseTranspose = Matrix4x4.Transpose(_projectionInverse);
 
         _effectiveClipPlane = _clipPlane.ApplyOffset(FloatingOriginCached);
 

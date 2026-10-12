@@ -12,7 +12,7 @@ using System.Drawing;
 using System.IO;
 using OmegaEngine.Foundation.Properties;
 
-#if NETFRAMEWORK
+#if WINDOWS
 using System.Windows.Forms;
 using NanoByte.Common.Controls;
 #endif
@@ -41,7 +41,7 @@ public enum FileEntryType
 /// Describes a file returned by <see cref="ContentManager.GetFileList"/>.
 /// </summary>
 public sealed class FileEntry : INamed, IHighlightColor, IEquatable<FileEntry>, IComparable<FileEntry>
-#if NETFRAMEWORK
+#if WINDOWS
     , IContextMenu
 #endif
 {
@@ -105,7 +105,7 @@ public sealed class FileEntry : INamed, IHighlightColor, IEquatable<FileEntry>, 
     //--------------------//
 
     #region Context menu
-#if NETFRAMEWORK
+#if WINDOWS
     /// <summary>
     /// Returns the context menu for this file entry; can be <c>null</c>.
     /// </summary>

@@ -6,7 +6,7 @@ using AlphaFramework.World.Positionables;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Storage;
-using SlimDX;
+using System.Numerics;
 
 namespace Template.AlphaFramework.World;
 

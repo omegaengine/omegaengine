@@ -7,8 +7,8 @@
  */
 
 using System.Runtime.InteropServices;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics.VertexDecl;
 

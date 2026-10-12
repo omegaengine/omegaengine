@@ -7,14 +7,12 @@
  */
 
 using System;
-using System.Runtime.Serialization;
 
 namespace OmegaEngine.Graphics.Shaders;
 
 /// <summary>
 /// Exception thrown when <see cref="DynamicShader"/> fails to compile FX code
 /// </summary>
-[Serializable]
 public class ShaderCompileException : Exception
 {
     /// <summary>
@@ -35,7 +33,4 @@ public class ShaderCompileException : Exception
     {
         FxCode = fxCode;
     }
-
-    protected ShaderCompileException(SerializationInfo info, StreamingContext context) : base(info, context)
-    {}
 }

@@ -10,7 +10,7 @@ using System;
 using AlphaFramework.World.Terrains;
 using NanoByte.Common.Undo;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 

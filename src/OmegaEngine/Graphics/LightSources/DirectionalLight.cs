@@ -9,8 +9,10 @@
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using OmegaEngine.Foundation.Light;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics.LightSources;
 
@@ -25,7 +27,7 @@ public sealed class DirectionalLight : LightSource
     /// The direction light emitted by this light source travels in
     /// </summary>
     [Description("The direction light emitted by this light source travels in"), Category("Layout")]
-    public Vector3 Direction { get => _direction; set => _direction = Vector3.Normalize(value); }
+    public Vector3 Direction { get => _direction; set => _direction = VectorMath.NormalizeOrZero(value); }
 
     /// <summary>
     /// The distance from the emitting body to the objects being lit.
@@ -65,12 +67,12 @@ public sealed class DirectionalLight : LightSource
     }
 
     /// <inheritdoc/>
-    internal override Light ToFfpLight() => new()
+    internal override Light9 ToFfpLight() => new()
     {
         Type = LightType.Directional,
         Direction = Direction,
-        Diffuse = Diffuse.SrgbToLinear(),
-        Specular = Specular.SrgbToLinear(),
-        Ambient = Ambient.SrgbToLinear()
+        Diffuse = Diffuse.SrgbToLinear().ToColorvalue(),
+        Specular = Specular.SrgbToLinear().ToColorvalue(),
+        Ambient = Ambient.SrgbToLinear().ToColorvalue()
     };
 }

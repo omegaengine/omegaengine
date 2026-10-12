@@ -6,7 +6,8 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SlimDX;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -15,12 +16,12 @@ partial class Camera
     /// <summary>Does <see cref="ViewCached"/> need to be recalculated?</summary>
     protected bool ViewDirty = true;
 
-    protected Matrix ViewCached;
+    protected Matrix4x4 ViewCached;
 
     /// <summary>
     /// A left-handed view matrix for the current camera setting
     /// </summary>
-    protected internal Matrix View
+    protected internal Matrix4x4 View
     {
         get
         {
@@ -29,12 +30,12 @@ partial class Camera
         }
     }
 
-    protected Matrix SimpleViewCached;
+    protected Matrix4x4 SimpleViewCached;
 
     /// <summary>
     /// A left-handed view matrix with absolutely no translation information
     /// </summary>
-    protected internal Matrix SimpleView
+    protected internal Matrix4x4 SimpleView
     {
         get
         {
@@ -43,12 +44,12 @@ partial class Camera
         }
     }
 
-    private Matrix _viewInverse;
+    private Matrix4x4 _viewInverse;
 
     /// <summary>
     /// An inverted view matrix for the current camera setting
     /// </summary>
-    protected internal Matrix ViewInverse
+    protected internal Matrix4x4 ViewInverse
     {
         get
         {
@@ -57,12 +58,12 @@ partial class Camera
         }
     }
 
-    private Matrix _viewTranspose;
+    private Matrix4x4 _viewTranspose;
 
     /// <summary>
     /// A transposed view matrix for the current camera setting
     /// </summary>
-    protected internal Matrix ViewTranspose
+    protected internal Matrix4x4 ViewTranspose
     {
         get
         {
@@ -71,12 +72,12 @@ partial class Camera
         }
     }
 
-    private Matrix _viewInverseTranspose;
+    private Matrix4x4 _viewInverseTranspose;
 
     /// <summary>
     /// An inverted and transposed view matrix for the current camera setting
     /// </summary>
-    protected internal Matrix ViewInverseTranspose
+    protected internal Matrix4x4 ViewInverseTranspose
     {
         get
         {
@@ -85,12 +86,12 @@ partial class Camera
         }
     }
 
-    private Matrix _sphericalBillboard;
+    private Matrix4x4 _sphericalBillboard;
 
     /// <summary>
     /// A rotation matrix for a faked spherical billboard effect
     /// </summary>
-    protected internal Matrix SphericalBillboard
+    protected internal Matrix4x4 SphericalBillboard
     {
         get
         {
@@ -99,12 +100,12 @@ partial class Camera
         }
     }
 
-    private Matrix _cylindricBillboard;
+    private Matrix4x4 _cylindricBillboard;
 
     /// <summary>
     /// A rotation matrix for a faked cylindrical billboard effect
     /// </summary>
-    protected internal Matrix CylindricalBillboard
+    protected internal Matrix4x4 CylindricalBillboard
     {
         get
         {
@@ -141,15 +142,15 @@ partial class Camera
     /// </summary>
     protected virtual void CacheSpecialMatrices()
     {
-        _viewInverse = Matrix.Invert(ViewCached);
-        _viewTranspose = Matrix.Transpose(ViewCached);
-        _viewInverseTranspose = Matrix.Transpose(_viewInverse);
+        _viewInverse = VectorMath.Invert(ViewCached);
+        _viewTranspose = Matrix4x4.Transpose(ViewCached);
+        _viewInverseTranspose = Matrix4x4.Transpose(_viewInverse);
 
-        var spherical = Quaternion.RotationMatrix(_viewInverse);
-        _sphericalBillboard = Matrix.RotationQuaternion(spherical);
+        var spherical = Quaternion.CreateFromRotationMatrix(_viewInverse);
+        _sphericalBillboard = Matrix4x4.CreateFromQuaternion(spherical);
 
         var cylindric = Quaternion.Normalize(new(0, spherical.Y, 0, spherical.W));
-        _cylindricBillboard = Matrix.RotationQuaternion(cylindric);
+        _cylindricBillboard = Matrix4x4.CreateFromQuaternion(cylindric);
 
         _effectiveClipPlane = _clipPlane.ApplyOffset(FloatingOriginCached);
     }

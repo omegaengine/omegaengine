@@ -30,9 +30,9 @@ using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Templates;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
-#if NETFRAMEWORK
+#if WINDOWS
 using OmegaEngine.Foundation.Design;
 #endif
 
@@ -50,7 +50,7 @@ public sealed partial class Entity : EntityBase<Vector2, EntityTemplate>
     /// The horizontal rotation of the view direction in degrees.
     /// </summary>
     [DefaultValue(0f), Description("The horizontal rotation of the view direction in degrees.")]
-#if NETFRAMEWORK
+#if WINDOWS
     [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
 #endif
     public float Rotation { get => _rotation; set => value.To(ref _rotation, OnChanged); }

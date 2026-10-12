@@ -11,7 +11,10 @@ using System.Drawing;
 using System.Linq;
 using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using OmegaEngine.Graphics.Shaders;
+using System.Numerics;
+using Vortice.Mathematics;
+using Size = System.Drawing.Size;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -58,7 +61,7 @@ public class TerrainTest : EngineTestBase
         {
             // Shader compilation happens in parallel, so failures arrive wrapped
             AggregateException aggregate => aggregate.Flatten().InnerExceptions.Any(IsShaderUnavailable),
-            CompilationException or SlimDX.Direct3D9.Direct3DX9NotFoundException => true,
+            ShaderCompileException or DllNotFoundException => true,
             _ => false
         };
 
@@ -102,7 +105,7 @@ public class TerrainTest : EngineTestBase
         using var terrain = CreateFlatTerrain(height: 50);
 
         // A shallow ray crosses many blocks; the nearest hit must win
-        var ray = new Ray(new Vector3(10, 200, -160), Vector3.Normalize(new(1, -1, 0)));
+        var ray = new Ray(new Vector3(10, 200, -160), VectorMath.NormalizeOrZero(new Vector3(1, -1, 0)));
 
         terrain.Intersects(ray, out float distance).Should().BeTrue();
 

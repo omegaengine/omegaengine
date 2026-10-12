@@ -8,7 +8,7 @@
 
 using System;
 using AwesomeAssertions;
-using SlimDX;
+using System.Numerics;
 using Xunit;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -74,7 +74,7 @@ public class DoubleVector3Test
     [Fact]
     public void TestTransform()
     {
-        var rotated = DoubleVector3.Transform(DoubleVector3.UnitX, Quaternion.RotationAxis(Vector3.UnitZ, (float)(Math.PI / 2)));
+        var rotated = DoubleVector3.Transform(DoubleVector3.UnitX, Quaternion.CreateFromAxisAngle(Vector3.UnitZ, (float)(Math.PI / 2)));
 
         rotated.X.Should().BeApproximately(0, precision: 1e-7);
         rotated.Y.Should().BeApproximately(1, precision: 1e-7);
@@ -84,10 +84,10 @@ public class DoubleVector3Test
     [Fact]
     public void TestTransformMatchesRotationMatrix()
     {
-        var rotation = Quaternion.RotationYawPitchRoll(0.3f, -1.1f, 2.4f);
+        var rotation = Quaternion.CreateFromYawPitchRoll(0.3f, -1.1f, 2.4f);
         var vector = new DoubleVector3(1, -2, 3);
 
-        var expected = Vector3.TransformNormal((Vector3)vector, Matrix.RotationQuaternion(rotation));
+        var expected = Vector3.TransformNormal((Vector3)vector, Matrix4x4.CreateFromQuaternion(rotation));
         var rotated = DoubleVector3.Transform(vector, rotation);
 
         rotated.X.Should().BeApproximately(expected.X, precision: 1e-5);

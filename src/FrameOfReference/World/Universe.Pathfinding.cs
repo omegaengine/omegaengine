@@ -31,7 +31,7 @@ using AlphaFramework.World.Paths;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Terrains;
 using FrameOfReference.World.Positionables;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.World;
 
