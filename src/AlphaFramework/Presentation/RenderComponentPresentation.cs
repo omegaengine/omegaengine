@@ -51,6 +51,7 @@ public static class RenderComponentPresentation
 
         var presentation = new AnimatedModel(XAnimatedMesh.Get(engine, component.Filename)) {Name = name};
         presentation.ApplyPropertiesFrom(component);
+        if (!string.IsNullOrEmpty(component.DefaultAnimation)) presentation.PlayAnimation(component.DefaultAnimation);
         return presentation;
     }
 
