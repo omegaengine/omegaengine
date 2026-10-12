@@ -2,7 +2,7 @@
 
   <!-- Build config -->
   <PropertyGroup>
-    <Description>OmegaEngine is a general-purpose 3D graphics for .NET Framework and DirectX 9. The engine is designed to be light-weight, modular and gameplay-agnostic.
+    <Description>OmegaEngine is a general-purpose 3D graphics engine for .NET and DirectX 9. The engine is designed to be light-weight, modular and gameplay-agnostic.
 The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games using the OmegaEngine.</Description>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
     <UseWindowsForms>True</UseWindowsForms>

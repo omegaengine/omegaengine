@@ -1,6 +1,6 @@
 # OmegaEngine
 
-**OmegaEngine** is a general-purpose 3D graphics engine for .NET Framework and DirectX 9. It is designed to be:
+**OmegaEngine** is a general-purpose 3D graphics engine for .NET and DirectX 9. It is designed to be:
 
 - light-weight (compiled binaries with external libraries < 4MB),
 - modular (use only the parts you need for your project) and
