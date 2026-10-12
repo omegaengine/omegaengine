@@ -4,8 +4,8 @@
 
 ## Tech stack
 
-- C# 13 on .NET Framework 4.7.2, `x86` only. `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts multi-target .NET Framework 4.7.2 and .NET 10.
-- built using OmegaEngine for 3D graphics (using DirectX 9 / SlimDX).
+- C# 13 on .NET 10 (`net10.0-windows`). `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts additionally target plain `net10.0`.
+- built using OmegaEngine for 3D graphics (using Direct3D 9 / Vortice).
 - uses the [AlphaFramework](../AlphaFramework/_Namespace.md) game framework to simplify mapping game world to OmegaEngine rendering constructors
 - UI uses [OmegaGUI](../OmegaGUI/_Namespace.md) XML dialogs with embedded Lua, loaded from `content/GUI/`.
 
@@ -18,7 +18,7 @@ The game references the engine projects in this repository directly rather than 
 - `Game/`: WinForms host, game loop, savegame management.
   - `States/`: game-state machine.
 - `Editor/`: separate WinForms tool for editing maps; build using [AlphaEditor](../AlphaFramework/Editor/). Has a build dependency on `Game` (see `OmegaEngine.slnx`).
-- `UnitTests/`: xUnit tests. Multi-targets .NET Framework and .NET so simulation code can be tested cross-framework even though the game itself is .NET Framework-only.
+- `UnitTests/`: xUnit tests. Multi-targets `net10.0-windows` and `net10.0` so simulation code is also tested without the Windows-only parts.
 
 ## Build & test
 

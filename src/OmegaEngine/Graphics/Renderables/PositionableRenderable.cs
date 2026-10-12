@@ -16,7 +16,10 @@ using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -231,8 +234,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <summary>A cached delegate for <see cref="MarkRenderTransformDirty"/>, so that per-frame camera effect updates don't allocate one per call.</summary>
     private Action MarkRenderDirty => _markRenderTransformDirty ??= MarkRenderTransformDirty;
 
-    private Matrix _preTransform = Matrix.Identity;
-    private Matrix _billboardRotation = Matrix.Identity;
+    private Matrix4x4 _preTransform = Matrix4x4.Identity;
+    private Matrix4x4 _billboardRotation = Matrix4x4.Identity;
     private double _distanceCompressionScaling = 1;
     private DoubleVector3 _distanceCompressionCenter;
     private float _minScreenSizeScaling = 1;
@@ -241,7 +244,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes
     /// </summary>
     [Browsable(false)]
-    public Matrix PreTransform { get => _preTransform; set => value.To(ref _preTransform, MarkDirty); }
+    public Matrix4x4 PreTransform { get => _preTransform; set => value.To(ref _preTransform, MarkDirty); }
 
     private Vector3 _scale = new(1, 1, 1);
 
@@ -334,7 +337,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private void MarkRenderTransformDirty()
         => _renderTransformDirty = true;
 
-    private Matrix _physicalWorldTransform = Matrix.Identity;
+    private Matrix4x4 _physicalWorldTransform = Matrix4x4.Identity;
     private DoubleVector3 _worldOrigin, _worldPosition;
 
     /// <summary>
@@ -358,18 +361,18 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (!_physicalTransformDirty) return;
 
         // Everything but the translation, i.e. the part that is unaffected by the floating origin
-        var orientation = _preTransform * Matrix.Scaling(_scale) * Matrix.RotationQuaternion(_rotation);
+        var orientation = _preTransform * Matrix4x4.CreateScale(_scale) * Matrix4x4.CreateFromQuaternion(_rotation);
         var localOrigin = new Vector3(orientation.M41, orientation.M42, orientation.M43);
 
         if (parent == null)
         {
-            _physicalWorldTransform = orientation * Matrix.Translation(this.ApplyFloatingOriginTo(_position));
+            _physicalWorldTransform = orientation * Matrix4x4.CreateTranslation(this.ApplyFloatingOriginTo(_position));
             _worldPosition = _position;
             _worldOrigin = _position + localOrigin;
         }
         else
         {
-            _physicalWorldTransform = orientation * Matrix.Translation((Vector3)_position) * parent._physicalWorldTransform;
+            _physicalWorldTransform = orientation * Matrix4x4.CreateTranslation((Vector3)_position) * parent._physicalWorldTransform;
             _worldPosition = parent.ToWorld(_position);
             _worldOrigin = _worldPosition + (DoubleVector3)Vector3.TransformNormal(localOrigin, parent._physicalWorldTransform);
         }
@@ -420,13 +423,13 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             var pulledInPosition = _worldPosition + (_distanceCompressionCenter - _worldPosition) * (1 - _distanceCompressionScaling);
             WorldTransformCached =
                 WorldTransformWithoutDistanceCompressionCached
-              * Matrix.Translation(-_floatingPositionCached)
-              * Matrix.Scaling(new((float)_distanceCompressionScaling))
-              * Matrix.Translation(this.ApplyFloatingOriginTo(pulledInPosition));
+              * Matrix4x4.CreateTranslation(-_floatingPositionCached)
+              * Matrix4x4.CreateScale(new Vector3((float)_distanceCompressionScaling))
+              * Matrix4x4.CreateTranslation(this.ApplyFloatingOriginTo(pulledInPosition));
         }
         else WorldTransformCached = WorldTransformWithoutDistanceCompressionCached;
 
-        _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
+        _inverseWorldTransform = VectorMath.Invert(WorldTransformCached);
         _worldBoundingSphere = BoundingSphere?.Transform(WorldTransformWithoutDistanceCompressionCached);
         _worldBoundingBox = BoundingBox?.Transform(WorldTransformWithoutDistanceCompressionCached);
 
@@ -438,17 +441,17 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// Applies minimum screen size scaling and billboarding to the <paramref name="physicalWorldTransform"/>.
     /// </summary>
     /// <remarks>These apply to leaves only, so they never distort a body's descendants.</remarks>
-    private Matrix ApplyLeafEffects(Matrix physicalWorldTransform)
+    private Matrix4x4 ApplyLeafEffects(Matrix4x4 physicalWorldTransform)
     {
         if (_children.Count != 0 || (_minScreenSizeScaling == 1 && _billboardRotation.IsIdentity)) return physicalWorldTransform;
 
         // Peel the body's own floating position off the physical transform, apply the camera effects around it and put it back on
         var floatingPosition = this.ApplyFloatingOriginTo(_worldPosition);
         return physicalWorldTransform
-             * Matrix.Translation(-floatingPosition)
-             * Matrix.Scaling(new(_minScreenSizeScaling))
+             * Matrix4x4.CreateTranslation(-floatingPosition)
+             * Matrix4x4.CreateScale(new Vector3(_minScreenSizeScaling))
              * _billboardRotation
-             * Matrix.Translation(floatingPosition);
+             * Matrix4x4.CreateTranslation(floatingPosition);
     }
 
     /// <summary>
@@ -473,15 +476,15 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    protected Matrix WorldTransformCached { get; private set; }
+    protected Matrix4x4 WorldTransformCached { get; private set; }
 
-    protected Matrix WorldTransformWithoutDistanceCompressionCached { get; private set; }
+    protected Matrix4x4 WorldTransformWithoutDistanceCompressionCached { get; private set; }
 
     /// <summary>
     /// The world transformation matrix for this entity, composed purely from the hierarchy's transforms.
     /// </summary>
     /// <remarks>Unlike <see cref="WorldTransformCached"/> this carries no billboarding, distance compression or minimum screen size scaling. Its translation is still relative to the floating origin.</remarks>
-    protected Matrix PhysicalWorldTransform
+    protected Matrix4x4 PhysicalWorldTransform
     {
         get
         {
@@ -494,7 +497,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// The world transformation matrix for this entity
     /// </summary>
     /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
-    internal Matrix WorldTransform
+    internal Matrix4x4 WorldTransform
     {
         get
         {
@@ -503,13 +506,13 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    private Matrix _inverseWorldTransform;
+    private Matrix4x4 _inverseWorldTransform;
 
     /// <summary>
     /// The world transformation matrix for this entity
     /// </summary>
     /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
-    internal Matrix InverseWorldTransform
+    internal Matrix4x4 InverseWorldTransform
     {
         get
         {
@@ -645,9 +648,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             if (!cullable) continue;
 
             if (child._subtreeBoundingSphere is {} childSphere)
-                sphere = sphere is {} ownSphere ? SlimDX.BoundingSphere.Merge(ownSphere, childSphere) : childSphere;
+                sphere = sphere is {} ownSphere ? Vortice.Mathematics.BoundingSphere.CreateMerged(ownSphere, childSphere) : childSphere;
             if (child._subtreeBoundingBox is {} childBox)
-                box = box is {} ownBox ? SlimDX.BoundingBox.Merge(ownBox, childBox) : childBox;
+                box = box is {} ownBox ? Vortice.Mathematics.BoundingBox.CreateMerged(ownBox, childBox) : childBox;
         }
 
         _subtreeCullable = cullable;
@@ -682,15 +685,15 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (sphere == null && box == null) return false;
 
         // Fill in a missing bounding body from the other, so it does not disable culling for the entire subtree
-        sphere ??= SlimDX.BoundingSphere.FromBox(box!.Value);
-        box ??= SlimDX.BoundingBox.FromSphere(sphere.Value);
+        sphere ??= Vortice.Mathematics.BoundingSphere.CreateFromBoundingBox(box!.Value);
+        box ??= Vortice.Mathematics.BoundingBox.CreateFromSphere(sphere.Value);
 
         if (isLeaf && _billboard != BillboardMode.None)
         {
             // The billboard rotation pivots on the body's floating position, so cover every possible rotation around it
             var pivot = this.ApplyFloatingOriginTo(_worldPosition);
-            sphere = new SlimDX.BoundingSphere(pivot, radius: Vector3.Distance(sphere.Value.Center, pivot) + sphere.Value.Radius);
-            box = SlimDX.BoundingBox.FromSphere(sphere.Value);
+            sphere = new BoundingSphere(pivot, radius: Vector3.Distance(sphere.Value.Center, pivot) + sphere.Value.Radius);
+            box = Vortice.Mathematics.BoundingBox.CreateFromSphere(sphere.Value);
         }
 
         return true;
@@ -773,7 +776,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             {
                 BillboardMode.Spherical => camera.SphericalBillboard,
                 BillboardMode.Cylindrical => camera.CylindricalBillboard,
-                _ => Matrix.Identity
+                _ => Matrix4x4.Identity
             }).To(ref _billboardRotation, MarkRenderDirty);
         }
 
@@ -924,7 +927,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             else
             { // Simulate a plain colored surface by using emissive lighting
                 Engine.State.FfpLighting = true;
-                Engine.Device.Material = new() {Emissive = material.Diffuse.SrgbToLinear()};
+                Engine.Device.SetMaterial(new Material9 {Emissive = material.Diffuse.SrgbToLinear().ToColorvalue()});
             }
 
             render();
@@ -936,7 +939,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         using (new ProfilerEvent("Surface effect: Glow"))
         {
             Engine.State.FfpLighting = true;
-            Engine.Device.Material = new() {Emissive = material.Glow.SrgbToLinear()};
+            Engine.Device.SetMaterial(new Material9 {Emissive = material.Glow.SrgbToLinear().ToColorvalue()});
 
             if (material.Glow.EqualsIgnoreAlpha(Color.Black) && material.GlowMap == null
              && Alpha is EngineState.AlphaChannel or EngineState.BinaryAlphaChannel)
@@ -966,21 +969,21 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         using (new ProfilerEvent("Surface effect: Fixed-function"))
         {
             Engine.State.FfpLighting = true;
-            Engine.Device.Material = material.ToD3DMaterial();
+            Engine.Device.SetMaterial(material.ToD3DMaterial());
 
             int lightCounter = 0;
             foreach (var light in lights)
             {
-                if (lightCounter >= Engine.Device.Capabilities.MaxActiveLights) break;
+                if (lightCounter >= Engine.DeviceCapabilities.MaxActiveLights) break;
                 Engine.Device.SetLight(lightCounter, light.ToFfpLight());
-                Engine.Device.EnableLight(lightCounter, true);
+                Engine.Device.LightEnable(lightCounter, true);
                 lightCounter++;
             }
 
             render();
 
             for (int i = 0; i < lightCounter; i++)
-                Engine.Device.EnableLight(i, false);
+                Engine.Device.LightEnable(i, false);
         }
     }
 
@@ -1005,7 +1008,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
             // Render a flat black surface and let fog fade it to white towards the far clip plane,
             // turning the near-black/far-white fog gradient into a grayscale depth visualization
             Engine.State.FfpLighting = true;
-            Engine.Device.Material = new() {Emissive = Color.Black};
+            Engine.Device.SetMaterial(new Material9 {Emissive = Color.Black.ToColor4().ToColorvalue()});
             Engine.State.SetTexture(null);
 
             bool fog = Engine.State.Fog;
@@ -1055,8 +1058,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="distanceCompressionStart">The <see cref="Scene.DistanceCompressionStart"/>; <c>null</c> to disable distance compression.</param>
     /// <returns><c>true</c> if the object is visible.</returns>
     /// <remarks>Only checks this body itself. A <see cref="View"/> additionally skips the entire subtree of a body that is hidden (<see cref="Renderable.Visible"/>) or fails <see cref="SubtreeInFrustum"/>, without calling this for any of its descendants.</remarks>
-    /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingSphere,bool)"/>
-    /// <seealso cref="Cameras.Camera.InFrustum(SlimDX.BoundingBox,bool)"/>
+    /// <seealso cref="Cameras.Camera.InFrustum(BoundingSphere,bool)"/>
+    /// <seealso cref="Cameras.Camera.InFrustum(BoundingBox,bool)"/>
     internal bool IsVisible(Camera camera, float? distanceCompressionStart = null)
     {
         #region Sanity checks
@@ -1120,9 +1123,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <returns><c>true</c> if the bounding bodies were undefined or intersected by the <paramref name="ray"/>.</returns>
     protected virtual bool IntersectsBounding(Ray ray)
     {
-        if (WorldBoundingSphere is {} sphere && !SlimDX.BoundingSphere.Intersects(sphere, ray, out float _))
+        if (WorldBoundingSphere is {} sphere && sphere.Intersects(ray) is null)
             return false;
-        if (WorldBoundingBox is {} box && !SlimDX.BoundingBox.Intersects(box, ray, out float _))
+        if (WorldBoundingBox is {} box && box.Intersects(ray) is null)
             return false;
         return true;
     }

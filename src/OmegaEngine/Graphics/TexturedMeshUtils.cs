@@ -8,7 +8,9 @@
 
 using System;
 using System.Linq;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using SharpGen.Runtime;
 using OmegaEngine.Graphics.VertexDecl;
 
 namespace OmegaEngine.Graphics;
@@ -41,12 +43,12 @@ public static class TexturedMeshUtils
     /// <summary>
     /// Expands the declaration of a mesh to include tangent and binormal information
     /// </summary>
-    /// <param name="device">The <see cref="Device"/> containing the mesh</param>
+    /// <param name="device">The <see cref="IDirect3DDevice9"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
     /// <param name="hadNormals">Did the original declaration already contain normals?</param>
     /// <param name="hadTangents">Did the original declaration already contain tangents?</param>
     /// <returns><c>true</c> if the mesh declaration was expanded, <c>false</c> if the declaration didn't need to be changed</returns>
-    private static bool ExpandDeclaration(Device device, ref Mesh mesh, out bool hadNormals, out bool hadTangents)
+    private static bool ExpandDeclaration(IDirect3DDevice9 device, ref Mesh mesh, out bool hadNormals, out bool hadTangents)
     {
         if (device == null) throw new ArgumentNullException(nameof(device));
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
@@ -102,7 +104,7 @@ public static class TexturedMeshUtils
             mesh.OptimizeInPlace(MeshOptimizeFlags.VertexCache | MeshOptimizeFlags.AttributeSort);
         }
         #region Error handling
-        catch (Direct3D9Exception ex)
+        catch (SharpGenException ex)
         {
             Log.Warn("Failed to optimize mesh", ex);
         }
@@ -113,10 +115,10 @@ public static class TexturedMeshUtils
     /// Generate normal vectors if not present and convert into a normal-carrying format for shaders.
     /// Tangent and binormal data is left empty.
     /// </summary>
-    /// <param name="device">The <see cref="Device"/> containing the mesh</param>
+    /// <param name="device">The <see cref="IDirect3DDevice9"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
     /// <remarks>Normal vectors are required for lighting.</remarks>
-    public static void GenerateNormals(Device device, ref Mesh mesh)
+    public static void GenerateNormals(IDirect3DDevice9 device, ref Mesh mesh)
     {
         if (device == null) throw new ArgumentNullException(nameof(device));
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
@@ -179,13 +181,13 @@ public static class TexturedMeshUtils
     /// <summary>
     /// Generate TBN (tangent, binormal and normal) vectors if not present and convert into <see cref="PositionNormalTangentBinormalTextured"/> format for shaders.
     /// </summary>
-    /// <param name="device">The <see cref="Device"/> containing the mesh</param>
+    /// <param name="device">The <see cref="IDirect3DDevice9"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
     /// <param name="weldVertexes">Weld vertexes before generating tangents.
     /// Useful for organic objects, stones, trees, etc. (anything with a lot of round surfaces).
     /// If a lot of single faces are not connected on the texture (e.g. rockets, buildings, etc.) do not use.</param>
     /// <remarks>TBN vectors are required for normal mapping.</remarks>
-    public static void GenerateTBN(Device device, ref Mesh mesh, bool weldVertexes = false)
+    public static void GenerateTBN(IDirect3DDevice9 device, ref Mesh mesh, bool weldVertexes = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));

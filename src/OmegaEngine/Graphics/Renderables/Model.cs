@@ -11,8 +11,11 @@ using System.ComponentModel;
 using System.Linq;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -271,12 +274,12 @@ public partial class Model : PositionableRenderable
 
         // Transform the world space picking ray into entity space
         ray = new(
-            Vector3.TransformCoordinate(ray.Position, InverseWorldTransform),
+            VectorMath.TransformCoordinate(ray.Position, InverseWorldTransform),
             // Do not normalize so that ray length remains the same
             Vector3.TransformNormal(ray.Direction, InverseWorldTransform));
 
         // Check against the system memory copy, because the render mesh is write-only
-        return (_pickingMesh ?? Mesh).Intersects(ray, out distance, out int _, out _);
+        return (_pickingMesh ?? Mesh).Intersects(ray, out distance, out _);
     }
     #endregion
 

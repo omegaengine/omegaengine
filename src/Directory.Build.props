@@ -6,8 +6,7 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <OutputType>Library</OutputType>
     <!--suppress MsbuildTargetFrameworkTagInspection -->
-    <TargetFrameworks>net472</TargetFrameworks>
-    <PlatformTarget Condition="'$(TargetFramework)'=='net472'">x86</PlatformTarget>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
     <EnableWindowsTargeting>True</EnableWindowsTargeting>
     <Nullable>annotations</Nullable>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
@@ -15,11 +14,11 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <NoWarn>$(NoWarn);1591;NU1900;NU1901;NU1902;NU1903;NU1904</NoWarn><!-- Missing XML comments + NuGet advisories -->
+    <NoWarn>$(NoWarn);1591;NU1900;NU1901;NU1902;NU1903;NU1904;WFO1000</NoWarn><!-- Missing XML comments + NuGet advisories + WinForms designer serialization of control properties (default behavior is intended) -->
     <Version>1.0.0-pre</Version><!-- Overriden by build scripts -->
   </PropertyGroup>
-  <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
-    <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
+  <PropertyGroup Condition="$(TargetFramework.EndsWith('-windows'))">
+    <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <!-- Publish configuration -->
@@ -47,9 +46,6 @@
   <ItemGroup>
     <PackageReference Include="NanoByte.CloneGenerator" Version="0.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.401" PrivateAssets="All" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.12" />
   </ItemGroup>
 
   <!-- Global usings -->

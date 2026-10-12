@@ -97,10 +97,10 @@ internal sealed class ControlTexture(uint elementIndex)
         // Cover every non-hidden state, not just Normal: otherwise a hovered/pressed/disabled control
         // would reveal the stretched dummy region (or jump to a different opacity) as its state changes.
         var states = _target[elementIndex].TextureColor.States;
-        states[(int)ControlState.Normal].Alpha = value;
-        states[(int)ControlState.Disabled].Alpha = value;
-        states[(int)ControlState.Focus].Alpha = value;
-        states[(int)ControlState.MouseOver].Alpha = value;
-        states[(int)ControlState.Pressed].Alpha = value;
+        foreach (var state in (ControlState[])[ControlState.Normal, ControlState.Disabled, ControlState.Focus, ControlState.MouseOver, ControlState.Pressed])
+        {
+            var color = states[(int)state];
+            states[(int)state] = new(color.R, color.G, color.B, value);
+        }
     }
 }

@@ -9,8 +9,10 @@
 using System;
 using OmegaEngine.Foundation.Collections;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
-using SlimDX.Direct3D9;
+using OmegaEngine.Foundation.Light;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -85,7 +87,7 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
     {
         Alive = true;
         Position = position;
-        Color = new(parameters1.Color);
+        Color = parameters1.Color.ToColor4();
 
         Parameters1 = parameters1;
         Parameters2 = parameters2;
@@ -154,9 +156,9 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
         // Update color
         float currentDeltaColor = (SecondLife ? Parameters2.DeltaColor : Parameters1.DeltaColor) * elapsedTime;
         Color = new(
-            (Color.Red - currentDeltaColor).Clamp(),
-            (Color.Green - currentDeltaColor).Clamp(),
-            (Color.Blue - currentDeltaColor).Clamp());
+            (Color.R - currentDeltaColor).Clamp(),
+            (Color.G - currentDeltaColor).Clamp(),
+            (Color.B - currentDeltaColor).Clamp());
     }
     #endregion
 
@@ -176,16 +178,16 @@ internal class CpuParticle : IPoolable<CpuParticle>, IPositionable
 
         // Calculate the world transform
         engine.State.WorldTransform =
-            Matrix.Scaling(new(Size)) *
+            Matrix4x4.CreateScale(new Vector3(Size)) *
             camera.SphericalBillboard *
-            Matrix.Translation((Position + offset).ApplyOffset(camera.FloatingOrigin));
+            Matrix4x4.CreateTranslation((Position + offset).ApplyOffset(camera.FloatingOrigin));
 
         // Set the particle color (used as authored, since particles are rendered in gamma space; see CpuParticleSystem.RenderParticles)
-        var material = new Material {Emissive = Color};
-        engine.Device.Material = material;
+        var material = new Material9 {Emissive = Color.ToColorvalue()};
+        engine.Device.SetMaterial(material);
 
         // Render the particle using the externally set stream source
-        engine.Device.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
+        engine.Device.DrawPrimitive(PrimitiveType.TriangleStrip, 0, 2);
     }
     #endregion
 }

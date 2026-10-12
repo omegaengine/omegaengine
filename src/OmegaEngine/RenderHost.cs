@@ -11,6 +11,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
@@ -22,8 +24,13 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Input;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Size = System.Drawing.Size;
+using Vortice.Direct3D9;
+using SharpGen.Runtime;
+using SharpGen.Runtime.Diagnostics;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine;
@@ -38,7 +45,7 @@ namespace OmegaEngine;
 public partial class RenderHost : IRenderHost, IDisposable
 {
     /// <summary>
-    /// The name of an environment variable that can be set to <c>1</c> to record the stack trace of every SlimDX object creation.
+    /// The name of an environment variable that can be set to <c>1</c> to record the stack trace of every Direct3D object creation.
     /// </summary>
     /// <remarks>Always enabled in debug builds. Makes leaks reported on shutdown traceable, at the cost of a stack trace capture per COM object.</remarks>
     [PublicAPI]
@@ -46,13 +53,27 @@ public partial class RenderHost : IRenderHost, IDisposable
 
     static RenderHost()
     {
-        Configuration.EnableObjectTracking =
-#if DEBUG
-            true;
-#else
-            Environment.GetEnvironmentVariable(EnvVarNameTrackObjects) == "1";
+        try
+        {
+            // Track all COM objects, so that leaks can be reported on shutdown
+            Configuration.EnableObjectTracking = true;
+        }
+        catch (SharpGenException ex)
+        {
+            Log.Warn("Could not enable Direct3D object tracking, because COM objects were already created", ex);
+            return;
+        }
+
+#if !DEBUG
+        if (Environment.GetEnvironmentVariable(EnvVarNameTrackObjects) == "1")
 #endif
+            ObjectTracker.Tracked += comObject => _creationSources.AddOrUpdate(comObject, Environment.StackTrace);
     }
+
+    /// <summary>
+    /// The stack traces of the creation of the tracked COM objects.
+    /// </summary>
+    private static readonly ConditionalWeakTable<CppObject, string> _creationSources = new();
 
     /// <summary>Contains a reference to the <see cref="DebugConsole"/> while it is open</summary>
     private DebugConsole? _debugConsole;
@@ -166,13 +187,13 @@ public partial class RenderHost : IRenderHost, IDisposable
             Exit();
             return false;
         }
-        catch (Direct3D9Exception ex) when (ex is Direct3D9NotFoundException or Direct3DX9NotFoundException)
+        catch (DllNotFoundException)
         {
             Msg.Inform(Form, Resources.DirectXMissing, MsgSeverity.Error);
             Exit();
             return false;
         }
-        catch (Direct3D9Exception ex)
+        catch (SharpGenException ex)
         {
             Msg.Inform(Form, ex.Message, MsgSeverity.Error);
             Exit();
@@ -220,7 +241,7 @@ public partial class RenderHost : IRenderHost, IDisposable
             MouseInputProvider.Dispose();
             TouchInputProvider.Dispose();
 
-            // Assume this is the only usage of SlimDX in the entire process (true for games, not for editors)
+            // Assume this is the only usage of Direct3D in the entire process (true for games, not for editors)
             if (ReportLeaks() is {} leaks)
             {
                 Log.Error(leaks);
@@ -239,17 +260,20 @@ public partial class RenderHost : IRenderHost, IDisposable
     }
 
     /// <summary>
-    /// Describes all SlimDX objects that were not disposed; <c>null</c> if there are none.
+    /// Describes all Direct3D objects that were not disposed; <c>null</c> if there are none.
     /// </summary>
     private static string? ReportLeaks()
     {
-        var objects = ObjectTable.Objects;
+        var objects = ObjectTracker.FindActiveObjects()
+                                   .Select(reference => reference.TryGetTarget(out var target) ? target : null)
+                                   .OfType<CppObject>()
+                                   .ToList();
         if (objects.Count == 0) return null;
 
         var builder = new StringBuilder();
         foreach (var comObject in objects)
         {
-            builder.AppendLine(comObject.CreationSource is {} creationSource
+            builder.AppendLine(_creationSources.TryGetValue(comObject, out string? creationSource)
                 ? $"Object of type {comObject.GetType().FullName} was not disposed. Stack trace of object creation:\n{creationSource}"
                 : $"Object of type {comObject.GetType().FullName} was not disposed. Set {EnvVarNameTrackObjects}=1 to also log the stack trace of the object creation.");
         }

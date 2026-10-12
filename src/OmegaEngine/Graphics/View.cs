@@ -15,8 +15,11 @@ using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Viewport = Vortice.Direct3D9.Viewport;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics;
 
@@ -316,7 +319,7 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
     /// <returns>A ray in world space starting at the <see cref="Camera"/> position moving towards the specified <paramref name="location"/>.</returns>
     public Ray PickingRay(Point location)
     {
-        Matrix m = Camera.ViewInverse;
+        Matrix4x4 m = Camera.ViewInverse;
 
         // The point of origin is the camera position in render space
         var point = new Vector3(m.M41, m.M42, m.M43);

@@ -11,14 +11,14 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Globalization;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation.Geometry;
 
 /// <summary>
 /// A 2D polygon consisting of four points.
 /// </summary>
-#if NETFRAMEWORK
+#if WINDOWS
 [TypeConverter(typeof(Design.QuadrangleConverter))]
 #endif
 public readonly struct Quadrangle(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4) : IEquatable<Quadrangle>

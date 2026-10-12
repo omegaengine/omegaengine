@@ -12,7 +12,7 @@ using AlphaFramework.Editor.World.Commands;
 using AlphaFramework.World.Terrains;
 using NanoByte.Common.Undo;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 
 namespace AlphaFramework.Editor.World.TerrainModifiers;
 

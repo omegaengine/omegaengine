@@ -26,7 +26,7 @@ using System.IO;
 using AlphaFramework.World;
 using JetBrains.Annotations;
 
-#if NETFRAMEWORK
+#if WINDOWS
 using System.Linq;
 using System.Xml.Serialization;
 using FrameOfReference.World.Positionables;
@@ -40,7 +40,7 @@ namespace FrameOfReference.World;
 /// </summary>
 public sealed partial class Session : Session<Universe>
 {
-#if NETFRAMEWORK
+#if WINDOWS
     /// <summary>
     /// The scripting engine used to execute story scripts.
     /// </summary>
@@ -111,7 +111,7 @@ public sealed partial class Session : Session<Universe>
             double effectiveStep = Math.Sign(gameTimeDelta) * UpdateStepSize;
 
             Universe.Update(effectiveStep);
-#if NETFRAMEWORK
+#if WINDOWS
             if (Lua != null && !TimeTravelInProgress) HandleTriggers();
 #endif
             gameTimeDelta -= effectiveStep;
@@ -120,7 +120,7 @@ public sealed partial class Session : Session<Universe>
         return gameTimeDelta;
     }
 
-#if NETFRAMEWORK
+#if WINDOWS
     private void HandleTriggers()
     {
         var playerEntities = Universe.Positionables.OfType<Entity>().Where(x => x.IsPlayerControlled).ToList();

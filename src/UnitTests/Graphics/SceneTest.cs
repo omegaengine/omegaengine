@@ -12,7 +12,9 @@ using AwesomeAssertions;
 using OmegaEngine.Assets;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
 using Xunit;
 
 namespace OmegaEngine.Graphics;

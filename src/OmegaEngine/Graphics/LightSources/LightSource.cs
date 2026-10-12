@@ -13,8 +13,10 @@ using System.Drawing;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics.LightSources;
 
@@ -156,5 +158,5 @@ public abstract class LightSource
     /// <summary>
     /// Converts the light source to a fixed-function pipeline light source.
     /// </summary>
-    internal abstract Light ToFfpLight();
+    internal abstract Light9 ToFfpLight();
 }

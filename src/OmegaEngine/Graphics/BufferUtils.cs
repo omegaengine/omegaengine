@@ -8,15 +8,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// Helper methods for creating, reading from and writing to <see cref="VertexBuffer"/>s, <see cref="IndexBuffer"/>s and attribute buffers.
+/// Helper methods for creating, reading from and writing to <see cref="IDirect3DVertexBuffer9"/>s, <see cref="IDirect3DIndexBuffer9"/>s and attribute buffers.
 /// </summary>
 public static class BufferUtils
 {
@@ -62,21 +62,21 @@ public static class BufferUtils
     }
 
     /// <summary>
-    /// Creates a <see cref="VertexBuffer"/> and fills it with data.
+    /// Creates a <see cref="IDirect3DVertexBuffer9"/> and fills it with data.
     /// </summary>
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="device">The device to create the buffer on.</param>
     /// <param name="data">The vertexes to fill the buffer with.</param>
     /// <param name="format">The fixed-function vertex format.</param>
-    /// <returns>The newly created and filled <see cref="VertexBuffer"/>.</returns>
-    public static VertexBuffer CreateVertexBuffer<T>(this Device device, T[] data, VertexFormat format) where T : struct
+    /// <returns>The newly created and filled <see cref="IDirect3DVertexBuffer9"/>.</returns>
+    public static unsafe IDirect3DVertexBuffer9 CreateVertexBuffer<T>(this IDirect3DDevice9 device, T[] data, VertexFormat format) where T : unmanaged
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        var buffer = new VertexBuffer(device, Marshal.SizeOf(typeof(T)) * data.Length, Usage.None, format, Pool.Default);
+        var buffer = device.CreateVertexBuffer((uint)(sizeof(T) * data.Length), Usage.None, format, Pool.Default);
         try
         {
             buffer.Write(data);
@@ -90,96 +90,114 @@ public static class BufferUtils
     }
 
     /// <summary>
-    /// Copies the content of a <see cref="VertexBuffer"/> to an array of structs.
+    /// Copies the content of a <see cref="IDirect3DVertexBuffer9"/> to an array of structs.
     /// </summary>
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="buffer">The buffer to read from.</param>
     /// <returns>The content of the <paramref name="buffer"/>.</returns>
-    public static T[] Read<T>(this VertexBuffer buffer) where T : struct
+    public static unsafe T[] Read<T>(this IDirect3DVertexBuffer9 buffer) where T : unmanaged
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         #endregion
 
-        var vertexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
-        int vertexCount = buffer.Description.SizeInBytes / Marshal.SizeOf(typeof(T));
-        var ret = vertexStream.ReadRange<T>(vertexCount);
-        buffer.Unlock();
-        vertexStream.Dispose();
-
-        return ret;
+        uint size = buffer.Description.SizeInBytes;
+        var data = buffer.LockToPointer(0, size, LockFlags.ReadOnly);
+        try
+        {
+            return new ReadOnlySpan<T>((void*)data, (int)size / sizeof(T)).ToArray();
+        }
+        finally
+        {
+            buffer.Unlock();
+        }
     }
 
     /// <summary>
-    /// Copies the content of the <see cref="VertexBuffer"/> of a <see cref="Mesh"/> to an array of structs.
+    /// Copies the content of the <see cref="IDirect3DVertexBuffer9"/> of a <see cref="Mesh"/> to an array of structs.
     /// </summary>
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to read from.</param>
     /// <returns>The content of the buffer in <paramref name="mesh"/>.</returns>
-    public static T[] ReadVertexBuffer<T>(this Mesh mesh) where T : struct
+    public static unsafe T[] ReadVertexBuffer<T>(this Mesh mesh) where T : unmanaged
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
-        var vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
-        var ret = vertexStream.ReadRange<T>(mesh.VertexCount);
-        mesh.UnlockVertexBuffer();
-        vertexStream.Dispose();
-
-        return ret;
+        var data = mesh.LockVertexBuffer(LockFlags.ReadOnly);
+        try
+        {
+            return new ReadOnlySpan<T>((void*)data, mesh.VertexCount).ToArray();
+        }
+        finally
+        {
+            mesh.UnlockVertexBuffer();
+        }
     }
 
     /// <summary>
-    /// Fills a <see cref="VertexBuffer"/> with data.
+    /// Fills a <see cref="IDirect3DVertexBuffer9"/> with data.
     /// </summary>
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="buffer">The buffer to write to.</param>
     /// <param name="data">The vertexes to fill the buffer with.</param>
-    public static void Write<T>(this VertexBuffer buffer, T[] data) where T : struct
+    public static unsafe void Write<T>(this IDirect3DVertexBuffer9 buffer, T[] data) where T : unmanaged
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using var vertexStream = buffer.Lock(0, Marshal.SizeOf(typeof(T)) * data.Length, LockFlags.None);
-        vertexStream.WriteRange(data);
-        buffer.Unlock();
+        var target = buffer.LockToPointer(0, (uint)(sizeof(T) * data.Length));
+        try
+        {
+            data.CopyTo(new Span<T>((void*)target, data.Length));
+        }
+        finally
+        {
+            buffer.Unlock();
+        }
     }
 
     /// <summary>
-    /// Fills the <see cref="VertexBuffer"/> of a <see cref="Mesh"/> with data.
+    /// Fills the <see cref="IDirect3DVertexBuffer9"/> of a <see cref="Mesh"/> with data.
     /// </summary>
     /// <typeparam name="T">The vertex format used in the buffer.</typeparam>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to write to.</param>
     /// <param name="data">The vertexes to fill the buffer with.</param>
-    public static void WriteVertexBuffer<T>(this Mesh mesh, T[] data) where T : struct
+    public static unsafe void WriteVertexBuffer<T>(this Mesh mesh, T[] data) where T : unmanaged
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using var vertexStream = mesh.LockVertexBuffer(LockFlags.None);
-        vertexStream.WriteRange(data);
-        mesh.UnlockVertexBuffer();
+        var target = mesh.LockVertexBuffer(LockFlags.None);
+        try
+        {
+            data.CopyTo(new Span<T>((void*)target, data.Length));
+        }
+        finally
+        {
+            mesh.UnlockVertexBuffer();
+        }
     }
 
     /// <summary>
-    /// Creates an <see cref="IndexBuffer"/> and fills it with data.
+    /// Creates an <see cref="IDirect3DIndexBuffer9"/> and fills it with data.
     /// </summary>
     /// <param name="device">The device to create the buffer on.</param>
     /// <param name="data">The values to fill the buffer with.</param>
-    /// <returns>The newly created and filled <see cref="IndexBuffer"/>.</returns>
-    public static IndexBuffer CreateIndexBuffer(this Device device, short[] data)
+    /// <returns>The newly created and filled <see cref="IDirect3DIndexBuffer9"/>.</returns>
+    public static IDirect3DIndexBuffer9 CreateIndexBuffer(this IDirect3DDevice9 device, short[] data)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        var buffer = new IndexBuffer(device, sizeof(short) * data.Length, Usage.None, Pool.Default, true);
+        var buffer = device.CreateIndexBuffer((uint)(sizeof(short) * data.Length), Usage.None, sixteenBit: true, Pool.Default);
         try
         {
             buffer.Write(data);
@@ -193,19 +211,19 @@ public static class BufferUtils
     }
 
     /// <summary>
-    /// Creates an <see cref="IndexBuffer"/> and fills it with data.
+    /// Creates an <see cref="IDirect3DIndexBuffer9"/> and fills it with data.
     /// </summary>
     /// <param name="device">The device to create the buffer on.</param>
     /// <param name="data">The values to fill the buffer with.</param>
-    /// <returns>The newly created and filled <see cref="IndexBuffer"/>.</returns>
-    public static IndexBuffer CreateIndexBuffer(this Device device, int[] data)
+    /// <returns>The newly created and filled <see cref="IDirect3DIndexBuffer9"/>.</returns>
+    public static IDirect3DIndexBuffer9 CreateIndexBuffer(this IDirect3DDevice9 device, int[] data)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        var buffer = new IndexBuffer(device, sizeof(int) * data.Length, Usage.None, Pool.Default, false);
+        var buffer = device.CreateIndexBuffer((uint)(sizeof(int) * data.Length), Usage.None, sixteenBit: false, Pool.Default);
         try
         {
             buffer.Write(data);
@@ -219,160 +237,199 @@ public static class BufferUtils
     }
 
     /// <summary>
-    /// Copies the content of an <see cref="IndexBuffer"/> to an array of 16-bit values.
+    /// Copies the content of an <see cref="IDirect3DIndexBuffer9"/> to an array of 16-bit values.
     /// </summary>
     /// <param name="buffer">The buffer to read from.</param>
     /// <remarks>Warning! No check is performed to ensure the buffer actually uses 16-bit values.</remarks>
-    public static short[] Read16Bit(this IndexBuffer buffer)
+    public static unsafe short[] Read16Bit(this IDirect3DIndexBuffer9 buffer)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         #endregion
 
-        var indexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
-        int indexCount = buffer.Description.SizeInBytes / sizeof(short);
-        short[]? ret = indexStream.ReadRange<short>(indexCount);
-        buffer.Unlock();
-        indexStream.Dispose();
-
-        return ret;
+        uint size = buffer.Description.SizeInBytes;
+        var data = buffer.LockToPointer(0, size, LockFlags.ReadOnly);
+        try
+        {
+            return new ReadOnlySpan<short>((void*)data, (int)size / sizeof(short)).ToArray();
+        }
+        finally
+        {
+            buffer.Unlock();
+        }
     }
 
     /// <summary>
-    /// Copies the content of an <see cref="IndexBuffer"/> to an array of 32-bit values.
+    /// Copies the content of an <see cref="IDirect3DIndexBuffer9"/> to an array of 32-bit values.
     /// </summary>
     /// <param name="buffer">The buffer to read from.</param>
     /// <remarks>Warning! No check is performed to ensure the buffer actually uses 32-bit values.</remarks>
-    public static int[] Read32Bit(this IndexBuffer buffer)
+    public static unsafe int[] Read32Bit(this IDirect3DIndexBuffer9 buffer)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         #endregion
 
-        var indexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
-        int indexCount = buffer.Description.SizeInBytes / sizeof(int);
-        int[] ret = indexStream.ReadRange<int>(indexCount);
-        buffer.Unlock();
-        indexStream.Dispose();
-
-        return ret;
+        uint size = buffer.Description.SizeInBytes;
+        var data = buffer.LockToPointer(0, size, LockFlags.ReadOnly);
+        try
+        {
+            return new ReadOnlySpan<int>((void*)data, (int)size / sizeof(int)).ToArray();
+        }
+        finally
+        {
+            buffer.Unlock();
+        }
     }
 
     /// <summary>
-    /// Copies the content of the <see cref="IndexBuffer"/> of a <see cref="Mesh"/> to an array of 32-bit values (16-bit values are automatically converted).
+    /// Copies the content of the <see cref="IDirect3DIndexBuffer9"/> of a <see cref="Mesh"/> to an array of 32-bit values (16-bit values are automatically converted).
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to read from.</param>
-    public static int[] ReadIndexBuffer(this Mesh mesh)
+    public static unsafe int[] ReadIndexBuffer(this Mesh mesh)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
         int indexCount = mesh.FaceCount * 3;
-        int[] ret;
-        using var indexStream = mesh.LockIndexBuffer(LockFlags.ReadOnly);
-        if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit))
-        { // 32-bit values
-            ret = indexStream.ReadRange<int>(indexCount);
+        var data = mesh.LockIndexBuffer(LockFlags.ReadOnly);
+        try
+        {
+            if (mesh.CreationOptions.HasFlag(MeshFlags.Use32Bit))
+            { // 32-bit values
+                return new ReadOnlySpan<int>((void*)data, indexCount).ToArray();
+            }
+            else
+            { // 16-bit values
+                var source = new ReadOnlySpan<ushort>((void*)data, indexCount); // 16-bit indexes are unsigned, so avoid sign-extending values above 32767
+                var ret = new int[indexCount];
+                for (int i = 0; i < indexCount; i++)
+                    ret[i] = source[i];
+                return ret;
+            }
         }
-        else
-        { // 16-bit values
-            ret = new int[indexCount];
-            short[]? temp = indexStream.ReadRange<short>(indexCount);
-            for (int i = 0; i < indexCount; i++)
-                ret[i] = (ushort)temp[i]; // 16-bit indexes are unsigned, so avoid sign-extending values above 32767
+        finally
+        {
+            mesh.UnlockIndexBuffer();
         }
-        mesh.UnlockIndexBuffer();
-
-        return ret;
     }
 
     /// <summary>
-    /// Fills an <see cref="IndexBuffer"/> with 16-bit values.
+    /// Fills an <see cref="IDirect3DIndexBuffer9"/> with 16-bit values.
     /// </summary>
     /// <param name="buffer">The buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
     /// <remarks>Warning! No check is performed to ensure the buffer actually uses 16-bit values.</remarks>
-    public static void Write(this IndexBuffer buffer, short[] data)
+    public static unsafe void Write(this IDirect3DIndexBuffer9 buffer, short[] data)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using var indexStream = buffer.Lock(0, sizeof(short) * data.Length, LockFlags.None);
-        indexStream.WriteRange(data);
-        buffer.Unlock();
+        var target = buffer.LockToPointer(0, (uint)(sizeof(short) * data.Length));
+        try
+        {
+            data.CopyTo(new Span<short>((void*)target, data.Length));
+        }
+        finally
+        {
+            buffer.Unlock();
+        }
     }
 
     /// <summary>
-    /// Fills an <see cref="IndexBuffer"/> with 32-bit values.
+    /// Fills an <see cref="IDirect3DIndexBuffer9"/> with 32-bit values.
     /// </summary>
     /// <param name="buffer">The buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
     /// <remarks>Warning! No check is performed to ensure the buffer actually uses 32-bit values.</remarks>
-    public static void Write(this IndexBuffer buffer, int[] data)
+    public static unsafe void Write(this IDirect3DIndexBuffer9 buffer, int[] data)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using var indexStream = buffer.Lock(0, sizeof(int) * data.Length, LockFlags.None);
-        indexStream.WriteRange(data);
-        buffer.Unlock();
+        var target = buffer.LockToPointer(0, (uint)(sizeof(int) * data.Length));
+        try
+        {
+            data.CopyTo(new Span<int>((void*)target, data.Length));
+        }
+        finally
+        {
+            buffer.Unlock();
+        }
     }
 
     /// <summary>
-    /// Fills the <see cref="IndexBuffer"/> of a <see cref="Mesh"/> with 16-bit values.
+    /// Fills the <see cref="IDirect3DIndexBuffer9"/> of a <see cref="Mesh"/> with 16-bit values.
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
-    public static void WriteIndexBuffer(this Mesh mesh, short[] data)
+    public static unsafe void WriteIndexBuffer(this Mesh mesh, short[] data)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         if (data == null) throw new ArgumentNullException(nameof(data));
-        if ((mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot16bit, nameof(mesh));
+        if (mesh.CreationOptions.HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot16bit, nameof(mesh));
         #endregion
 
-        using var indexStream = mesh.LockIndexBuffer(LockFlags.None);
-        indexStream.WriteRange(data);
-        mesh.UnlockIndexBuffer();
+        var target = mesh.LockIndexBuffer(LockFlags.None);
+        try
+        {
+            data.CopyTo(new Span<short>((void*)target, data.Length));
+        }
+        finally
+        {
+            mesh.UnlockIndexBuffer();
+        }
     }
 
     /// <summary>
-    /// Fills the <see cref="IndexBuffer"/> of a <see cref="Mesh"/> with 32-bit values.
+    /// Fills the <see cref="IDirect3DIndexBuffer9"/> of a <see cref="Mesh"/> with 32-bit values.
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
-    public static void WriteIndexBuffer(this Mesh mesh, int[] data)
+    public static unsafe void WriteIndexBuffer(this Mesh mesh, int[] data)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         if (data == null) throw new ArgumentNullException(nameof(data));
-        if (!(mesh.CreationOptions).HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot32bit, nameof(mesh));
+        if (!mesh.CreationOptions.HasFlag(MeshFlags.Use32Bit)) throw new ArgumentException(Resources.MeshIndexBufferNot32bit, nameof(mesh));
         #endregion
 
-        using var indexStream = mesh.LockIndexBuffer(LockFlags.None);
-        indexStream.WriteRange(data);
-        mesh.UnlockIndexBuffer();
+        var target = mesh.LockIndexBuffer(LockFlags.None);
+        try
+        {
+            data.CopyTo(new Span<int>((void*)target, data.Length));
+        }
+        finally
+        {
+            mesh.UnlockIndexBuffer();
+        }
     }
 
     /// <summary>
     /// Copies the content of the attribute buffer of a <see cref="Mesh"/> to an array of 32-bit values.
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to read from.</param>
-    public static int[] ReadAttributeBuffer(this Mesh mesh)
+    public static unsafe int[] ReadAttributeBuffer(this Mesh mesh)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
-        using var attributeStream = mesh.LockAttributeBuffer(LockFlags.ReadOnly);
-        int[] ret = attributeStream.ReadRange<int>(mesh.FaceCount);
-        mesh.UnlockAttributeBuffer();
-        return ret;
+        var data = mesh.LockAttributeBuffer(LockFlags.ReadOnly);
+        try
+        {
+            return new ReadOnlySpan<int>((void*)data, mesh.FaceCount).ToArray();
+        }
+        finally
+        {
+            mesh.UnlockAttributeBuffer();
+        }
     }
 
     /// <summary>
@@ -380,36 +437,46 @@ public static class BufferUtils
     /// </summary>
     /// <param name="mesh">The <see cref="Mesh"/> containing the buffer to write to.</param>
     /// <param name="data">The values to fill the buffer with.</param>
-    public static void WriteAttributeBuffer(this Mesh mesh, int[] data)
+    public static unsafe void WriteAttributeBuffer(this Mesh mesh, int[] data)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         if (data == null) throw new ArgumentNullException(nameof(data));
         #endregion
 
-        using var attributeStream = mesh.LockAttributeBuffer(LockFlags.None);
-        attributeStream.WriteRange(data);
-        mesh.UnlockAttributeBuffer();
+        var target = mesh.LockAttributeBuffer(LockFlags.None);
+        try
+        {
+            data.CopyTo(new Span<int>((void*)target, data.Length));
+        }
+        finally
+        {
+            mesh.UnlockAttributeBuffer();
+        }
     }
 
     /// <summary>
-    /// Gets all points contained within a <see cref="VertexBuffer"/>.
+    /// Gets all points contained within a <see cref="IDirect3DVertexBuffer9"/>.
     /// </summary>
-    /// <param name="buffer">The <see cref="VertexBuffer"/> to get points from.</param>
+    /// <param name="buffer">The <see cref="IDirect3DVertexBuffer9"/> to get points from.</param>
     /// <param name="vertexCount">The total number of vertex contained within <paramref name="buffer"/>.</param>
     /// <returns>An array of points defined by the object.</returns>
-    public static Vector3[] GetPoints(this VertexBuffer buffer, int vertexCount)
+    public static unsafe Vector3[] GetPoints(this IDirect3DVertexBuffer9 buffer, int vertexCount)
     {
         #region Sanity checks
         if (buffer == null) throw new ArgumentNullException(nameof(buffer));
         #endregion
 
-        var vertexStream = buffer.Lock(0, buffer.Description.SizeInBytes, LockFlags.ReadOnly);
-        var points = D3DX.GetVectors(vertexStream, vertexCount, buffer.Description.SizeInBytes / vertexCount);
-        buffer.Unlock();
-        vertexStream.Dispose();
-
-        return points;
+        uint size = buffer.Description.SizeInBytes;
+        var data = buffer.LockToPointer(0, size, LockFlags.ReadOnly);
+        try
+        {
+            return GetPoints(data, vertexCount, (int)size / vertexCount);
+        }
+        finally
+        {
+            buffer.Unlock();
+        }
     }
 
     /// <summary>
@@ -423,11 +490,25 @@ public static class BufferUtils
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
-        var vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
-        var points = D3DX.GetVectors(vertexStream, mesh.VertexCount, mesh.BytesPerVertex); // Use the vertex stride rather than the vertex format, because meshes with a custom vertex declaration have no equivalent FVF
-        mesh.UnlockVertexBuffer();
-        vertexStream.Dispose();
+        var data = mesh.LockVertexBuffer(LockFlags.ReadOnly);
+        try
+        {
+            return GetPoints(data, mesh.VertexCount, mesh.BytesPerVertex); // Use the vertex stride rather than the vertex format, because meshes with a custom vertex declaration have no equivalent FVF
+        }
+        finally
+        {
+            mesh.UnlockVertexBuffer();
+        }
+    }
 
+    /// <summary>
+    /// Reads the position, i.e. the first 3 floats, of each vertex.
+    /// </summary>
+    private static unsafe Vector3[] GetPoints(nint data, int vertexCount, int stride)
+    {
+        var points = new Vector3[vertexCount];
+        for (int i = 0; i < vertexCount; i++)
+            points[i] = *(Vector3*)((byte*)data + i * stride);
         return points;
     }
 
@@ -437,7 +518,7 @@ public static class BufferUtils
     /// <param name="mesh">The <see cref="Mesh"/> to get points from.</param>
     /// <param name="subset">The subset to get points for.</param>
     /// <returns>An array of points defined by the subset. Returns an empty array if the subset has no faces.</returns>
-    public static Vector3[] GetPoints(this Mesh mesh, int subset)
+    public static unsafe Vector3[] GetPoints(this Mesh mesh, int subset)
     {
         #region Sanity checks
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
@@ -465,23 +546,24 @@ public static class BufferUtils
 
         // Extract vertex positions
         var positions = new Vector3[vertexIndices.Count];
-        using var vertexStream = mesh.LockVertexBuffer(LockFlags.ReadOnly);
-        for (int i = 0; i < vertexIndices.Count; i++)
+        int vertexCount = mesh.VertexCount, stride = mesh.BytesPerVertex;
+        var data = (byte*)mesh.LockVertexBuffer(LockFlags.ReadOnly);
+        try
         {
-            int index = vertexIndices[i];
-            if (index < 0 || index >= mesh.VertexCount)
-                throw new InvalidOperationException($"Vertex index {index} is out of range [0, {mesh.VertexCount})");
+            for (int i = 0; i < vertexIndices.Count; i++)
+            {
+                int index = vertexIndices[i];
+                if (index < 0 || index >= vertexCount)
+                    throw new InvalidOperationException($"Vertex index {index} is out of range [0, {vertexCount})");
 
-            // Seek to the position of the vertex in the stream
-            vertexStream.Position = index * mesh.BytesPerVertex;
-
-            // Read the first 3 floats as the position (standard vertex format)
-            positions[i] = new Vector3(
-                vertexStream.Read<float>(),
-                vertexStream.Read<float>(),
-                vertexStream.Read<float>());
+                // Read the first 3 floats as the position (standard vertex format)
+                positions[i] = *(Vector3*)(data + index * stride);
+            }
         }
-        mesh.UnlockVertexBuffer();
+        finally
+        {
+            mesh.UnlockVertexBuffer();
+        }
 
         return positions;
     }

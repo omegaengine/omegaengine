@@ -10,7 +10,7 @@ using System;
 using System.Linq;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Graphics.Renderables;
 

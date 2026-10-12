@@ -5,7 +5,7 @@
     <Description>OmegaEngine is a general-purpose 3D graphics engine for .NET and DirectX 9. The engine is designed to be light-weight, modular and gameplay-agnostic.
 The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games using the OmegaEngine.</Description>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
-    <UseWindowsForms>True</UseWindowsForms>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
   </PropertyGroup>
   <ItemGroup>
@@ -14,8 +14,8 @@ The complementary OmegaGUI, AlphaFramework and AlphaEditor help you build games 
 
   <!-- Dependencies -->
   <ItemGroup>
-    <Reference Include="System.Management" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <PackageReference Include="System.Management" Version="10.0.12" />
+    <PackageReference Include="Vortice.Direct3D9" Version="3.8.3" />
     <ProjectReference Include="..\OmegaEngine.Foundation\OmegaEngine.Foundation.csproj" />
     <PackageReference Include="NAudio" Version="2.3.0" />
   </ItemGroup>

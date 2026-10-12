@@ -12,7 +12,8 @@ using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
 using Xunit;
 
 namespace AlphaFramework.Presentation;
@@ -32,7 +33,7 @@ public class PivotedRenderablesTest : IDisposable
         public Vector3 WorldCenter => WorldBoundingSphere!.Value.Center;
     }
 
-    private static readonly Quaternion QuarterTurn = Quaternion.RotationYawPitchRoll((float)(Math.PI / 2), 0, 0);
+    private static readonly Quaternion QuarterTurn = Quaternion.CreateFromYawPitchRoll((float)(Math.PI / 2), 0, 0);
 
     private readonly Scene _scene = new();
     private readonly PivotedRenderables _renderables;
@@ -128,7 +129,7 @@ public class PivotedRenderablesTest : IDisposable
         var anchor = _renderables.AnchorFor(_owner)!;
         anchor.Position = new(100, 0, 0);
         anchor.Scale = new(2, 2, 2);
-        probe.PreTransform *= Matrix.Translation(0, 1, 0);
+        probe.PreTransform *= Matrix4x4.CreateTranslation(0, 1, 0);
         ShouldBe(probe.WorldCenter, 110, 2, 0);
 
         _renderables.AddTo(new Probe(), _owner);
@@ -140,7 +141,7 @@ public class PivotedRenderablesTest : IDisposable
     [Fact]
     public void LocalTransformIsTheSameCollapsedAndPivoted()
     {
-        var probe = _renderables.AddTo(new Probe {Position = new(5, 0, 0), PreTransform = Matrix.Scaling(2, 2, 2)}, _owner);
+        var probe = _renderables.AddTo(new Probe {Position = new(5, 0, 0), PreTransform = Matrix4x4.CreateScale(2, 2, 2)}, _owner);
         var collapsed = _renderables.LocalTransformOf(probe);
 
         _renderables.AddTo(new Probe(), _owner);

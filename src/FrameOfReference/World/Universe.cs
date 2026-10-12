@@ -32,7 +32,7 @@ using FrameOfReference.World.Positionables;
 using FrameOfReference.World.Templates;
 using JetBrains.Annotations;
 using NanoByte.Common.Native;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.World;
 

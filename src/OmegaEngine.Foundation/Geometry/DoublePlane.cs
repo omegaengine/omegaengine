@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation.Geometry;
 
@@ -18,7 +18,7 @@ namespace OmegaEngine.Foundation.Geometry;
 /// </summary>
 /// <param name="point">A point that lies along the plane.</param>
 /// <param name="normal">The normal vector of the plane.</param>
-#if NETFRAMEWORK
+#if WINDOWS
 [TypeConverter(typeof(Design.DoublePlaneConverter))]
 #endif
 public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<DoublePlane>
@@ -35,7 +35,7 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     /// The normal vector of the plane.
     /// </summary>
     [Description("The normal vector of the plane.")]
-    public Vector3 Normal { readonly get => _normal; set => _normal = Vector3.Normalize(value); }
+    public Vector3 Normal { readonly get => _normal; set => _normal = VectorMath.NormalizeOrZero(value); }
 
     /// <summary>
     /// Returns a single-precision standard <see cref="Plane"/> after subtracting an offset value.
@@ -43,7 +43,7 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     /// <param name="offset">This value is subtracted from the double-precision data before it is casted to single-precision.</param>
     /// <returns>The newly positioned <see cref="Plane"/>.</returns>
     [Pure]
-    public Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), _normal);
+    public Plane ApplyOffset(DoubleVector3 offset) => new(_normal, -Vector3.Dot(_normal, Point.ApplyOffset(offset)));
 
     /// <inheritdoc/>
     public readonly override string ToString() => $"({Point} => {Normal})";

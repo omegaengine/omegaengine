@@ -9,7 +9,7 @@
 using System.Drawing;
 using AwesomeAssertions;
 using OmegaEngine.Graphics.VertexDecl;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Renderables;

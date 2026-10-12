@@ -9,7 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation.Geometry;
 
@@ -18,7 +18,7 @@ namespace OmegaEngine.Foundation.Geometry;
 /// </summary>
 /// <param name="position">A point along the ray.</param>
 /// <param name="direction">A unit vector specifying the direction in which the ray is pointing (automatically normalized).</param>
-#if NETFRAMEWORK
+#if WINDOWS
 [TypeConverter(typeof(Design.Vector2RayConverter))]
 #endif
 public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vector2Ray>
@@ -29,13 +29,13 @@ public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vecto
     [Description("A point along the ray.")]
     public Vector2 Position { get; } = position;
 
-    private Vector2 _direction = Vector2.Normalize(direction);
+    private Vector2 _direction = VectorMath.NormalizeOrZero(direction);
 
     /// <summary>
     /// A unit vector specifying the direction in which the ray is pointing (automatically normalized).
     /// </summary>
     [Description("A unit vector specifying the direction in which the ray is pointing (automatically normalized).")]
-    public Vector2 Direction { readonly get => _direction; set => _direction = Vector2.Normalize(value); }
+    public Vector2 Direction { readonly get => _direction; set => _direction = VectorMath.NormalizeOrZero(value); }
 
     /// <inheritdoc/>
     public readonly override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Position, Direction);

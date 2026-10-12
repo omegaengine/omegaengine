@@ -69,7 +69,7 @@ so you get a black or stale image and no error. The harness shows a borderless f
 
 **The executable must sit next to the engine DLLs.** `Engine` derives `ShaderDir` from
 `Locations.InstallBase`, which is the entry assembly's directory, so a harness run from its own
-`bin` folder cannot find `Shaders\*.fxo`. The script copies the exe into `artifacts\<Config>\net472`
+`bin` folder cannot find `Shaders\*.fxo`. The script copies the exe into `artifacts\<Config>\net10.0-windows`
 and runs it from there.
 
 **`XmlStorageConfig.Apply()` before loading any map.** The maps store `Vector2`/`Vector3` members

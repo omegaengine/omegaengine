@@ -7,8 +7,11 @@
  */
 
 using System;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using OmegaEngine.Graphics.VertexDecl;
 
 namespace OmegaEngine.Graphics;
@@ -122,7 +125,7 @@ public static class TexturedMesh
         var vertexes = mesh.ReadVertexBuffer<PositionNormalTextured>();
         for (int i = 0; i < vertexes.Length; i++)
         {
-            Vector3 vertexRay = Vector3.Normalize(vertexes[i].Position - boundingSphere.Center);
+            Vector3 vertexRay = VectorMath.NormalizeOrZero(vertexes[i].Position - boundingSphere.Center);
             double phi = Math.Acos(vertexRay.Z);
 
             vertexes[i].Tu = CalculateTu(vertexRay, phi);
@@ -146,10 +149,10 @@ public static class TexturedMesh
     /// <summary>
     /// Creates a new <see cref="Mesh"/> representing a textured 2D quad.
     /// </summary>
-    /// <param name="device">The <see cref="Device"/> to create the <see cref="Mesh"/> in.</param>
+    /// <param name="device">The <see cref="IDirect3DDevice9"/> to create the <see cref="Mesh"/> in.</param>
     /// <param name="size">The size of the quad.</param>
     /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
-    public static Mesh Quad(Device device, Vector2 size, bool tbn = false)
+    public static Mesh Quad(IDirect3DDevice9 device, Vector2 size, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -185,18 +188,18 @@ public static class TexturedMesh
     /// <summary>
     /// Creates a new <see cref="Mesh"/> representing a textured box.
     /// </summary>
-    /// <param name="device">The <see cref="Device"/> to create the <see cref="Mesh"/> in.</param>
+    /// <param name="device">The <see cref="IDirect3DDevice9"/> to create the <see cref="Mesh"/> in.</param>
     /// <param name="size">The size of the box.</param>
     /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
-    /// <remarks>The box is formed like the one created by <see cref="Mesh.CreateBox"/>.</remarks>
-    public static Mesh Box(Device device, Vector3 size, bool tbn = false)
+    /// <remarks>The box is formed like the one created by <see cref="MeshPrimitives.Box"/>.</remarks>
+    public static Mesh Box(IDirect3DDevice9 device, Vector3 size, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
         #endregion
 
         // Create an untextured box
-        Mesh mesh = Mesh.CreateBox(device, size.X, size.Y, size.Z);
+        Mesh mesh = MeshPrimitives.Box(device, size.X, size.Y, size.Z);
 
         // Add texture coordinates
         CloneAddTexture(ref mesh);
@@ -210,13 +213,13 @@ public static class TexturedMesh
     /// <summary>
     /// Creates a new <see cref="Mesh"/> representing a textured sphere with spherical mapping.
     /// </summary>
-    /// <param name="device">The <see cref="Device"/> to create the mesh in</param>
+    /// <param name="device">The <see cref="IDirect3DDevice9"/> to create the mesh in</param>
     /// <param name="radius">The radius of the sphere.</param>
     /// <param name="slices">The number of vertical slices to divide the sphere into.</param>
     /// <param name="stacks">The number of horizontal stacks to divide the sphere into.</param>
     /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
-    /// <remarks>The sphere is formed like the one created by <see cref="Mesh.CreateSphere"/>.</remarks>
-    public static Mesh Sphere(Device device, float radius, int slices, int stacks, bool tbn = false)
+    /// <remarks>The sphere is formed like the one created by <see cref="MeshPrimitives.Sphere"/>.</remarks>
+    public static Mesh Sphere(IDirect3DDevice9 device, float radius, int slices, int stacks, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -297,15 +300,15 @@ public static class TexturedMesh
     /// <summary>
     /// Creates a new <see cref="Mesh"/> representing a textured cylinder with spherical mapping.
     /// </summary>
-    /// <param name="device">The <see cref="Device"/> to create the mesh in.</param>
+    /// <param name="device">The <see cref="IDirect3DDevice9"/> to create the mesh in.</param>
     /// <param name="radius1">The radius of the cylinder at the lower end (negative Z).</param>
     /// <param name="radius2">The radius of the cylinder at the upper end (positive Z).</param>
     /// <param name="length">The length of the cylinder.</param>
     /// <param name="slices">The number of vertical slices to divide the cylinder in.</param>
     /// <param name="stacks">The number of horizontal stacks to divide the cylinder in.</param>
     /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
-    /// <remarks>The cylinder is formed like the one created by <see cref="Mesh.CreateCylinder"/>.</remarks>
-    public static Mesh Cylinder(Device device, float radius1, float radius2, float length, int slices, int stacks, bool tbn = false)
+    /// <remarks>The cylinder is formed like the one created by <see cref="MeshPrimitives.Cylinder"/>.</remarks>
+    public static Mesh Cylinder(IDirect3DDevice9 device, float radius1, float radius2, float length, int slices, int stacks, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -316,7 +319,7 @@ public static class TexturedMesh
         #endregion
 
         // Create an untextured cylinder
-        Mesh mesh = Mesh.CreateCylinder(device, radius1, radius2, length, slices, stacks);
+        Mesh mesh = MeshPrimitives.Cylinder(device, radius1, radius2, length, slices, stacks);
 
         // Add texture coordinates
         CloneAddTexture(ref mesh);
@@ -330,14 +333,14 @@ public static class TexturedMesh
     /// <summary>
     /// Creates a model of a textured round disc with a hole in the middle.
     /// </summary>
-    /// <param name="device">The <see cref="Device"/> to create the mesh in.</param>
+    /// <param name="device">The <see cref="IDirect3DDevice9"/> to create the mesh in.</param>
     /// <param name="radiusInner">The radius of the inner circle of the ring.</param>
     /// <param name="radiusOuter">The radius of the outer circle of the ring.</param>
     /// <param name="height">The height of the ring.</param>
     /// <param name="segments">The number of segments the ring shall consist of.</param>
     /// <param name="subsets">The number of subsets to split the mesh into. Must be a divisor of <paramref name="segments"/>.</param>
     /// <param name="tbn">Generate TBN (tangent, binormal, normal) vectors instead of just normal vectors.</param>
-    public static Mesh Disc(Device device, float radiusInner, float radiusOuter, float height, int segments, int subsets = 1, bool tbn = false)
+    public static Mesh Disc(IDirect3DDevice9 device, float radiusInner, float radiusOuter, float height, int segments, int subsets = 1, bool tbn = false)
     {
         #region Sanity checks
         if (device == null) throw new ArgumentNullException(nameof(device));
@@ -368,8 +371,8 @@ public static class TexturedMesh
             vertexes[vertCount++] = new(posOuter.X, posOuter.Y + height / 2, posOuter.Z, tuOuter, 0);
 
             // Increment rotation
-            posInner = Vector3.TransformCoordinate(posInner, Matrix.RotationY(step));
-            posOuter = Vector3.TransformCoordinate(posOuter, Matrix.RotationY(step));
+            posInner = VectorMath.TransformCoordinate(posInner, Matrix4x4.CreateRotationY(step));
+            posOuter = VectorMath.TransformCoordinate(posOuter, Matrix4x4.CreateRotationY(step));
         }
 
         int indexCount = 0;

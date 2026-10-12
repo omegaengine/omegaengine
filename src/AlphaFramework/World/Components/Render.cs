@@ -10,7 +10,7 @@ using System;
 using System.ComponentModel;
 using AlphaFramework.World.Positionables;
 using AlphaFramework.World.Templates;
-using SlimDX;
+using System.Numerics;
 
 namespace AlphaFramework.World.Components;
 

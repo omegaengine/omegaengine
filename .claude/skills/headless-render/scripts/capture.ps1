@@ -41,7 +41,7 @@ $skillRoot = Split-Path $PSScriptRoot -Parent
 $harnessProject = Join-Path $skillRoot 'harness\Shots.csproj'
 if (-not $Repo) { $Repo = (Resolve-Path (Join-Path $skillRoot '..\..\..')).Path }
 
-$artifacts = Join-Path $Repo "artifacts\$Configuration\net472"
+$artifacts = Join-Path $Repo "artifacts\$Configuration\net10.0-windows"
 $content = Join-Path $Repo 'content'
 if (-not (Test-Path $content)) { throw "No content directory in '$Repo'" }
 
@@ -59,7 +59,7 @@ Write-Host "Building harness"
 if ($LASTEXITCODE -ne 0) { throw "Harness build failed" }
 
 # The .pdb comes along so that an exception inside the harness reports line numbers
-$copied = @('Shots.exe', 'Shots.pdb') | ForEach-Object {
+$copied = @('Shots.exe', 'Shots.dll', 'Shots.runtimeconfig.json', 'Shots.pdb') | ForEach-Object {
     $source = Join-Path $skillRoot "harness\bin\$_"
     if (Test-Path $source) { Copy-Item $source $artifacts -Force; Join-Path $artifacts $_ }
 }

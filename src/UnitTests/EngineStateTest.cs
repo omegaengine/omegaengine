@@ -7,7 +7,8 @@
  */
 
 using AwesomeAssertions;
-using SlimDX.Direct3D9;
+using OmegaEngine.Graphics;
+using Vortice.Direct3D9;
 using Xunit;
 
 namespace OmegaEngine;
@@ -21,7 +22,7 @@ public class EngineStateTest : EngineTestBase
     public void SrgbWriteDefaultsToOff()
     {
         Engine.State.SrgbWrite.Should().BeFalse();
-        Engine.Device.GetRenderState(RenderState.SrgbWriteEnable).Should().Be(0);
+        Engine.Device.GetRenderState<int>(RenderState.SrgbWriteEnable).Should().Be(0);
     }
 
     [Fact]
@@ -30,19 +31,19 @@ public class EngineStateTest : EngineTestBase
         Engine.State.SrgbWrite = true;
 
         Engine.State.SrgbWrite.Should().BeTrue();
-        Engine.Device.GetRenderState(RenderState.SrgbWriteEnable).Should().NotBe(0);
+        Engine.Device.GetRenderState<int>(RenderState.SrgbWriteEnable).Should().NotBe(0);
 
         Engine.State.SrgbWrite = false;
 
         Engine.State.SrgbWrite.Should().BeFalse();
-        Engine.Device.GetRenderState(RenderState.SrgbWriteEnable).Should().Be(0);
+        Engine.Device.GetRenderState<int>(RenderState.SrgbWriteEnable).Should().Be(0);
     }
 
     [Fact]
     public void SrgbTextureDefaultsToOff()
     {
         Engine.State.SrgbTexture.Should().BeFalse();
-        Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture).Should().Be(0);
+        Engine.Device.GetSamplerStateValue(0, SamplerState.SrgbTexture).Should().Be(0);
     }
 
     [Fact]
@@ -51,11 +52,11 @@ public class EngineStateTest : EngineTestBase
         Engine.State.SrgbTexture = true;
 
         Engine.State.SrgbTexture.Should().BeTrue();
-        Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture).Should().NotBe(0);
+        Engine.Device.GetSamplerStateValue(0, SamplerState.SrgbTexture).Should().NotBe(0);
 
         Engine.State.SrgbTexture = false;
 
         Engine.State.SrgbTexture.Should().BeFalse();
-        Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture).Should().Be(0);
+        Engine.Device.GetSamplerStateValue(0, SamplerState.SrgbTexture).Should().Be(0);
     }
 }

@@ -1,5 +1,5 @@
 using System.Globalization;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.ScenarioTool;
 

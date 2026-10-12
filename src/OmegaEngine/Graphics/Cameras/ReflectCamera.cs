@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -26,6 +26,6 @@ public class ReflectCamera(Camera parentCamera, DoublePlane reflectPlane) : Clon
     public DoublePlane ReflectPlane { get; set; } = reflectPlane;
 
     /// <inheritdoc/>
-    protected override Matrix GetView()
-        => Matrix.Reflection(ReflectPlane.ApplyOffset(FloatingOriginCached)) * base.GetView();
+    protected override Matrix4x4 GetView()
+        => Matrix4x4.CreateReflection(ReflectPlane.ApplyOffset(FloatingOriginCached)) * base.GetView();
 }

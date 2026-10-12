@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Cameras;
@@ -20,8 +20,8 @@ public class FreeFlyCamera : QuaternionCamera
     [Description("A unit vector describing the axis around which the camera is rotated."), Category("Layout")]
     public DoubleVector3 Axis
     {
-        get => ((DoubleVector3)Quaternion.Axis).Normalize();
-        set => Quaternion = Quaternion.RotationAxis((Vector3)value, Quaternion.Angle);
+        get => ((DoubleVector3)Quaternion.GetAxis()).Normalize();
+        set => Quaternion = Quaternion.CreateFromAxisAngle(VectorMath.NormalizeOrZero((Vector3)value), Quaternion.GetAngle());
     }
 
     /// <summary>
@@ -31,24 +31,25 @@ public class FreeFlyCamera : QuaternionCamera
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
     public float Angle
     {
-        get => Quaternion.Angle.RadianToDegree();
+        get => Quaternion.GetAngle().RadianToDegree();
         set
         {
             #region Sanity checks
             if (double.IsInfinity(value) || double.IsNaN(value)) throw new ArgumentOutOfRangeException(nameof(value), Resources.NumberNotReal);
             #endregion
 
-            Quaternion = Quaternion.RotationAxis(Quaternion.Axis, value.DegreeToRadian());
+            Quaternion = Quaternion.CreateFromAxisAngle(VectorMath.NormalizeOrZero(Quaternion.GetAxis()), value.DegreeToRadian());
         }
     }
 
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
-        Position += translation.RotateAroundAxis(Axis, Quaternion.Angle);
-        Quaternion *= Quaternion.RotationYawPitchRoll(
+        Position += translation.RotateAroundAxis(Axis, Quaternion.GetAngle());
+        // System.Numerics multiplies quaternions in the opposite order to D3DX: the right-hand rotation is applied first
+        Quaternion = Quaternion.CreateFromYawPitchRoll(
             (float)-rotation.X.DegreeToRadian(),
             (float)rotation.Y.DegreeToRadian(),
-            (float)rotation.Z.DegreeToRadian());
+            (float)rotation.Z.DegreeToRadian()) * Quaternion;
     }
 }

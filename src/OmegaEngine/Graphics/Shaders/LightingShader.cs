@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using JetBrains.Annotations;
 using OmegaEngine.Graphics.LightSources;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 
 namespace OmegaEngine.Graphics.Shaders;
 

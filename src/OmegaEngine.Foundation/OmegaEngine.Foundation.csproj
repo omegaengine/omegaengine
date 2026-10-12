@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Description>Rendering-agnostic infrastructure used by OmegaEngine. Includes storage subsystem and data structures.</Description>
     <OutputPath>..\..\artifacts\$(Configuration)\</OutputPath>
-    <TargetFrameworks>net472;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
@@ -19,15 +19,13 @@
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
     <PackageReference Include="NanoByte.Common" Version="3.1.12" />
     <PackageReference Include="NLua" Version="1.7.9" />
+    <PackageReference Include="Vortice.Mathematics" Version="2.1.1" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net472'">
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <PackageReference Include="SlimDX" Version="4.0.13.44" />
+  <ItemGroup Condition="$(TargetFramework.EndsWith('-windows'))">
     <PackageReference Include="NanoByte.Common.WinForms" Version="3.1.12" />
     <PackageReference Include="ICSharpCode.TextEditorEx" Version="1.4.0" />
-    <Compile Remove="Shims\**" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'!='net472'">
+  <ItemGroup Condition="!$(TargetFramework.EndsWith('-windows'))">
     <PackageReference Include="System.Drawing.Common" Version="10.0.12" />
     <Compile Remove="Design\**" />
   </ItemGroup>

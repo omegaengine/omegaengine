@@ -6,18 +6,19 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SlimDX;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
 
 namespace OmegaEngine.Graphics.Cameras;
 
 partial class Camera
 {
-    private Matrix _viewProjection;
+    private Matrix4x4 _viewProjection;
 
     /// <summary>
     /// A view-projection matrix for the current camera setting
     /// </summary>
-    internal Matrix ViewProjection
+    internal Matrix4x4 ViewProjection
     {
         get
         {
@@ -26,12 +27,12 @@ partial class Camera
         }
     }
 
-    private Matrix _viewProjectionInverse;
+    private Matrix4x4 _viewProjectionInverse;
 
     /// <summary>
     /// An inverted view-projection matrix for the current camera setting
     /// </summary>
-    internal Matrix ViewProjectionInverse
+    internal Matrix4x4 ViewProjectionInverse
     {
         get
         {
@@ -40,12 +41,12 @@ partial class Camera
         }
     }
 
-    private Matrix _viewProjectionTranspose;
+    private Matrix4x4 _viewProjectionTranspose;
 
     /// <summary>
     /// A transposed view-projection matrix for the current camera setting
     /// </summary>
-    internal Matrix ViewProjectionTranspose
+    internal Matrix4x4 ViewProjectionTranspose
     {
         get
         {
@@ -54,12 +55,12 @@ partial class Camera
         }
     }
 
-    private Matrix _viewProjectionInverseTranspose;
+    private Matrix4x4 _viewProjectionInverseTranspose;
 
     /// <summary>
     /// An inverted and transposed view-projection matrix for the current camera setting
     /// </summary>
-    internal Matrix ViewProjectionInverseTranspose
+    internal Matrix4x4 ViewProjectionInverseTranspose
     {
         get
         {
@@ -77,9 +78,9 @@ partial class Camera
         (View * Projection).To(ref _viewProjection, delegate
         {
             // Cache special matrices
-            _viewProjectionInverse = Matrix.Invert(_viewProjection);
-            _viewProjectionTranspose = Matrix.Transpose(_viewProjection);
-            _viewProjectionInverseTranspose = Matrix.Transpose(_viewProjectionInverse);
+            _viewProjectionInverse = VectorMath.Invert(_viewProjection);
+            _viewProjectionTranspose = Matrix4x4.Transpose(_viewProjection);
+            _viewProjectionInverseTranspose = Matrix4x4.Transpose(_viewProjectionInverse);
         });
     }
 }

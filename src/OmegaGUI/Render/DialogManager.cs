@@ -12,8 +12,11 @@ using System.ComponentModel;
 using NanoByte.Common.Native;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
-using SlimDX.Direct3D9;
-using Font = SlimDX.Direct3D9.Font;
+using OmegaEngine.Graphics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using SharpGen.Runtime;
+using Font = OmegaEngine.D3DX.Font;
 
 namespace OmegaGUI.Render;
 
@@ -30,7 +33,7 @@ public sealed class DialogManager : IDisposable
     #endregion
 
     #region Properties
-    public StateBlock? StateBlock { get; private set; }
+    public IDirect3DStateBlock9? StateBlock { get; private set; }
     public Sprite? Sprite { get; private set; }
 
     /// <summary>
@@ -57,7 +60,7 @@ public sealed class DialogManager : IDisposable
     /// <summary>
     /// Gets the DirectX device
     /// </summary>
-    public Device Device => Engine.Device;
+    public IDirect3DDevice9 Device => Engine.Device;
 
     /// <summary>
     /// Gets the render target control
@@ -188,7 +191,7 @@ public sealed class DialogManager : IDisposable
                 Precision.Default, FontQuality.Default, PitchAndFamily.Default | PitchAndFamily.DontCare, fn.FaceName);
         }
         #region Error handling
-        catch (Direct3D9Exception ex)
+        catch (SharpGenException ex)
         {
             Log.Error("D3DX Font creation failed; text rendering will be disabled", ex);
         }
@@ -242,20 +245,18 @@ public sealed class DialogManager : IDisposable
         {
             try
             {
-                tn.Texture = Texture.FromStream(Engine.Device, stream, D3DX.Default, D3DX.Default, D3DX.Default, Usage.None,
-                    Format.Unknown, Pool.Default, Filter.Default, Filter.Default, 0);
+                tn.Texture = TextureLoader.FromStream(Engine.Device, stream, mipmaps: true, srgb: false);
             }
-            catch (Direct3D9Exception) when (stream.CanSeek)
+            catch (SharpGenException) when (stream.CanSeek)
             {
-                Log.Warn("Texture.FromStream with D3DX defaults failed; retrying without mip-map generation");
+                Log.Warn("Loading texture with mip-maps failed; retrying without mip-map generation");
                 stream.Position = 0;
-                tn.Texture = Texture.FromStream(Engine.Device, stream, D3DX.Default, D3DX.Default, 1, Usage.None,
-                    Format.Unknown, Pool.Default, Filter.None, Filter.None, 0);
+                tn.Texture = TextureLoader.FromStream(Engine.Device, stream, mipmaps: false);
             }
         }
 
         // Store dimensions (read from the actual created texture)
-        SurfaceDescription desc = tn.Texture.GetLevelDescription(0);
+        SurfaceDescription desc = tn.Texture.GetLevelDesc(0);
         tn.Width = (uint)desc.Width;
         tn.Height = (uint)desc.Height;
     }
@@ -280,7 +281,7 @@ public sealed class DialogManager : IDisposable
             Sprite = new(Engine.Device);
         }
         #region Error handling
-        catch (Direct3D9Exception ex)
+        catch (SharpGenException ex)
         {
             Log.Error("D3DX Sprite creation failed", ex);
         }
@@ -296,7 +297,7 @@ public sealed class DialogManager : IDisposable
         {
             foreach (FontNode fn in _fontCache)
             {
-                if (fn.Font is { Disposed: false })
+                if (fn.Font is {NativePointer: not 0})
                     fn.Font.OnLostDevice();
             }
 
@@ -324,10 +325,10 @@ public sealed class DialogManager : IDisposable
         // Create new state block
         try
         {
-            StateBlock = new(Engine.Device, StateBlockType.All);
+            StateBlock = Engine.Device.CreateStateBlock(StateBlockType.All);
         }
         #region Error handling
-        catch (Direct3D9Exception ex)
+        catch (SharpGenException ex)
         {
             Log.Error("Direct3D StateBlock creation failed; GUI render-state capture will be skipped", ex);
         }
@@ -385,7 +386,7 @@ public sealed class DialogManager : IDisposable
 public class TextureNode
 {
     public string Filename;
-    public Texture Texture;
+    public IDirect3DTexture9 Texture;
     public uint Width;
     public uint Height;
 }

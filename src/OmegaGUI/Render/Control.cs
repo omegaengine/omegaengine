@@ -11,8 +11,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NanoByte.Common.Native;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Size = System.Drawing.Size;
+using Vortice.Direct3D9;
 
 namespace OmegaGUI.Render;
 
@@ -59,7 +61,7 @@ public abstract class Control
     // Nothing to do here
 
     /// <summary>Render the control</summary>
-    public abstract void Render(Device device, float elapsedTime);
+    public abstract void Render(IDirect3DDevice9 device, float elapsedTime);
 
     /// <summary>Message Handler</summary>
     public virtual bool MsgProc(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)

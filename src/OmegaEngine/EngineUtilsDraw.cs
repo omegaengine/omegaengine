@@ -12,8 +12,11 @@ using System.Runtime.InteropServices;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Viewport = Vortice.Direct3D9.Viewport;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine;
 
@@ -44,7 +47,7 @@ public static class EngineUtilsDraw
         engine.Device.VertexFormat = TransformedColored.Format;
         engine.State.SetTexture(null);
         engine.Device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0, 4, 4,
-            [0, 1, 2, 3, 0], Format.Index32, vertexes, Marshal.SizeOf<TransformedColored>());
+            new int[] {0, 1, 2, 3, 0}, Format.Index32, vertexes);
     }
 
     private static readonly PositionTextured[] texturedQuadVertexes =
@@ -163,13 +166,13 @@ public static class EngineUtilsDraw
         using (new ProfilerEvent("Draw bounding sphere"))
         {
             // Backup current render states
-            Matrix lastWorldTransform = engine.State.WorldTransform;
+            Matrix4x4 lastWorldTransform = engine.State.WorldTransform;
             Cull lastCullMode = engine.State.CullMode;
             FillMode lastFillMode = engine.State.FillMode;
             bool lastLighting = engine.State.FfpLighting;
 
             // Set new states
-            engine.State.WorldTransform = Matrix.Scaling(new(sphere.Radius)) * Matrix.Translation(sphere.Center);
+            engine.State.WorldTransform = Matrix4x4.CreateScale(new Vector3(sphere.Radius)) * Matrix4x4.CreateTranslation(sphere.Center);
             engine.State.CullMode = Cull.None;
             engine.State.FillMode = FillMode.Wireframe;
             engine.State.FfpLighting = false;
@@ -200,13 +203,13 @@ public static class EngineUtilsDraw
         using (new ProfilerEvent("Draw bounding box"))
         {
             // Backup current render states
-            Matrix lastWorldTransform = engine.State.WorldTransform;
+            Matrix4x4 lastWorldTransform = engine.State.WorldTransform;
             Cull lastCullMode = engine.State.CullMode;
             FillMode lastFillMode = engine.State.FillMode;
             bool lastLighting = engine.State.FfpLighting;
 
             // Set new states
-            engine.State.WorldTransform = Matrix.Scaling(box.Diagonal()) * Matrix.Translation(box.Center());
+            engine.State.WorldTransform = Matrix4x4.CreateScale(box.Diagonal()) * Matrix4x4.CreateTranslation(box.Center());
             engine.State.CullMode = Cull.None;
             engine.State.FillMode = FillMode.Wireframe;
             engine.State.FfpLighting = false;

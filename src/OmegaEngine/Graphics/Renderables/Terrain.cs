@@ -15,8 +15,13 @@ using System.Linq;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Shaders;
 using OmegaEngine.Graphics.VertexDecl;
-using SlimDX;
-using SlimDX.Direct3D9;
+using OmegaEngine.Foundation.Light;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Size = System.Drawing.Size;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -89,7 +94,7 @@ public partial class Terrain : Model
         {
             _indexBuffer = sourceMesh.ReadIndexBuffer();
 
-            // Get the vertex positions from the VertexBuffer
+            // Get the vertex positions from the IDirect3DVertexBuffer9
             if (lighting) // Different vertex formats
             {
                 var verts = sourceMesh.ReadVertexBuffer<PositionNormalMultiTextured>();
@@ -181,7 +186,7 @@ public partial class Terrain : Model
             Engine = engine,
             Size = size, StretchH = stretchH, StretchV = stretchV,
             SubsetBoundingBoxes = subsetBoundingBoxes,
-            SubsetBoundingSpheres = subsetBoundingBoxes.Select(SlimDX.BoundingSphere.FromBox).ToArray(),
+            SubsetBoundingSpheres = subsetBoundingBoxes.Select(box => Vortice.Mathematics.BoundingSphere.CreateFromBoundingBox(box)).ToArray(),
             _subsetShaders = subsetShaders,
             NumberSubsets = subsetBoundingBoxes.Length
         };
@@ -219,7 +224,7 @@ public partial class Terrain : Model
 
             // Check if vertex is within the target area
             if (modifyArea.Contains(index))
-                verts[i].Color = partialColorMap[index.X - start.X, index.Y - start.Y];
+                verts[i].Color = partialColorMap[index.X - start.X, index.Y - start.Y].ToColor4().ToVector4();
         }
 
         Mesh.WriteVertexBuffer(verts);
@@ -330,7 +335,7 @@ public partial class Terrain : Model
     {
         // Transform the world space picking ray into entity space
         ray = new(
-            Vector3.TransformCoordinate(ray.Position, InverseWorldTransform),
+            VectorMath.TransformCoordinate(ray.Position, InverseWorldTransform),
             // Do not normalize so that ray length remains the same
             Vector3.TransformNormal(ray.Direction, InverseWorldTransform));
 
@@ -347,7 +352,7 @@ public partial class Terrain : Model
         var blocks = new List<(float Entry, int Subset)>();
         for (int subset = 0; subset < Math.Min(boundingBoxes.Length, _subsetFaces.Length); subset++)
         {
-            if (SlimDX.BoundingBox.Intersects(boundingBoxes[subset], ray, out float entry))
+            if (ray.Intersects(boundingBoxes[subset], out float entry))
                 blocks.Add((entry, subset));
         }
         blocks.Sort((first, second) => first.Entry.CompareTo(second.Entry));
@@ -370,7 +375,7 @@ public partial class Terrain : Model
     /// </summary>
     private void IntersectsFace(Ray ray, int faceIndex, ref float distance)
     {
-        if (Ray.Intersects(ray,
+        if (ray.Intersects(
                 _vertexBuffer[_indexBuffer[faceIndex * 3]],
                 _vertexBuffer[_indexBuffer[faceIndex * 3 + 1]],
                 _vertexBuffer[_indexBuffer[faceIndex * 3 + 2]],

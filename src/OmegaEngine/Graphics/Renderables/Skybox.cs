@@ -7,7 +7,7 @@
  */
 
 using System;
-using SlimDX;
+using System.Numerics;
 using OmegaEngine.Graphics.Cameras;
 using Resources = OmegaEngine.Properties.Resources;
 
@@ -49,7 +49,7 @@ public abstract class Skybox : Renderable
         base.Render(context);
 
         // Scale by factor 3, which should be safe within a simple projection matrix (near=1 and far=10)
-        Engine.State.WorldTransform = Matrix.Scaling(3, 3, 3);
+        Engine.State.WorldTransform = Matrix4x4.CreateScale(3, 3, 3);
 
         // Deactivate lighting
         Engine.State.FfpLighting = false;

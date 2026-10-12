@@ -10,14 +10,14 @@ using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation.Light;
 
 /// <summary>
 /// Color correction values for use in post-processing.
 /// </summary>
-#if NETFRAMEWORK
+#if WINDOWS
 [TypeConverter(typeof(Design.ColorCorrectionConverter))]
 #endif
 public struct ColorCorrection : IEquatable<ColorCorrection>

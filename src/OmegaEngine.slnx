@@ -1,7 +1,4 @@
 <Solution>
-  <Configurations>
-    <Platform Name="x86" />
-  </Configurations>
   <Folder Name="/AlphaFramework/">
     <Project Path="AlphaFramework\Editor\Editor.csproj" />
     <Project Path="AlphaFramework\Presentation\Presentation.csproj" />

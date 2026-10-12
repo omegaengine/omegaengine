@@ -77,7 +77,7 @@ public static class GameWin {
 $GameRepoDir = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
 
 # The Debug build: what Start-Game launches and where its portable-mode saves live
-$GameBinDir = Join-Path $GameRepoDir 'artifacts\Debug\net472'
+$GameBinDir = Join-Path $GameRepoDir 'artifacts\Debug\net10.0-windows'
 
 function Get-GameProcess {
     <#

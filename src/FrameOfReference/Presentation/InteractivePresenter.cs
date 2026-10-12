@@ -34,7 +34,7 @@ using OmegaEngine;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.Presentation;
 
@@ -141,7 +141,7 @@ public abstract partial class InteractivePresenter : Presenter
                     Position = new(0, 20, 0)
                 };
                 float scale = circle.Radius / 20 + 1;
-                highlight.PreTransform = Matrix.Scaling(scale, 1, scale);
+                highlight.PreTransform = Matrix4x4.CreateScale(scale, 1, scale);
                 return [AttachToEntity(highlight, entity)];
             }
 
@@ -164,7 +164,7 @@ public abstract partial class InteractivePresenter : Presenter
                     Math.Max(box.Minimum.Y, box.Maximum.Y));
                 var diff = max - min;
 
-                highlight.PreTransform = Matrix.Scaling(diff.X, 1, diff.Y) * Matrix.Translation(min.X, 0, -min.Y);
+                highlight.PreTransform = Matrix4x4.CreateScale(diff.X, 1, diff.Y) * Matrix4x4.CreateTranslation(min.X, 0, -min.Y);
                 return [AttachToEntity(highlight, entity)];
             }
 

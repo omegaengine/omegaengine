@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 using System.Drawing;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 using OmegaEngine.Graphics.Cameras;
 
 namespace OmegaEngine.Graphics;

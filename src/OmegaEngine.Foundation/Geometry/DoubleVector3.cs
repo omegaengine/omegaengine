@@ -11,14 +11,14 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation.Geometry;
 
 /// <summary>
 /// Defines a three-component vector with <see cref="double"/> accuracy.
 /// </summary>
-#if NETFRAMEWORK
+#if WINDOWS
 [TypeConverter(typeof(Design.DoubleVector3Converter))]
 #endif
 [StructLayout(LayoutKind.Sequential)]
