@@ -12,7 +12,7 @@ using System.Linq;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics.VertexDecl;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -21,8 +21,8 @@ namespace OmegaEngine.Graphics.Renderables;
 /// </summary>
 public sealed class SimpleSkybox : Skybox
 {
-    private VertexBuffer? _vb;
-    private IndexBuffer? _ib;
+    private IDirect3DVertexBuffer9? _vb;
+    private IDirect3DIndexBuffer9? _ib;
 
     /// <summary>
     /// Creates a new skybox using texture-files
@@ -101,7 +101,7 @@ public sealed class SimpleSkybox : Skybox
 
             Engine.State.SetTexture(Textures[i]);
             Engine.State.SrgbTexture = true; // Skybox faces hold color data
-            Engine.Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, i * 4, 4, i * 6, 2);
+            Engine.Device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, (uint)(i * 4), 4, (uint)(i * 6), 2);
         }
 
         // Restore normal texture handling

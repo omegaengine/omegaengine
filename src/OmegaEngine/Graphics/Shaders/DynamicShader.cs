@@ -13,8 +13,11 @@ using System.Linq;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Streams;
 using OmegaEngine.Foundation.Storage;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Direct3D;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using SharpGen.Runtime;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;
@@ -65,17 +68,12 @@ public static class DynamicShader
 
     private static byte[] Compile(string fxCode, IReadOnlyDictionary<string, string> defines)
     {
-        var macros = defines.Select(x => new Macro {Name = x.Key, Definition = x.Value}).ToArray();
+        var macros = defines.Select(x => new ShaderMacro(x.Key, x.Value));
         try
         {
-            using var compiler = EffectCompiler.FromStream(fxCode.ToStream(), macros, includeFile: null, ShaderFlags.None);
-            using var stream = compiler.CompileEffect(ShaderFlags.None);
-            stream.Position = 0;
-            var bytecode = new byte[stream.Length];
-            stream.Read(bytecode, 0, bytecode.Length); // Copy to managed array to avoid memory leak if not disposed
-            return bytecode;
+            return EffectCompiler.Compile(fxCode, macros);
         }
-        catch (Exception ex) when (ex is CompilationException or Direct3D9Exception)
+        catch (SharpGenException ex)
         {
             string definesText = string.Join(", ", defines.Select(x => $"{x.Key}={x.Value}"));
             throw new ShaderCompileException($"{Resources.DynamicShaderCompileFail} ({definesText})", ex, fxCode);

@@ -8,7 +8,8 @@
 
 using System;
 using AwesomeAssertions;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
 using Xunit;
 
 namespace OmegaEngine.Foundation.Geometry;

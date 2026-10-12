@@ -8,7 +8,10 @@
 
 using System.Drawing;
 using AwesomeAssertions;
-using SlimDX;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
 using Xunit;
 
 namespace OmegaEngine.Graphics.LightSources;
@@ -108,7 +111,7 @@ public class DirectionalLightTest
 
         shadowed.Name.Should().Be(lightWithName.Name);
         shadowed.Enabled.Should().Be(lightWithName.Enabled);
-        shadowed.Direction.Should().Be(Vector3.Normalize(new(1, -1, 0)));
+        shadowed.Direction.Should().Be(VectorMath.NormalizeOrZero(new Vector3(1, -1, 0)));
         shadowed.Ambient.Should().Be(lightWithName.Ambient); // Ambient should not change
     }
 

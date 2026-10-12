@@ -10,7 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Xml.Serialization;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation.Geometry;
 
@@ -20,7 +20,7 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <param name="constant">A constant factor multiplied with the value.</param>
 /// <param name="linear">A constant factor multiplied with the value and the inverse distance.</param>
 /// <param name="quadratic">A constant factor multiplied with the value and the inverse distance squared.</param>
-#if NETFRAMEWORK
+#if WINDOWS
 [TypeConverter(typeof(Design.AttenuationConverter))]
 #endif
 public struct Attenuation(float constant, float linear, float quadratic) : IEquatable<Attenuation>

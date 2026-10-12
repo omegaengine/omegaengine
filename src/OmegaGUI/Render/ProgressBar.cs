@@ -22,8 +22,9 @@
 
 using System;
 using System.Drawing;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 
 namespace OmegaGUI.Render;
 
@@ -93,7 +94,7 @@ public class ProgressBar : Control
     }
 
     /// <summary>Render the progress bar</summary>
-    public override void Render(Device device, float elapsedTime)
+    public override void Render(IDirect3DDevice9 device, float elapsedTime)
     {
         if (!IsVisible) return;
 
@@ -131,11 +132,11 @@ public class ProgressBar : Control
     /// <summary>Determines the color to modulate the fill texture with</summary>
     private Color4 GetFillColor(float fraction, ControlState state)
     {
-        var color = (FillColorLow.Alpha == 0) ? FillColor : Color4.Lerp(FillColorLow, FillColor, fraction);
+        var color = (FillColorLow.A == 0) ? FillColor : Color4.Lerp(FillColorLow, FillColor, fraction);
 
         // Darken rather than fade out, since lowering the alpha of a solid bar is barely noticeable
         if (state == ControlState.Disabled)
-            color = new(color.Alpha, color.Red * DisabledDim, color.Green * DisabledDim, color.Blue * DisabledDim);
+            color = new(color.R * DisabledDim, color.G * DisabledDim, color.B * DisabledDim, color.A);
 
         return color;
     }

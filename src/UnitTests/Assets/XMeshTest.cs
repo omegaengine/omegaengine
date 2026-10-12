@@ -9,7 +9,8 @@
 using System.Linq;
 using AwesomeAssertions;
 using OmegaEngine.Graphics;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using Xunit;
 
 namespace OmegaEngine.Assets;
@@ -56,13 +57,17 @@ public class XMeshTest : EngineTestBase
     {
         var mesh = XMesh.Get(Engine, BoxMesh);
 
-        var vertexBuffer = mesh.Mesh.VertexBuffer.Description;
-        vertexBuffer.Pool.Should().Be(Pool.Default);
-        vertexBuffer.Usage.Should().HaveFlag(Usage.WriteOnly);
+        using (var vertexBuffer = mesh.Mesh.GetVertexBuffer())
+        {
+            vertexBuffer.Description.Pool.Should().Be(Pool.Default);
+            vertexBuffer.Description.Usage.Should().HaveFlag(Usage.WriteOnly);
+        }
 
-        var indexBuffer = mesh.Mesh.IndexBuffer.Description;
-        indexBuffer.Pool.Should().Be(Pool.Default);
-        indexBuffer.Usage.Should().HaveFlag(Usage.WriteOnly);
+        using (var indexBuffer = mesh.Mesh.GetIndexBuffer())
+        {
+            indexBuffer.Description.Pool.Should().Be(Pool.Default);
+            indexBuffer.Description.Usage.Should().HaveFlag(Usage.WriteOnly);
+        }
     }
 
     [Fact]
@@ -71,7 +76,8 @@ public class XMeshTest : EngineTestBase
         var mesh = XMesh.Get(Engine, BoxMesh);
 
         mesh.PickingMesh.Should().NotBeSameAs(mesh.Mesh);
-        mesh.PickingMesh.VertexBuffer.Description.Pool.Should().Be(Pool.SystemMemory);
+        using (var vertexBuffer = mesh.PickingMesh.GetVertexBuffer())
+            vertexBuffer.Description.Pool.Should().Be(Pool.SystemMemory);
 
         // The whole point of the copy: the CPU can still read it
         mesh.PickingMesh.VertexCount.Should().Be(mesh.Mesh.VertexCount);

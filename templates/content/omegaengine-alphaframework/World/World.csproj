@@ -5,7 +5,7 @@
     <AssemblyName>Template.AlphaFramework.World</AssemblyName>
     <RootNamespace>Template.AlphaFramework.World</RootNamespace>
     <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
-    <TargetFrameworks>net472;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <Nullable>annotations</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">

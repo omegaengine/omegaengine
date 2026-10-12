@@ -9,7 +9,7 @@
 using System.Linq;
 using AwesomeAssertions;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 using Xunit;
 
 namespace OmegaEngine.Assets;

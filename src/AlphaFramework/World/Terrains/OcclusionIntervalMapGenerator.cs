@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NanoByte.Common.Tasks;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 using Resources = AlphaFramework.World.Properties.Resources;
 
 namespace AlphaFramework.World.Terrains;

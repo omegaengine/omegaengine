@@ -34,8 +34,12 @@ using NanoByte.Common.Storage;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Size = System.Drawing.Size;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using OmegaGUI.Render;
 using Resources = OmegaGUI.Properties.Resources;
 

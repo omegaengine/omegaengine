@@ -9,7 +9,8 @@
 using System;
 using System.Drawing;
 using JetBrains.Annotations;
-using SlimDX;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
 
 namespace OmegaEngine.Foundation.Light;
 
@@ -95,6 +96,12 @@ public static class ColorUtils
         }
 
         /// <summary>
+        /// Converts a <see cref="Color"/> to a <see cref="Color4"/> without changing its encoding.
+        /// </summary>
+        [Pure]
+        public Color4 ToColor4() => new(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
+
+        /// <summary>
         /// Converts an sRGB-encoded (i.e., as authored) <see cref="Color"/> to a linear-space <see cref="Color4"/>
         /// </summary>
         /// <remarks>
@@ -103,7 +110,7 @@ public static class ColorUtils
         /// Linearize only at the boundary where the value is handed to the GPU as a float, <see cref="Color4"/> or DWORD.
         /// </remarks>
         [Pure]
-        public Color4 SrgbToLinear() => new Color4(color).SrgbToLinear();
+        public Color4 SrgbToLinear() => color.ToColor4().SrgbToLinear();
 
         /// <summary>
         /// Multiplies a color's RGB channels with a scalar factor between 0 and 1 in linear space, preserving the alpha channel
@@ -125,27 +132,39 @@ public static class ColorUtils
             var linear = color.SrgbToLinear();
             return Color.FromArgb(
                 color.A,
-                ToByte(LinearToSrgb(linear.Red * factor)),
-                ToByte(LinearToSrgb(linear.Green * factor)),
-                ToByte(LinearToSrgb(linear.Blue * factor)));
+                ToByte(LinearToSrgb(linear.R * factor)),
+                ToByte(LinearToSrgb(linear.G * factor)),
+                ToByte(LinearToSrgb(linear.B * factor)));
         }
     }
 
     extension(Color4 color)
     {
         /// <summary>
+        /// Converts a <see cref="Color4"/> to a <see cref="Color"/> without changing its encoding, clamping each channel to the byte range.
+        /// </summary>
+        [Pure]
+        public Color ToColor() => Color.FromArgb(ToByte(color.A), ToByte(color.R), ToByte(color.G), ToByte(color.B));
+
+        /// <summary>
+        /// Packs a <see cref="Color4"/> into a 32-bit ARGB value (<c>0xAARRGGBB</c>), the layout Direct3D uses for <c>D3DCOLOR</c>.
+        /// </summary>
+        [Pure]
+        public int ToArgb() => (ToByte(color.A) << 24) | (ToByte(color.R) << 16) | (ToByte(color.G) << 8) | ToByte(color.B);
+
+        /// <summary>
         /// Converts a color from sRGB (gamma) encoding to linear space, leaving the alpha channel untouched
         /// </summary>
         [Pure]
         public Color4 SrgbToLinear()
-            => new(color.Alpha, SrgbToLinear(color.Red), SrgbToLinear(color.Green), SrgbToLinear(color.Blue));
+            => new(SrgbToLinear(color.R), SrgbToLinear(color.G), SrgbToLinear(color.B), color.A);
 
         /// <summary>
         /// Converts a color from linear space to sRGB (gamma) encoding, leaving the alpha channel untouched
         /// </summary>
         [Pure]
         public Color4 LinearToSrgb()
-            => new(color.Alpha, LinearToSrgb(color.Red), LinearToSrgb(color.Green), LinearToSrgb(color.Blue));
+            => new(LinearToSrgb(color.R), LinearToSrgb(color.G), LinearToSrgb(color.B), color.A);
     }
 
     /// <summary>
@@ -166,9 +185,9 @@ public static class ColorUtils
         var linear2 = color2.SrgbToLinear();
         return Color.FromArgb(
             (byte)(color1.A * (1.0f - factor) + color2.A * factor),
-            ToByte(LinearToSrgb(linear1.Red * (1.0f - factor) + linear2.Red * factor)),
-            ToByte(LinearToSrgb(linear1.Green * (1.0f - factor) + linear2.Green * factor)),
-            ToByte(LinearToSrgb(linear1.Blue * (1.0f - factor) + linear2.Blue * factor)));
+            ToByte(LinearToSrgb(linear1.R * (1.0f - factor) + linear2.R * factor)),
+            ToByte(LinearToSrgb(linear1.G * (1.0f - factor) + linear2.G * factor)),
+            ToByte(LinearToSrgb(linear1.B * (1.0f - factor) + linear2.B * factor)));
     }
 
     private static int ToByte(float value) => (int)(value.Clamp() * 255 + 0.5f);

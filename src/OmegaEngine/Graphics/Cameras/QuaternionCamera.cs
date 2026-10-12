@@ -6,7 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -29,8 +29,8 @@ public abstract class QuaternionCamera : Camera
     {
         AdjustFloatingOrigin();
 
-        SimpleViewCached = Matrix.RotationQuaternion(_quaternion);
-        ViewCached = Matrix.Translation(-PositionCached.ApplyOffset(FloatingOriginCached)) * SimpleViewCached;
+        SimpleViewCached = Matrix4x4.CreateFromQuaternion(_quaternion);
+        ViewCached = Matrix4x4.CreateTranslation(-PositionCached.ApplyOffset(FloatingOriginCached)) * SimpleViewCached;
 
         CacheSpecialMatrices();
 

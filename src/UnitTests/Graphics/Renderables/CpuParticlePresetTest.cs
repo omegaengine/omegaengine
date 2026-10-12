@@ -7,7 +7,7 @@
  */
 
 using AwesomeAssertions;
-using SlimDX;
+using System.Numerics;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Renderables;

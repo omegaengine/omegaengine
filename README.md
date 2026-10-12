@@ -26,7 +26,7 @@ dotnet new install OmegaEngine.Templates
 dotnet new omegaengine-winforms -o MyApp
 ```
 
-To add the engine to a project of your own instead, create a WinForms project targeting .NET Framework 4.7.2 or newer with the platform set to `x86`.  
+To add the engine to a project of your own instead, create a WinForms project targeting .NET 10 (`net10.0-windows`).  
 Add a reference to the NuGet package `OmegaEngine`. Then add the following code to render a textured sphere:
 
 ```csharp
@@ -41,10 +41,9 @@ engine.Views.Add(view);
 Paint += delegate { engine.Render(); };
 ```
 
-You additionally need to ensure these native dependencies are installed or bundled with your application:
+You additionally need to ensure this native dependency is installed or bundled with your application:
 
-- [Visual C++ 2010 Redistributable x86](https://www.microsoft.com/en-us/download/details.aspx?id=26999)
-- [DirectX June 2010 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=8109)
+- [DirectX June 2010 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=8109) (provides `d3dx9_43.dll`)
 
 The engine requires a graphics card with Shader Model 3.0 support. Every GPU with a Windows 10/11 driver meets this.
 

@@ -8,8 +8,9 @@
 
 using System;
 using OmegaEngine.Graphics.VertexDecl;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -21,10 +22,10 @@ namespace OmegaEngine.Graphics.Renderables;
 public class VertexGroup : PositionableRenderable
 {
     #region Variables
-    private VertexBuffer? _vb;
+    private IDirect3DVertexBuffer9? _vb;
     private readonly int _vertexCount;
 
-    private IndexBuffer? _ib;
+    private IDirect3DIndexBuffer9? _ib;
     private readonly XMaterial _material;
     private readonly PrimitiveType _primitiveType;
     private int _primitiveCount;
@@ -226,12 +227,12 @@ public class VertexGroup : PositionableRenderable
         {
             // Activate the IndexBuffer and render indexed primitives
             Engine.Device.Indices = _ib;
-            render = (() => Engine.Device.DrawIndexedPrimitives(_primitiveType, 0, 0, _vertexCount, 0, _primitiveCount));
+            render = (() => Engine.Device.DrawIndexedPrimitive(_primitiveType, 0, 0, (uint)_vertexCount, 0, (uint)_primitiveCount));
         }
         else
         {
             // Render non-indexed primitives
-            render = (() => Engine.Device.DrawPrimitives(_primitiveType, 0, _primitiveCount));
+            render = (() => Engine.Device.DrawPrimitive(_primitiveType, 0, (uint)_primitiveCount));
         }
 
         var effectiveLights = GetSurfaceEffect(context, SurfaceShader) != SurfaceEffect.Plain && context.Lights is {} getEffectiveLights
@@ -249,7 +250,7 @@ public class VertexGroup : PositionableRenderable
     /// <summary>
     /// A callback used by different constructors to build the <see cref="_vb"/> as soon as <see cref="EngineElement.Engine"/> is set.
     /// </summary>
-    private readonly Func<VertexBuffer> _buildVertexBuffer;
+    private readonly Func<IDirect3DVertexBuffer9> _buildVertexBuffer;
 
     /// <inheritdoc/>
     protected override void OnEngineSet()

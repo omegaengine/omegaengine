@@ -10,10 +10,12 @@ using System;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using OmegaEngine.Assets;
-using OmegaEngine.Graphics.Cameras;
-using SlimDX;
-using SlimDX.Direct3D9;
+using OmegaEngine.D3DX;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Direct3D9;
+using Vortice.Mathematics;
 
 namespace OmegaEngine.Graphics.Renderables;
 
@@ -41,16 +43,16 @@ public class AnimatedModel : PositionableRenderable
         public Mesh? Mesh;
 
         /// <summary>Scratch bone transforms; reused every frame to avoid allocations.</summary>
-        public Matrix[] BoneTransforms = [];
+        public Matrix4x4[] BoneTransforms = [];
 
         /// <summary>Scratch inverse-transpose bone transforms; reused every frame to avoid allocations.</summary>
-        public Matrix[] BoneInvTranspose = [];
+        public Matrix4x4[] BoneInvTranspose = [];
     }
 
     private readonly ContainerInstance[] _instances;
 
     // Per-instance animation scratch arrays (sized to the frame count of the shared skeleton)
-    private readonly Matrix[] _combined, _local;
+    private readonly Matrix4x4[] _combined, _local;
     private readonly Vector3[] _scale, _translation;
     private readonly Quaternion[] _rotation;
 
@@ -114,8 +116,8 @@ public class AnimatedModel : PositionableRenderable
 
         // Allocate per-instance animation scratch arrays once
         int frameCount = mesh.FrameCount;
-        _combined = new Matrix[frameCount];
-        _local = new Matrix[frameCount];
+        _combined = new Matrix4x4[frameCount];
+        _local = new Matrix4x4[frameCount];
         _scale = new Vector3[frameCount];
         _rotation = new Quaternion[frameCount];
         _translation = new Vector3[frameCount];
@@ -124,8 +126,8 @@ public class AnimatedModel : PositionableRenderable
         {
             Data = c,
             Skinned = c.SkinInfo != null,
-            BoneTransforms = new Matrix[c.BoneOffsets.Length],
-            BoneInvTranspose = new Matrix[c.BoneOffsets.Length]
+            BoneTransforms = new Matrix4x4[c.BoneOffsets.Length],
+            BoneInvTranspose = new Matrix4x4[c.BoneOffsets.Length]
         }).ToArray();
 
         // Play the first animation by default
@@ -264,7 +266,7 @@ public class AnimatedModel : PositionableRenderable
         for (int i = 0; i < n; i++)
         {
             _local[i] = mesh.FrameCanBlend[i]
-                ? Matrix.Scaling(_scale[i]) * Matrix.RotationQuaternion(_rotation[i]) * Matrix.Translation(_translation[i])
+                ? Matrix4x4.CreateScale(_scale[i]) * Matrix4x4.CreateFromQuaternion(_rotation[i]) * Matrix4x4.CreateTranslation(_translation[i])
                 : mesh.FrameBindLocal[i];
         }
 
@@ -305,8 +307,7 @@ public class AnimatedModel : PositionableRenderable
             int frame = map[a];
             if (frame < 0) continue;
 
-            var output = set.GetTransformation(position, a);
-            DecomposeOutput(output, frame, out var scale, out var rotation, out var translation);
+            var (scale, rotation, translation) = set.GetTransformation(position, a);
 
             if (replaceOnly)
             {
@@ -323,27 +324,6 @@ public class AnimatedModel : PositionableRenderable
         }
     }
 
-    /// <summary>
-    /// Extracts scale/rotation/translation from an <see cref="AnimationOutput"/>, falling back to the frame's bind pose for any component the output does not provide.
-    /// </summary>
-    private void DecomposeOutput(AnimationOutput output, int frame, out Vector3 scale, out Quaternion rotation, out Vector3 translation)
-    {
-        var mesh = _asset!;
-        scale = mesh.FrameBindScale[frame];
-        rotation = mesh.FrameBindRotation[frame];
-        translation = mesh.FrameBindTranslation[frame];
-
-        var flags = output.Flags;
-        if ((flags & AnimationOutputFlags.Transformation) != 0)
-            output.Transformation.Decompose(out scale, out rotation, out translation);
-        else
-        {
-            if ((flags & AnimationOutputFlags.Scale) != 0) scale = output.Scaling;
-            if ((flags & AnimationOutputFlags.Rotation) != 0) rotation = output.Rotation;
-            if ((flags & AnimationOutputFlags.Translation) != 0) translation = output.Translation;
-        }
-    }
-
     private void UpdateSkinnedMeshes()
     {
         foreach (var instance in _instances)
@@ -355,7 +335,7 @@ public class AnimatedModel : PositionableRenderable
             {
                 var transform = data.BoneOffsets[b] * _combined[data.BoneFrameIndices[b]];
                 instance.BoneTransforms[b] = transform;
-                instance.BoneInvTranspose[b] = Matrix.Transpose(Matrix.Invert(transform));
+                instance.BoneInvTranspose[b] = Matrix4x4.Transpose(VectorMath.Invert(transform));
             }
 
             // Software skinning: read the bind-pose source vertices, write the deformed vertices into the per-instance copy
@@ -425,13 +405,13 @@ public class AnimatedModel : PositionableRenderable
             if (!instance.Skinned && instance.Data.FrameIndex >= 0)
             {
                 // Undo the rigid frame transform to test against the mesh in its own space
-                var inverse = Matrix.Invert(_combined[instance.Data.FrameIndex]);
+                var inverse = VectorMath.Invert(_combined[instance.Data.FrameIndex]);
                 testRay = new(
-                    Vector3.TransformCoordinate(ray.Position, inverse),
+                    VectorMath.TransformCoordinate(ray.Position, inverse),
                     Vector3.TransformNormal(ray.Direction, inverse));
             }
 
-            if (instance.Mesh.Intersects(testRay, out float d, out int _, out _) && d < distance)
+            if (instance.Mesh.Intersects(testRay, out float d, out _) && d < distance)
             {
                 distance = d;
                 hit = true;

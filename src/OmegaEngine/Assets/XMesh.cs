@@ -14,8 +14,11 @@ using System.Linq;
 using System.Text;
 using NanoByte.Common.Storage;
 using OmegaEngine.Graphics;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using SharpGen.Runtime;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Foundation.Storage;
 
@@ -86,7 +89,7 @@ public class XMesh : Asset
             _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.SystemMemory);
         }
         #region Error handling
-        catch (Direct3D9Exception ex)
+        catch (SharpGenException ex)
         {
             GC.SuppressFinalize(this); // Prevent "Forgot to call Dispose" error
             throw new InvalidDataException(ex.Message, ex);
@@ -100,15 +103,15 @@ public class XMesh : Asset
         {
             (SubsetBoundingSpheres, SubsetBoundingBoxes) = CalculateSubsetBoundingBodies(extendedMaterials.Length);
 
-            BoundingSphere = SubsetBoundingSpheres?.Aggregate(SlimDX.BoundingSphere.Merge);
-            BoundingBox = SubsetBoundingBoxes?.Aggregate(SlimDX.BoundingBox.Merge);
+            BoundingSphere = SubsetBoundingSpheres?.Aggregate((a, b) => Vortice.Mathematics.BoundingSphere.CreateMerged(a, b));
+            BoundingBox = SubsetBoundingBoxes?.Aggregate((a, b) => Vortice.Mathematics.BoundingBox.CreateMerged(a, b));
         }
         else
         {
             // Not using Mesh.ComputeBoundingSphere()/ComputeBoundingBox(), because they derive the vertex stride from the FVF, which is undefined for meshes with a custom vertex declaration
             var points = Mesh.GetPoints();
-            BoundingSphere = SlimDX.BoundingSphere.FromPoints(points);
-            BoundingBox = SlimDX.BoundingBox.FromPoints(points);
+            BoundingSphere = Vortice.Mathematics.BoundingSphere.CreateFromPoints(points);
+            BoundingBox = Vortice.Mathematics.BoundingBox.CreateFromPoints(points);
 
             // Heuristic for discarding invalid bounding bodies
             if (BoundingSphere.Value.Radius < 0.01) BoundingSphere = null;
@@ -152,8 +155,8 @@ public class XMesh : Asset
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> to load textures with.</param>
     /// <param name="meshName">The name of the mesh. This is used for finding associated textures.</param>
-    /// <param name="extendedMaterials">The materials extracted from the mesh (e.g. via <see cref="SlimDX.Direct3D9.Mesh.GetMaterials"/>).</param>
-    /// <param name="effectInstances">The effect instances extracted from the mesh (e.g. via <see cref="SlimDX.Direct3D9.Mesh.GetEffects"/>); may be <c>null</c>.</param>
+    /// <param name="extendedMaterials">The materials extracted from the mesh (e.g. via <see cref="D3DX.Mesh.GetMaterials"/>).</param>
+    /// <param name="effectInstances">The effect instances extracted from the mesh (e.g. via <see cref="D3DX.Mesh.GetEffects"/>); may be <c>null</c>.</param>
     /// <param name="needsTangents">Set to <c>true</c> if any loaded material references a normal or height map and therefore requires tangent data.</param>
     /// <returns>The loaded materials; <c>default</c> if <paramref name="extendedMaterials"/> is empty.</returns>
     internal static ImmutableArray<XMaterial> LoadMaterials(Engine engine, string meshName, ExtendedMaterial[] extendedMaterials, EffectInstance[]? effectInstances, out bool needsTangents)
@@ -319,7 +322,7 @@ public class XMesh : Asset
         if (StringUtils.EqualsIgnoreCase(param.ParameterName, textureType) && param.Type == EffectDefaultType.String)
         {
             // Read the string and trim away tailing nul-bytes and spaces
-            string paramData = new StreamReader(param.Value, Encoding.ASCII).ReadToEnd().Trim('\0', ' ');
+            string paramData = Encoding.ASCII.GetString(param.Value).Trim('\0', ' ');
 
             // Attempt to load the file specified in the parameter
             return ShaderLoadHelper(engine, meshName, paramData, srgb);
@@ -341,10 +344,10 @@ public class XMesh : Asset
                 var positions = Mesh.GetPoints(subset: i);
                 if (positions.Length == 0) return (null, null);
 
-                subsetBoundingSpheres[i] = SlimDX.BoundingSphere.FromPoints(positions);
+                subsetBoundingSpheres[i] = Vortice.Mathematics.BoundingSphere.CreateFromPoints(positions);
                 if (subsetBoundingSpheres[i].Radius < 0.01) return (null, null);
 
-                subsetBoundingBoxes[i] = SlimDX.BoundingBox.FromPoints(positions);
+                subsetBoundingBoxes[i] = Vortice.Mathematics.BoundingBox.CreateFromPoints(positions);
                 if (subsetBoundingBoxes[i].Diagonal().Length() < 0.01) return (null, null);
             }
 

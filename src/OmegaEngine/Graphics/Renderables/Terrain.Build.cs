@@ -11,8 +11,13 @@ using System.Collections.Immutable;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
-using SlimDX;
-using SlimDX.Direct3D9;
+using OmegaEngine.Foundation.Light;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Size = System.Drawing.Size;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Shaders;
@@ -122,7 +127,7 @@ partial class Terrain
                     new(x * stretchH, heightMap[x, y] * stretchV, -y * stretchH),
                     x * stretchH / 500f, y * stretchH / 500f,
                     occlusionIntervals.ByteToAngle(),
-                    texWeights, Color.White);
+                    texWeights, Color.White.ToColor4());
             }
             return texWeights;
         },

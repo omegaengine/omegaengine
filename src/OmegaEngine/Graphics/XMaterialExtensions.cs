@@ -1,6 +1,7 @@
 ﻿using OmegaEngine.Foundation.Light;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics;
 
@@ -9,37 +10,37 @@ namespace OmegaEngine.Graphics;
 /// </summary>
 public static class XMaterialExtensions
 {
-    private static readonly Color4 _unset = new(1, 0, 0, 0);
+    private static readonly Color4 _unset = new(0, 0, 0, 1);
 
     extension(XMaterial material)
     {
         /// <summary>
-        /// Converts an <see cref="XMaterial"/> to a <see cref="Material"/>.
+        /// Converts an <see cref="XMaterial"/> to a <see cref="Material9"/>.
         /// </summary>
         /// <remarks>The colors are linearized, because the fixed-function pipeline shades in linear space and gamma-encodes on output.</remarks>
-        public Material ToD3DMaterial()
+        public Material9 ToD3DMaterial()
             => new()
             {
-                Ambient = material.Ambient.SrgbToLinear(),
-                Diffuse = material.Diffuse.SrgbToLinear(),
-                Specular = material.Specular.SrgbToLinear(),
+                Ambient = material.Ambient.SrgbToLinear().ToColorvalue(),
+                Diffuse = material.Diffuse.SrgbToLinear().ToColorvalue(),
+                Specular = material.Specular.SrgbToLinear().ToColorvalue(),
                 Power = material.SpecularPower,
-                Emissive = material.Emissive.SrgbToLinear()
+                Emissive = material.Emissive.SrgbToLinear().ToColorvalue()
             };
     }
 
-    extension(Material material)
+    extension(Material9 material)
     {
         /// <summary>
-        /// Converts a <see cref="Material"/> to an <see cref="XMaterial"/>.
+        /// Converts a <see cref="Material9"/> to an <see cref="XMaterial"/>.
         /// </summary>
         public XMaterial ToXMaterial()
-            => new(Diffuse: material.Diffuse.ToColor())
+            => new(Diffuse: material.Diffuse.ToColor4().ToColor())
             {
-                Ambient = material.Ambient == _unset ? XMaterial.Default.Ambient : material.Ambient.ToColor(),
-                Specular = material.Specular == _unset ? XMaterial.Default.Specular : material.Specular.ToColor(),
+                Ambient = material.Ambient.ToColor4() == _unset ? XMaterial.Default.Ambient : material.Ambient.ToColor4().ToColor(),
+                Specular = material.Specular.ToColor4() == _unset ? XMaterial.Default.Specular : material.Specular.ToColor4().ToColor(),
                 SpecularPower = material.Power == 1 ? XMaterial.Default.SpecularPower : material.Power,
-                Emissive = material.Emissive.ToColor()
+                Emissive = material.Emissive.ToColor4().ToColor()
             };
     }
 }

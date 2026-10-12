@@ -7,7 +7,7 @@ using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 using Template.AlphaFramework.World;
 
 namespace Template.AlphaFramework.Presentation;

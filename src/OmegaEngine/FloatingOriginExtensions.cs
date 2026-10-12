@@ -9,7 +9,7 @@
 using System.Diagnostics.Contracts;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine;
 

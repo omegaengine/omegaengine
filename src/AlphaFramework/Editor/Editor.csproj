@@ -8,7 +8,6 @@ AlphaEditor is a toolkit for creating IDE-like editors for games based on OmegaE
     <RootNamespace>AlphaFramework.Editor</RootNamespace>
     <PackageId>AlphaEditor</PackageId>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
-    <UseWindowsForms>True</UseWindowsForms>
     <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
   </PropertyGroup>
 

@@ -13,6 +13,8 @@ using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
+using System.Numerics;
+using BoundingSphere = Vortice.Mathematics.BoundingSphere;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -121,7 +123,7 @@ public class PositionableRenderableTest : EngineTestBase
     /// <summary>
     /// Returns how far from the <paramref name="camera"/> the surface of the <paramref name="sphere"/> is, without distance compression.
     /// </summary>
-    private static double GetSurfaceDistance(SlimDX.BoundingSphere sphere, Camera camera)
+    private static double GetSurfaceDistance(BoundingSphere sphere, Camera camera)
         => (new DoubleVector3(sphere.Center.X, sphere.Center.Y, sphere.Center.Z) - camera.Position).Length() - sphere.Radius;
 
     /// <summary>
@@ -385,7 +387,7 @@ public class PositionableRenderableTest : EngineTestBase
 
         // Measured to the surface of the sphere enclosing both, which lives in floating space just like the camera here
         var subtree = parent.SubtreeBoundingSphere!.Value;
-        double surfaceDistance = SlimDX.Vector3.Distance(subtree.Center, parent.ApplyFloatingOriginTo(camera.Position)) - subtree.Radius;
+        double surfaceDistance = Vector3.Distance(subtree.Center, parent.ApplyFloatingOriginTo(camera.Position)) - subtree.Radius;
         double scaling = PullIn(surfaceDistance, 100) / surfaceDistance;
 
         // Scaled around the camera, far away from the world origin

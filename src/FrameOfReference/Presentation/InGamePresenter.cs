@@ -30,7 +30,7 @@ using FrameOfReference.World.Positionables;
 using JetBrains.Annotations;
 using OmegaEngine;
 using OmegaEngine.Graphics.Cameras;
-using SlimDX;
+using System.Numerics;
 
 namespace FrameOfReference.Presentation;
 

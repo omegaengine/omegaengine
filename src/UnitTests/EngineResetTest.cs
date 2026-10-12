@@ -9,7 +9,7 @@
 using System.Drawing;
 using AwesomeAssertions;
 using OmegaEngine.Graphics;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 using Xunit;
 
 namespace OmegaEngine;
@@ -72,8 +72,8 @@ public class EngineResetTest : EngineTestBase
         ResizeAndRender();
 
         // A fullscreen render target tracks the back buffer size, so it must have been recreated
-        var description = renderTarget.Texture.GetLevelDescription(0);
-        new Size(description.Width, description.Height).Should().Be(NewSize);
+        var description = renderTarget.Texture.GetLevelDesc(0);
+        new Size((int)description.Width, (int)description.Height).Should().Be(NewSize);
     }
 
     [Fact]
@@ -90,9 +90,9 @@ public class EngineResetTest : EngineTestBase
 
         // Setting it again must actually reach the device rather than being swallowed as "no change"
         Engine.State.SrgbWrite = true;
-        Engine.Device.GetRenderState(RenderState.SrgbWriteEnable).Should().NotBe(0);
+        Engine.Device.GetRenderState<int>(RenderState.SrgbWriteEnable).Should().NotBe(0);
         Engine.State.SrgbTexture = true;
-        Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture).Should().NotBe(0);
+        Engine.Device.GetSamplerStateValue(0, SamplerState.SrgbTexture).Should().NotBe(0);
     }
 
     [Fact]

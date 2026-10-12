@@ -6,8 +6,10 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Numerics;
 using AwesomeAssertions;
 using OmegaEngine.Graphics.VertexDecl;
+using Vortice.Mathematics;
 using Xunit;
 
 namespace OmegaEngine.Graphics;
@@ -77,8 +79,8 @@ public class TexturedMeshTest : EngineTestBase
         var points = mesh.GetPoints();
 
         points.Should().HaveCount(mesh.VertexCount);
-        SlimDX.BoundingBox.FromPoints(points).Diagonal().Length()
-              .Should().BeApproximately(new SlimDX.Vector3(2, 2, 2).Length(), 0.001f);
+        BoundingBox.CreateFromPoints(points).Diagonal().Length()
+              .Should().BeApproximately(new Vector3(2, 2, 2).Length(), 0.001f);
     }
 
     [Fact]

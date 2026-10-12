@@ -8,13 +8,12 @@
   -->
   <PropertyGroup>
     <OmegaConfig Condition="'$(OmegaConfig)'==''">Debug</OmegaConfig>
-    <OmegaArtifacts Condition="'$(OmegaArtifacts)'==''">$(MSBuildThisFileDirectory)..\..\..\..\artifacts\$(OmegaConfig)\net472</OmegaArtifacts>
+    <OmegaArtifacts Condition="'$(OmegaArtifacts)'==''">$(MSBuildThisFileDirectory)..\..\..\..\artifacts\$(OmegaConfig)\net10.0-windows</OmegaArtifacts>
   </PropertyGroup>
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net472</TargetFramework>
-    <PlatformTarget>x86</PlatformTarget><!-- SlimDX is x86-only, like the engine itself -->
+    <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>True</UseWindowsForms>
     <LangVersion>13.0</LangVersion>
     <AssemblyName>Shots</AssemblyName>
@@ -33,7 +32,8 @@
     <Reference Include="FrameOfReference.World"><HintPath>$(OmegaArtifacts)\FrameOfReference.World.dll</HintPath></Reference>
     <Reference Include="FrameOfReference.Presentation"><HintPath>$(OmegaArtifacts)\FrameOfReference.Presentation.dll</HintPath></Reference>
     <Reference Include="NanoByte.Common"><HintPath>$(OmegaArtifacts)\NanoByte.Common.dll</HintPath></Reference>
-    <Reference Include="SlimDX"><HintPath>$(OmegaArtifacts)\SlimDX.dll</HintPath></Reference>
+    <Reference Include="Vortice.Direct3D9"><HintPath>$(OmegaArtifacts)\Vortice.Direct3D9.dll</HintPath></Reference>
+    <Reference Include="SharpGen.Runtime"><HintPath>$(OmegaArtifacts)\SharpGen.Runtime.dll</HintPath></Reference>
   </ItemGroup>
 
 </Project>

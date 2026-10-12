@@ -8,7 +8,8 @@
 
 using System;
 using System.Drawing;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
 
 namespace OmegaGUI.Render;
 
@@ -50,7 +51,7 @@ public struct BlendColor
     /// <summary>Initialize the color blending</summary>
     public void Initialize(Color4 defaultColor)
     {
-        Initialize(defaultColor, new(0.75f, 0.5f, 0.5f, 0.5f), new());
+        Initialize(defaultColor, new(0.5f, 0.5f, 0.5f, 0.75f), new());
     }
 
     /// <summary>Blend the colors together</summary>

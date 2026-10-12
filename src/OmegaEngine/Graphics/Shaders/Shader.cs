@@ -33,8 +33,12 @@ using JetBrains.Annotations;
 using OmegaEngine.Foundation.Collections;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Shaders.Dxsas;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Size = System.Drawing.Size;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Shaders;
@@ -169,7 +173,7 @@ public abstract class Shader : EngineElement
 
         path = Path.Combine(Engine.ShaderDir, path);
         if (!File.Exists(path)) throw new FileNotFoundException($"{Resources.NotFoundShaderFile}\n{path}", path);
-        Effect = Effect.FromFile(Engine.Device, path, null, null, null, ShaderFlags.None);
+        Effect = Effect.FromFile(Engine.Device, path);
     }
     #endregion
 
@@ -638,7 +642,7 @@ public abstract class Shader : EngineElement
     /// <param name="name">The name of the shader parameter to set.</param>
     /// <param name="value">The value to set.</param>
     protected void SetShaderParameter<T>(string name, T value)
-        where T : struct
+        where T : unmanaged
     {
         if (IsDisposed) return;
 
@@ -655,7 +659,7 @@ public abstract class Shader : EngineElement
     /// <param name="value">The value to set.</param>
     protected void SetShaderParameter(string name, Color value)
     {
-        SetShaderParameter(name, new Color4(value));
+        SetShaderParameter(name, value.ToColor4());
     }
 
     /// <summary>

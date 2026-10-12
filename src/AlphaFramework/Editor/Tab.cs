@@ -13,7 +13,9 @@ using System.IO;
 using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
 using NanoByte.Common.Controls;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using SharpGen.Runtime;
 
 namespace AlphaFramework.Editor;
 
@@ -261,19 +263,13 @@ public abstract class Tab : UserControl
                 OnClose();
                 throw new OperationCanceledException();
             }
-            catch (Direct3D9NotFoundException)
+            catch (DllNotFoundException)
             {
                 Msg.Inform(this, Resources.DirectXMissing, MsgSeverity.Error);
                 OnClose();
                 throw new OperationCanceledException();
             }
-            catch (Direct3DX9NotFoundException)
-            {
-                Msg.Inform(this, Resources.DirectXMissing, MsgSeverity.Error);
-                OnClose();
-                throw new OperationCanceledException();
-            }
-            catch (Direct3D9Exception ex)
+            catch (SharpGenException ex)
             {
                 Msg.Inform(this, ex.Message, MsgSeverity.Error);
                 OnClose();

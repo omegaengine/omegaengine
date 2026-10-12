@@ -13,7 +13,7 @@ using System.IO;
 using System.Xml.Serialization;
 using NLua;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace AlphaFramework.World.Terrains;
 

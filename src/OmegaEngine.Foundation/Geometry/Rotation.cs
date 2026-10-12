@@ -9,9 +9,9 @@
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using SlimDX;
+using System.Numerics;
 
-#if NETFRAMEWORK
+#if WINDOWS
 using OmegaEngine.Foundation.Design;
 using System.Drawing.Design;
 #endif
@@ -24,7 +24,7 @@ namespace OmegaEngine.Foundation.Geometry;
 /// <param name="yaw">Rotation around the Y axis, in degrees.</param>
 /// <param name="pitch">Rotation around the X axis, in degrees.</param>
 /// <param name="roll">Rotation around the Z axis, in degrees.</param>
-#if NETFRAMEWORK
+#if WINDOWS
 [TypeConverter(typeof(Design.RotationConverter))]
 #endif
 public struct Rotation(float yaw = 0, float pitch = 0, float roll = 0) : IEquatable<Rotation>
@@ -34,7 +34,7 @@ public struct Rotation(float yaw = 0, float pitch = 0, float roll = 0) : IEquata
     /// </summary>
     [XmlAttribute, DefaultValue(0f)]
     [Description("Rotation around the Y axis, in degrees.")]
-#if NETFRAMEWORK
+#if WINDOWS
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
 #endif
     public float Yaw { get; set; } = yaw;
@@ -44,7 +44,7 @@ public struct Rotation(float yaw = 0, float pitch = 0, float roll = 0) : IEquata
     /// </summary>
     [XmlAttribute, DefaultValue(0f)]
     [Description("Rotation around the X axis, in degrees.")]
-#if NETFRAMEWORK
+#if WINDOWS
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
 #endif
     public float Pitch { get; set; } = pitch;
@@ -54,19 +54,19 @@ public struct Rotation(float yaw = 0, float pitch = 0, float roll = 0) : IEquata
     /// </summary>
     [XmlAttribute, DefaultValue(0f)]
     [Description("Rotation around the Z axis, in degrees.")]
-#if NETFRAMEWORK
+#if WINDOWS
     [Editor(typeof(AngleEditor), typeof(UITypeEditor))]
 #endif
     public float Roll { get; set; } = roll;
 
     /// <summary>Convert <see cref="Rotation"/> into <see cref="Quaternion"/></summary>
-    public static implicit operator Quaternion(Rotation rotation) => Quaternion.RotationYawPitchRoll(
+    public static implicit operator Quaternion(Rotation rotation) => Quaternion.CreateFromYawPitchRoll(
         rotation.Yaw.DegreeToRadian(),
         rotation.Pitch.DegreeToRadian(),
         rotation.Roll.DegreeToRadian());
 
-    /// <summary>Convert <see cref="Rotation"/> into <see cref="Matrix"/></summary>
-    public static implicit operator Matrix(Rotation rotation) => Matrix.RotationYawPitchRoll(
+    /// <summary>Convert <see cref="Rotation"/> into <see cref="Matrix4x4"/></summary>
+    public static implicit operator Matrix4x4(Rotation rotation) => Matrix4x4.CreateFromYawPitchRoll(
         rotation.Yaw.DegreeToRadian(),
         rotation.Pitch.DegreeToRadian(),
         rotation.Roll.DegreeToRadian());

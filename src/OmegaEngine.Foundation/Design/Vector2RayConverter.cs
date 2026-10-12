@@ -13,7 +13,7 @@ using System.Globalization;
 using System.Reflection;
 using NanoByte.Common.Values.Design;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Foundation.Design;
 

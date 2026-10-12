@@ -10,9 +10,9 @@ using System;
 using System.Drawing;
 using System.Xml.Serialization;
 using NanoByte.Common.Storage;
-using SlimDX;
+using System.Numerics;
 
-#if NETFRAMEWORK
+#if WINDOWS
 using System.Windows.Forms;
 #endif
 
@@ -43,15 +43,13 @@ public static class XmlStorageConfig
         MembersAsAttributes<SizeF>(nameof(SizeF.Width), nameof(SizeF.Height));
         MembersAsAttributes<Rectangle>(nameof(Rectangle.X), nameof(Rectangle.Y), nameof(Rectangle.Width), nameof(Rectangle.Height));
         IgnoreMembers<Rectangle>(nameof(Rectangle.Location), nameof(Rectangle.Size));
-#if NETFRAMEWORK
+#if WINDOWS
         MembersAsAttributes<Padding>(nameof(Padding.Left), nameof(Padding.Top), nameof(Padding.Right), nameof(Padding.Bottom));
         IgnoreMembers<Padding>(nameof(Padding.All));
 #endif
         IgnoreMembers<Exception>(nameof(Exception.Data));
 
-        // SlimDX types
-        MembersAsAttributes<Color3>(nameof(Color3.Red), nameof(Color3.Green), nameof(Color3.Blue));
-        MembersAsAttributes<Color4>(nameof(Color4.Alpha), nameof(Color4.Red), nameof(Color4.Green), nameof(Color4.Blue));
+        // System.Numerics types
         MembersAsAttributes<Vector2>(nameof(Vector2.X), nameof(Vector2.Y));
         MembersAsAttributes<Vector3>(nameof(Vector3.X), nameof(Vector3.Y), nameof(Vector3.Z));
         MembersAsAttributes<Vector4>(nameof(Vector4.X), nameof(Vector4.Y), nameof(Vector4.Z), nameof(Vector4.W));

@@ -25,6 +25,8 @@ static class Program
     {
         WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Constants.AppNameShort}");
 
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
+
         Application.EnableVisualStyles();
         XmlStorageConfig.Apply();
 

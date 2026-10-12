@@ -34,7 +34,7 @@ if (options.ListScripts)
 }
 
 string contentDir = options.ContentDir ?? FindContentDir();
-string dataDir = options.DataDir ?? Path.Combine(contentDir, "..", "artifacts", "Debug", "net472", "data");
+string dataDir = options.DataDir ?? Path.Combine(contentDir, "..", "artifacts", "Debug", "net10.0-windows", "data");
 
 string? basePath = null;
 if (options.Base is {} baseName)

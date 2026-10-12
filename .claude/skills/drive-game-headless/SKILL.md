@@ -74,12 +74,12 @@ game leaves the user's own `Resume` there.
 ## Things that will bite you
 
 - **Saves are clobbered.** Portable-mode slots live in
-  `artifacts/Debug/net472/data/`, *not* the user profile, alongside many more
+  `artifacts/Debug/net10.0-windows/data/`, *not* the user profile, alongside many more
   of the user's saves that the backup does not cover. Give scenario slots names
   of their own (`Invoke-Scenario.ps1` refuses existing ones) and pass them
   to `-RemoveSlots`.
 - **The window size is the run's, not the user's.** `Invoke-GameRun` rewrites
-  `artifacts/Debug/net472/config/Settings.xml` to windowed mode at
+  `artifacts/Debug/net10.0-windows/config/Settings.xml` to windowed mode at
   `-Width`/`-Height` before launching. Windows shrinks a window that does not
   fit the screen, so check the size `Save-GameScreenshot` prints. Smaller
   windows make cheaper screenshots; for GUI layout checks pick a typical
@@ -147,7 +147,7 @@ textures), pass it everywhere content is resolved:
   fails to build.
 
 `<Dir>` is a path to the mod folder, or the name of a folder in
-`artifacts/Debug/net472/Mods/` (where the game itself looks for `/mod <name>`).
+`artifacts/Debug/net10.0-windows/Mods/` (where the game itself looks for `/mod <name>`).
 AlphaEditor keeps mods wherever the user created them, so you'll usually pass
 a path. The main one is `..\frame-of-reference-extra\content`, a sibling repo
 with most of the game's models, textures and maps, including the `Story` map.

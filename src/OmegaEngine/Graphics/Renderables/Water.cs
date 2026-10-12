@@ -8,8 +8,12 @@
 
 using System;
 using System.Drawing;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Color = System.Drawing.Color;
+using Size = System.Drawing.Size;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Shaders;
@@ -50,7 +54,7 @@ public class Water : Model
         Pickable = false;
         Materials[0].Emissive = Color.LightBlue;
 
-        BoundingBox = new(minimum: new(), maximum: new(size.Width, 0, -size.Height));
+        BoundingBox = new(min: new(), max: new(size.Width, 0, -size.Height));
     }
 
     private static Mesh BuildMesh(Engine engine, SizeF size)

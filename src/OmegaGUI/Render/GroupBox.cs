@@ -6,8 +6,9 @@
  * under the Microsoft Public License.
  */
 
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
 
 namespace OmegaGUI.Render;
 
@@ -27,7 +28,7 @@ public class GroupBox : Control
     }
 
     /// <summary>Render the picture box</summary>
-    public override void Render(Device device, float elapsedTime)
+    public override void Render(IDirect3DDevice9 device, float elapsedTime)
     {
         if (IsVisible)
         {

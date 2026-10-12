@@ -4,7 +4,7 @@ using System.Linq;
 using NanoByte.Common.Dispatch;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
 
 namespace AlphaFramework.Presentation;
 
@@ -110,7 +110,7 @@ public sealed class PivotedRenderables(ICollection<PositionableRenderable> roots
     /// The transform that places a grouped renderable's geometry in its owner's coordinate system.
     /// </summary>
     /// <remarks>Reading <see cref="PositionableRenderable.Position"/> directly is not enough, because a collapsed member uses it for the owner's world position.</remarks>
-    public Matrix LocalTransformOf(PositionableRenderable renderable)
+    public Matrix4x4 LocalTransformOf(PositionableRenderable renderable)
         => _groupOf.TryGetValue(renderable, out var group) && group.Pivot == null
             ? renderable.PreTransform
             : LocalMatrixOf(renderable);
@@ -181,8 +181,8 @@ public sealed class PivotedRenderables(ICollection<PositionableRenderable> roots
         ResetTransform(renderable);
     }
 
-    private static Matrix LocalMatrixOf(PositionableRenderable renderable)
-        => renderable.PreTransform * Matrix.Scaling(renderable.Scale) * Matrix.RotationQuaternion(renderable.Rotation) * Matrix.Translation((Vector3)renderable.Position);
+    private static Matrix4x4 LocalMatrixOf(PositionableRenderable renderable)
+        => renderable.PreTransform * Matrix4x4.CreateScale(renderable.Scale) * Matrix4x4.CreateFromQuaternion(renderable.Rotation) * Matrix4x4.CreateTranslation((Vector3)renderable.Position);
 
     private static void ResetTransform(PositionableRenderable renderable)
     {

@@ -54,6 +54,7 @@ public static class Program
         WindowsUtils.SetCurrentProcessAppID($"{Application.CompanyName}.{Constants.AppNameShort}.AlphaEditor");
         ModInfo.FileExt = $".{Constants.AppNameShort}Mod";
 
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
         Application.EnableVisualStyles();
         XmlStorageConfig.Apply();
         ErrorReportForm.SetupMonitoring(new Uri($"https://omegaengine.de/error-report/?app={Constants.AppNameShort}"));

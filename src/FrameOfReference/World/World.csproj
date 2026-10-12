@@ -5,7 +5,7 @@
     <AssemblyName>FrameOfReference.World</AssemblyName>
     <RootNamespace>FrameOfReference.World</RootNamespace>
     <OutputPath>..\..\..\artifacts\$(Configuration)\</OutputPath>
-    <TargetFrameworks>net472;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='net10.0'">
     <Nullable>enable</Nullable>
@@ -15,9 +15,6 @@
   <!-- Dependencies -->
   <ItemGroup>
     <ProjectReference Include="..\..\AlphaFramework\World\World.csproj" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net472'">
-    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 
   <!-- Localization -->

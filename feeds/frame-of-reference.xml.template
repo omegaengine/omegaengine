@@ -3,12 +3,12 @@
   <name>Frame of Reference</name>
   <summary>OmegaEngine sample game</summary>
   <feed-for interface="https://omegaengine.de/feeds/frame-of-reference.xml" />
-  <group arch="Windows-i486">
+  <group arch="Windows-*">
     <requires interface="https://omegaengine.de/feeds/directx.xml" />
-    <requires interface="https://omegaengine.de/feeds/msvcrt.xml" version="10..!11" />
+    <requires interface="https://apps.0install.net/dotnet/windowsdesktop-runtime.xml" version="10.0..!11.0" />
     <command name="run" path="FrameOfReference.exe" />
     <command name="editor" path="FrameOfReference.Editor.exe" />
-    <implementation version="{version}" local-path="../artifacts/Release/net472/publish">
+    <implementation version="{version}" local-path="../artifacts/Release/net10.0-windows/publish">
       <requires interface="https://omegaengine.de/feeds/frame-of-reference-content.xml" version="{content-version}" />
       <requires interface="https://omegaengine.de/feeds/frame-of-reference-extra.xml" version="1.13..!1.14" />
       <manifest-digest />

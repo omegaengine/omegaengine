@@ -4,7 +4,7 @@ using AlphaFramework.World.Positionables;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Input;
-using SlimDX;
+using System.Numerics;
 using Template.AlphaFramework.Presentation;
 using Template.AlphaFramework.World;
 

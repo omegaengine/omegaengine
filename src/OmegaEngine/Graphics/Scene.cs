@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
 using OmegaEngine.Graphics.Renderables;
-using SlimDX;
+using System.Numerics;
+using Vortice.Mathematics;
 
 namespace OmegaEngine.Graphics;
 

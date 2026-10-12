@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 using OmegaEngine.Foundation.Geometry;
-using SlimDX;
+using System.Numerics;
 
 namespace OmegaEngine.Graphics.Cameras;
 
@@ -38,8 +38,8 @@ public abstract class MatrixCamera : Camera
     {
         AdjustFloatingOrigin();
 
-        SimpleViewCached = Matrix.LookAtLH(new(), _target.ApplyOffset(PositionCached), UpHint);
-        ViewCached = Matrix.LookAtLH(PositionCached.ApplyOffset(FloatingOriginCached), _target.ApplyOffset(FloatingOriginCached), UpHint);
+        SimpleViewCached = Matrix4x4.CreateLookAtLeftHanded(new(), _target.ApplyOffset(PositionCached), UpHint);
+        ViewCached = Matrix4x4.CreateLookAtLeftHanded(PositionCached.ApplyOffset(FloatingOriginCached), _target.ApplyOffset(FloatingOriginCached), UpHint);
 
         CacheSpecialMatrices();
 

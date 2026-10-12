@@ -9,8 +9,12 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SlimDX;
-using SlimDX.Direct3D9;
+using System.Numerics;
+using OmegaEngine.Foundation.Geometry;
+using Vortice.Mathematics;
+using Vortice.Direct3D9;
+using OmegaEngine.D3DX;
+using SharpGen.Runtime;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.LightSources;
@@ -89,7 +93,7 @@ public abstract class SurfaceShader : Shader
         TrySetValue(_lightDirectionHandles, index, new Vector4(light.Direction, 0));
     }
 
-    void TrySetValue<T>(List<EffectHandle> list, int index, T value) where T : struct
+    void TrySetValue<T>(List<EffectHandle> list, int index, T value) where T : unmanaged
     {
         if (index < list.Count)
             Effect.SetValue(list[index], value);
@@ -186,9 +190,9 @@ public abstract class SurfaceShader : Shader
                         ParameterClass.MatrixRows or ParameterClass.MatrixColumns => info.SemanticID switch
                         {
                             SemanticID.World => SetValue(Engine.State.WorldTransform),
-                            SemanticID.WorldInverse => SetValue(Matrix.Invert(Engine.State.WorldTransform)),
-                            SemanticID.WorldTranspose => SetValue(Matrix.Transpose(Engine.State.WorldTransform)),
-                            SemanticID.WorldInverseTranspose => SetValue(Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform))),
+                            SemanticID.WorldInverse => SetValue(VectorMath.Invert(Engine.State.WorldTransform)),
+                            SemanticID.WorldTranspose => SetValue(Matrix4x4.Transpose(Engine.State.WorldTransform)),
+                            SemanticID.WorldInverseTranspose => SetValue(Matrix4x4.Transpose(VectorMath.Invert(Engine.State.WorldTransform))),
                             SemanticID.View => SetValue(camera.View),
                             SemanticID.ViewInverse => SetValue(camera.ViewInverse),
                             SemanticID.ViewTranspose => SetValue(camera.ViewTranspose),
@@ -198,17 +202,17 @@ public abstract class SurfaceShader : Shader
                             SemanticID.ProjectionTranspose => SetValue(camera.ProjectionTranspose),
                             SemanticID.ProjectionInverseTranspose => SetValue(camera.ProjectionInverseTranspose),
                             SemanticID.WorldView => SetValue(Engine.State.WorldTransform * camera.View),
-                            SemanticID.WorldViewInverse => SetValue(Matrix.Invert(Engine.State.WorldTransform * camera.View)),
-                            SemanticID.WorldViewTranspose => SetValue(Matrix.Transpose(Engine.State.WorldTransform * camera.View)),
-                            SemanticID.WorldViewInverseTranspose => SetValue(Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.View))),
+                            SemanticID.WorldViewInverse => SetValue(VectorMath.Invert(Engine.State.WorldTransform * camera.View)),
+                            SemanticID.WorldViewTranspose => SetValue(Matrix4x4.Transpose(Engine.State.WorldTransform * camera.View)),
+                            SemanticID.WorldViewInverseTranspose => SetValue(Matrix4x4.Transpose(VectorMath.Invert(Engine.State.WorldTransform * camera.View))),
                             SemanticID.ViewProjection => SetValue(camera.ViewProjection),
                             SemanticID.ViewProjectionInverse => SetValue(camera.ViewProjectionInverse),
                             SemanticID.ViewProjectionTranspose => SetValue(camera.ViewProjectionTranspose),
                             SemanticID.ViewProjectionInverseTranspose => SetValue(camera.ViewProjectionInverseTranspose),
                             SemanticID.WorldViewProjection => SetValue(Engine.State.WorldTransform * camera.ViewProjection),
-                            SemanticID.WorldViewProjectionInverse => SetValue(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection)),
-                            SemanticID.WorldViewProjectionTranspose => SetValue(Matrix.Transpose(Engine.State.WorldTransform * camera.ViewProjection)),
-                            SemanticID.WorldViewProjectionInverseTranspose => SetValue(Matrix.Transpose(Matrix.Invert(Engine.State.WorldTransform * camera.ViewProjection))),
+                            SemanticID.WorldViewProjectionInverse => SetValue(VectorMath.Invert(Engine.State.WorldTransform * camera.ViewProjection)),
+                            SemanticID.WorldViewProjectionTranspose => SetValue(Matrix4x4.Transpose(Engine.State.WorldTransform * camera.ViewProjection)),
+                            SemanticID.WorldViewProjectionInverseTranspose => SetValue(Matrix4x4.Transpose(VectorMath.Invert(Engine.State.WorldTransform * camera.ViewProjection))),
                             _ => null
                         },
                         _ => null
@@ -225,7 +229,7 @@ public abstract class SurfaceShader : Shader
                     _ => null
                 };
 
-                Result SetValue<T>(T value) where T : struct
+                Result SetValue<T>(T value) where T : unmanaged
                     => Effect.SetValue(info.Handle, value);
 
                 Result SetTexture(ITextureProvider? texture)

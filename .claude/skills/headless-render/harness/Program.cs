@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -19,9 +20,10 @@ using OmegaEngine;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Foundation.Storage;
+using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
-using SlimDX.Direct3D9;
+using Vortice.Direct3D9;
 using EngineView = OmegaEngine.Graphics.View; // System.Windows.Forms.View collides with this
 
 namespace Shots;
@@ -43,7 +45,7 @@ internal static class Program
             return 1;
         }
 
-        // Without this, members of SlimDX vector/color structs silently deserialize to zero,
+        // Without this, members of vector structs silently deserialize to zero,
         // because the maps store them as XML attributes and the plain serializer expects elements.
         XmlStorageConfig.Apply();
 
@@ -103,7 +105,7 @@ internal static class Program
             engine.Screenshot(file);
             Console.WriteLine($"{file}  camera target={target} radius={radius:0}");
 
-            if (options.DumpRenderTargets) DumpRenderTargets(presenter, options.OutputDir, name);
+            if (options.DumpRenderTargets) DumpRenderTargets(engine, presenter, options.OutputDir, name);
         }
         finally
         {
@@ -116,15 +118,24 @@ internal static class Program
     }
 
     /// <summary>
-    /// Replaces the random number generator behind <c>RandomUtils</c> with a seeded one, so particle
-    /// systems spawn identically across runs and builds. On .NET Framework it is a lazily created
-    /// thread-static in NanoByte.Common that has no public setter.
+    /// Seeds the random number generator behind <c>RandomUtils</c>, so particle systems spawn identically
+    /// across runs and builds. It is <see cref="Random.Shared"/>, which cannot be seeded through public API,
+    /// so this overwrites the state of its thread-local Xoshiro generator for the current thread.
     /// </summary>
     private static void SeedRandom(int seed)
     {
-        var field = typeof(NanoByte.Common.RandomShared).GetField("_local", BindingFlags.NonPublic | BindingFlags.Static)
-                 ?? throw new InvalidOperationException("RandomShared no longer has a '_local' field; update the harness");
-        field.SetValue(null, new Random(seed));
+        _ = Random.Shared.Next(); // Make sure the thread-local generator exists
+        object generator = typeof(Random).GetNestedType("ThreadSafeRandom", BindingFlags.NonPublic)
+                              ?.GetField("t_random", BindingFlags.NonPublic | BindingFlags.Static)
+                              ?.GetValue(null)
+                        ?? throw new InvalidOperationException("Random.Shared no longer has a thread-local 't_random' generator; update the harness");
+
+        var stateFields = generator.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(field => field.Name.StartsWith("_s")).ToList();
+        if (stateFields.Count == 0) throw new InvalidOperationException($"{generator.GetType()} no longer has '_s*' state fields; update the harness");
+
+        var seeded = new Random(seed);
+        foreach (var field in stateFields)
+            field.SetValue(generator, field.FieldType == typeof(ulong) ? (ulong)seeded.NextInt64() : (object)(uint)seeded.Next());
     }
 
     /// <summary>
@@ -141,13 +152,14 @@ internal static class Program
     /// Writes the child views' textures (water reflection/refraction, glow, ...) to disk. Useful for
     /// telling apart "this intermediate is wrong" from "the shader consuming it is wrong".
     /// </summary>
-    private static void DumpRenderTargets(FixedCameraPresenter presenter, string outputDir, string name)
+    private static void DumpRenderTargets(Engine engine, FixedCameraPresenter presenter, string outputDir, string name)
     {
         foreach (var child in presenter.View.ChildViews)
         {
             string childName = (child.Name ?? "unnamed").Replace(' ', '_');
             string file = Path.Combine(outputDir, $"{name}-rt-{childName}.png");
-            BaseTexture.ToFile(child.GetRenderTarget().Texture, file, ImageFileFormat.Png);
+            using (var surface = child.GetRenderTarget().Texture.GetSurfaceLevel(0))
+                surface.SaveToFile(engine.Device, file, ImageFormat.Png);
             Console.WriteLine($"  {file}");
         }
     }

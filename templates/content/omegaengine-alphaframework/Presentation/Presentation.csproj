@@ -5,8 +5,7 @@
     <AssemblyName>Template.AlphaFramework.Presentation</AssemblyName>
     <RootNamespace>Template.AlphaFramework.Presentation</RootNamespace>
     <OutputPath>..\artifacts\$(Configuration)\</OutputPath>
-    <TargetFramework>net472</TargetFramework>
-    <PlatformTarget>x86</PlatformTarget>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>

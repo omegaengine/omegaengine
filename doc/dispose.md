@@ -8,10 +8,10 @@ If you forget a `.Dispose()` this may trigger an exception (in Debug mode) or a 
 
 ## Leak reporting
 
-<xref:OmegaEngine.RenderHost> assumes it is the only user of SlimDX in the process. When it is disposed it therefore checks whether any DirectX objects are still alive and reports each one as a log entry:
+<xref:OmegaEngine.RenderHost> assumes it is the only user of Direct3D in the process. It enables the object tracking of [SharpGen](https://github.com/SharpGenTools/SharpGenTools), on which Vortice and the engine's D3DX wrappers are built. When it is disposed it therefore checks whether any DirectX objects are still alive and reports each one as a log entry:
 
 ```
-ERROR: Object of type SlimDX.Direct3D9.Mesh was not disposed. Set OMEGAENGINE_TRACK_OBJECTS=1 to also log the stack trace of the object creation.
+ERROR: Object of type OmegaEngine.D3DX.Mesh was not disposed. Set OMEGAENGINE_TRACK_OBJECTS=1 to also log the stack trace of the object creation.
 	Total of 10 objects still alive.
 ```
 
@@ -28,16 +28,17 @@ To find out where a leaked object came from, set the environment variable `OMEGA
 $env:OMEGAENGINE_TRACK_OBJECTS = "1"
 ```
 
-This makes SlimDX record a stack trace for every COM object it creates. The leak report then includes that stack trace:
+This records a stack trace for every COM object that is created. The leak report then includes that stack trace:
 
 ```
-ERROR: Object of type SlimDX.Direct3D9.Mesh was not disposed. Stack trace of object creation:
-	   at SlimDX.Direct3D9.Mesh..ctor(Device device, Int32 faceCount, Int32 vertexCount, MeshFlags flags, VertexElement[] elements)
+ERROR: Object of type OmegaEngine.D3DX.Mesh was not disposed. Stack trace of object creation:
+	   ...
+	   at OmegaEngine.D3DX.Mesh..ctor(IDirect3DDevice9 device, Int32 faceCount, Int32 vertexCount, MeshFlags options, VertexFormat format)
 	   at OmegaEngine.Graphics.TexturedMesh.Sphere(...)
 	   ...
 ```
 
-Capturing a stack trace per COM object is expensive, so this is off by default.
+Capturing a stack trace per COM object is expensive, so this is off by default (except in Debug builds). Objects that were garbage-collected without being disposed no longer show up in the report, even though their COM references were never released.
 
 ## Device reset
 
