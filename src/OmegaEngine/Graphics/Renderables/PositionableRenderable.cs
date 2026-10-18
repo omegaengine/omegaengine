@@ -1090,8 +1090,65 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="ray">A ray in world space along which to check for intersections.</param>
     /// <param name="distance">Returns the distance along the <paramref name="ray"/> at which the intersection took place.</param>
     /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
+    /// <remarks>The <paramref name="ray"/> lives in the same space the body is rendered in, i.e. relative to the floating origin and subject to distance compression, minimum screen size and billboarding.</remarks>
     /// <seealso cref="View.Pick(Point)"/>
-    public virtual bool Intersects(Ray ray, out float distance)
+    public bool Intersects(Ray ray, out float distance)
+    {
+        // Perform pre-checks with bounding bodies to filter out broad misses
+        if (!IntersectsBounding(ray, WorldBoundingSphere, WorldBoundingBox))
+        {
+            distance = float.PositiveInfinity;
+            return false;
+        }
+
+        // Transform the world space ray into entity space
+        return IntersectsLocal(new(
+            Vector3.TransformCoordinate(ray.Position, InverseWorldTransform),
+            // Do not normalize so that ray length remains the same
+            Vector3.TransformNormal(ray.Direction, InverseWorldTransform)), out distance);
+    }
+
+    /// <summary>
+    /// Determine whether this <see cref="PositionableRenderable"/> is intersected by a ray in absolute world space.
+    /// </summary>
+    /// <param name="origin">The absolute world space position the ray starts at.</param>
+    /// <param name="direction">The direction the ray points in.</param>
+    /// <param name="distance">Returns the distance along the ray at which the intersection took place, in multiples of the length of <paramref name="direction"/>.</param>
+    /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the ray.</returns>
+    /// <remarks>Tests against the body's physical transform, independent of any <see cref="Camera"/>, floating origin, distance compression, minimum screen size or billboarding.</remarks>
+    public bool Intersects(DoubleVector3 origin, Vector3 direction, out float distance)
+    {
+        EnsurePhysicalTransform();
+
+        // Subtract in double precision, so the ray stays precise even far away from the world origin
+        var offset = (Vector3)(origin - _worldOrigin);
+
+        // Everything but the translation, which is relative to the floating origin
+        var orientation = _physicalWorldTransform;
+        orientation.M41 = orientation.M42 = orientation.M43 = 0;
+
+        if (!IntersectsBounding(new(offset, direction), _boundingSphere?.Transform(orientation), _boundingBox?.Transform(orientation)))
+        {
+            distance = float.PositiveInfinity;
+            return false;
+        }
+
+        // Transform the body-relative ray into entity space
+        var inverseOrientation = Matrix.Invert(orientation);
+        return IntersectsLocal(new(
+            Vector3.TransformCoordinate(offset, inverseOrientation),
+            // Do not normalize so that ray length remains the same
+            Vector3.TransformNormal(direction, inverseOrientation)), out distance);
+    }
+
+    /// <summary>
+    /// Determine whether this <see cref="PositionableRenderable"/> is intersected by a ray in entity space.
+    /// </summary>
+    /// <param name="ray">A ray in entity space (the space <see cref="BoundingSphere"/> and <see cref="BoundingBox"/> live in, even before applying <see cref="PreTransform"/>) along which to check for intersections.
+    /// Its direction is not normalized, so that distances keep the scale of the original ray.</param>
+    /// <param name="distance">Returns the distance along the <paramref name="ray"/> at which the intersection took place.</param>
+    /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
+    protected virtual bool IntersectsLocal(Ray ray, out float distance)
     {
         distance = float.PositiveInfinity;
         return false;
@@ -1114,15 +1171,28 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
-    /// Determine whether <see cref="PositionableRenderable.WorldBoundingBox"/> and <see cref="PositionableRenderable.WorldBoundingSphere"/> (if defined) are intersected by a ray.
+    /// Controls whether intersection tests first check the bounding bodies to filter out broad misses.
     /// </summary>
-    /// <param name="ray">A ray in world space along which to check for intersections.</param>
-    /// <returns><c>true</c> if the bounding bodies were undefined or intersected by the <paramref name="ray"/>.</returns>
-    protected virtual bool IntersectsBounding(Ray ray)
+    /// <remarks>Turn this off for bodies whose bounding bodies nearly every ray hits anyway.</remarks>
+    protected virtual bool PreCheckBounding => true;
+
+    /// <summary>
+    /// Determine whether bounding bodies (if defined) are intersected by a ray.
+    /// </summary>
+    /// <param name="ray">A ray in the same space as the bounding bodies along which to check for intersections.</param>
+    /// <param name="sphere">The bounding sphere to check against.</param>
+    /// <param name="box">The bounding box to check against.</param>
+    /// <returns><c>true</c> if the bounding bodies were undefined, intersected by the <paramref name="ray"/> or <see cref="PreCheckBounding"/> is off.</returns>
+    private bool IntersectsBounding(Ray ray, BoundingSphere? sphere, BoundingBox? box)
     {
-        if (WorldBoundingSphere is {} sphere && !SlimDX.BoundingSphere.Intersects(sphere, ray, out float _))
+        if (!PreCheckBounding) return true;
+
+        // The sphere test relies on a unit length direction
+        ray.Direction = Vector3.Normalize(ray.Direction);
+
+        if (sphere is {} s && !SlimDX.BoundingSphere.Intersects(s, ray, out float _))
             return false;
-        if (WorldBoundingBox is {} box && !SlimDX.BoundingBox.Intersects(box, ray, out float _))
+        if (box is {} b && !SlimDX.BoundingBox.Intersects(b, ray, out float _))
             return false;
         return true;
     }

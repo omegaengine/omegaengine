@@ -99,7 +99,7 @@ public partial class Model : PositionableRenderable
     /// </summary>
     /// <param name="renderMesh">The mesh to render, already in <see cref="Pool.Default"/>.</param>
     /// <param name="pickingMesh">A system memory copy of <paramref name="renderMesh"/> for intersection tests;
-    /// <c>null</c> only if <see cref="Intersects(Ray,out float)"/> is overridden or <paramref name="renderMesh"/> is itself readable.</param>
+    /// <c>null</c> only if <see cref="IntersectsLocal"/> is overridden or <paramref name="renderMesh"/> is itself readable.</param>
     /// <param name="materials">The materials to use for rendering the model.</param>
     protected Model(Mesh renderMesh, Mesh? pickingMesh, XMaterial[] materials)
     {
@@ -260,24 +260,9 @@ public partial class Model : PositionableRenderable
 
     #region Intersect
     /// <inheritdoc/>
-    public override bool Intersects(Ray ray, out float distance)
-    {
-        // Perform pre-checks with bounding bodies to filter out broad misses
-        if (!IntersectsBounding(ray))
-        {
-            distance = float.PositiveInfinity;
-            return false;
-        }
-
-        // Transform the world space picking ray into entity space
-        ray = new(
-            Vector3.TransformCoordinate(ray.Position, InverseWorldTransform),
-            // Do not normalize so that ray length remains the same
-            Vector3.TransformNormal(ray.Direction, InverseWorldTransform));
-
+    protected override bool IntersectsLocal(Ray ray, out float distance)
         // Check against the system memory copy, because the render mesh is write-only
-        return (_pickingMesh ?? Mesh).Intersects(ray, out distance, out int _, out _);
-    }
+        => (_pickingMesh ?? Mesh).Intersects(ray, out distance, out int _, out _);
     #endregion
 
     //--------------------//

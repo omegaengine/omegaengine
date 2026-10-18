@@ -113,7 +113,7 @@ public partial class Terrain : Model
     }
 
     /// <summary>
-    /// Groups face indexes by the subset (block) they belong to, so <see cref="Intersects(Ray,out float)"/> can skip whole blocks.
+    /// Groups face indexes by the subset (block) they belong to, so <see cref="IntersectsLocal"/> can skip whole blocks.
     /// </summary>
     /// <param name="attributes">The subset each face belongs to, indexed by face.</param>
     private static int[][] GroupFacesBySubset(int[] attributes)
@@ -318,22 +318,13 @@ public partial class Terrain : Model
     #endregion
 
     #region Picking
+    // Since the terrain is usually very big, assume its bounding body is everywhere
     /// <inheritdoc/>
-    protected override bool IntersectsBounding(Ray ray)
-    {
-        // Since the terrain is usually very big, assume its bounding body is everywhere
-        return true;
-    }
+    protected override bool PreCheckBounding => false;
 
     /// <inheritdoc/>
-    public override bool Intersects(Ray ray, out float distance)
+    protected override bool IntersectsLocal(Ray ray, out float distance)
     {
-        // Transform the world space picking ray into entity space
-        ray = new(
-            Vector3.TransformCoordinate(ray.Position, InverseWorldTransform),
-            // Do not normalize so that ray length remains the same
-            Vector3.TransformNormal(ray.Direction, InverseWorldTransform));
-
         distance = float.PositiveInfinity;
 
         if (SubsetBoundingBoxes is not {} boundingBoxes)
