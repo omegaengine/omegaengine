@@ -313,7 +313,8 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
     /// Generates a 3D picking ray.
     /// </summary>
     /// <param name="location">The screen space location to start the ray from (usually mouse coordinates)</param>
-    /// <returns>A ray in world space starting at the <see cref="Camera"/> position moving towards the specified <paramref name="location"/>.</returns>
+    /// <returns>A ray in render space (floating space, relative to <see cref="Cameras.Camera.FloatingOrigin"/>) starting at the <see cref="Camera"/> position moving towards the specified <paramref name="location"/>.</returns>
+    /// <seealso cref="PositionableRenderable.Intersects(Ray,out float)"/>
     public Ray PickingRay(Point location)
     {
         Matrix m = Camera.ViewInverse;
@@ -348,7 +349,7 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
     /// Pick an <see cref="PositionableRenderable"/> in 3D-space using the mouse
     /// </summary>
     /// <param name="location">The screen space location to start the ray from (usually mouse coordinates)</param>
-    /// <param name="position">Returns the position of the vertex closest to the intersection in entity space</param>
+    /// <param name="position">Returns the absolute world space position of the intersection on the picked body's physical shape, see <see cref="PositionableRenderable.Intersects(Ray,out DoubleVector3)"/>.</param>
     /// <returns>The picked <see cref="PositionableRenderable"/> or <c>null</c>.</returns>
     public PositionableRenderable? Pick(Point location, out DoubleVector3 position)
     {
@@ -357,8 +358,7 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
         // Reuse the distance from the search instead of intersecting the winner a second time
         if (GetClosestBody(pickingRay, out float distance) is {} body)
         {
-            // Calculate position along the ray and compensate for floating origin
-            position = (pickingRay.Position + distance * pickingRay.Direction) + body.GetFloatingOrigin();
+            position = body.GetWorldHitPosition(pickingRay, distance);
             return body;
         }
 

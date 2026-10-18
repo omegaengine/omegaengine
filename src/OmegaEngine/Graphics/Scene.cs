@@ -130,7 +130,7 @@ public sealed class Scene : EngineElement
         // The caster spheres are still read at query time rather than snapshotted, since they are camera-dependent (billboarding, minimum screen size) and may change between views or during a view's render pass.
         foreach (var caster in GetShadowCasters())
         {
-            if (caster.WorldBoundingSphere is { Radius: > 0.0001f } casterSphere && casterSphere != receiverSphere)
+            if (caster.FloatingBoundingSphere is { Radius: > 0.0001f } casterSphere && casterSphere != receiverSphere)
             {
                 for (int i = 0; i < lights.Count; i++)
                     lights[i] = lights[i].GetShadowed(receiverSphere, casterSphere);

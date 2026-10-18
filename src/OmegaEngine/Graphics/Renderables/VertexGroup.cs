@@ -214,7 +214,7 @@ public class VertexGroup : PositionableRenderable
     internal override void Render(RenderContext context)
     {
         base.Render(context);
-        Engine.State.WorldTransform = WorldTransform;
+        Engine.State.WorldTransform = RenderTransform;
 
         #region Draw
         // Activate the VertexBuffer
@@ -235,7 +235,7 @@ public class VertexGroup : PositionableRenderable
         }
 
         var effectiveLights = GetSurfaceEffect(context, SurfaceShader) != SurfaceEffect.Plain && context.Lights is {} getEffectiveLights
-            ? getEffectiveLights(GetWorldBoundingSphereOrPosition(), ShadowReceiver)
+            ? getEffectiveLights(GetFloatingBoundingSphereOrPosition(), ShadowReceiver)
             : [];
 
         RenderHelper(render, _material, context, SurfaceShader, effectiveLights);

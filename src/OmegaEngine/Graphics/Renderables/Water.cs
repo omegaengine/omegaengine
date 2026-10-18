@@ -140,13 +140,13 @@ public class Water : Model
         // Note: Doesn't call base methods
         PrepareRender();
         Engine.State.AlphaBlend = alpha;
-        Engine.State.WorldTransform = WorldTransform;
+        Engine.State.WorldTransform = RenderTransform;
 
         // Transfer the reflection view matrix to the shader
         _viewSource.RefractionReflectionShader.ReflectionViewProjection = _viewSource.ReflectedView.Camera.ViewProjection;
 
         RenderHelper(() => Mesh.DrawSubset(0), Materials[0], context, shader, effectiveLights: []);
-        if (DrawBoundingBox && WorldBoundingBox is {} box && GetSurfaceEffect(context, shader) < SurfaceEffect.Glow)
+        if (DrawBoundingBox && FloatingBoundingBox is {} box && GetSurfaceEffect(context, shader) < SurfaceEffect.Glow)
             Engine.DrawBoundingBox(box);
     }
 

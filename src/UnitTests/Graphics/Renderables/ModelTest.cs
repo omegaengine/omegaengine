@@ -69,7 +69,7 @@ public class ModelTest : EngineTestBase
     {
         using var model = FarAwayBox();
 
-        model.Intersects(FarAway + new DoubleVector3(0, 0, -10), Vector3.UnitZ, out float distance).Should().BeTrue();
+        model.IntersectsWorld(FarAway + new DoubleVector3(0, 0, -10), Vector3.UnitZ, out float distance).Should().BeTrue();
         distance.Should().BeApproximately(9, 0.001f);
     }
 
@@ -78,7 +78,7 @@ public class ModelTest : EngineTestBase
     {
         using var model = FarAwayBox();
 
-        model.Intersects(FarAway + new DoubleVector3(0, 50, -10), Vector3.UnitZ, out float _).Should().BeFalse();
+        model.IntersectsWorld(FarAway + new DoubleVector3(0, 50, -10), Vector3.UnitZ, out float _).Should().BeFalse();
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class ModelTest : EngineTestBase
         using var model = FarAwayBox();
         model.SetFloatingOrigin(FarAway + new DoubleVector3(-5, 3, 7));
 
-        model.Intersects(FarAway + new DoubleVector3(0, 0, -10), Vector3.UnitZ, out float distance).Should().BeTrue();
+        model.IntersectsWorld(FarAway + new DoubleVector3(0, 0, -10), Vector3.UnitZ, out float distance).Should().BeTrue();
         distance.Should().BeApproximately(9, 0.001f);
     }
 
@@ -95,16 +95,9 @@ public class ModelTest : EngineTestBase
     public void IntersectsWorldIgnoresDistanceCompression()
     {
         using var model = FarAwayBox();
-        var camera = new ArcballCamera {Target = model.Position, Radius = 10_000, FarClip = 1e12f, Size = new Size(800, 600)};
-        model.SetFloatingOrigin(camera);
-        model.IsVisible(camera, distanceCompressionStart: 100);
+        CompressDistance(model);
 
-        // Make sure the box really is rendered pulled in towards the camera
-        var transform = model.WorldTransform;
-        double renderedDistance = (new Vector3(transform.M41, transform.M42, transform.M43) - model.ApplyFloatingOriginTo(camera.Position)).Length();
-        renderedDistance.Should().BeLessThan(1_000);
-
-        model.Intersects(FarAway + new DoubleVector3(0, 0, -10), Vector3.UnitZ, out float distance).Should().BeTrue();
+        model.IntersectsWorld(FarAway + new DoubleVector3(0, 0, -10), Vector3.UnitZ, out float distance).Should().BeTrue();
         distance.Should().BeApproximately(9, 0.001f);
     }
 
@@ -122,9 +115,67 @@ public class ModelTest : EngineTestBase
 
         // The parent moves the child to (10, 0, 0) and turns it to span 12 along X and 4 along Z
         var origin = FarAway + new DoubleVector3(10, 0, -10);
-        child.Intersects(origin, Vector3.UnitZ, out float distance).Should().BeTrue();
+        child.IntersectsWorld(origin, Vector3.UnitZ, out float distance).Should().BeTrue();
         distance.Should().BeApproximately(8, 0.001f);
-        child.Intersects(origin + new DoubleVector3(5, 0, 0), Vector3.UnitZ, out float _).Should().BeTrue();
-        child.Intersects(origin + new DoubleVector3(7, 0, 0), Vector3.UnitZ, out float _).Should().BeFalse();
+        child.IntersectsWorld(origin + new DoubleVector3(5, 0, 0), Vector3.UnitZ, out float _).Should().BeTrue();
+        child.IntersectsWorld(origin + new DoubleVector3(7, 0, 0), Vector3.UnitZ, out float _).Should().BeFalse();
+    }
+
+    [Fact]
+    public void IntersectsWorldAppliesPreTransform()
+    {
+        using var model = FarAwayBox();
+        model.PreTransform = Matrix.Translation(5, 0, 0);
+        model.SetScale(2);
+
+        // The scaling also applies to the pre-transform, so the box spans 8 to 12 along X
+        model.IntersectsWorld(FarAway + new DoubleVector3(10, 0, -10), Vector3.UnitZ, out float distance).Should().BeTrue();
+        distance.Should().BeApproximately(8, 0.001f);
+        model.IntersectsWorld(FarAway + new DoubleVector3(5, 0, -10), Vector3.UnitZ, out float _).Should().BeFalse();
+    }
+
+    /// <summary>
+    /// Renders <see cref="FarAwayBox"/> pulled in towards a camera far away from it by distance compression.
+    /// </summary>
+    /// <returns>The camera position, the box's rendered center and its rendered scaling, all in floating space.</returns>
+    private static (Vector3 camera, Vector3 center, float scaling) CompressDistance(Model model)
+    {
+        var camera = new ArcballCamera {Target = model.Position, Radius = 10_000, FarClip = 1e12f, Size = new Size(800, 600)};
+        model.SetFloatingOrigin(camera);
+        model.IsVisible(camera, distanceCompressionStart: 100);
+
+        var transform = model.RenderTransform;
+        var center = new Vector3(transform.M41, transform.M42, transform.M43);
+        var cameraPosition = model.ApplyFloatingOriginTo(camera.Position);
+        (center - cameraPosition).Length().Should().BeLessThan(1_000, because: "the box should be rendered pulled in towards the camera");
+
+        return (cameraPosition, center, new Vector3(transform.M11, transform.M12, transform.M13).Length());
+    }
+
+    [Fact]
+    public void IntersectsRenderedOffCameraRayUnderDistanceCompression()
+    {
+        using var model = FarAwayBox();
+        var (camera, center, scaling) = CompressDistance(model);
+
+        // A ray that does not pass through the camera, so distance compression does change what it hits
+        var sideways = Vector3.Normalize(Vector3.Cross(center - camera, Vector3.UnitY));
+        model.Intersects(new Ray(center + sideways, -sideways), out float distance).Should().BeTrue();
+        // The ray passes through the center of the axis-aligned box, so it enters through the face of the axis it is most aligned with
+        float maxComponent = Math.Max(Math.Abs(sideways.X), Math.Max(Math.Abs(sideways.Y), Math.Abs(sideways.Z)));
+        distance.Should().BeApproximately(1 - scaling / maxComponent, 0.001f);
+    }
+
+    [Fact]
+    public void IntersectsPositionUndoesDistanceCompression()
+    {
+        using var model = FarAwayBox();
+        var (camera, center, _) = CompressDistance(model);
+
+        model.Intersects(new Ray(camera, Vector3.Normalize(center - camera)), out DoubleVector3 position).Should().BeTrue();
+
+        // On the surface of the physical box (size 2), not of the rendered one
+        double distanceFromCenter = (position - model.Position).Length();
+        distanceFromCenter.Should().BeGreaterThan(0.999).And.BeLessThan(Math.Sqrt(3) + 0.001);
     }
 }

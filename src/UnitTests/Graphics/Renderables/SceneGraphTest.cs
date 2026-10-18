@@ -209,9 +209,9 @@ public class SceneGraphTest
         root.Children.Add(second);
         second.Children.Add(grandChild);
 
-        ShouldEnclose(root, first.WorldBoundingSphere!.Value);
-        ShouldEnclose(root, second.WorldBoundingSphere!.Value);
-        ShouldEnclose(root, grandChild.WorldBoundingSphere!.Value);
+        ShouldEnclose(root, first.FloatingBoundingSphere!.Value);
+        ShouldEnclose(root, second.FloatingBoundingSphere!.Value);
+        ShouldEnclose(root, grandChild.FloatingBoundingSphere!.Value);
     }
 
     [Fact]
@@ -224,11 +224,11 @@ public class SceneGraphTest
         middle.Children.Add(leaf);
 
         // Read once, so any stale cache would be observable
-        ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);
+        ShouldEnclose(root, leaf.FloatingBoundingSphere!.Value);
 
         leaf.Position = new(100, 0, 0);
 
-        ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);
+        ShouldEnclose(root, leaf.FloatingBoundingSphere!.Value);
     }
 
     [Fact]
@@ -241,7 +241,7 @@ public class SceneGraphTest
         root.SubtreeBoundingSphere!.Value.Radius.Should().BeApproximately(1, 0.001f);
 
         root.Children.Add(far);
-        ShouldEnclose(root, far.WorldBoundingSphere!.Value);
+        ShouldEnclose(root, far.FloatingBoundingSphere!.Value);
 
         root.Children.Remove(far);
         root.SubtreeBoundingSphere!.Value.Radius.Should().BeApproximately(1, 0.001f);
@@ -257,7 +257,7 @@ public class SceneGraphTest
         root.Children.Add(leaf);
 
         empty.SubtreeBoundingSphere.Should().BeNull("there is nothing to enclose");
-        ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);
+        ShouldEnclose(root, leaf.FloatingBoundingSphere!.Value);
     }
 
     [Fact]
@@ -285,13 +285,13 @@ public class SceneGraphTest
         var expected = root.SubtreeBoundingSphere!.Value;
 
         leaf.IsVisible(new ArcballCamera {Radius = 20, Size = new Size(800, 600)});
-        var firstCenter = leaf.WorldBoundingSphere!.Value.Center;
+        var firstCenter = leaf.FloatingBoundingSphere!.Value.Center;
         root.SubtreeBoundingSphere.Should().Be(expected, "the subtree bounds cover every possible billboard rotation");
-        ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);
+        ShouldEnclose(root, leaf.FloatingBoundingSphere!.Value);
 
         leaf.IsVisible(new ArcballCamera {Radius = 20, Yaw = 90, Pitch = 45, Size = new Size(800, 600)});
-        leaf.WorldBoundingSphere!.Value.Center.Should().NotBe(firstCenter, "the billboard turns with the camera");
+        leaf.FloatingBoundingSphere!.Value.Center.Should().NotBe(firstCenter, "the billboard turns with the camera");
         root.SubtreeBoundingSphere.Should().Be(expected, "the subtree bounds cover every possible billboard rotation");
-        ShouldEnclose(root, leaf.WorldBoundingSphere!.Value);
+        ShouldEnclose(root, leaf.FloatingBoundingSphere!.Value);
     }
 }

@@ -66,7 +66,7 @@ public class AnimatedModel : PositionableRenderable
     internal override void Render(RenderContext context)
     {
         base.Render(context);
-        Engine.State.WorldTransform = WorldTransform;
+        Engine.State.WorldTransform = RenderTransform;
 
         // ToDo: Implement rendering
     }

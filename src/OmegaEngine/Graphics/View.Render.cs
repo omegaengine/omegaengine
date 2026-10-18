@@ -27,7 +27,7 @@ partial class View
     /// </summary>
     /// <remarks>
     /// <para>Unlike <see cref="PreRender"/>, changes to the <see cref="Camera"/>'s projection (e.g., its clip planes) made here are reflected in culling and in the <see cref="ChildViews"/>.</para>
-    /// <para>Handlers may measure the bodies' world bounding bodies against the <see cref="Camera"/>, but must not move or replace it.</para>
+    /// <para>Handlers may measure the bodies' floating bounding bodies against the <see cref="Camera"/>, but must not move or replace it.</para>
     /// </remarks>
     public event Action? PreCull;
 

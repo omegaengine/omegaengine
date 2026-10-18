@@ -349,12 +349,12 @@ public class CpuParticleSystem : PositionableRenderable
     private Vector3 _effectiveGravity;
 
     /// <inheritdoc/>
-    protected override void RecalcWorldTransform()
+    protected override void RecalcRenderTransform()
     {
-        base.RecalcWorldTransform();
+        base.RecalcRenderTransform();
 
         // Gravity is a direction in the emitter's own coordinate system, so it must not be affected by camera-dependent effects
-        _effectiveGravity = Vector3.TransformNormal(Preset.Gravity, PhysicalWorldTransform);
+        _effectiveGravity = Vector3.TransformNormal(Preset.Gravity, PhysicalTransform);
     }
 
     /// <inheritdoc/>

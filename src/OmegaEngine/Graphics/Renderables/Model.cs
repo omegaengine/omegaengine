@@ -99,7 +99,7 @@ public partial class Model : PositionableRenderable
     /// </summary>
     /// <param name="renderMesh">The mesh to render, already in <see cref="Pool.Default"/>.</param>
     /// <param name="pickingMesh">A system memory copy of <paramref name="renderMesh"/> for intersection tests;
-    /// <c>null</c> only if <see cref="IntersectsLocal"/> is overridden or <paramref name="renderMesh"/> is itself readable.</param>
+    /// <c>null</c> only if <see cref="IntersectsGeometry"/> is overridden or <paramref name="renderMesh"/> is itself readable.</param>
     /// <param name="materials">The materials to use for rendering the model.</param>
     protected Model(Mesh renderMesh, Mesh? pickingMesh, XMaterial[] materials)
     {
@@ -115,8 +115,8 @@ public partial class Model : PositionableRenderable
     //--------------------//
 
     #region Bounding bodies
-    private BoundingSphere[]? _subsetBoundingSpheres, _subsetWorldBoundingSpheresCached;
-    private bool _subsetWorldBoundingSpheresDirty = true;
+    private BoundingSphere[]? _subsetBoundingSpheres, _subsetFloatingBoundingSpheresCached;
+    private bool _subsetFloatingBoundingSpheresDirty = true;
 
     /// <summary>
     /// Per-subset bounding spheres in entity space.
@@ -124,34 +124,34 @@ public partial class Model : PositionableRenderable
     protected BoundingSphere[]? SubsetBoundingSpheres
     {
         get => _subsetBoundingSpheres;
-        set => value.To(ref _subsetBoundingSpheres, () => _subsetWorldBoundingSpheresDirty = true);
+        set => value.To(ref _subsetBoundingSpheres, () => _subsetFloatingBoundingSpheresDirty = true);
     }
 
     /// <summary>
-    /// Per-subset bounding spheres in floating world space.
+    /// Per-subset bounding spheres in floating space (see <see cref="PositionableRenderable.FloatingTransformCached"/>).
     /// </summary>
-    protected BoundingSphere[]? SubsetWorldBoundingSpheres
+    protected BoundingSphere[]? SubsetFloatingBoundingSpheres
     {
         get
         {
-            EnsureWorldTransform();
-            if (_subsetWorldBoundingSpheresDirty)
+            EnsureRenderTransform();
+            if (_subsetFloatingBoundingSpheresDirty)
             {
-                if (SubsetBoundingSpheres == null) _subsetWorldBoundingSpheresCached = null;
+                if (SubsetBoundingSpheres == null) _subsetFloatingBoundingSpheresCached = null;
                 else
                 {
-                    _subsetWorldBoundingSpheresCached ??= new BoundingSphere[SubsetBoundingSpheres.Length];
-                    for (int i = 0; i < _subsetWorldBoundingSpheresCached.Length; i++)
-                        _subsetWorldBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(WorldTransformWithoutDistanceCompressionCached);
+                    _subsetFloatingBoundingSpheresCached ??= new BoundingSphere[SubsetBoundingSpheres.Length];
+                    for (int i = 0; i < _subsetFloatingBoundingSpheresCached.Length; i++)
+                        _subsetFloatingBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(FloatingTransformCached);
                 }
-                _subsetWorldBoundingSpheresDirty = false;
+                _subsetFloatingBoundingSpheresDirty = false;
             }
-            return _subsetWorldBoundingSpheresCached;
+            return _subsetFloatingBoundingSpheresCached;
         }
     }
 
-    private BoundingBox[]? _subsetBoundingBoxes, _subsetWorldBoundingBoxesCached;
-    private bool _subsetWorldBoundingBoxesDirty = true;
+    private BoundingBox[]? _subsetBoundingBoxes, _subsetFloatingBoundingBoxesCached;
+    private bool _subsetFloatingBoundingBoxesDirty = true;
 
     /// <summary>
     /// Per-subset bounding boxes in entity space.
@@ -159,40 +159,40 @@ public partial class Model : PositionableRenderable
     protected BoundingBox[]? SubsetBoundingBoxes
     {
         get => _subsetBoundingBoxes;
-        set => value.To(ref _subsetBoundingBoxes, () => _subsetWorldBoundingBoxesDirty = true);
+        set => value.To(ref _subsetBoundingBoxes, () => _subsetFloatingBoundingBoxesDirty = true);
     }
 
     /// <summary>
-    /// Per-subset bounding boxes in floating world space.
+    /// Per-subset bounding boxes in floating space (see <see cref="PositionableRenderable.FloatingTransformCached"/>).
     /// </summary>
-    protected BoundingBox[]? SubsetWorldBoundingBoxes
+    protected BoundingBox[]? SubsetFloatingBoundingBoxes
     {
         get
         {
-            EnsureWorldTransform();
-            if (_subsetWorldBoundingBoxesDirty)
+            EnsureRenderTransform();
+            if (_subsetFloatingBoundingBoxesDirty)
             {
-                if (SubsetBoundingBoxes == null) _subsetWorldBoundingBoxesCached = null;
+                if (SubsetBoundingBoxes == null) _subsetFloatingBoundingBoxesCached = null;
                 else
                 {
-                    _subsetWorldBoundingBoxesCached ??= new BoundingBox[SubsetBoundingBoxes.Length];
-                    for (int i = 0; i < _subsetWorldBoundingBoxesCached.Length; i++)
-                        _subsetWorldBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(WorldTransformWithoutDistanceCompressionCached);
+                    _subsetFloatingBoundingBoxesCached ??= new BoundingBox[SubsetBoundingBoxes.Length];
+                    for (int i = 0; i < _subsetFloatingBoundingBoxesCached.Length; i++)
+                        _subsetFloatingBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(FloatingTransformCached);
                 }
-                _subsetWorldBoundingBoxesDirty = false;
+                _subsetFloatingBoundingBoxesDirty = false;
             }
-            return _subsetWorldBoundingBoxesCached;
+            return _subsetFloatingBoundingBoxesCached;
         }
     }
 
     /// <inheritdoc/>
-    protected override void RecalcWorldTransform()
+    protected override void RecalcRenderTransform()
     {
-        base.RecalcWorldTransform();
+        base.RecalcRenderTransform();
 
-        // Mark subset world bounding bodies as dirty instead of recalculating immediately
-        _subsetWorldBoundingSpheresDirty = true;
-        _subsetWorldBoundingBoxesDirty = true;
+        // Mark subset floating bounding bodies as dirty instead of recalculating immediately
+        _subsetFloatingBoundingSpheresDirty = true;
+        _subsetFloatingBoundingBoxesDirty = true;
     }
     #endregion
 
@@ -202,15 +202,15 @@ public partial class Model : PositionableRenderable
     {
         base.Render(context);
 
-        Engine.State.WorldTransform = WorldTransform;
+        Engine.State.WorldTransform = RenderTransform;
 
         var camera = context.Camera;
         bool drawBoundingBodies = GetSurfaceEffect(context, SurfaceShader) < SurfaceEffect.Glow;
         bool firstClippedSubsetRendered = false;
         for (int i = 0; i < NumberSubsets; i++)
         {
-            var boundingSphere = SubsetWorldBoundingSpheres?[i];
-            var boundingBox = SubsetWorldBoundingBoxes?[i];
+            var boundingSphere = SubsetFloatingBoundingSpheres?[i];
+            var boundingBox = SubsetFloatingBoundingBoxes?[i];
 
             // Per-subset frustum culling
             {
@@ -250,7 +250,7 @@ public partial class Model : PositionableRenderable
             XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
             var effectiveLights = GetSurfaceEffect(context, SurfaceShader) is SurfaceEffect.FixedFunction or SurfaceEffect.Shader && context.Lights is {} getEffectiveLights
-                ? getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), ShadowReceiver)
+                ? getEffectiveLights(SubsetFloatingBoundingSpheres?[i] ?? GetFloatingBoundingSphereOrPosition(), ShadowReceiver)
                 : [];
 
             RenderHelper(() => Mesh.DrawSubset(i), currentMaterial, context, SurfaceShader, effectiveLights);
@@ -260,7 +260,7 @@ public partial class Model : PositionableRenderable
 
     #region Intersect
     /// <inheritdoc/>
-    protected override bool IntersectsLocal(Ray ray, out float distance)
+    protected override bool IntersectsGeometry(Ray ray, out float distance)
         // Check against the system memory copy, because the render mesh is write-only
         => (_pickingMesh ?? Mesh).Intersects(ray, out distance, out int _, out _);
     #endregion

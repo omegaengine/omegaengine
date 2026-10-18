@@ -113,7 +113,7 @@ public partial class Terrain : Model
     }
 
     /// <summary>
-    /// Groups face indexes by the subset (block) they belong to, so <see cref="IntersectsLocal"/> can skip whole blocks.
+    /// Groups face indexes by the subset (block) they belong to, so <see cref="IntersectsGeometry"/> can skip whole blocks.
     /// </summary>
     /// <param name="attributes">The subset each face belongs to, indexed by face.</param>
     private static int[][] GroupFacesBySubset(int[] attributes)
@@ -307,7 +307,7 @@ public partial class Terrain : Model
                     XMaterial currentMaterial = i < Materials.Length ? Materials[i] : Materials[0];
 
                     var effectiveLights = context.Lights is {} getEffectiveLights
-                        ? getEffectiveLights(SubsetWorldBoundingSpheres?[i] ?? GetWorldBoundingSphereOrPosition(), shadowing: false)
+                        ? getEffectiveLights(SubsetFloatingBoundingSpheres?[i] ?? GetFloatingBoundingSphereOrPosition(), shadowing: false)
                         : [];
 
                     RenderHelper(renderSubset, currentMaterial, context, shader, effectiveLights);
@@ -323,7 +323,7 @@ public partial class Terrain : Model
     protected override bool PreCheckBounding => false;
 
     /// <inheritdoc/>
-    protected override bool IntersectsLocal(Ray ray, out float distance)
+    protected override bool IntersectsGeometry(Ray ray, out float distance)
     {
         distance = float.PositiveInfinity;
 

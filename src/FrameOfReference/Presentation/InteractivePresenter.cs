@@ -257,7 +257,7 @@ public abstract partial class InteractivePresenter : Presenter
         {
             Name = View.Camera.Name,
             Position = target.WorldPosition.Flatten(),
-            Radius = target.WorldBoundingSphere.HasValue ? target.WorldBoundingSphere.Value.Radius * 2.5f : 50,
+            Radius = target.FloatingBoundingSphere.HasValue ? target.FloatingBoundingSphere.Value.Radius * 2.5f : 50,
         });
     }
 

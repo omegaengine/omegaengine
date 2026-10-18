@@ -281,7 +281,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private DoubleVector3 _floatingOrigin;
 
     /// <summary>
-    /// A value to be added to <see cref="Position"/> in order gain <see cref="IFloatingOriginAware.FloatingPosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
+    /// The absolute world space position that floating space is centered on, i.e. a value to be subtracted from <see cref="WorldPosition"/> in order to gain <see cref="IFloatingOriginAware.FloatingPosition"/> - auto-updated by <see cref="View.Render"/> to <see cref="Camera.FloatingOrigin"/>
     /// </summary>
     /// <remarks>Only stored at the root of a hierarchy; descendants inherit it from there.</remarks>
     DoubleVector3 IFloatingOriginAware.FloatingOrigin
@@ -334,8 +334,10 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private void MarkRenderTransformDirty()
         => _renderTransformDirty = true;
 
-    private Matrix _physicalWorldTransform = Matrix.Identity;
-    private DoubleVector3 _worldOrigin, _worldPosition;
+    private Matrix _physicalTransform = Matrix.Identity;
+
+    // The absolute world space positions of the body's pivot and of the origin of its entity space (which PreTransform may move away from the pivot)
+    private DoubleVector3 _worldPosition, _worldOrigin;
 
     /// <summary>
     /// Ensures the physical transforms (i.e. without per-view camera effects) of this body and all its ancestors are up-to-date.
@@ -363,15 +365,15 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
         if (parent == null)
         {
-            _physicalWorldTransform = orientation * Matrix.Translation(this.ApplyFloatingOriginTo(_position));
+            _physicalTransform = orientation * Matrix.Translation(this.ApplyFloatingOriginTo(_position));
             _worldPosition = _position;
             _worldOrigin = _position + localOrigin;
         }
         else
         {
-            _physicalWorldTransform = orientation * Matrix.Translation((Vector3)_position) * parent._physicalWorldTransform;
+            _physicalTransform = orientation * Matrix.Translation((Vector3)_position) * parent._physicalTransform;
             _worldPosition = parent.ToWorld(_position);
-            _worldOrigin = _worldPosition + (DoubleVector3)Vector3.TransformNormal(localOrigin, parent._physicalWorldTransform);
+            _worldOrigin = _worldPosition + (DoubleVector3)Vector3.TransformNormal(localOrigin, parent._physicalTransform);
         }
 
         _physicalTransformDirty = false;
@@ -392,59 +394,78 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
-    /// Transforms an offset in this body's local coordinate system into an absolute position in world space.
+    /// Transforms a position in this body's entity space into an absolute position in world space.
     /// </summary>
-    /// <param name="localOffset">The offset in the coordinate system that <see cref="Children"/> of this body live in.</param>
-    /// <remarks>Independent of any <see cref="Camera"/> or floating origin.</remarks>
-    internal DoubleVector3 ToWorld(DoubleVector3 localOffset)
+    /// <param name="entityPosition">A position in entity space, which is also the coordinate system that <see cref="Children"/> of this body live in.</param>
+    /// <remarks>Uses the physical transform, independent of any <see cref="Camera"/> or floating origin.</remarks>
+    /// <seealso cref="ToEntity"/>
+    internal DoubleVector3 ToWorld(DoubleVector3 entityPosition)
     {
         EnsurePhysicalTransform();
-        return _worldOrigin + (DoubleVector3)Vector3.TransformNormal((Vector3)localOffset, _physicalWorldTransform);
+        return _worldOrigin + (DoubleVector3)Vector3.TransformNormal((Vector3)entityPosition, _physicalTransform);
     }
 
     /// <summary>
-    /// Ensures all cached transformation matrices and related values are up-to-date.
+    /// Transforms a ray in absolute world space into this body's entity space.
     /// </summary>
-    protected void EnsureWorldTransform()
+    /// <param name="origin">The absolute world space position the ray starts at.</param>
+    /// <param name="direction">The direction the ray points in.</param>
+    /// <remarks>Uses the physical transform, independent of any <see cref="Camera"/> or floating origin. The inverse of <see cref="ToWorld"/>.</remarks>
+    private Ray ToEntity(DoubleVector3 origin, Vector3 direction)
+    {
+        EnsurePhysicalTransform();
+
+        // Only the orientation part of the transform, since the translation is applied in double precision below
+        var orientation = _physicalTransform;
+        orientation.M41 = orientation.M42 = orientation.M43 = 0;
+
+        // Subtract in double precision, so the ray stays precise even far away from the world origin
+        return TransformRay(new((Vector3)(origin - _worldOrigin), direction), Matrix.Invert(orientation));
+    }
+
+    /// <summary>
+    /// Ensures <see cref="RenderTransform"/>, <see cref="FloatingTransformCached"/>, the floating bounding bodies and related values are up-to-date.
+    /// </summary>
+    protected void EnsureRenderTransform()
     {
         EnsurePhysicalTransform();
         if (!_renderTransformDirty) return;
 
         _floatingPositionCached = this.ApplyFloatingOriginTo(_worldPosition);
-        WorldTransformWithoutDistanceCompressionCached = ApplyLeafEffects(_physicalWorldTransform);
+        FloatingTransformCached = ApplyLeafEffects(_physicalTransform);
 
         // Distance compression scales the body around the camera, alike for an entire subtree.
         // Scale around the body's own floating position instead and move it towards the camera in double precision, since it may be very far away.
         if (_distanceCompressionScaling != 1)
         {
             var pulledInPosition = _worldPosition + (_distanceCompressionCenter - _worldPosition) * (1 - _distanceCompressionScaling);
-            WorldTransformCached =
-                WorldTransformWithoutDistanceCompressionCached
+            RenderTransformCached =
+                FloatingTransformCached
               * Matrix.Translation(-_floatingPositionCached)
               * Matrix.Scaling(new((float)_distanceCompressionScaling))
               * Matrix.Translation(this.ApplyFloatingOriginTo(pulledInPosition));
         }
-        else WorldTransformCached = WorldTransformWithoutDistanceCompressionCached;
+        else RenderTransformCached = FloatingTransformCached;
 
-        _inverseWorldTransform = Matrix.Invert(WorldTransformCached);
-        _worldBoundingSphere = BoundingSphere?.Transform(WorldTransformWithoutDistanceCompressionCached);
-        _worldBoundingBox = BoundingBox?.Transform(WorldTransformWithoutDistanceCompressionCached);
+        _inverseRenderTransform = Matrix.Invert(RenderTransformCached);
+        _floatingBoundingSphere = BoundingSphere?.Transform(FloatingTransformCached);
+        _floatingBoundingBox = BoundingBox?.Transform(FloatingTransformCached);
 
         _renderTransformDirty = false;
-        RecalcWorldTransform();
+        RecalcRenderTransform();
     }
 
     /// <summary>
-    /// Applies minimum screen size scaling and billboarding to the <paramref name="physicalWorldTransform"/>.
+    /// Applies minimum screen size scaling and billboarding to the <paramref name="physicalTransform"/>.
     /// </summary>
     /// <remarks>These apply to leaves only, so they never distort a body's descendants.</remarks>
-    private Matrix ApplyLeafEffects(Matrix physicalWorldTransform)
+    private Matrix ApplyLeafEffects(Matrix physicalTransform)
     {
-        if (_children.Count != 0 || (_minScreenSizeScaling == 1 && _billboardRotation.IsIdentity)) return physicalWorldTransform;
+        if (_children.Count != 0 || (_minScreenSizeScaling == 1 && _billboardRotation.IsIdentity)) return physicalTransform;
 
         // Peel the body's own floating position off the physical transform, apply the camera effects around it and put it back on
         var floatingPosition = this.ApplyFloatingOriginTo(_worldPosition);
-        return physicalWorldTransform
+        return physicalTransform
              * Matrix.Translation(-floatingPosition)
              * Matrix.Scaling(new(_minScreenSizeScaling))
              * _billboardRotation
@@ -454,73 +475,84 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <summary>
     /// Hook for recalculating renderable-specific values derived from the transformation matrices.
     /// </summary>
-    /// <remarks>Called by <see cref="EnsureWorldTransform"/> after the matrices have been updated.</remarks>
-    protected virtual void RecalcWorldTransform()
+    /// <remarks>Called by <see cref="EnsureRenderTransform"/> after the matrices have been updated.</remarks>
+    protected virtual void RecalcRenderTransform()
     {}
 
     private Vector3 _floatingPositionCached;
 
     /// <summary>
-    /// The body's position in render space, based on <see cref="Position"/>
+    /// The body's <see cref="WorldPosition"/> in floating space, i.e. relative to <see cref="IFloatingOriginAware.FloatingOrigin"/>.
     /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
+    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingOrigin"/>. Not affected by distance compression.</remarks>
     Vector3 IFloatingOriginAware.FloatingPosition
     {
         get
         {
-            EnsureWorldTransform();
+            EnsureRenderTransform();
             return _floatingPositionCached;
         }
     }
 
-    protected Matrix WorldTransformCached { get; private set; }
-
-    protected Matrix WorldTransformWithoutDistanceCompressionCached { get; private set; }
+    /// <summary>
+    /// The cached value of <see cref="RenderTransform"/>, without ensuring it is up-to-date.
+    /// </summary>
+    protected Matrix RenderTransformCached { get; private set; }
 
     /// <summary>
-    /// The world transformation matrix for this entity, composed purely from the hierarchy's transforms.
+    /// Transforms from entity space into floating space, with minimum screen size scaling and billboarding but without distance compression.
     /// </summary>
-    /// <remarks>Unlike <see cref="WorldTransformCached"/> this carries no billboarding, distance compression or minimum screen size scaling. Its translation is still relative to the floating origin.</remarks>
-    protected Matrix PhysicalWorldTransform
+    /// <remarks>
+    /// <para>The transform behind <see cref="FloatingBoundingSphere"/> and <see cref="FloatingBoundingBox"/>.</para>
+    /// <para>Distance compression scales uniformly around the camera, which leaves the view frustum, the apparent size and any ray starting at the camera unchanged. So this suffices for culling and picking against what is rendered, while keeping bodies at their true distances for lighting and shadows.</para>
+    /// <para>Cached value, without ensuring it is up-to-date.</para>
+    /// </remarks>
+    protected Matrix FloatingTransformCached { get; private set; }
+
+    /// <summary>
+    /// Transforms from entity space into floating space, composed purely from the hierarchy's transforms.
+    /// </summary>
+    /// <remarks>Unlike <see cref="FloatingTransformCached"/> and <see cref="RenderTransform"/> this carries no billboarding, distance compression or minimum screen size scaling. Its translation is relative to the floating origin.</remarks>
+    protected Matrix PhysicalTransform
     {
         get
         {
             EnsurePhysicalTransform();
-            return _physicalWorldTransform;
+            return _physicalTransform;
         }
     }
 
     /// <summary>
-    /// The world transformation matrix for this entity
+    /// Transforms from entity space into render space, i.e. floating space with all per-view camera effects applied: minimum screen size scaling, billboarding and distance compression.
     /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
-    internal Matrix WorldTransform
+    /// <remarks>The world matrix the body is drawn with. Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingOrigin"/>.</remarks>
+    internal Matrix RenderTransform
     {
         get
         {
-            EnsureWorldTransform();
-            return WorldTransformCached;
+            EnsureRenderTransform();
+            return RenderTransformCached;
         }
     }
 
-    private Matrix _inverseWorldTransform;
+    private Matrix _inverseRenderTransform;
 
     /// <summary>
-    /// The world transformation matrix for this entity
+    /// The inverse of <see cref="RenderTransform"/>, transforming from render space into entity space.
     /// </summary>
-    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingPosition"/></remarks>
-    internal Matrix InverseWorldTransform
+    /// <remarks>Constantly changes based on the values set for <see cref="IFloatingOriginAware.FloatingOrigin"/>.</remarks>
+    internal Matrix InverseRenderTransform
     {
         get
         {
-            EnsureWorldTransform();
-            return _inverseWorldTransform;
+            EnsureRenderTransform();
+            return _inverseRenderTransform;
         }
     }
     #endregion
 
     #region Bounding bodies
-    private BoundingSphere? _boundingSphere, _worldBoundingSphere;
+    private BoundingSphere? _boundingSphere, _floatingBoundingSphere;
 
     /// <summary>
     /// A sphere that completely encompasses the body (in entity space, even before apply <see cref="PreTransform"/>).
@@ -533,23 +565,23 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
-    /// A sphere that completely encompasses the body (in floating world space, used for culling tests).
+    /// A sphere that completely encompasses the body (in floating space, with minimum screen size scaling and billboarding but without distance compression; see <see cref="FloatingTransformCached"/>).
     /// </summary>
     [Browsable(false)]
-    public BoundingSphere? WorldBoundingSphere
+    public BoundingSphere? FloatingBoundingSphere
     {
         get
         {
-            EnsureWorldTransform();
-            return _worldBoundingSphere;
+            EnsureRenderTransform();
+            return _floatingBoundingSphere;
         }
     }
 
     /// <summary>
-    /// Returns the <see cref="WorldBoundingSphere"/> or, if that is not available, a sphere with the floating world position and zero radius.
+    /// Returns the <see cref="FloatingBoundingSphere"/> or, if that is not available, a sphere with the floating position and zero radius.
     /// </summary>
-    protected BoundingSphere GetWorldBoundingSphereOrPosition()
-        => WorldBoundingSphere ?? new(this.GetFloatingPosition(), radius: 0);
+    protected BoundingSphere GetFloatingBoundingSphereOrPosition()
+        => FloatingBoundingSphere ?? new(this.GetFloatingPosition(), radius: 0);
 
     /// <summary>
     /// Shall the bounding sphere used to cull this object be drawn/visualized? (used for debugging)
@@ -557,7 +589,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     [DefaultValue(false), Description("Shall the bounding sphere used to cull this object be drawn/visualized? (used for debugging)"), Category("Appearance")]
     public bool DrawBoundingSphere { get; set; }
 
-    private BoundingBox? _boundingBox, _worldBoundingBox;
+    private BoundingBox? _boundingBox, _floatingBoundingBox;
 
     /// <summary>
     /// An axis-aligned box that completely encompasses the body (in entity space, even before apply <see cref="PreTransform"/>).
@@ -570,15 +602,15 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
-    /// An axis-aligned box that completely encompasses the body (in floating world space, used for culling tests).
+    /// An axis-aligned box that completely encompasses the body (in floating space, with minimum screen size scaling and billboarding but without distance compression; see <see cref="FloatingTransformCached"/>).
     /// </summary>
     [Browsable(false)]
-    public BoundingBox? WorldBoundingBox
+    public BoundingBox? FloatingBoundingBox
     {
         get
         {
-            EnsureWorldTransform();
-            return _worldBoundingBox;
+            EnsureRenderTransform();
+            return _floatingBoundingBox;
         }
     }
 
@@ -593,11 +625,11 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private BoundingBox? _subtreeBoundingBox;
 
     /// <summary>
-    /// A sphere that completely encompasses this body and all its <see cref="Children"/> (in floating world space, used for culling whole subtrees).
+    /// A sphere that completely encompasses this body and all its <see cref="Children"/> (in floating space, used for culling whole subtrees).
     /// </summary>
     /// <remarks>
     /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="MinScreenSizeDistance"/>.</para>
-    /// <para>Unlike <see cref="WorldBoundingSphere"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a sphere enclosing every possible rotation and <see cref="Scene.DistanceCompressionStart"/> is not applied.</para>
+    /// <para>Unlike <see cref="FloatingBoundingSphere"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a sphere enclosing every possible rotation and <see cref="Scene.DistanceCompressionStart"/> is not applied.</para>
     /// </remarks>
     [Browsable(false)]
     public BoundingSphere? SubtreeBoundingSphere
@@ -610,11 +642,11 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     }
 
     /// <summary>
-    /// An axis-aligned box that completely encompasses this body and all its <see cref="Children"/> (in floating world space, used for culling whole subtrees).
+    /// An axis-aligned box that completely encompasses this body and all its <see cref="Children"/> (in floating space, used for culling whole subtrees).
     /// </summary>
     /// <remarks>
     /// <para><c>null</c> if the subtree cannot be culled as a whole, e.g. because it contains a body without bounding bodies or with <see cref="MinScreenSizeDistance"/>.</para>
-    /// <para>Unlike <see cref="WorldBoundingBox"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a box enclosing every possible rotation and <see cref="Scene.DistanceCompressionStart"/> is not applied.</para>
+    /// <para>Unlike <see cref="FloatingBoundingBox"/> this is independent of any <see cref="Camera"/>: <see cref="Billboard"/>ed leaves are covered by a box enclosing every possible rotation and <see cref="Scene.DistanceCompressionStart"/> is not applied.</para>
     /// </remarks>
     [Browsable(false)]
     public BoundingBox? SubtreeBoundingBox
@@ -660,8 +692,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <summary>
     /// Determines the camera-independent bounds this body contributes to its own <see cref="SubtreeBoundingSphere"/> and <see cref="SubtreeBoundingBox"/>.
     /// </summary>
-    /// <param name="sphere">The contributed sphere in floating world space; <c>null</c> if the body contributes nothing.</param>
-    /// <param name="box">The contributed box in floating world space; <c>null</c> if the body contributes nothing.</param>
+    /// <param name="sphere">The contributed sphere in floating space; <c>null</c> if the body contributes nothing.</param>
+    /// <param name="box">The contributed box in floating space; <c>null</c> if the body contributes nothing.</param>
     /// <returns><c>false</c> if the body cannot be culled, so neither can any subtree containing it.</returns>
     private bool TryGetOwnSubtreeBounds(out BoundingSphere? sphere, out BoundingBox? box)
     {
@@ -675,8 +707,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         // The minimum screen size scaling grows without bound as the camera moves away
         if (isLeaf && _minScreenSizeDistance != null) return false;
 
-        sphere = _boundingSphere?.Transform(_physicalWorldTransform);
-        box = _boundingBox?.Transform(_physicalWorldTransform);
+        sphere = _boundingSphere?.Transform(_physicalTransform);
+        box = _boundingBox?.Transform(_physicalTransform);
 
         // IsVisible() never culls a body without any bounding bodies
         if (sphere == null && box == null) return false;
@@ -744,8 +776,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
         if (GetSurfaceEffect(context, SurfaceShader) < SurfaceEffect.Glow)
         {
-            if (DrawBoundingSphere && WorldBoundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
-            if (DrawBoundingBox && WorldBoundingBox is {} box) Engine.DrawBoundingBox(box);
+            if (DrawBoundingSphere && FloatingBoundingSphere is {} sphere) Engine.DrawBoundingSphere(sphere);
+            if (DrawBoundingBox && FloatingBoundingBox is {} box) Engine.DrawBoundingBox(box);
         }
     }
 
@@ -820,8 +852,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
         // A leaf's own bounds with minimum screen size scaling and billboarding; else the subtree's bounds or the body's own without camera effects; else just its position
         var sphere = (cacheable
-                         ? SubtreeBoundingSphere ?? _boundingSphere?.Transform(PhysicalWorldTransform)
-                         : _boundingSphere?.Transform(ApplyLeafEffects(PhysicalWorldTransform)))
+                         ? SubtreeBoundingSphere ?? _boundingSphere?.Transform(PhysicalTransform)
+                         : _boundingSphere?.Transform(ApplyLeafEffects(PhysicalTransform)))
                   ?? new BoundingSphere(this.ApplyFloatingOriginTo(WorldPosition), radius: 0);
 
         double centerDistance = Vector3.Distance(sphere.Center, this.ApplyFloatingOriginTo(camera.Position));
@@ -1069,12 +1101,12 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         // Ensure automatic scaling and transformation effects are applied to bounding bodies
         UpdateInternalTransformations(camera, distanceCompressionStart);
 
-        if (WorldBoundingSphere is {} sphere)
+        if (FloatingBoundingSphere is {} sphere)
         {
             if (!camera.AtLeastOnePixelWide(sphere)) return false;
             if (!camera.InFrustum(sphere, IgnoresFarClip)) return false;
         }
-        if (WorldBoundingBox is {} box)
+        if (FloatingBoundingBox is {} box)
         {
             if (!camera.InFrustum(box, IgnoresFarClip)) return false;
         }
@@ -1084,28 +1116,45 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     #endregion
 
     #region Intersect test
-    /// <summary>
-    /// Determine whether this <see cref="PositionableRenderable"/> is intersected by a ray.
-    /// </summary>
-    /// <param name="ray">A ray in world space along which to check for intersections.</param>
-    /// <param name="distance">Returns the distance along the <paramref name="ray"/> at which the intersection took place.</param>
-    /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
-    /// <remarks>The <paramref name="ray"/> lives in the same space the body is rendered in, i.e. relative to the floating origin and subject to distance compression, minimum screen size and billboarding.</remarks>
-    /// <seealso cref="View.Pick(Point)"/>
-    public bool Intersects(Ray ray, out float distance)
-    {
-        // Perform pre-checks with bounding bodies to filter out broad misses
-        if (!IntersectsBounding(ray, WorldBoundingSphere, WorldBoundingBox))
-        {
-            distance = float.PositiveInfinity;
-            return false;
-        }
+    // Every intersection test transforms its ray into entity space without normalizing the direction.
+    // Affine transforms preserve the parameter along a ray, so a distance found in entity space applies unchanged to the ray it was transformed from.
 
-        // Transform the world space ray into entity space
-        return IntersectsLocal(new(
-            Vector3.TransformCoordinate(ray.Position, InverseWorldTransform),
-            // Do not normalize so that ray length remains the same
-            Vector3.TransformNormal(ray.Direction, InverseWorldTransform)), out distance);
+    /// <summary>
+    /// Determine whether this <see cref="PositionableRenderable"/>, as it is rendered, is intersected by a ray.
+    /// </summary>
+    /// <param name="ray">A ray in render space (floating space, as returned by <see cref="View.PickingRay"/>) along which to check for intersections.</param>
+    /// <param name="distance">Returns the distance along the <paramref name="ray"/> at which the intersection took place, in multiples of the length of its direction.</param>
+    /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
+    /// <remarks>Tests against the body as it was last rendered, i.e. relative to its floating origin and subject to distance compression, minimum screen size scaling and billboarding.</remarks>
+    /// <seealso cref="View.Pick(Point)"/>
+    /// <seealso cref="IntersectsWorld"/>
+    public bool Intersects(Ray ray, out float distance)
+        => IntersectsEntity(TransformRay(ray, InverseRenderTransform), out distance);
+
+    /// <summary>
+    /// Determine whether this <see cref="PositionableRenderable"/>, as it is rendered, is intersected by a ray, and where on its physical body.
+    /// </summary>
+    /// <param name="ray">A ray in render space (floating space, as returned by <see cref="View.PickingRay"/>) along which to check for intersections.</param>
+    /// <param name="position">Returns the absolute world space position of the intersection on the body's physical shape; <c>default</c> if there is none.</param>
+    /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
+    /// <remarks>The <paramref name="ray"/> is tested against the body as it was last rendered, like <see cref="Intersects(Ray,out float)"/>. The hit is then mapped back to the corresponding point on the body without distance compression, minimum screen size scaling or billboarding.</remarks>
+    /// <seealso cref="View.Pick(Point,out DoubleVector3)"/>
+    public bool Intersects(Ray ray, out DoubleVector3 position)
+    {
+        bool result = Intersects(ray, out float distance);
+        position = result ? GetWorldHitPosition(ray, distance) : default;
+        return result;
+    }
+
+    /// <summary>
+    /// Determines the absolute world space position on the body's physical shape of a point it is rendered at.
+    /// </summary>
+    /// <param name="ray">A ray in render space that intersected this body.</param>
+    /// <param name="distance">The distance along the <paramref name="ray"/> returned by <see cref="Intersects(Ray,out float)"/>.</param>
+    internal DoubleVector3 GetWorldHitPosition(Ray ray, float distance)
+    {
+        var entityRay = TransformRay(ray, InverseRenderTransform);
+        return ToWorld((DoubleVector3)(entityRay.Position + distance * entityRay.Direction));
     }
 
     /// <summary>
@@ -1115,59 +1164,40 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="direction">The direction the ray points in.</param>
     /// <param name="distance">Returns the distance along the ray at which the intersection took place, in multiples of the length of <paramref name="direction"/>.</param>
     /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the ray.</returns>
-    /// <remarks>Tests against the body's physical transform, independent of any <see cref="Camera"/>, floating origin, distance compression, minimum screen size or billboarding.</remarks>
-    public bool Intersects(DoubleVector3 origin, Vector3 direction, out float distance)
+    /// <remarks>Tests against the body's physical shape, independent of any <see cref="Camera"/>, floating origin, distance compression, minimum screen size scaling or billboarding.</remarks>
+    /// <seealso cref="Intersects(Ray,out float)"/>
+    public bool IntersectsWorld(DoubleVector3 origin, Vector3 direction, out float distance)
+        => IntersectsEntity(ToEntity(origin, direction), out distance);
+
+    /// <summary>
+    /// Determine whether this <see cref="PositionableRenderable"/> is intersected by a ray in entity space, checking the bounding bodies first.
+    /// </summary>
+    /// <param name="ray">A ray in entity space along which to check for intersections.</param>
+    /// <param name="distance">Returns the distance along the <paramref name="ray"/> at which the intersection took place.</param>
+    private bool IntersectsEntity(Ray ray, out float distance)
     {
-        EnsurePhysicalTransform();
-
-        // Subtract in double precision, so the ray stays precise even far away from the world origin
-        var offset = (Vector3)(origin - _worldOrigin);
-
-        // Everything but the translation, which is relative to the floating origin
-        var orientation = _physicalWorldTransform;
-        orientation.M41 = orientation.M42 = orientation.M43 = 0;
-
-        if (!IntersectsBounding(new(offset, direction), _boundingSphere?.Transform(orientation), _boundingBox?.Transform(orientation)))
+        // Perform pre-checks with bounding bodies to filter out broad misses
+        if (PreCheckBounding && !IntersectsBounding(ray))
         {
             distance = float.PositiveInfinity;
             return false;
         }
 
-        // Transform the body-relative ray into entity space
-        var inverseOrientation = Matrix.Invert(orientation);
-        return IntersectsLocal(new(
-            Vector3.TransformCoordinate(offset, inverseOrientation),
-            // Do not normalize so that ray length remains the same
-            Vector3.TransformNormal(direction, inverseOrientation)), out distance);
+        return IntersectsGeometry(ray, out distance);
     }
 
     /// <summary>
-    /// Determine whether this <see cref="PositionableRenderable"/> is intersected by a ray in entity space.
+    /// Determine whether the geometry of this <see cref="PositionableRenderable"/> is intersected by a ray in entity space.
     /// </summary>
     /// <param name="ray">A ray in entity space (the space <see cref="BoundingSphere"/> and <see cref="BoundingBox"/> live in, even before applying <see cref="PreTransform"/>) along which to check for intersections.
     /// Its direction is not normalized, so that distances keep the scale of the original ray.</param>
     /// <param name="distance">Returns the distance along the <paramref name="ray"/> at which the intersection took place.</param>
     /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
-    protected virtual bool IntersectsLocal(Ray ray, out float distance)
+    /// <remarks>Only called if the <paramref name="ray"/> passes the bounding bodies, unless <see cref="PreCheckBounding"/> is off.</remarks>
+    protected virtual bool IntersectsGeometry(Ray ray, out float distance)
     {
         distance = float.PositiveInfinity;
         return false;
-    }
-
-    /// <summary>
-    /// Determine whether this <see cref="PositionableRenderable"/> is intersected by a ray.
-    /// </summary>
-    /// <param name="ray">A ray in world space along which to check for intersections.</param>
-    /// <param name="position">Returns the position of the intersection in entity space.</param>
-    /// <returns><c>true</c> if this <see cref="PositionableRenderable"/> was intersected by the <paramref name="ray"/>.</returns>
-    /// <seealso cref="View.Pick(Point,out DoubleVector3)"/>
-    public bool Intersects(Ray ray, out DoubleVector3 position)
-    {
-        bool result = Intersects(ray, out float distance);
-
-        // Calculate position along the ray and compensate for floating origin
-        position = (ray.Position + distance * ray.Direction) + this.GetFloatingOrigin();
-        return result;
     }
 
     /// <summary>
@@ -1177,25 +1207,28 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     protected virtual bool PreCheckBounding => true;
 
     /// <summary>
-    /// Determine whether bounding bodies (if defined) are intersected by a ray.
+    /// Determine whether <see cref="BoundingSphere"/> and <see cref="BoundingBox"/> (if defined) are intersected by a ray.
     /// </summary>
-    /// <param name="ray">A ray in the same space as the bounding bodies along which to check for intersections.</param>
-    /// <param name="sphere">The bounding sphere to check against.</param>
-    /// <param name="box">The bounding box to check against.</param>
-    /// <returns><c>true</c> if the bounding bodies were undefined, intersected by the <paramref name="ray"/> or <see cref="PreCheckBounding"/> is off.</returns>
-    private bool IntersectsBounding(Ray ray, BoundingSphere? sphere, BoundingBox? box)
+    /// <param name="ray">A ray in entity space along which to check for intersections.</param>
+    /// <returns><c>true</c> if the bounding bodies were undefined or intersected by the <paramref name="ray"/>.</returns>
+    /// <remarks>Testing in entity space is exact for any transform, including non-uniform scaling and the shear it may cause in <see cref="Children"/>.</remarks>
+    private bool IntersectsBounding(Ray ray)
     {
-        if (!PreCheckBounding) return true;
-
         // The sphere test relies on a unit length direction
         ray.Direction = Vector3.Normalize(ray.Direction);
 
-        if (sphere is {} s && !SlimDX.BoundingSphere.Intersects(s, ray, out float _))
+        if (_boundingSphere is {} sphere && !SlimDX.BoundingSphere.Intersects(sphere, ray, out float _))
             return false;
-        if (box is {} b && !SlimDX.BoundingBox.Intersects(b, ray, out float _))
+        if (_boundingBox is {} box && !SlimDX.BoundingBox.Intersects(box, ray, out float _))
             return false;
         return true;
     }
+
+    /// <summary>
+    /// Applies a transform to a ray, without normalizing its direction so that distances along it remain the same.
+    /// </summary>
+    private static Ray TransformRay(Ray ray, Matrix matrix)
+        => new(Vector3.TransformCoordinate(ray.Position, matrix), Vector3.TransformNormal(ray.Direction, matrix));
     #endregion
 
     //--------------------//

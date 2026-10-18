@@ -18,34 +18,34 @@ namespace OmegaEngine.Graphics.Renderables;
 public class PositionableRenderableTest : EngineTestBase
 {
     [Fact]
-    public void WorldBoundingSphereFollowsPosition()
+    public void FloatingBoundingSphereFollowsPosition()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
 
         model.Position = new(10, 5, -3);
 
-        var center = model.WorldBoundingSphere!.Value.Center;
+        var center = model.FloatingBoundingSphere!.Value.Center;
         center.X.Should().BeApproximately(10, 0.001f);
         center.Y.Should().BeApproximately(5, 0.001f);
         center.Z.Should().BeApproximately(-3, 0.001f);
     }
 
     [Fact]
-    public void ScalingRecalculatesWorldBoundingSphere()
+    public void ScalingRecalculatesFloatingBoundingSphere()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
-        float originalRadius = model.WorldBoundingSphere!.Value.Radius;
+        float originalRadius = model.FloatingBoundingSphere!.Value.Radius;
 
         model.SetScale(3);
 
-        model.WorldBoundingSphere!.Value.Radius.Should().NotBe(originalRadius);
+        model.FloatingBoundingSphere!.Value.Radius.Should().NotBe(originalRadius);
     }
 
     [Fact]
     public void MinScreenSizeDistanceKeepsNaturalSizeWhenClose()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
-        float originalRadius = model.WorldBoundingSphere!.Value.Radius;
+        float originalRadius = model.FloatingBoundingSphere!.Value.Radius;
 
         model.MinScreenSizeDistance = 100;
 
@@ -53,14 +53,14 @@ public class PositionableRenderableTest : EngineTestBase
         var camera = new ArcballCamera {Radius = 50, Size = new Size(800, 600)};
         model.IsVisible(camera);
 
-        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius, 0.001f);
+        model.FloatingBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius, 0.001f);
     }
 
     [Fact]
     public void MinScreenSizeDistanceScalesUpWhenFar()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
-        float originalRadius = model.WorldBoundingSphere!.Value.Radius;
+        float originalRadius = model.FloatingBoundingSphere!.Value.Radius;
 
         model.MinScreenSizeDistance = 100;
 
@@ -68,30 +68,30 @@ public class PositionableRenderableTest : EngineTestBase
         var camera = new ArcballCamera {Radius = 200, Size = new Size(800, 600)};
         model.IsVisible(camera);
 
-        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
+        model.FloatingBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
     }
 
     [Fact]
     public void MinScreenSizeDistanceIsIgnoredWhileTheBodyHasChildren()
     {
         using var model = Model.Box(Engine, XMaterial.Default, new(2, 2, 2));
-        float originalRadius = model.WorldBoundingSphere!.Value.Radius;
+        float originalRadius = model.FloatingBoundingSphere!.Value.Radius;
 
         model.MinScreenSizeDistance = 100;
         var camera = new ArcballCamera {Radius = 200, Size = new Size(800, 600)};
         model.IsVisible(camera);
-        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
+        model.FloatingBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
 
         // Minimum screen size is a leaf-only camera effect, so it must stop applying once the body becomes a parent
         using var child = new Pivot();
         model.Children.Add(child);
         model.IsVisible(camera);
-        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius, 0.001f);
+        model.FloatingBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius, 0.001f);
 
         // ... and start applying again once it is a leaf again
         model.Children.Remove(child);
         model.IsVisible(camera);
-        model.WorldBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
+        model.FloatingBoundingSphere!.Value.Radius.Should().BeApproximately(originalRadius * 2, 0.001f);
     }
 
     /// <summary>
@@ -100,7 +100,7 @@ public class PositionableRenderableTest : EngineTestBase
     private static DoubleVector3 GetRenderedPosition(Model model, Camera camera, float? distanceCompressionStart)
     {
         model.IsVisible(camera, distanceCompressionStart);
-        var transform = model.WorldTransform;
+        var transform = model.RenderTransform;
         return new(transform.M41, transform.M42, transform.M43);
     }
 

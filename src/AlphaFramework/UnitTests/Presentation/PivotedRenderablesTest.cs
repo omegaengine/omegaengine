@@ -29,7 +29,7 @@ public class PivotedRenderablesTest : IDisposable
         public Probe() => BoundingSphere = new(new Vector3(), radius: 1);
 
         /// <summary>The center of the bounding sphere after the full hierarchy transform.</summary>
-        public Vector3 WorldCenter => WorldBoundingSphere!.Value.Center;
+        public Vector3 WorldCenter => FloatingBoundingSphere!.Value.Center;
     }
 
     private static readonly Quaternion QuarterTurn = Quaternion.RotationYawPitchRoll((float)(Math.PI / 2), 0, 0);
