@@ -6,7 +6,9 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using AwesomeAssertions;
+using SlimDX;
 using Xunit;
 
 namespace OmegaEngine.Foundation.Geometry;
@@ -53,20 +55,44 @@ public class DoubleVector3Test
     }
 
     [Fact]
-    public void TestDotProduct()
+    public void TestDot()
     {
         var v1 = new DoubleVector3(1, 2, 3);
         var v2 = new DoubleVector3(4, 5, 6);
-        v1.DotProduct(v2).Should().Be(32); // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
+        DoubleVector3.Dot(v1, v2).Should().Be(32); // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
     }
 
     [Fact]
-    public void TestCrossProduct()
+    public void TestCross()
     {
         var v1 = DoubleVector3.UnitX;
         var v2 = DoubleVector3.UnitY;
-        var result = v1.CrossProduct(v2);
+        var result = DoubleVector3.Cross(v1, v2);
         result.Should().Be(DoubleVector3.UnitZ);
+    }
+
+    [Fact]
+    public void TestTransform()
+    {
+        var rotated = DoubleVector3.Transform(DoubleVector3.UnitX, Quaternion.RotationAxis(Vector3.UnitZ, (float)(Math.PI / 2)));
+
+        rotated.X.Should().BeApproximately(0, precision: 1e-7);
+        rotated.Y.Should().BeApproximately(1, precision: 1e-7);
+        rotated.Z.Should().BeApproximately(0, precision: 1e-7);
+    }
+
+    [Fact]
+    public void TestTransformMatchesRotationMatrix()
+    {
+        var rotation = Quaternion.RotationYawPitchRoll(0.3f, -1.1f, 2.4f);
+        var vector = new DoubleVector3(1, -2, 3);
+
+        var expected = Vector3.TransformNormal((Vector3)vector, Matrix.RotationQuaternion(rotation));
+        var rotated = DoubleVector3.Transform(vector, rotation);
+
+        rotated.X.Should().BeApproximately(expected.X, precision: 1e-5);
+        rotated.Y.Should().BeApproximately(expected.Y, precision: 1e-5);
+        rotated.Z.Should().BeApproximately(expected.Z, precision: 1e-5);
     }
 
     [Fact]

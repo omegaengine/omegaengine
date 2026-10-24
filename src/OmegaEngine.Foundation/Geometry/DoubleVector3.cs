@@ -97,16 +97,29 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
     /// <summary>Negates <see cref="DoubleVector3"/></summary>
     public static DoubleVector3 operator -(DoubleVector3 v) => new(-v.X, -v.Y, -v.Z);
 
-    public static readonly DoubleVector3 UnitX = new(1, 0, 0), UnitY = new(0, 1, 0), UnitZ = new(0, 0, 1);
+    /// <summary>
+    /// Gets the X unit <see cref="DoubleVector3"/> (1, 0, 0).
+    /// </summary>
+    public static DoubleVector3 UnitX => new(1, 0, 0);
+
+    /// <summary>
+    /// Gets the Y unit <see cref="DoubleVector3"/> (0, 1, 0).
+    /// </summary>
+    public static DoubleVector3 UnitY => new(0, 1, 0);
+
+    /// <summary>
+    /// Gets the Z unit <see cref="DoubleVector3"/> (0, 0, 1).
+    /// </summary>
+    public static DoubleVector3 UnitZ => new(0, 0, 1);
 
     /// <summary>
     /// Linearly interpolates between two vectors.
     /// </summary>
     /// <param name="start">The start vector.</param>
     /// <param name="end">The end vector.</param>
-    /// <param name="factor">The interpolation factor. Typically in the range 0-1. Values outside this range will extrapolate.</param>
-    public static DoubleVector3 Lerp(DoubleVector3 start, DoubleVector3 end, double factor)
-        => start + (end - start) * factor;
+    /// <param name="amount">The interpolation factor. Typically in the range 0-1. Values outside this range will extrapolate.</param>
+    public static DoubleVector3 Lerp(DoubleVector3 start, DoubleVector3 end, double amount)
+        => start + (end - start) * amount;
 
     /// <summary>
     /// Returns a single-precision standard Vector3 after subtracting an offset value
@@ -120,22 +133,50 @@ public struct DoubleVector3 : IEquatable<DoubleVector3>
         (float)(Z - offset.Z));
 
     /// <summary>
-    /// Calculates the dot product of this vector and <paramref name="other"/>.
+    /// Calculates the dot product of two vectors.
     /// </summary>
-    /// <param name="other">The second vector to calculate the dot product with.</param>
+    /// <param name="left">The first vector to calculate the dot product with.</param>
+    /// <param name="right">The second vector to calculate the dot product with.</param>
     [Pure]
-    public readonly double DotProduct(DoubleVector3 other) => X * other.X + Y * other.Y + Z * other.Z;
+    public static double Dot(DoubleVector3 left, DoubleVector3 right) => left.X * right.X + left.Y * right.Y + left.Z * right.Z;
 
     /// <summary>
-    /// Calculates the cross product of this vector and <paramref name="other"/>.
+    /// Calculates the cross product of two vectors.
     /// </summary>
-    /// <param name="other">The second vector to calculate the cross product with.</param>
+    /// <param name="left">The first vector to calculate the cross product with.</param>
+    /// <param name="right">The second vector to calculate the cross product with.</param>
     [Pure]
-    public readonly DoubleVector3 CrossProduct(DoubleVector3 other)
+    public static DoubleVector3 Cross(DoubleVector3 left, DoubleVector3 right)
         => new(
-            Y * other.Z - Z * other.Y,
-            Z * other.X - X * other.Z,
-            X * other.Y - Y * other.X);
+            left.Y * right.Z - left.Z * right.Y,
+            left.Z * right.X - left.X * right.Z,
+            left.X * right.Y - left.Y * right.X);
+
+    /// <summary>
+    /// Applies the rotation and scaling of <paramref name="transformation"/> to <paramref name="normal"/> in double precision, ignoring its translation.
+    /// </summary>
+    /// <param name="normal">The vector to transform.</param>
+    /// <param name="transformation">The transformation matrix to apply.</param>
+    /// <remarks>Avoids cutting large vectors down to single precision before transforming them.</remarks>
+    [Pure]
+    public static DoubleVector3 TransformNormal(DoubleVector3 normal, Matrix transformation)
+        => new(
+            normal.X * transformation.M11 + normal.Y * transformation.M21 + normal.Z * transformation.M31,
+            normal.X * transformation.M12 + normal.Y * transformation.M22 + normal.Z * transformation.M32,
+            normal.X * transformation.M13 + normal.Y * transformation.M23 + normal.Z * transformation.M33);
+
+    /// <summary>
+    /// Rotates <paramref name="vector"/> by a <see cref="Quaternion"/>.
+    /// </summary>
+    /// <param name="vector">The vector to rotate.</param>
+    /// <param name="rotation">The rotation to apply. Should be normalized.</param>
+    [Pure]
+    public static DoubleVector3 Transform(DoubleVector3 vector, Quaternion rotation)
+    {
+        var axis = new DoubleVector3(rotation.X, rotation.Y, rotation.Z);
+        var twice = 2 * Cross(axis, vector);
+        return vector + rotation.W * twice + Cross(axis, twice);
+    }
 
     /// <summary>
     /// Calculates the length of the vector.

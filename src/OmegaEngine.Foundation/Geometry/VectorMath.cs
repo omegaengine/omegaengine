@@ -75,8 +75,8 @@ public static class VectorMath
     [Pure]
     public static DoubleVector3 RotateAroundAxis(this DoubleVector3 value, DoubleVector3 axis, double rotation)
         => Math.Cos(rotation) * value +
-           Math.Sin(rotation) * axis.CrossProduct(value) +
-           (1 - Math.Cos(rotation)) * axis.DotProduct(value) * axis;
+           Math.Sin(rotation) * DoubleVector3.Cross(axis, value) +
+           (1 - Math.Cos(rotation)) * DoubleVector3.Dot(axis, value) * axis;
 
     /// <summary>
     /// How short the cross product of two unit vectors has to get before it no longer determines a plane between them.
@@ -94,8 +94,8 @@ public static class VectorMath
     {
         from = from.Normalize();
         to = to.Normalize();
-        var cross = from.CrossProduct(to);
-        double sine = cross.Length(), dot = from.DotProduct(to);
+        var cross = DoubleVector3.Cross(from, to);
+        double sine = cross.Length(), dot = DoubleVector3.Dot(from, to);
 
         // Nothing left of the cross product to take an axis from, so any perpendicular will do
         if (sine < DegenerateCross)
@@ -155,6 +155,6 @@ public static class VectorMath
                 ? DoubleVector3.UnitX
                 : DoubleVector3.UnitZ;
 
-        return vn.CrossProduct(axis).Normalize();
+        return DoubleVector3.Cross(vn, axis).Normalize();
     }
 }

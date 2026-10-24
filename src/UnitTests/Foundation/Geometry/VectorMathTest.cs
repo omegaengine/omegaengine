@@ -190,7 +190,7 @@ public class VectorMathTest
             var perpendicular = vector.AnyPerpendicular();
 
             perpendicular.Length().Should().BeApproximately(1, 1e-10);
-            perpendicular.DotProduct(vector).Should().BeApproximately(0, 1e-10);
+            DoubleVector3.Dot(perpendicular, vector).Should().BeApproximately(0, 1e-10);
         }
     }
 }

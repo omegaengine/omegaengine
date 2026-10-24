@@ -373,7 +373,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         {
             _physicalTransform = orientation * Matrix.Translation((Vector3)_position) * parent._physicalTransform;
             _worldPosition = parent.ToWorld(_position);
-            _worldOrigin = _worldPosition + ((DoubleVector3)localOrigin).TransformNormal(parent._physicalTransform);
+            _worldOrigin = _worldPosition + DoubleVector3.TransformNormal((DoubleVector3)localOrigin, parent._physicalTransform);
         }
 
         var floatingOrigin = this.ApplyFloatingOriginTo(_worldOrigin);
@@ -407,7 +407,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     internal DoubleVector3 ToWorld(DoubleVector3 entityPosition)
     {
         EnsurePhysicalTransform();
-        return _worldOrigin + entityPosition.TransformNormal(_physicalTransform);
+        return _worldOrigin + DoubleVector3.TransformNormal(entityPosition, _physicalTransform);
     }
 
     /// <summary>
