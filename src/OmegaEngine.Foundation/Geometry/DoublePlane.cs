@@ -43,13 +43,13 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     /// <param name="offset">This value is subtracted from the double-precision data before it is casted to single-precision.</param>
     /// <returns>The newly positioned <see cref="Plane"/>.</returns>
     [Pure]
-    public Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), _normal);
+    public readonly Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), _normal);
 
     /// <inheritdoc/>
     public readonly override string ToString() => $"({Point} => {Normal})";
 
     /// <inheritdoc/>
-    public bool Equals(DoublePlane other) => other.Point == Point && other.Normal == Normal;
+    public readonly bool Equals(DoublePlane other) => other.Point == Point && other.Normal == Normal;
 
     public static bool operator ==(DoublePlane left, DoublePlane right) => left.Equals(right);
     public static bool operator !=(DoublePlane left, DoublePlane right) => !left.Equals(right);
