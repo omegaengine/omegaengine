@@ -267,7 +267,12 @@ partial class Engine
         }
 
         // Lock mouse cursor inside window to prevent glitches with multi-monitor systems
-        if (_config.Fullscreen) WinForms.Cursor.Clip = new(new(), RenderSize);
+        // Only when changed, since setting the clip makes Windows send a WM_MOUSEMOVE
+        if (_config.Fullscreen)
+        {
+            var clip = new Rectangle(new(), RenderSize);
+            if (WinForms.Cursor.Clip != clip) WinForms.Cursor.Clip = clip;
+        }
 
         // Detect and handle device state changes (Note: Reset can also be triggered from elsewhere)
         var deviceState = Device.CheckDeviceState(Target.Handle);
