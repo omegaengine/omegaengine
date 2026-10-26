@@ -782,6 +782,10 @@ public class Dialog
     {
         // Figure out which control the mouse is over now
         Control? control = GetControlAtPoint(pt);
+
+        // Hover state is shared by all dialogs, so only clear it if it belongs to this one
+        if (control == null && ControlMouseOver?.Parent != this) return;
+
         if (ControlMouseOver != control)
         {
             if (ControlMouseOver != null)
