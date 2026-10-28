@@ -181,9 +181,14 @@ Create custom themes by:
 |              | Selection          | 16   | 166 | 240   | 183    |
 | ProgressBar  | Background         | 7    | 81  | 247   | 123    |
 |              | Fill               | 20   | 126 | 238   | 157    |
+|              | Fill (dark fields) | 110  | 57  | 254   | 79     |
 
 > [!NOTE]
 > The ProgressBar regions deliberately overlap those of the DropdownList and Listbox, so that themes do not need to provide dedicated artwork for it. Its background is the same beveled frame as the DropdownList, while its fill sits inside the Listbox's flat area. Keep that area near-white in custom themes: the fill is modulated with <xref:OmegaGUI.Model.ProgressBar.FillColor>, so a strongly colored region cannot be tinted to arbitrary colors.
+
+### Dark fields
+
+By default, text in text boxes, list boxes and dropdown lists is black, so themes have to draw those controls in light colors. A theme that draws them dark instead must be used with <xref:OmegaGUI.Model.Dialog.DarkFields> set on every dialog that uses it. The text in those controls then uses the dialog's <xref:OmegaGUI.Model.Dialog.TextColor>. Since the Listbox's area is no longer near-white, the ProgressBar fill moves to a dedicated region (see *Fill (dark fields)* above), which must be filled with flat white.
 
 ## Scaling
 

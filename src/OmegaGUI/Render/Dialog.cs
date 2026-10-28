@@ -105,6 +105,15 @@ public class Dialog
         }
     }
 
+    /// <summary>
+    /// Does the texture draw text boxes, list boxes and dropdown lists dark?
+    /// If so, their text uses the default text color instead of black and progress bars fill from the dedicated white swatch.
+    /// </summary>
+    public bool DarkFields { get; }
+
+    /// <summary>The color of text in text boxes, list boxes and dropdown lists</summary>
+    public Color4 FieldTextColor => DarkFields ? defaultTextColor : BlackColorValue;
+
     /// <summary>The font slot used for the caption text</summary>
     public uint CaptionFontIndex { get => captionElement.FontIndex; set => captionElement.FontIndex = value; }
 
@@ -195,9 +204,11 @@ public class Dialog
     /// <param name="defaultTexture">The texture file containing the controls</param>
     /// <param name="defaultFont">The name of default font for text on controls</param>
     /// <param name="defaultFontSize">The default font size</param>
-    public Dialog(DialogManager manager, Color4? defaultTextColor = null, string defaultTexture = "base.png", string defaultFont = "Arial", uint defaultFontSize = 16)
+    /// <param name="darkFields"><c>true</c> if <paramref name="defaultTexture"/> draws text boxes, list boxes and dropdown lists dark; see <see cref="DarkFields"/></param>
+    public Dialog(DialogManager manager, Color4? defaultTextColor = null, string defaultTexture = "base.png", string defaultFont = "Arial", uint defaultFontSize = 16, bool darkFields = false)
     {
         DialogManager = manager;
+        DarkFields = darkFields;
 
         topLeftColor = topRightColor = bottomLeftColor = bottomRightColor = new();
         tooltipFillColor = new(0.85f, 0.125f, 0.125f, 0.125f);
@@ -334,8 +345,11 @@ public class Dialog
         e.TextureColor.States[(int)ControlState.Normal] = new(0.55f, 0.8f, 0.8f, 0.8f);
         e.TextureColor.States[(int)ControlState.Focus] = new(0.6f, 0.95f, 0.95f, 0.95f);
         e.TextureColor.States[(int)ControlState.Disabled] = new(0.25f, 0.8f, 0.8f, 0.8f);
-        e.FontColor.States[(int)ControlState.MouseOver] = new(0, 0, 0);
-        e.FontColor.States[(int)ControlState.Pressed] = new(0, 0, 0);
+        if (!DarkFields)
+        {
+            e.FontColor.States[(int)ControlState.MouseOver] = new(0, 0, 0);
+            e.FontColor.States[(int)ControlState.Pressed] = new(0, 0, 0);
+        }
         e.FontColor.States[(int)ControlState.Disabled] = new(0.8f, 0.8f, 0.8f, 0.8f);
         // Assign the element
         SetDefaultElement(ControlType.DropdownList, DropdownList.MainLayer, e);
@@ -355,7 +369,7 @@ public class Dialog
         // DropdownList - Dropdown
         //-------------------------------------
         e.SetTexture(0, Rectangle.FromLTRB(13, 123, 241, 160));
-        e.SetFont(0, BlackColorValue, DrawTextFormat.Left | DrawTextFormat.Top);
+        e.SetFont(0, FieldTextColor, DrawTextFormat.Left | DrawTextFormat.Top);
         // Assign the element
         SetDefaultElement(ControlType.DropdownList, DropdownList.DropdownLayer, e);
 
@@ -398,7 +412,8 @@ public class Dialog
         // ProgressBar - Fill
         //-------------------------------------
         // Reuses the inside of the ListBox's white area, which modulates cleanly to any color
-        e.SetTexture(0, Rectangle.FromLTRB(20, 126, 238, 157));
+        // Textures with dark fields provide a dedicated white swatch instead
+        e.SetTexture(0, DarkFields ? Rectangle.FromLTRB(110, 57, 254, 79) : Rectangle.FromLTRB(20, 126, 238, 157));
         // Assign the element
         SetDefaultElement(ControlType.ProgressBar, ProgressBar.FillLayer, e);
 
@@ -448,7 +463,7 @@ public class Dialog
         //   7 - lower border
         //   8 - lower right border
         SetFont(1, "Arial", 18, FontWeight.Normal);
-        e.SetFont(1, BlackColorValue, DrawTextFormat.Left | DrawTextFormat.Top);
+        e.SetFont(1, FieldTextColor, DrawTextFormat.Left | DrawTextFormat.Top);
 
         // Assign the styles
         e.SetTexture(0, Rectangle.FromLTRB(14, 90, 241, 113));
@@ -474,7 +489,7 @@ public class Dialog
         // Listbox - Main
         //-------------------------------------
         e.SetTexture(0, Rectangle.FromLTRB(13, 123, 241, 160));
-        e.SetFont(0, BlackColorValue, DrawTextFormat.Left | DrawTextFormat.Top);
+        e.SetFont(0, FieldTextColor, DrawTextFormat.Left | DrawTextFormat.Top);
         // Assign the element
         SetDefaultElement(ControlType.ListBox, ListBox.MainLayer, e);
 

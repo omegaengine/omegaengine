@@ -157,10 +157,18 @@ public class TextBox : Control
 
         blinkTime = WinFormsUtils.CaretBlinkTime;
         lastBlink = WindowsUtils.AbsoluteTime;
-        textColor = new(0.06f, 0.06f, 0.06f);
+        if (parent.DarkFields)
+        {
+            textColor = caretColor = parent.FieldTextColor;
+            selectedBackColor = new(0.35f, 1.0f, 1.0f, 1.0f);
+        }
+        else
+        {
+            textColor = new(0.06f, 0.06f, 0.06f);
+            selectedBackColor = new(0.15f, 0.196f, 0.36f);
+            caretColor = new(0, 0, 0);
+        }
         selectedTextColor = new(1.0f, 1.0f, 1.0f);
-        selectedBackColor = new(0.15f, 0.196f, 0.36f);
-        caretColor = new(0, 0, 0);
         isInsertMode = true;
     }
 

@@ -304,6 +304,22 @@ public partial class Dialog : ICloneable<Dialog>
 
     [Description("Is the specified texture file name valid?"), Category("Appearance")]
     public bool TextureFileValid => !string.IsNullOrEmpty(_textureFile) && ContentManager.FileExists("GUI/Textures", _textureFile);
+
+    private bool _darkFields;
+
+    /// <summary>
+    /// Does the texture draw text boxes, list boxes and dropdown lists dark, so their text needs to be light? - no auto-update
+    /// </summary>
+    [XmlAttribute, DefaultValue(false), Description("Does the texture draw text boxes, list boxes and dropdown lists dark, so their text needs to be light?"), Category("Appearance")]
+    public bool DarkFields
+    {
+        get => _darkFields;
+        set
+        {
+            _darkFields = value;
+            NeedsUpdate = true;
+        }
+    }
     #endregion
 
     #region Font
@@ -558,8 +574,8 @@ public partial class Dialog : ICloneable<Dialog>
 
         // Generate dialog model object
         DialogRender = TextureFileValid
-            ? new(manager, ColorText.ToColor4(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale))
-            : new Render.Dialog(manager, ColorText.ToColor4());
+            ? new(manager, ColorText.ToColor4(), _textureFile, _fontName, (uint)(_fontSize * EffectiveScale), _darkFields)
+            : new Render.Dialog(manager, ColorText.ToColor4(), darkFields: _darkFields);
 
         // Set dialog properites
         DialogRender.SetCaptionText(GetLocalized(_captionText));
