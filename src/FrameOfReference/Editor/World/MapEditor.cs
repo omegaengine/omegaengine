@@ -44,6 +44,7 @@ using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Tasks;
 using NanoByte.Common.Undo;
+using NanoByte.StructureEditor;
 using OmegaEngine;
 using OmegaEngine.Foundation;
 using OmegaEngine.Foundation.Geometry;
@@ -933,7 +934,7 @@ public partial class MapEditor : UndoCommandTab
         if (_suppressXmlUpdate) return;
 
         using (Entity.MaskTemplateData())
-            xmlEditor.SetContent(_universe.ToXmlString(), "XML");
+            xmlEditor.SetContent(_universe.ToXmlString(), XmlStructureSerializer.Instance);
     }
 
     private void xmlEditor_ContentChanged(string text)
