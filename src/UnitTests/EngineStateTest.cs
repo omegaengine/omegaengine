@@ -58,4 +58,45 @@ public class EngineStateTest : EngineTestBase
         Engine.State.SrgbTexture.Should().BeFalse();
         Engine.Device.GetSamplerState(0, SamplerState.SrgbTexture).Should().Be(0);
     }
+
+    [Fact]
+    public void DepthBiasDefaultsToZero()
+    {
+        Engine.State.DepthBias.Should().Be(0);
+        Engine.State.SlopeScaleDepthBias.Should().Be(0);
+        Engine.Device.GetRenderState<float>(RenderState.DepthBias).Should().Be(0);
+        Engine.Device.GetRenderState<float>(RenderState.SlopeScaleDepthBias).Should().Be(0);
+    }
+
+    [Fact]
+    public void DepthBiasReachesTheDevice()
+    {
+        if (!Engine.Capabilities.DepthBias) Assert.Skip("Hardware does not support depth bias");
+
+        Engine.State.DepthBias = -0.0001f;
+
+        Engine.State.DepthBias.Should().Be(-0.0001f);
+        Engine.Device.GetRenderState<float>(RenderState.DepthBias).Should().Be(-0.0001f);
+
+        Engine.State.DepthBias = 0;
+
+        Engine.State.DepthBias.Should().Be(0);
+        Engine.Device.GetRenderState<float>(RenderState.DepthBias).Should().Be(0);
+    }
+
+    [Fact]
+    public void SlopeScaleDepthBiasReachesTheDevice()
+    {
+        if (!Engine.Capabilities.SlopeScaleDepthBias) Assert.Skip("Hardware does not support slope-scaled depth bias");
+
+        Engine.State.SlopeScaleDepthBias = -1.5f;
+
+        Engine.State.SlopeScaleDepthBias.Should().Be(-1.5f);
+        Engine.Device.GetRenderState<float>(RenderState.SlopeScaleDepthBias).Should().Be(-1.5f);
+
+        Engine.State.SlopeScaleDepthBias = 0;
+
+        Engine.State.SlopeScaleDepthBias.Should().Be(0);
+        Engine.Device.GetRenderState<float>(RenderState.SlopeScaleDepthBias).Should().Be(0);
+    }
 }

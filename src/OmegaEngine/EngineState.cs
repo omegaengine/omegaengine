@@ -39,14 +39,20 @@ public sealed class EngineState
 {
     #region Dependencies
     private readonly Device _device;
+    private readonly bool _depthBiasSupported, _slopeScaleDepthBiasSupported;
 
     /// <summary>
     /// Creates an engine state object.
     /// </summary>
     /// <param name="device">The Direct3D device to be manipulated internally.</param>
-    internal EngineState(Device device)
+    /// <param name="capabilities">The rendering capabilities of the graphics hardware.</param>
+    internal EngineState(Device device, EngineCapabilities capabilities)
     {
         _device = device ?? throw new ArgumentNullException(nameof(device));
+        if (capabilities == null) throw new ArgumentNullException(nameof(capabilities));
+
+        _depthBiasSupported = capabilities.DepthBias;
+        _slopeScaleDepthBiasSupported = capabilities.SlopeScaleDepthBias;
     }
 
     /// <summary>
@@ -57,6 +63,7 @@ public sealed class EngineState
         _fillMode = FillMode.Solid;
         _cullMode = Cull.Counterclockwise;
         _zBufferMode = ZBufferMode.Normal;
+        _depthBias = _slopeScaleDepthBias = 0;
         _ffpLighting = true;
         _fog = false;
         _fogColor = Color.Empty;
@@ -112,6 +119,38 @@ public sealed class EngineState
                         break;
                 }
             });
+    }
+
+    private float _depthBias;
+
+    /// <summary>
+    /// A constant offset added to the depth of every pixel drawn, in fractions of the normalized depth range (0 to 1)
+    /// </summary>
+    /// <seealso cref="Graphics.Renderables.PositionableRenderable.DepthBias"/>
+    public float DepthBias
+    {
+        get => _depthBias;
+        set
+        {
+            if (_depthBiasSupported)
+                value.To(ref _depthBias, () => _device.SetRenderState(RenderState.DepthBias, value));
+        }
+    }
+
+    private float _slopeScaleDepthBias;
+
+    /// <summary>
+    /// A factor applied to the maximum depth slope of a polygon to add an offset to the depth of every pixel drawn, on top of <see cref="DepthBias"/>
+    /// </summary>
+    /// <seealso cref="Graphics.Renderables.PositionableRenderable.SlopeScaleDepthBias"/>
+    public float SlopeScaleDepthBias
+    {
+        get => _slopeScaleDepthBias;
+        set
+        {
+            if (_slopeScaleDepthBiasSupported)
+                value.To(ref _slopeScaleDepthBias, () => _device.SetRenderState(RenderState.SlopeScaleDepthBias, value));
+        }
     }
     #endregion
 

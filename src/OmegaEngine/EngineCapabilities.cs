@@ -163,6 +163,18 @@ public sealed class EngineCapabilities
     public bool Anisotropic => (_direct3D.GetDeviceCaps(0, DeviceType.Hardware).TextureFilterCaps).HasFlag(FilterCaps.MinAnisotropic | FilterCaps.MagAnisotropic);
 
     /// <summary>
+    /// Does the hardware support a constant depth bias?
+    /// </summary>
+    /// <seealso cref="EngineState.DepthBias"/>
+    public bool DepthBias => _capabilities.RasterCaps.HasFlag(RasterCaps.DepthBias);
+
+    /// <summary>
+    /// Does the hardware support a slope-scaled depth bias?
+    /// </summary>
+    /// <seealso cref="EngineState.SlopeScaleDepthBias"/>
+    public bool SlopeScaleDepthBias => _capabilities.RasterCaps.HasFlag(RasterCaps.SlopeScaleDepthBias);
+
+    /// <summary>
     /// The minimum shader model version the hardware must support for the <see cref="Engine"/> to run.
     /// </summary>
     public static Version MinShaderModel { get; } = new(3, 0);

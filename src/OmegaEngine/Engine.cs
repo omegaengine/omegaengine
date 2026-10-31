@@ -162,7 +162,7 @@ public sealed partial class Engine : EngineElement
 
             RenderViewport = Device.Viewport;
             BackBuffer = Device.GetBackBuffer(0, 0);
-            State = new(Device);
+            State = new(Device, Capabilities);
             SetupTextureFiltering();
             Performance = new(Device, RenderPure);
 

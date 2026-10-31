@@ -159,7 +159,7 @@ partial class View
                 {
                     // ReSharper disable once AccessToForEachVariableInClosure
                     using (new ProfilerEvent(() => $"Render {model}"))
-                        model.Render(new(Camera, Pass));
+                        RenderWithDepthBias(model, new(Camera, Pass));
                 }
             }
         }
@@ -245,7 +245,25 @@ partial class View
         var lights = Lighting ? (_getEffectiveLights ??= Scene.GetEffectiveLights) : null;
 
         using (new ProfilerEvent(() => $"Render {body}"))
-            body.Render(new(Camera, Pass, lights));
+            RenderWithDepthBias(body, new(Camera, Pass, lights));
+    }
+
+    /// <summary>
+    /// Renders a <see cref="PositionableRenderable"/> with its <see cref="PositionableRenderable.DepthBias"/> and <see cref="PositionableRenderable.SlopeScaleDepthBias"/> applied.
+    /// </summary>
+    private void RenderWithDepthBias(PositionableRenderable body, RenderContext context)
+    {
+        Engine.State.DepthBias = body.DepthBias;
+        Engine.State.SlopeScaleDepthBias = body.SlopeScaleDepthBias;
+        try
+        {
+            body.Render(context);
+        }
+        finally
+        {
+            Engine.State.DepthBias = 0;
+            Engine.State.SlopeScaleDepthBias = 0;
+        }
     }
     #endregion
 

@@ -218,6 +218,26 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// </summary>
     [DefaultValue(false), Description("Shall this body receive shadows from other objects?"), Category("Behavior")]
     public bool ShadowReceiver { get; set; }
+
+    /// <summary>
+    /// A constant offset added to the depth of this body's pixels, in fractions of the normalized depth range (0 to 1). Negative values draw the body as if it were closer to the camera.
+    /// </summary>
+    /// <remarks>
+    /// Lets this body win the depth test against another one without moving it. A typical use is a translucent shell around a body, like an atmosphere around a planet, which z-fights with the body's surface when seen from far away.
+    /// Seen from outside, the shell's front faces can never be behind its own body, so biasing the shell towards the camera is safe.
+    /// </remarks>
+    [DefaultValue(0f), Description("A constant offset added to the depth of this body's pixels, in fractions of the normalized depth range (0 to 1). Negative values draw the body as if it were closer to the camera."), Category("Appearance")]
+    public float DepthBias { get; set; }
+
+    /// <summary>
+    /// A factor applied to the maximum depth slope of each of this body's polygons to add an offset to the depth of its pixels, on top of <see cref="DepthBias"/>. Negative values draw the body as if it were closer to the camera.
+    /// </summary>
+    /// <remarks>
+    /// Polygons seen at a grazing angle, whose depth changes steeply from one pixel to the next, get a larger offset than polygons facing the camera.
+    /// The total offset is the depth slope times this factor plus <see cref="DepthBias"/>.
+    /// </remarks>
+    [DefaultValue(0f), Description("A factor applied to the maximum depth slope of each of this body's polygons to add an offset to the depth of its pixels, on top of the constant depth bias. Negative values draw the body as if it were closer to the camera."), Category("Appearance")]
+    public float SlopeScaleDepthBias { get; set; }
     #endregion
 
     #region Transform factors
