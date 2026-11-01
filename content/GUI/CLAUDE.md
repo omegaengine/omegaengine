@@ -17,3 +17,4 @@
 - Lua null checks: prefer `x and x.y` over `x ~= nil and x.y`. This is more concise and idiomatic in Lua, where `nil` and `false` are falsy.
 - `dofile()` and `LoadDialog()` paths are relative to `GUI/` and are plain strings.
 - Do not use the keys `W`, `A`, `S`, `D` for GUI hotkeys, because they are already bound to camera control.
+- Parse-check any `content/GUI` edit with the `lua-syntax-check` skill before handing it over.
