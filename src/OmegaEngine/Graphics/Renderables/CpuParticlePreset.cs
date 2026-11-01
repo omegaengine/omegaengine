@@ -173,18 +173,41 @@ public record CpuParticlePreset
             return new(center: new(), radius: Math.Max(maxDistance, 1));
         }
         else
-        { // ... otherwise sum up the maximums
-            float maxLifeTime = UpperParameters1.LifeTime + UpperParameters2.LifeTime;
-            float minFriction = LowerParameters1.Friction + LowerParameters2.Friction;
-            float netAcceleration = Math.Max(Gravity.Length() - minFriction, 0);
-            float maxDistance = SpawnRadius + netAcceleration * maxLifeTime * maxLifeTime / 2f;
+        { // ... otherwise follow the longest-lived, least damped particle through both lives
+            float gravity = Gravity.Length();
+            var (firstDistance, firstVelocity) = Drift(0, gravity, LowerParameters1.Friction, UpperParameters1.LifeTime);
+            var (secondDistance, _) = Drift(firstVelocity, gravity, LowerParameters2.Friction, UpperParameters2.LifeTime);
+            float maxDistance = SpawnRadius + firstDistance + secondDistance;
+
+            // Speed a particle can have picked up while being pushed through the repel range, which carries it on in any direction
+            float repelVelocity = (float)Math.Sqrt(2 * Math.Max(EmitterRepelSpeed, 0) * Math.Max(EmitterRepelRange, 0));
+            var (firstRepel, carriedRepel) = Drift(repelVelocity, 0, LowerParameters1.Friction, UpperParameters1.LifeTime);
+            var (secondRepel, _) = Drift(carriedRepel, 0, LowerParameters2.Friction, UpperParameters2.LifeTime);
 
             return new(
                 // Move half the way in gravity direction, handle first half of repelling force
-                center: Vector3.Normalize(Gravity) * (maxDistance / 2f - EmitterRepelRange),
+                center: gravity > 0 ? Gravity / gravity * (maxDistance / 2f - EmitterRepelRange) : new(),
                 // Encapsulate the entire gravity area, handle second half of repelling force
-                radius: maxDistance / 2 + EmitterRepelRange);
+                radius: maxDistance / 2 + EmitterRepelRange + firstRepel + secondRepel);
         }
+    }
+
+    /// <summary>
+    /// Calculates how far a particle travels under constant acceleration while friction slows it down.
+    /// </summary>
+    /// <param name="velocity">The particle's speed at the start, along the acceleration.</param>
+    /// <param name="acceleration">The constant acceleration.</param>
+    /// <param name="friction">The share of its velocity the particle loses per second.</param>
+    /// <param name="time">How long the particle travels.</param>
+    /// <returns>The distance travelled and the particle's speed at the end.</returns>
+    private static (float Distance, float Velocity) Drift(float velocity, float acceleration, float friction, float time)
+    {
+        if (time <= 0) return (0, velocity);
+        if (friction <= 1e-6f) return (velocity * time + acceleration * time * time / 2, velocity + acceleration * time);
+
+        float terminal = acceleration / friction;
+        float decay = (float)Math.Exp(-friction * time);
+        return (terminal * time + (velocity - terminal) * (1 - decay) / friction, terminal + (velocity - terminal) * decay);
     }
 
     /// <summary>
