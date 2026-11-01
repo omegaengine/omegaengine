@@ -16,6 +16,7 @@ using OmegaEngine;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Renderables;
+using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Input;
 
@@ -86,7 +87,12 @@ public partial class CpuParticleSystemEditor : UndoCommandTab
         // Setup scene
         _particleSystem = new() {Preset = _preset};
         UpdateCameraMinMaxRadius();
-        Camera.Radius = BoundingRadius * 2;
+        Camera.Radius = BoundingRadius * 2.5;
+
+        // Look at the middle of where particles go, at an angle, so that emitters blowing along an axis are not seen end-on
+        if (_particleSystem.BoundingSphere is {} sphere) Camera.Target = (DoubleVector3)sphere.Center;
+        Camera.Yaw = 60;
+        Camera.Pitch = 20;
         _scene = new() {Positionables = {_particleSystem}};
         renderPanel.Engine.Views.Add(new(_scene, Camera) {BackgroundColor = Color.Black});
 
@@ -129,6 +135,10 @@ public partial class CpuParticleSystemEditor : UndoCommandTab
         Camera.MinRadius = BoundingRadius / 5;
         Camera.MaxRadius = BoundingRadius * 10;
         Camera.Radius = Camera.Radius.Clamp(Camera.MinRadius, Camera.MaxRadius);
+
+        // Keep the clip planes in proportion, so that tiny and huge particle systems are both shown in full
+        Camera.NearClip = (float)Camera.MinRadius / 100;
+        Camera.FarClip = (float)Camera.MaxRadius * 10;
     }
     #endregion
 
