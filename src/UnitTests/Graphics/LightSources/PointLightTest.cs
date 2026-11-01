@@ -38,6 +38,19 @@ public class PointLightTest
     }
 
     [Fact]
+    public void GetShadowed_NoShadow_WhenLightInsideCaster()
+    {
+        var light = CreateLight();
+
+        var casterSphere = new BoundingSphere(new(0, 19.5f, 0), 1);
+        var receiverSphere = new BoundingSphere(new(0, 0, 0), 1);
+
+        var shadowed = light.GetShadowed(receiverSphere, casterSphere);
+
+        shadowed.Should().Be(light);
+    }
+
+    [Fact]
     public void GetShadowed_NoShadow_WhenReceiverNotBehindCaster()
     {
         var light = CreateLight();

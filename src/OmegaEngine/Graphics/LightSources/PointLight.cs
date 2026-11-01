@@ -181,8 +181,9 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         var lightToCaster = casterSphere.Center - lightPos;
         float lightToCasterDistance = lightToCaster.Length();
 
-        if (lightToCasterDistance < 0.0001)
-            return this; // Light at same position as caster
+        // A sphere around the light cannot occlude it
+        if (lightToCasterDistance <= casterSphere.Radius)
+            return this; // Light inside caster
 
         var casterToReceiver = receiverSphere.Center - casterSphere.Center;
         if (casterToReceiver.Length() > MaxShadowRange)
