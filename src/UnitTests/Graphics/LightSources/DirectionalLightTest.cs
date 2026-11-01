@@ -209,6 +209,35 @@ public class DirectionalLightTest
         shadowed.SourceDistance.Should().Be(light.SourceDistance);
     }
 
+    [Theory]
+    [InlineData(1e-5f)]
+    [InlineData(1e-3f)]
+    [InlineData(1e3f)]
+    [InlineData(1e5f)]
+    public void GetShadowed_IndependentOfWorldUnit(float scale)
+    {
+        foreach (float receiverOffset in new[] {0.05f, 1.5f, 2.5f}) // Nearly concentric to barely overlapping
+        {
+            var expected = GetShadowedDiffuse(scale: 1, receiverOffset);
+            expected.Should().NotBe(Color.White, "the scenario should cast a shadow, so the comparison is not vacuous");
+
+            GetShadowedDiffuse(scale, receiverOffset).ShouldBeCloseTo(expected);
+        }
+    }
+
+    /// <summary>Shadows a receiver with a tapered light, with the whole scenario scaled uniformly.</summary>
+    private static Color GetShadowedDiffuse(float scale, float receiverOffset)
+    {
+        var light = CreateTaperedLight();
+        light.SourceRadius *= scale;
+        light.SourceDistance *= scale;
+
+        var casterSphere = new BoundingSphere(new(0, 10 * scale, 0), radius: 2 * scale);
+        var receiverSphere = new BoundingSphere(new(receiverOffset * scale, 0, 0), radius: 1.5f * scale);
+
+        return light.GetShadowed(receiverSphere, casterSphere).Diffuse;
+    }
+
     [Fact]
     public void GetShadowed_NoShadow_WhenCasterBeyondMaxShadowRange()
     {

@@ -50,6 +50,36 @@ public class PointLightTest
         shadowed.Should().Be(light);
     }
 
+    [Theory]
+    [InlineData(1e-5f)]
+    [InlineData(1e-3f)]
+    [InlineData(1e3f)]
+    [InlineData(1e5f)]
+    public void GetShadowed_IndependentOfWorldUnit(float scale)
+    {
+        foreach (float sourceRadius in new[] {0, 0.5f})
+        foreach (float receiverOffset in new[] {0.05f, 1, 3}) // Nearly concentric to barely overlapping
+        {
+            var expected = GetShadowedDiffuse(scale: 1, sourceRadius, receiverOffset);
+            expected.Should().NotBe(Color.White, "the scenario should cast a shadow, so the comparison is not vacuous");
+
+            GetShadowedDiffuse(scale, sourceRadius, receiverOffset).ShouldBeCloseTo(expected);
+        }
+    }
+
+    /// <summary>Shadows a receiver with a caster halfway between it and the light, with the whole scenario scaled uniformly.</summary>
+    private static Color GetShadowedDiffuse(float scale, float sourceRadius, float receiverOffset)
+    {
+        var light = CreateLight();
+        light.Position = new(0, 20 * scale, 0);
+        light.SourceRadius = sourceRadius * scale;
+
+        var casterSphere = new BoundingSphere(new(0, 10 * scale, 0), radius: scale);
+        var receiverSphere = new BoundingSphere(new(receiverOffset * scale, 0, 0), radius: 2 * scale);
+
+        return light.GetShadowed(receiverSphere, casterSphere).Diffuse;
+    }
+
     [Fact]
     public void GetShadowed_NoShadow_WhenReceiverNotBehindCaster()
     {

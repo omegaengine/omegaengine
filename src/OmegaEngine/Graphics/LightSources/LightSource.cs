@@ -141,8 +141,8 @@ public abstract class LightSource
         float receiverRadiusSquared = receiverRadius * receiverRadius;
         float distanceSquared = distance * distance;
 
-        // Avoid division by zero
-        if (distanceSquared < 0.0001)
+        // Avoid division by zero; relative to the radii so the cutoff does not depend on the world unit
+        if (distance <= 1e-4f * Math.Max(shadowRadius, receiverRadius))
             return shadowRadius >= receiverRadius ? 1 : shadowRadiusSquared / receiverRadiusSquared;
 
         float angle1 = (float)Math.Acos(Math.Max(-1, Math.Min(1, (distanceSquared + shadowRadiusSquared - receiverRadiusSquared) / (2 * distance * shadowRadius))));
