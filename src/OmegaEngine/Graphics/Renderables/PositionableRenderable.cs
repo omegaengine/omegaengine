@@ -957,10 +957,10 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
                 RenderGlow(render, material);
                 break;
             case SurfaceEffect.FixedFunction:
-                RenderFixedFunction(render, material, effectiveLights);
+                RenderFixedFunction(render, material, ApplyDistanceCompression(effectiveLights));
                 break;
             case SurfaceEffect.Shader:
-                RenderShader(render, material, camera, shader, effectiveLights);
+                RenderShader(render, material, camera, shader, ApplyDistanceCompression(effectiveLights));
                 break;
             case SurfaceEffect.Depth:
                 RenderDepth(render, camera);
@@ -968,6 +968,31 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
 
         Engine.State.UserClipPlane = default;
+    }
+
+    /// <summary>
+    /// Moves <see cref="PointLight"/>s along with the body while it is pulled in by distance compression.
+    /// </summary>
+    /// <param name="lights">The effective lights, selected using the body's actual position.</param>
+    /// <remarks>Distance compression scales the body around the camera for rendering, so the light sources lighting it must be scaled alike to keep their direction and intensity. <see cref="DirectionalLight"/>s are unaffected by this.</remarks>
+    internal IReadOnlyList<LightSource> ApplyDistanceCompression(IReadOnlyList<LightSource> lights)
+    {
+        if (_distanceCompressionScaling == 1) return lights;
+
+        LightSource[]? result = null;
+        for (int i = 0; i < lights.Count; i++)
+        {
+            if (lights[i] is not PointLight point) continue;
+
+            // Only copy the list once it actually contains a light to replace
+            if (result == null)
+            {
+                result = new LightSource[lights.Count];
+                for (int j = 0; j < lights.Count; j++) result[j] = lights[j];
+            }
+            result[i] = point.ScaledAround(_distanceCompressionCenter, _distanceCompressionScaling);
+        }
+        return result ?? lights;
     }
 
     private void RenderPlain([InstantHandle] Action render, XMaterial material)

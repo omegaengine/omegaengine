@@ -129,6 +129,8 @@ Renderables beyond `DistanceCompressionStart` are pulled in logarithmically. A s
 
 This keeps pulled-in renderables at clearly different distances in the right Z-order. It is not guaranteed for renderables whose depth ranges overlap, since each subtree is scaled as a whole by a factor measured to its own nearest surface, nor for subtrees pulled in further to fit within `FarClip`. They are spread across the depth range between `DistanceCompressionStart` and `FarClip`, so leave enough room between the two.
 
+Lighting is applied as at the actual distance: point lights are scaled along with each pulled-in renderable, so they keep their direction and intensity.
+
 Fog is applied at the distance a renderable is rendered at, not the one it actually has. Pulled-in renderables are therefore usually fogged less than their actual distance would call for.
 
 Distance compression can be combined with `MinScreenSizeDistance` for very large, very distant objects that should also stay visible.

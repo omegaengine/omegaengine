@@ -7,10 +7,12 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using AwesomeAssertions;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Cameras;
+using OmegaEngine.Graphics.LightSources;
 using Xunit;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -221,6 +223,52 @@ public class PositionableRenderableTest : EngineTestBase
         var camera = new ArcballCamera {Radius = 5_000, FarClip = 1_000, Size = new Size(800, 600)};
         GetRenderedDistance(model, camera, null).Should().BeApproximately(5_000, 0.01);
         model.IsVisible(camera, null).Should().BeFalse("it is still culled by the far clip plane");
+    }
+
+    [Fact]
+    public void DistanceCompressionMovesPointLightsAlong()
+    {
+        using var model = Sphere(radius: 10);
+        var light = new PointLight {Position = new(500, 3_000, -200), Attenuation = new(constant: 1, linear: 0.01f, quadratic: 0.0001f)};
+
+        var camera = new ArcballCamera {Radius = 5010, FarClip = DistantFarClip, Size = new Size(800, 600)};
+        var renderedPosition = GetRenderedPosition(model, camera, 100);
+        var scaledLight = (PointLight)model.ApplyDistanceCompression([light])[0];
+
+        var actualDelta = light.Position - model.WorldPosition;
+        var renderedDelta = scaledLight.Position - renderedPosition;
+        renderedDelta.Length().Should().BeLessThan(actualDelta.Length(), "the light is pulled in along with the model");
+
+        // Lit from the same direction ...
+        (renderedDelta * (1 / renderedDelta.Length()) - actualDelta * (1 / actualDelta.Length())).Length().Should().BeLessThan(1e-6);
+
+        // ... and with the same intensity as at the actual position
+        scaledLight.Attenuation.Apply((float)renderedDelta.Length()).Should().BeApproximately(light.Attenuation.Apply((float)actualDelta.Length()), 1e-6f);
+        scaledLight.Range.Should().BeApproximately(light.Range * (float)GetRenderedScaling(model, camera, 100), 0.01f);
+    }
+
+    [Fact]
+    public void DistanceCompressionLeavesLightsAloneWhileClose()
+    {
+        using var model = Sphere(radius: 10);
+        IReadOnlyList<LightSource> lights = [new PointLight {Position = new(500, 3_000, -200)}, new DirectionalLight()];
+
+        var camera = new ArcballCamera {Radius = 50, Size = new Size(800, 600)};
+        model.IsVisible(camera, 100);
+
+        model.ApplyDistanceCompression(lights).Should().BeSameAs(lights);
+    }
+
+    [Fact]
+    public void DistanceCompressionLeavesDirectionalLightsAlone()
+    {
+        using var model = Sphere(radius: 10);
+        IReadOnlyList<LightSource> lights = [new DirectionalLight()];
+
+        var camera = new ArcballCamera {Radius = 5010, FarClip = DistantFarClip, Size = new Size(800, 600)};
+        model.IsVisible(camera, 100);
+
+        model.ApplyDistanceCompression(lights).Should().BeSameAs(lights);
     }
 
     [Fact]

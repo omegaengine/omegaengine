@@ -139,6 +139,40 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         return _directional;
     }
 
+    private PointLight? _scaled;
+
+    /// <summary>
+    /// Scales the position and attenuation of the light source around a center, to light a body scaled alike.
+    /// </summary>
+    /// <param name="center">The absolute world space position to scale around.</param>
+    /// <param name="scaling">The uniform scaling factor.</param>
+    /// <returns>A re-used light source. Updates and returns the same instance on subsequent calls.</returns>
+    /// <remarks>Used for bodies pulled in by <see cref="Scene.DistanceCompressionStart"/>, so they are lit from the same direction and with the same intensity as at their actual position.</remarks>
+    internal PointLight ScaledAround(DoubleVector3 center, double scaling)
+    {
+        _scaled ??= new();
+
+        _scaled.Name = Name;
+        _scaled.Enabled = Enabled;
+        _scaled.MaxShadowRange = MaxShadowRange;
+        _scaled.SourceRadius = SourceRadius;
+        _scaled.Diffuse = Diffuse;
+        _scaled.Specular = Specular;
+        _scaled.Ambient = Ambient;
+        _scaled.RenderAsDirectional = RenderAsDirectional;
+
+        _scaled.Position = center + (_position - center) * scaling;
+        _scaled.SetFloatingOrigin(this.GetFloatingOrigin());
+
+        // Distances shrink by the scaling factor, so the attenuation must grow alike to keep the intensity
+        _scaled.Attenuation = new(
+            Attenuation.Constant,
+            (float)(Attenuation.Linear / scaling),
+            (float)(Attenuation.Quadratic / (scaling * scaling)));
+
+        return _scaled;
+    }
+
     /// <inheritdoc/>
     [Pure]
     public override LightSource GetShadowed(BoundingSphere receiverSphere, BoundingSphere casterSphere)
