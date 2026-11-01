@@ -53,6 +53,16 @@ public sealed class EngineState
 
         _depthBiasSupported = capabilities.DepthBias;
         _slopeScaleDepthBiasSupported = capabilities.SlopeScaleDepthBias;
+
+        SetFixedStates();
+    }
+
+    /// <summary>
+    /// Sets render states that deviate from the device defaults but never change afterwards.
+    /// </summary>
+    private void SetFixedStates()
+    {
+        _device.SetRenderState(RenderState.NormalizeNormals, true);
     }
 
     /// <summary>
@@ -60,6 +70,8 @@ public sealed class EngineState
     /// </summary>
     internal void Reset()
     {
+        SetFixedStates();
+
         _fillMode = FillMode.Solid;
         _cullMode = Cull.Counterclockwise;
         _zBufferMode = ZBufferMode.Normal;
