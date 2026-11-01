@@ -17,26 +17,28 @@ This repository also bundles **Frame of Reference** (`src/FrameOfReference`), th
 The projects build up in layers, from low-level rendering to a full game framework. Lower layers must not depend on higher ones.
 
 ```
-OmegaEngine.Foundation   ← rendering-agnostic infrastructure (storage, collections, geometry, math)
-        │
-OmegaEngine              ← DirectX 9 rendering, audio, input
-   │        │
-OmegaGUI   AlphaFramework.World        ← engine-agnostic game-world models (Universe + Session)
-   │        │
-   │   AlphaFramework.Presentation     ← presenters that visualize a World using the engine
-   │        │
-   │   AlphaFramework.Editor (AlphaEditor)  ← toolkit for building game/map editors
-   │        │
-   └──→ Frame of Reference (sample game, src/FrameOfReference)
+OmegaEngine.Foundation                ← rendering-agnostic infrastructure (storage, collections, geometry, math)
+   │                 │
+OmegaEngine          │                ← DirectX 9 rendering, audio, input
+   │                 │
+OmegaGUI             AlphaFramework.World   ← engine-agnostic game-world models (Universe + Session)
+   │                 │
+AlphaFramework.Presentation           ← presenters that visualize a World using the engine and GUI
+   │
+AlphaFramework.Editor (AlphaEditor)   ← toolkit for building game/map editors
+   │
+Frame of Reference (sample game, src/FrameOfReference)
 ```
+
+`AlphaFramework.World` depends only on `OmegaEngine.Foundation`, not on the engine; the two branches meet in `AlphaFramework.Presentation`. Frame of Reference's game builds on `AlphaFramework.Presentation`, its editor on AlphaEditor.
 
 The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Reference does not.
 
 ## Solution layout (`src/`)
 
 - `OmegaEngine.Foundation/`: rendering-agnostic infrastructure shared across layers.
-  - `Storage/` (content/config loading), `Collections/`, `Geometry/`, `Light/`, `Design/`, `Shims/` (polyfills bridging the two target frameworks).
-- `OmegaEngine/`: the core engine. `Engine` (split across `Engine.*.cs` partials: `.Render`, `.Audio`, `.Terrain`, `.Debug`) is the central object; `RenderHost`/`RenderPanel` host it in WinForms. Sub-areas:
+  - `Storage/` (content/config loading), `Collections/`, `Geometry/`, `Light/`, `Design/` (WinForms design-time support, net472 only), `Shims/` (SlimDX math types for the net10 build, which has no SlimDX; net10 only).
+- `OmegaEngine/`: the core engine. `Engine` (split across `Engine.*.cs` partials: `.Render`, `.Terrain`, `.Debug`) is the central object; `RenderHost`/`RenderPanel` host it in WinForms. Sub-areas:
   - `Graphics/`: `Cameras/`, `LightSources/`, `Renderables/` (scene-graph objects), `Shaders/`, `VertexDecl/`.
   - `Audio/`, `Input/`, `Assets/` (cached GPU/asset resources).
   - `DebugConsole`/`DebugForm` provide the in-engine debug overlay.
@@ -53,8 +55,8 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 
 ## Build & test
 
-- `src/build.ps1`: creates a Release build of the engine and Frame of Reference. Only works on Windows.
-- `src/build.sh`: creates a Release build of the engine and Frame of Reference. Runs on Linux but creates build output for Windows.
+- `src/build.ps1 [-Version <version>]`: creates a Release build of the engine and Frame of Reference, then publishes the game and its editor. Only works on Windows.
+- `src/build.sh [<version>]`: creates a Release build of the engine and Frame of Reference, without publishing. Runs on Linux but creates build output for Windows.
 - `src/test.ps1`: runs unit tests. Requires a prior build. Only works on Windows.
 - `dotnet test` runs on Microsoft.Testing.Platform (`global.json` sets `test.runner`, `UnitTests.props` sets `UseMicrosoftTestingPlatformRunner`). **Do not pass `--nologo`.** MTP forwards unrecognised options to the test app, which then exits 5 with `Zero tests ran` instead of reporting a bad argument — this looks exactly like a broken test setup.
 - `.claude/skills/headless-render/`: renders maps to image files without a human at the keyboard, for checking rendering changes visually and for before/after comparison against another commit. Only works on Windows.
@@ -63,10 +65,12 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 
 - Follow `.editorconfig` strictly: it pins extensive C# style rules (expression-bodied members preferred, `var` only when the type is apparent, braces required only for multiline blocks, no qualification for fields/properties, etc.).
 - File-scoped namespaces, primary constructors, and collection expressions are used throughout: match the surrounding style.
-- Respect the layering: `OmegaEngine.Foundation` stays rendering-agnostic; `World` layers stay free of rendering/UI dependencies; engine code must not depend on AlphaFramework or the sample game.
-- Code that multi-targets net472 + net10 may need `Shims/` polyfills rather than newer BCL APIs; check what the other target framework supports.
+- Respect the layering: engine code must not depend on AlphaFramework or the sample game.
+- `OmegaEngine.Foundation` and the `World` layers stay rendering-agnostic: no Direct3D device, engine or scene-graph use. They do use SlimDX's math types (`Vector3`, `Color4`, ...), and on net472 WinForms design-time support (`[Editor]` attributes, UI type editors, `Foundation/Design/`). In code that also builds for net10, put the latter behind `#if NETFRAMEWORK`.
+- Code that multi-targets net472 + net10 must compile against both: check that net472 has a BCL API before using it. `Shims/` is not a polyfill for that. It only stands in for SlimDX's math types on net10, so if multi-targeted code needs a SlimDX math member the shim lacks, add it there.
 - Doc comments on public APIs are the norm (XML doc warning 1591 is suppressed but most public types have them).
-- `[Description("...")]` (matching the XML doc comment) belongs on every concrete property implementation in `AlphaFramework/World/` (not on the interface/abstract declaration).
+- `[Description("...")]` (matching the XML doc comment) belongs on every concrete property implementation in a `World` layer (`AlphaFramework/World/`, `FrameOfReference/World/`), not on the interface/abstract declaration.
+- Deep copies in the `World` layers are generated by [NanoByte.CloneGenerator](https://clone-generator.nano-byte.net/) via `[Cloneable]` on a `partial class`.
 
 ## Other directories
 

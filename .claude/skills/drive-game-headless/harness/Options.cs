@@ -19,7 +19,8 @@ public sealed class Options
                    already exists unless --force is given: those are the user's saves.
 
         Applied in this order:
-          --light-phase <0-4>           Set the time of day (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight).
+          --light-phase <phase>         Set the time of day (0 = dawn, 1 = noon, 2 = dusk, 3 = midnight,
+                                        fractions in between; wraps around at 4).
           --time-warp <factor>          Set how much faster than real time the game runs.
           --camera <x>,<y>[:<radius>[:<degrees>]]
                                         Point the camera at map coordinates. Radius and rotation default to

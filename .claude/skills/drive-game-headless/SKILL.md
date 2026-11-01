@@ -96,7 +96,8 @@ leaves the user's own `Resume` there.
   own welcome dialog binds it again. To reach the pause menu, close such a
   dialog first, or start from a save or a `-Map` that opens none.
 - **The light phase advances with game time**, so the time of day in a
-  screenshot drifts the longer a run goes on. Set it with `--light-phase` and
+  screenshot drifts the longer a run goes on. Set it in the scenario
+  (`Invoke-Scenario.ps1 --light-phase`; `Start-Game` has no such option) and
   screenshot soon after loading when it matters.
 - **Resume is written whenever a game is left**, to the main menu as well as on
   exit, so a run that went back to the menu still has an outcome.

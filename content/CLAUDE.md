@@ -18,6 +18,7 @@ Assets are loaded at runtime; the Editor and game both read from this directory.
 - `Meshes/`: 3D mesh assets and paired textures.
   - `Engine/` *(NuGet)*: meshes the engine itself draws (axis arrows, waypoint markers, ...).
 - `Textures/`: shared textures.
+  - `flag.png` *(NuGet)*: sample texture, used by the `OmegaEngine` README example, unit tests and the editor's trigger markers.
   - `Skybox/<name>/`: six-face cubemap (`ft`, `bk`, `lf`, `rt`, `up`, `dn`). The name matches the `<Skybox>` element in the map XML.
   - `Particles/` *(NuGet)*: particle textures referenced from `CpuParticlePreset` XML.
   - `Terrain/`: terrain surface textures.
