@@ -34,7 +34,7 @@ public static class Scripts
             Name = name,
             TemplateName = settings.Required("template"),
             Position = Options.ParseCoordinates(settings.Required("position"), "position"),
-            Rotation = float.Parse(settings.Get("rotation") ?? "0", CultureInfo.InvariantCulture)
+            Rotation = settings.Get("rotation", 0f)
         };
         session.Universe.Positionables.Add(entity);
     }
@@ -47,6 +47,12 @@ public sealed class Settings(IReadOnlyDictionary<string, string> values)
 {
     public string? Get(string key) => values.TryGetValue(key, out string? value) ? value : null;
 
+    public T Get<T>(string key, T fallback) where T : IParsable<T>
+        => Get(key) is {} value ? T.Parse(value, CultureInfo.InvariantCulture) : fallback;
+
     public string Required(string key)
         => Get(key) ?? throw new ArgumentException($"This script needs --set {key}=<value>.");
+
+    public T Required<T>(string key) where T : IParsable<T>
+        => T.Parse(Required(key), CultureInfo.InvariantCulture);
 }

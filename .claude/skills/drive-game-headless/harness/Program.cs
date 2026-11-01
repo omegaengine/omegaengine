@@ -7,8 +7,6 @@ using OmegaEngine.Foundation.Storage;
 
 Console.OutputEncoding = Encoding.UTF8;
 
-const string SavegameExt = ".FrameOfReferenceSave";
-
 Options options;
 try
 {
@@ -38,24 +36,31 @@ if (options.ListScripts)
 string contentDir = options.ContentDir ?? FindContentDir();
 string dataDir = options.DataDir ?? Path.Combine(contentDir, "..", "artifacts", "Debug", "net472", "data");
 
-string basePath = File.Exists(options.Base) ? options.Base! : Path.Combine(dataDir, options.Base + SavegameExt);
-if (!File.Exists(basePath))
+string? basePath = null;
+if (options.Base is {} baseName)
 {
-    Console.Error.WriteLine($"No savegame at '{options.Base}' or '{basePath}'.");
-    return 1;
+    basePath = File.Exists(baseName) ? baseName : Path.Combine(dataDir, baseName + Constants.SavegameFileExt);
+    if (!File.Exists(basePath))
+    {
+        Console.Error.WriteLine($"No savegame at '{baseName}' or '{basePath}'.");
+        return 1;
+    }
 }
 
-string slot = options.Name!;
-if (slot.Equals("Resume", StringComparison.OrdinalIgnoreCase))
+string? outPath = null;
+if (options.Name is {} slot)
 {
-    Console.Error.WriteLine($"'{slot}' is the slot the game itself writes. Pick another name.");
-    return 1;
-}
-string outPath = Path.Combine(dataDir, slot + SavegameExt);
-if (File.Exists(outPath) && !options.Force)
-{
-    Console.Error.WriteLine($"{outPath} already exists and may be one of the user's saves. Pick another name, or pass --force if it is yours.");
-    return 1;
+    if (slot.Equals("Resume", StringComparison.OrdinalIgnoreCase))
+    {
+        Console.Error.WriteLine($"'{slot}' is the slot the game itself writes. Pick another name.");
+        return 1;
+    }
+    outPath = Path.Combine(dataDir, slot + Constants.SavegameFileExt);
+    if (File.Exists(outPath) && !options.Force)
+    {
+        Console.Error.WriteLine($"{outPath} already exists and may be one of the user's saves. Pick another name, or pass --force if it is yours.");
+        return 1;
+    }
 }
 
 XmlStorageConfig.Apply();
@@ -77,22 +82,32 @@ TerrainTemplate.LoadAll();
 Session session;
 try
 {
-    session = Session.Load(basePath);
+    // As the main menu or /map starts a new game
+    session = basePath == null
+        ? new Session(GetMap(options.NewMap!))
+        : Session.Load(basePath);
     Apply(session);
 }
 catch (InvalidDataException ex) when (ex.GetBaseException() is KeyNotFoundException missing)
 {
-    // A template the save references is not in the content (or mod) folder
+    // A template the save or map references is not in the content (or mod) folder
     Console.Error.WriteLine(missing.Message);
     Console.Error.WriteLine(options.ModDir == null
-        ? "If the save was made with a mod, pass it with --mod."
-        : "Is it the mod the save was made with?");
+        ? "If the save or map was made with a mod, pass it with --mod."
+        : "Is it the mod the save or map was made with?");
     return 1;
 }
-catch (Exception ex) when (ex is ArgumentException or KeyNotFoundException or InvalidOperationException or FormatException)
+catch (Exception ex) when (ex is ArgumentException or KeyNotFoundException or InvalidOperationException or FormatException or FileNotFoundException)
 {
     Console.Error.WriteLine(ex.Message);
     return 1;
+}
+
+if (outPath == null)
+{
+    Console.WriteLine("Wrote nothing, since no <name> was given");
+    Describe(session);
+    return 0;
 }
 
 Directory.CreateDirectory(dataDir);
@@ -100,6 +115,12 @@ session.Save(outPath);
 Console.WriteLine($"Wrote {Path.GetFullPath(outPath)}");
 Describe(Session.Load(outPath));
 return 0;
+
+// As in Game.GetMap: a map file, or a name in World/Maps
+static Universe GetMap(string name)
+    => name.EndsWith(Constants.MapFileExt, StringComparison.OrdinalIgnoreCase) && File.Exists(name)
+        ? Universe.Load(name)
+        : Universe.FromContent(name + Constants.MapFileExt);
 
 void Apply(Session session)
 {
@@ -117,11 +138,10 @@ void Apply(Session session)
         };
     }
 
-    var settings = new Settings(options.Settings);
-    foreach (string script in options.Scripts)
+    foreach (var (script, settings) in options.Scripts)
     {
         if (!Scripts.All.TryGetValue(script, out var entry)) throw new ArgumentException($"No script named '{script}'. Run --list-scripts.");
-        entry.Run(session, settings);
+        entry.Run(session, new Settings(settings));
     }
 
     foreach (var (entity, target) in options.Positions)
@@ -135,7 +155,7 @@ void Apply(Session session)
     }
 }
 
-// Read back from the file, so this shows what the game will load
+// Given the session read back from the file, this shows what the game will load
 void Describe(Session session)
 {
     var universe = session.Universe;

@@ -7,14 +7,11 @@ Dot-source this file, then use the functions below:
 
     . .\.claude\skills\drive-game-headless\GameDrive.ps1
 
-    Backup-GameSaves                          # ALWAYS before launching
-    Start-Game -Savegame MyScenario           # returns once loading is done
-    Send-GameKey Escape
-    Send-GameClick 400 300
-    Save-GameScreenshot shot.png
-    Stop-Game
-    $outcome = Read-GameOutcome               # the Resume this run wrote, if it wrote one
-    Restore-GameSaves                         # ALWAYS after
+    $outcome = Invoke-GameRun -Savegame MyScenario -RemoveSlots MyScenario {
+        Send-GameKey Escape
+        Send-GameClick 400 300
+        Save-GameScreenshot shot.png
+    }
 
 Input is posted with PostMessage, so the window does not need focus to receive it
 -- but screenshots capture the screen region the window occupies, so
@@ -23,7 +20,7 @@ Save-GameScreenshot brings the window to the front first (see Show-GameWindow).
 
 Add-Type -AssemblyName System.Drawing
 
-# Match Constants.SavegameFileExt and .MapFileExt in src\FrameOfReference\World\Constants.cs.
+# Matches Constants.SavegameFileExt and .MapFileExt in src\FrameOfReference\World\Constants.cs.
 $SavegameExt = '.FrameOfReferenceSave'
 $MapExt = '.FrameOfReferenceMap'
 
@@ -56,8 +53,11 @@ public static class GameWin {
     public static extern bool IsIconic(IntPtr hWnd);
     [DllImport("user32.dll")]
     public static extern bool ShowWindow(IntPtr hWnd, int cmdShow);
+    [DllImport("user32.dll")]
+    public static extern bool SetWindowPos(IntPtr hWnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
 
     public const int SW_RESTORE = 9;
+    public const uint SWP_NOSIZE = 0x0001, SWP_NOZORDER = 0x0004;
 
     public const byte VK_MENU = 0x12;
     public const uint KEYEVENTF_KEYUP = 0x0002;
@@ -71,41 +71,52 @@ public static class GameWin {
     public const uint WM_MOUSEMOVE = 0x0200;
     public const uint WM_LBUTTONDOWN = 0x0201, WM_LBUTTONUP = 0x0202;
     public const uint WM_RBUTTONDOWN = 0x0204, WM_RBUTTONUP = 0x0205;
+    public const uint WM_MOUSEWHEEL = 0x020A;
 }
 '@ -ErrorAction SilentlyContinue
 
-$GameRepoDir = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
-
 # The Debug build: what Start-Game launches and where its portable-mode saves live
+$GameRepoDir = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
 $GameBinDir = Join-Path $GameRepoDir 'artifacts\Debug\net472'
+
+# Portable-mode save directory of the Debug build (NOT the user profile)
+$GameDataDir = Join-Path $GameBinDir 'data'
+
+# The Debug build's portable-mode settings, which the game and editor also write (e.g. the window size after a resize)
+$GameSettingsPath = Join-Path $GameBinDir 'config\Settings.xml'
+
+# The slots the game writes by itself, which a test run therefore overwrites
+$GameOwnSlots = @('Resume')
+
+# What Backup-GameSaves and Restore-GameSaves put back: those slots and the settings Start-Game rewrites
+$GameOwnFiles = @($GameOwnSlots | ForEach-Object { Join-Path $GameDataDir "$_$SavegameExt" }) + $GameSettingsPath
+
+# Exists only between Backup-GameSaves and Restore-GameSaves
+$GameSaveBackupDir = Join-Path $env:TEMP 'frame-of-reference-saves-backup'
 
 function Get-GameProcess {
     <#
     .SYNOPSIS Returns the game process Start-Game launched in this PowerShell process, or nothing if there is none or it has exited.
-    .DESCRIPTION Never any other FrameOfReference process: that may be the user's own game.
+    .DESCRIPTION Never any other FrameOfReference process: that may be the user's own game. -Required throws instead of returning nothing.
     #>
+    param([switch]$Required)
+
     if ($script:GameProcess -and -not $script:GameProcess.HasExited) { $script:GameProcess }
+    elseif ($Required) { throw "No game launched by Start-Game in this PowerShell process is running." }
 }
 
 function Get-GameWindow {
     <#.SYNOPSIS Returns the game's main window handle, or throws if it is not running.#>
-    $proc = Get-GameProcess
-    if (-not $proc) { throw "No game launched by Start-Game in this PowerShell process is running." }
+    $proc = Get-GameProcess -Required
     $proc.Refresh()
     $handle = $proc.MainWindowHandle
     if ($handle -eq [IntPtr]::Zero) { throw "FrameOfReference has no main window yet -- wait for it to finish loading." }
     $handle
 }
 
-# The slots the game writes by itself, which a test run therefore overwrites
-$GameOwnSlots = @('Resume')
-
-# Exists only between Backup-GameSaves and Restore-GameSaves
-$GameSaveBackupDir = Join-Path $env:TEMP 'frame-of-reference-saves-backup'
-
 function Backup-GameSaves {
     <#
-    .SYNOPSIS Copies aside the slot the game writes by itself (Resume). Run before every test launch. Other slots are not covered: never overwrite them.
+    .SYNOPSIS Copies aside the slot the game writes by itself (Resume) and its settings (which Start-Game changes). Invoke-GameRun calls this. Other slots are not covered: never overwrite them.
     .DESCRIPTION
     Refuses while an earlier backup is still waiting to be restored: the slots would hold that run's output by now,
     and backing them up would lose the user's own.
@@ -115,8 +126,7 @@ function Backup-GameSaves {
     }
 
     New-Item -ItemType Directory $GameSaveBackupDir | Out-Null
-    foreach ($name in $GameOwnSlots) {
-        $file = Join-Path (Get-GameDataDir) "$name$SavegameExt"
+    foreach ($file in $GameOwnFiles) {
         if (Test-Path $file) { Copy-Item $file $GameSaveBackupDir }
     }
     Write-Host "Saves backed up to $GameSaveBackupDir"
@@ -124,14 +134,13 @@ function Backup-GameSaves {
 
 function Restore-GameSaves {
     <#
-    .SYNOPSIS Puts the user's save slots back as they were at Backup-GameSaves, and removes the backup. Run after every test launch.
-    .DESCRIPTION A slot that did not exist at the backup is deleted, so a run leaves no Resume behind that the user never had.
+    .SYNOPSIS Puts the user's save slot and settings back as they were at Backup-GameSaves, and removes the backup. Invoke-GameRun calls this.
+    .DESCRIPTION A file that did not exist at the backup is deleted, so a run leaves no Resume or Settings.xml behind that the user never had.
     #>
     if (-not (Test-Path $GameSaveBackupDir)) { throw "No backup at $GameSaveBackupDir." }
 
-    foreach ($name in $GameOwnSlots) {
-        $backup = Join-Path $GameSaveBackupDir "$name$SavegameExt"
-        $file = Join-Path (Get-GameDataDir) "$name$SavegameExt"
+    foreach ($file in $GameOwnFiles) {
+        $backup = Join-Path $GameSaveBackupDir (Split-Path -Leaf $file)
         if (Test-Path $backup) { Copy-Item $backup $file -Force }
         elseif (Test-Path $file) { Remove-Item $file -Force }
     }
@@ -139,9 +148,37 @@ function Restore-GameSaves {
     Write-Host "Saves restored from $GameSaveBackupDir"
 }
 
-function Get-GameDataDir {
-    <#.SYNOPSIS Portable-mode save directory of the Debug build (NOT the user profile).#>
-    Join-Path $GameBinDir 'data'
+function Set-GameWindowSettings {
+    <#
+    .SYNOPSIS Edits the Debug build's Settings.xml so the game starts windowed, with a client area of the given size.
+    .DESCRIPTION Starts from src\FrameOfReference\Game\config\Settings.xml if there is none, since the built-in defaults are fullscreen and lack the ContentDir.
+    #>
+    param(
+        [Parameter(Mandatory)][int]$Width,
+        [Parameter(Mandatory)][int]$Height,
+        [int]$AntiAliasing = 8
+    )
+
+    $source = if (Test-Path $GameSettingsPath) { $GameSettingsPath } else { Join-Path $GameRepoDir 'src\FrameOfReference\Game\config\Settings.xml' }
+    $xml = New-Object Xml.XmlDocument
+    $xml.Load($source)
+
+    $display = $xml.DocumentElement.SelectSingleNode('Display')
+    if (-not $display) { $display = $xml.DocumentElement.AppendChild($xml.CreateElement('Display')) }
+    $fullscreen = $display.SelectSingleNode('Fullscreen')
+    if (-not $fullscreen) { $fullscreen = $display.AppendChild($xml.CreateElement('Fullscreen')) }
+    $fullscreen.InnerText = 'false'
+    $windowSize = $display.SelectSingleNode('WindowSize')
+    if (-not $windowSize) { $windowSize = $display.AppendChild($xml.CreateElement('WindowSize')) }
+    # XmlSerializer writes a Size as attributes
+    $windowSize.SetAttribute('Width', $Width)
+    $windowSize.SetAttribute('Height', $Height)
+    $antiAliasingNode = $display.SelectSingleNode('AntiAliasing')
+    if (-not $antiAliasingNode) { $antiAliasingNode = $display.AppendChild($xml.CreateElement('AntiAliasing')) }
+    $antiAliasingNode.InnerText = $AntiAliasing
+
+    New-Item -ItemType Directory -Force (Split-Path -Parent $GameSettingsPath) | Out-Null
+    $xml.Save($GameSettingsPath)
 }
 
 function Resolve-GameMod {
@@ -179,13 +216,19 @@ function Assert-GameMap {
 
 function Start-Game {
     <#
-    .SYNOPSIS Launches the Debug build of the game, optionally into a savegame or a fresh game on a map, and waits until it has finished loading.
-    .DESCRIPTION Refuses while FrameOfReference is already running: that may be the user's own game, and Stop-Game would close it.
+    .SYNOPSIS Launches the Debug build of the game in a window, optionally into a savegame or a fresh game on a map, and waits until it has finished loading. Invoke-GameRun calls this.
+    .DESCRIPTION
+    Width and Height are the window's client area. They are written to the game's settings, so Start-Game refuses to
+    run outside Backup-GameSaves/Restore-GameSaves, which put the user's back. Also refuses while FrameOfReference is
+    already running: that may be the user's own game, and Stop-Game would close it.
     #>
     param(
         [string]$Savegame,
         [string]$Map,  # a map in content\World\Maps (or the mod's World\Maps), e.g. Mountains
         [string]$Mod,  # a mod directory, overlaid on content\: a path, or a name in the Debug build's Mods folder
+        [int]$Width = 1600,
+        [int]$Height = 900,
+        [int]$Screen = 0,
         [int]$TimeoutSeconds = 90
     )
 
@@ -199,10 +242,13 @@ function Start-Game {
     # Checked here rather than left to the game, which reports a missing savegame or map in a message box that blocks
     # until someone closes it
     $modDir = if ($Mod) { Resolve-GameMod $Mod }
-    if ($Savegame -and -not (Test-Path (Join-Path (Get-GameDataDir) "$Savegame$SavegameExt"))) {
-        throw "No savegame '$Savegame' in $(Get-GameDataDir)."
+    if ($Savegame -and -not (Test-Path (Join-Path $GameDataDir "$Savegame$SavegameExt"))) {
+        throw "No savegame '$Savegame' in $GameDataDir."
     }
     if ($Map) { Assert-GameMap $Map -ModDir $modDir }
+
+    if (-not (Test-Path $GameSaveBackupDir)) { throw "Start the game through Invoke-GameRun: Start-Game changes the game's settings, and only Restore-GameSaves puts the user's back." }
+    Set-GameWindowSettings $Width $Height
 
     # Windows PowerShell rejects an empty -ArgumentList, so only pass it when there is something to pass
     $arguments = @()
@@ -224,8 +270,31 @@ function Start-Game {
     Wait-GameLog 'Game startup' -TimeoutSeconds $TimeoutSeconds | Out-Null
     # Startup logs what it did (e.g. 'Enter InGame state') before 'Game startup', so leave all of it to later waits
     $script:GameLogMark = 0
+    Move-GameWindow -Screen $Screen
     Start-Sleep -Seconds 1  # let the first frames render
     $proc
+}
+
+function Get-GameScreens {
+    <#.SYNOPSIS The monitors, primary first, then the others from left to right: what -Screen indexes.#>
+    Add-Type -AssemblyName System.Windows.Forms
+    @([System.Windows.Forms.Screen]::AllScreens | Sort-Object @{Expression = {-not $_.Primary}}, @{Expression = {$_.Bounds.X}})
+}
+
+function Move-GameWindow {
+    <#
+    .SYNOPSIS Puts the game window in the top left corner of a monitor's working area. Start-Game calls this.
+    .DESCRIPTION
+    Windows cascades each new window a little further down and right than the last, so after a few launches the bottom
+    of the client area slips under the taskbar, which then shows in every screenshot. Screen 0 is the primary monitor,
+    where Windows' toast notifications pop up over the bottom right corner; another monitor (Get-GameScreens) is clear of them.
+    #>
+    param([int]$Screen = 0)
+
+    $screens = Get-GameScreens
+    if ($Screen -ge $screens.Count) { throw "There is no screen $Screen; this machine has $($screens.Count)." }
+    $area = $screens[$Screen].WorkingArea
+    [GameWin]::SetWindowPos((Get-GameWindow), [IntPtr]::Zero, $area.X, $area.Y, 0, 0, [GameWin]::SWP_NOSIZE -bor [GameWin]::SWP_NOZORDER) | Out-Null
 }
 
 function Get-GameLogPath {
@@ -247,7 +316,7 @@ function Read-GameLogLines {
 function Set-GameLogMark {
     <#
     .SYNOPSIS Makes Wait-GameLog ignore everything logged so far.
-    .DESCRIPTION Send-GameKey and Send-GameClick call this themselves. Call it before anything else that is to be waited for, e.g. before letting game time pass.
+    .DESCRIPTION Send-GameKey, Send-GameClick, Send-GameWheel and Set-GameSlider call this themselves. Call it before anything else that is to be waited for, e.g. before letting game time pass.
     #>
     $script:GameLogMark = @(Read-GameLogLines).Count
 }
@@ -257,7 +326,7 @@ function Wait-GameLog {
     .SYNOPSIS Waits until the running game logs a line matching a pattern, and returns that line.
     .DESCRIPTION
     Only lines from the running process count, so earlier runs in the same log file never match. Of those, only
-    lines logged since the last Start-Game, Send-GameKey, Send-GameClick or Set-GameLogMark count, and each
+    lines logged since the last Start-Game, input sent (Send-GameKey, Send-GameClick, Send-GameWheel, Set-GameSlider) or Set-GameLogMark count, and each
     Wait-GameLog moves past the line it returns, so waiting for the same pattern twice waits for two occurrences.
     Useful markers: 'Game startup' (done loading, at startup), 'Enter InGame state' (a game has been entered,
     e.g. after pressing N in the main menu), 'Loading GUI dialog: PauseMenu' (a dialog has opened),
@@ -268,8 +337,7 @@ function Wait-GameLog {
         [int]$TimeoutSeconds = 60
     )
 
-    $proc = Get-GameProcess
-    if (-not $proc) { throw "No game launched by Start-Game in this PowerShell process is running." }
+    $proc = Get-GameProcess -Required
     $prefix = "^\[[^\]]+\] $($proc.Id) \w+: "
 
     $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
@@ -290,79 +358,22 @@ function Wait-GameLog {
 
 function Read-GameSave {
     <#
-    .SYNOPSIS Returns the XML of a savegame, e.g. (Read-GameSave TestScenario).Session.Player.Money
+    .SYNOPSIS Returns the XML of a savegame, e.g. (Read-GameSave TestScenario).Session.Universe.LightPhase
     .DESCRIPTION
     Reads through System.IO.Compression: Windows PowerShell's Expand-Archive refuses any extension but .zip.
-    For what a run did, use Read-GameOutcome instead: the Resume slot may still hold the user's own save.
+    For what a run did, use the outcome Invoke-GameRun returns instead: the Resume slot may still hold the user's own save.
     #>
     param(
         [Parameter(Mandatory)][string]$Name  # a slot name, or a path to a .FrameOfReferenceSave
     )
 
     Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $path = if (Test-Path $Name) { (Resolve-Path $Name).Path } else { Join-Path (Get-GameDataDir) "$Name$SavegameExt" }
+    $path = if (Test-Path $Name) { (Resolve-Path $Name).Path } else { Join-Path $GameDataDir "$Name$SavegameExt" }
     $zip = [IO.Compression.ZipFile]::OpenRead($path)
     try {
         $reader = New-Object IO.StreamReader($zip.GetEntry('data.xml').Open())
         try { [xml]$reader.ReadToEnd() } finally { $reader.Dispose() }
     } finally { $zip.Dispose() }
-}
-
-function Get-GameRunResume {
-    <#.SYNOPSIS The path of the Resume slot if the last Start-Game run wrote it, or nothing if it is older (the user's own, or none at all).#>
-    $file = Join-Path (Get-GameDataDir) "Resume$SavegameExt"
-    if ($script:GameStartedAt -and (Test-Path $file) -and (Get-Item $file).LastWriteTime -ge $script:GameStartedAt) { $file }
-}
-
-function Read-GameOutcome {
-    <#
-    .SYNOPSIS Returns the XML of the Resume slot the last run left, e.g. (Read-GameOutcome).Session.Player.Money. Call after Stop-Game, before Restore-GameSaves.
-    .DESCRIPTION
-    Returns nothing, with a warning, if the run did not write Resume: it was killed or never entered a game. Reading
-    the slot then would give the user's own save, not what the run did. Never throws, so it is safe in a finally
-    block ahead of Restore-GameSaves.
-    #>
-    if (-not $script:GameStartedAt) {
-        Write-Warning "No Start-Game in this PowerShell process, so there is no telling whether Resume is this run's. Run Start-Game and Read-GameOutcome in one command."
-        return
-    }
-    $file = Get-GameRunResume
-    if (-not $file) {
-        Write-Warning "The run did not write Resume (killed, or never entered a game), so there is no outcome to read."
-        return
-    }
-    try { Read-GameSave $file }
-    catch { Write-Warning "Could not read $($file): $_" }
-}
-
-function New-GameBaseSave {
-    <#
-    .SYNOPSIS Starts a new game, exits cleanly and copies the Resume slot it leaves to a file, as a base for Invoke-Scenario.ps1.
-    .DESCRIPTION
-    A new game is played on the Tutorial map, as from the main menu, unless -Map names another.
-    -Mod launches the game with that mod, as for Start-Game.
-    Overwrites the Resume slot, so call it between Backup-GameSaves and Restore-GameSaves.
-    #>
-    param(
-        [Parameter(Mandatory)][string]$Path,
-        [string]$Map,
-        [string]$Mod
-    )
-
-    Start-Game -Map $Map -Mod $Mod | Out-Null
-    try {
-        if (-not $Map) {
-            Send-GameKey N
-            Wait-GameLog 'Enter InGame state' | Out-Null
-        }
-        Start-Sleep -Seconds 2
-    } finally {
-        Stop-Game
-    }
-    $resume = Get-GameRunResume
-    if (-not $resume) { throw "The game did not write Resume on exit, so there is no new game to copy (the slot holds the user's own save)." }
-    Copy-Item $resume $Path -Force
-    $Path
 }
 
 function Remove-GameSave {
@@ -371,12 +382,12 @@ function Remove-GameSave {
 
     foreach ($slot in $Name) {
         if ($slot -in $GameOwnSlots) { throw "'$slot' is the user's; restore it with Restore-GameSaves instead." }
-        Remove-Item (Join-Path (Get-GameDataDir) "$slot$SavegameExt") -ErrorAction SilentlyContinue
+        Remove-Item (Join-Path $GameDataDir "$slot$SavegameExt") -ErrorAction SilentlyContinue
     }
 }
 
 function Stop-Game {
-    <#.SYNOPSIS Closes the game. Prefer this over Stop-Process so it exits cleanly.#>
+    <#.SYNOPSIS Closes the game cleanly, which writes Resume. Invoke-GameRun calls this.#>
     $proc = Get-GameProcess
     if (-not $proc) { return }
     $proc.CloseMainWindow() | Out-Null
@@ -386,8 +397,56 @@ function Stop-Game {
     }
 }
 
+function Invoke-GameRun {
+    <#
+    .SYNOPSIS Runs a script block against the game: backs up the user's saves, starts the game, runs the block, closes the game, puts the saves back, and returns the XML of the Resume the run wrote.
+    .DESCRIPTION
+    What the block outputs is shown, not returned. Variables it sets do not outlive it, so use them inside it.
+    Returns nothing, with a warning, if the run did not write Resume: it was killed or never entered a game. Reading
+    the slot then would give the user's own save, not what the run did.
+    RemoveSlots are deleted afterwards, typically the scenario slot the run started from.
+    #>
+    param(
+        [Parameter(Mandatory, Position = 0)][scriptblock]$Script,
+        [string]$Savegame,
+        [string]$Map,
+        [string]$Mod,
+        [string[]]$RemoveSlots,
+        [int]$Width = 1600,
+        [int]$Height = 900,
+        [int]$Screen = 0
+    )
+
+    Backup-GameSaves
+    try {
+        try {
+            Start-Game -Savegame $Savegame -Map $Map -Mod $Mod -Width $Width -Height $Height -Screen $Screen | Out-Null
+            & $Script | Out-Host
+        } finally {
+            Stop-Game
+        }
+
+        # Read before the restore puts the user's Resume back; only a Resume newer than the launch is this run's
+        $resume = Join-Path $GameDataDir "Resume$SavegameExt"
+        if ($script:GameStartedAt -and (Test-Path $resume) -and (Get-Item $resume).LastWriteTime -ge $script:GameStartedAt) {
+            try { Read-GameSave $resume }
+            catch { Write-Warning "Could not read $($resume): $_" }
+        } else {
+            Write-Warning "The run did not write Resume (killed, or never entered a game), so there is no outcome to read."
+        }
+    } finally {
+        try { Restore-GameSaves }
+        finally { if ($RemoveSlots) { Remove-GameSave $RemoveSlots } }
+    }
+}
+
 function Send-GameKey {
-    <#.SYNOPSIS Posts a key press. Key is a [Windows.Forms.Keys] name, e.g. Escape, F1, D1, Space.#>
+    <#
+    .SYNOPSIS Posts a key press. Key is a [Windows.Forms.Keys] name, e.g. Escape, F1, D1, Space.
+    .DESCRIPTION
+    A longer -HoldMilliseconds keeps the key down, repeating WM_KEYDOWN as a real keyboard's auto-repeat would, e.g. to
+    move the camera, which goes on for as long as its key is held.
+    #>
     param(
         [Parameter(Mandatory)][string]$Key,
         [int]$HoldMilliseconds = 50
@@ -400,30 +459,176 @@ function Send-GameKey {
     $handle = Get-GameWindow
     Set-GameLogMark
     [GameWin]::PostMessage($handle, [GameWin]::WM_KEYDOWN, [IntPtr]$code, [IntPtr]0) | Out-Null
-    Start-Sleep -Milliseconds $HoldMilliseconds
+    $release = (Get-Date).AddMilliseconds($HoldMilliseconds)
+    Start-Sleep -Milliseconds ([Math]::Min($HoldMilliseconds, 50))
+    while ((Get-Date) -lt $release) {
+        # Bit 30 of lParam marks an auto-repeat: the key was already down
+        [GameWin]::PostMessage($handle, [GameWin]::WM_KEYDOWN, [IntPtr]$code, [IntPtr]0x40000000) | Out-Null
+        Start-Sleep -Milliseconds 30
+    }
     [GameWin]::PostMessage($handle, [GameWin]::WM_KEYUP, [IntPtr]$code, [IntPtr]0) | Out-Null
 }
 
-function Send-GameClick {
-    <#.SYNOPSIS Posts a click at client-area coordinates (as seen in Save-GameScreenshot output).#>
+function Send-GameWheel {
+    <#.SYNOPSIS Posts mouse wheel notches over a point of the client area: positive away from the user (zooms in), negative towards.#>
     param(
-        [Parameter(Mandatory)][int]$X,
-        [Parameter(Mandatory)][int]$Y,
-        [switch]$Right
+        [Parameter(Mandatory)][int]$Notches,
+        [int]$X = 800,
+        [int]$Y = 450
     )
 
     $handle = Get-GameWindow
+    # Unlike other mouse messages, WM_MOUSEWHEEL carries screen coordinates
+    $point = New-Object GameWin+POINT
+    $point.X = $X; $point.Y = $Y
+    [GameWin]::ClientToScreen($handle, [ref]$point) | Out-Null
+    $lParam = [IntPtr](($point.Y -shl 16) -bor ($point.X -band 0xFFFF))
+    $delta = if ($Notches -gt 0) { 120 } else { -120 }
+    Set-GameLogMark
+    for ($i = 0; $i -lt [Math]::Abs($Notches); $i++) {
+        [GameWin]::PostMessage($handle, [GameWin]::WM_MOUSEWHEEL, [IntPtr](($delta -band 0xFFFF) -shl 16), $lParam) | Out-Null
+        Start-Sleep -Milliseconds 60
+    }
+}
+
+function Send-GameMouse {
+    <#.SYNOPSIS Posts a mouse message at client-area coordinates. Buttons is the wParam, 1 while a button is held.#>
+    param(
+        [Parameter(Mandatory)][uint32]$Message,
+        [Parameter(Mandatory)][int]$X,
+        [Parameter(Mandatory)][int]$Y,
+        [int]$Buttons = 0
+    )
+
     $lParam = [IntPtr](($Y -shl 16) -bor ($X -band 0xFFFF))
+    [GameWin]::PostMessage((Get-GameWindow), $Message, [IntPtr]$Buttons, $lParam) | Out-Null
+}
+
+function Send-GameClick {
+    <#
+    .SYNOPSIS Posts a click at client-area coordinates (as seen in Save-GameScreenshot output).
+    .DESCRIPTION
+    The pointer stays where the click left it, so a control's tooltip or hover state comes up a moment later and shows
+    in screenshots. -Park moves it to the right edge of the client area afterwards (Hide-GamePointer).
+    #>
+    param(
+        [Parameter(Mandatory)][int]$X,
+        [Parameter(Mandatory)][int]$Y,
+        [switch]$Right,
+        [switch]$Park
+    )
+
     $down = if ($Right) { [GameWin]::WM_RBUTTONDOWN } else { [GameWin]::WM_LBUTTONDOWN }
     $up = if ($Right) { [GameWin]::WM_RBUTTONUP } else { [GameWin]::WM_LBUTTONUP }
 
     Set-GameLogMark
     # Move first: OmegaGUI tracks hover state, and controls only react where the cursor is.
-    [GameWin]::PostMessage($handle, [GameWin]::WM_MOUSEMOVE, [IntPtr]0, $lParam) | Out-Null
+    Send-GameMouse ([GameWin]::WM_MOUSEMOVE) $X $Y
     Start-Sleep -Milliseconds 100
-    [GameWin]::PostMessage($handle, $down, [IntPtr]1, $lParam) | Out-Null
+    Send-GameMouse $down $X $Y -Buttons 1
     Start-Sleep -Milliseconds 60
-    [GameWin]::PostMessage($handle, $up, [IntPtr]0, $lParam) | Out-Null
+    Send-GameMouse $up $X $Y
+    if ($Park) { Hide-GamePointer }
+}
+
+function Hide-GamePointer {
+    <#.SYNOPSIS Moves the (posted) pointer to the right edge of the client area, away from anything with a tooltip or hover state.#>
+    $rect = New-Object GameWin+RECT
+    [GameWin]::GetClientRect((Get-GameWindow), [ref]$rect) | Out-Null
+    Start-Sleep -Milliseconds 150
+    Send-GameMouse ([GameWin]::WM_MOUSEMOVE) ($rect.Right - 5) ([int]($rect.Bottom * 0.7))
+}
+
+function Set-GameSlider {
+    <#
+    .SYNOPSIS Moves an OmegaGUI slider by keyboard: presses the mouse button on its thumb, posts the keys, and lets go.
+    .DESCRIPTION
+    Posted input cannot drag a slider: it only follows the mouse while Control.MouseButtons reports the physical left
+    button down. A click on its track moves it by a single step, and letting go of the thumb drops its keyboard focus.
+    Keys sent while the button is held still reach it: End (maximum), Home (minimum), Right/Left (one step each).
+    #>
+    param(
+        [Parameter(Mandatory)][int]$X,  # the thumb, in client coordinates
+        [Parameter(Mandatory)][int]$Y,
+        [string]$Key = 'End',
+        [int]$Repeat = 1
+    )
+
+    Send-GameMouse ([GameWin]::WM_MOUSEMOVE) $X $Y
+    Start-Sleep -Milliseconds 100
+    Send-GameMouse ([GameWin]::WM_LBUTTONDOWN) $X $Y -Buttons 1
+    Start-Sleep -Milliseconds 100
+    try {
+        for ($i = 0; $i -lt $Repeat; $i++) { Send-GameKey $Key }
+    } finally {
+        Start-Sleep -Milliseconds 100
+        Send-GameMouse ([GameWin]::WM_LBUTTONUP) $X $Y
+    }
+}
+
+function Save-GameScreenshotSeries {
+    <#
+    .SYNOPSIS Captures a numbered series of screenshots (00.png, 01.png, ...) into a directory, e.g. to follow an animation.
+    .DESCRIPTION
+    Only the first capture waits for the window to come to the front; the rest follow each other in about
+    IntervalMilliseconds plus ~100 ms. Real time, not game time: the session's time warp factor still applies.
+    #>
+    param(
+        [Parameter(Mandatory)][string]$Directory,
+        [int]$Count = 30,
+        [int]$IntervalMilliseconds = 300
+    )
+
+    New-Item -ItemType Directory -Force $Directory | Out-Null
+    for ($i = 0; $i -lt $Count; $i++) {
+        Save-GameScreenshot (Join-Path $Directory ('{0:00}.png' -f $i)) | Out-Null
+        Start-Sleep -Milliseconds $IntervalMilliseconds
+    }
+}
+
+function Save-GameContactSheet {
+    <#
+    .SYNOPSIS Tiles the same region of a series of screenshots into one labelled image, so a whole animation can be reviewed in a single Read.
+    .DESCRIPTION
+    Takes the files named like 00.png from Save-GameScreenshotSeries, or the given -Files. -Zoom above 1 enlarges each
+    tile (nearest neighbour), for small details such as whether two models touch. -Zoom below 1 shrinks it (smoothly),
+    e.g. -Zoom 0.4 -Columns 3 over whole 1600x900 screenshots to review a scouting run's steps in one Read.
+    #>
+    param(
+        [string]$Directory,
+        [string[]]$Files,
+        [Parameter(Mandatory)][int]$X,
+        [Parameter(Mandatory)][int]$Y,
+        [Parameter(Mandatory)][int]$Width,
+        [Parameter(Mandatory)][int]$Height,
+        [Parameter(Mandatory)][string]$Path,
+        [int]$Columns = 6,
+        [double]$Zoom = 1
+    )
+
+    if (-not $Files) { $Files = @(Get-ChildItem $Directory -Filter *.png | Where-Object Name -match '^\d+\.png$' | Sort-Object Name | ForEach-Object FullName) }
+    if (-not $Files) { throw "No screenshots to tile." }
+
+    $tileWidth = [int]($Width * $Zoom); $tileHeight = [int]($Height * $Zoom)
+    $sheet = New-Object Drawing.Bitmap ($tileWidth * [Math]::Min($Columns, $Files.Count)), ($tileHeight * [Math]::Ceiling($Files.Count / $Columns))
+    $gfx = [Drawing.Graphics]::FromImage($sheet)
+    $font = New-Object Drawing.Font 'Arial', 12
+    try {
+        $gfx.InterpolationMode = if ($Zoom -lt 1) { 'HighQualityBicubic' } else { 'NearestNeighbor' }
+        for ($i = 0; $i -lt $Files.Count; $i++) {
+            $tile = New-Object Drawing.Rectangle (($i % $Columns) * $tileWidth), ([Math]::Floor($i / $Columns) * $tileHeight), $tileWidth, $tileHeight
+            $image = [Drawing.Image]::FromFile($Files[$i])
+            try { $gfx.DrawImage($image, $tile, (New-Object Drawing.Rectangle $X, $Y, $Width, $Height), [Drawing.GraphicsUnit]::Pixel) }
+            finally { $image.Dispose() }
+            $gfx.DrawString([IO.Path]::GetFileNameWithoutExtension($Files[$i]), $font, [Drawing.Brushes]::Yellow, $tile.X + 2, $tile.Y + 2)
+        }
+        $sheet.Save($Path, [Drawing.Imaging.ImageFormat]::Png)
+    } finally {
+        $font.Dispose()
+        $gfx.Dispose()
+        $sheet.Dispose()
+    }
+    $Path
 }
 
 function Show-GameWindow {
