@@ -112,4 +112,21 @@ public class SceneTest : EngineTestBase
         ShouldBeLit();
         outer.Dispose();
     }
+
+    [Theory]
+    [InlineData(1e-5f)]
+    [InlineData(1e3f)]
+    public void AppliesShadowsIndependentOfWorldUnit(float scale)
+    {
+        Engine.Effects.Shadows = true;
+
+        var light = new DirectionalLight {Direction = new(0, -1, 0), Diffuse = Color.White, Specular = Color.White};
+        var caster = new Probe(radius: 2 * scale) {Position = new(0, 10 * scale, 0), ShadowCaster = true};
+        using var scene = new Scene {Engine = Engine, Positionables = {caster}, Lights = {light}};
+
+        var receiver = new BoundingSphere(new(0, 0, 0), radius: scale);
+
+        scene.GetEffectiveLights(receiver, shadowing: true).Should().ContainSingle()
+             .Which.Diffuse.ToArgb().Should().Be(Color.Black.ToArgb());
+    }
 }
