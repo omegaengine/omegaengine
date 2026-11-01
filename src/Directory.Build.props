@@ -45,7 +45,7 @@
 
   <!-- Build-time dependencies -->
   <ItemGroup>
-    <PackageReference Include="NanoByte.CloneGenerator" Version="0.2.0" PrivateAssets="All" />
+    <PackageReference Include="NanoByte.CloneGenerator" Version="0.2.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.403" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
