@@ -170,7 +170,7 @@ public record CpuParticlePreset
         { // ... use a generous approximation: spawn area + repel range + 1s of random acceleration
             float maxDistance = SpawnRadius + EmitterRepelRange + RandomAcceleration;
 
-            return new(center: new(), radius: Math.Max(maxDistance, 1));
+            return new(center: new(), radius: Math.Max(maxDistance, MaxParticleRadius));
         }
         else
         { // ... otherwise follow the longest-lived, least damped particle through both lives
@@ -191,6 +191,14 @@ public record CpuParticlePreset
                 radius: maxDistance / 2 + EmitterRepelRange + firstRepel + secondRepel);
         }
     }
+
+    /// <summary>
+    /// The radius of a sphere enclosing the largest particle billboard at spawn time, in any orientation.
+    /// </summary>
+    private float MaxParticleRadius
+        => Math.Max(
+            Math.Max(LowerParameters1.Size, UpperParameters1.Size),
+            Math.Max(LowerParameters2.Size, UpperParameters2.Size)) * (float)Math.Sqrt(0.5); // Half the diagonal of a unit quad
 
     /// <summary>
     /// Calculates how far a particle travels under constant acceleration while friction slows it down.
