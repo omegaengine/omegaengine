@@ -99,24 +99,22 @@ public abstract class LightSource
     /// <param name="sourceDistance">The distance from the light source to the shadow caster; <see cref="float.PositiveInfinity"/> for an idealized parallel source.</param>
     /// <param name="projectionDistance">The distance from the shadow caster to the shadow receiver, projected onto the light direction.</param>
     /// <returns>A value from 0 (fully lit) to 1 (fully shadowed).</returns>
-    /// <remarks>The penumbra is applied as a linear blend rather than an occlusion area computation, so it darkens uniformly instead of fading towards its outer edge.</remarks>
     protected float GetShadowFactor(BoundingSphere receiverSphere, Ray shadowRay, float casterRadius, float sourceDistance, float projectionDistance)
     {
-        // A negative radius would make the penumbra narrower than the umbra, breaking the early-out below
+        // A negative radius would shrink the source's disc below that of a point source
         float sourceRadius = Math.Max(0, SourceRadius);
 
         // How far the shadow volume widens or narrows per unit of distance behind the caster; 0 for a parallel source
         float taper = sourceDistance > 0 ? projectionDistance / sourceDistance : 0;
 
-        // The penumbra always widens, so missing it means missing the umbra too
-        float penumbraFactor = GetShadowFactor(receiverSphere, shadowRay, casterRadius + taper * (casterRadius + sourceRadius));
-        if (penumbraFactor == 0) return 0;
+        // Projected onto the receiver's plane, the caster's disc reaches halfway between the edges of the umbra and the penumbra, and the source's disc is half as wide as the penumbra, centered on the point being lit.
+        // Their overlap is the eclipsed part of the source, which the receiver overlap below already calculates.
+        float casterDiscRadius = casterRadius * (1 + taper);
+        float sourceDiscRadius = taper * sourceRadius;
 
-        // The umbra narrows when the source is larger than the caster and vanishes past the cone's tip
-        float umbraRadius = casterRadius + taper * (casterRadius - sourceRadius);
-        float umbraFactor = umbraRadius > 0 ? GetShadowFactor(receiverSphere, shadowRay, umbraRadius) : 0;
-
-        return (umbraFactor + penumbraFactor) / 2;
+        // Combined like the widths of two blurs, so either dominates once much larger than the other
+        float blurRadius = (float)Math.Sqrt(sourceDiscRadius * sourceDiscRadius + receiverSphere.Radius * receiverSphere.Radius);
+        return GetShadowFactor(new BoundingSphere(receiverSphere.Center, blurRadius), shadowRay, casterDiscRadius);
     }
 
     /// <summary>

@@ -222,6 +222,23 @@ public class PointLightTest
     }
 
     [Fact]
+    public void GetShadowed_FadesAcrossPenumbra_WhenReceiverSmallerThanPenumbra()
+    {
+        var light = CreateLight();
+        light.SourceRadius = 1;
+
+        // Light-to-caster = 10 and caster-to-receiver = 10, so the umbra ends at 2 + (10/10) * (2 - 1) = 3 and the penumbra at 2 + (10/10) * (2 + 1) = 5
+        var casterSphere = new BoundingSphere(new(0, 10, 0), radius: 2);
+        byte DiffuseAt(float offset) => light.GetShadowed(new BoundingSphere(new(offset, 0, 0), radius: 0.01f), casterSphere).Diffuse.R;
+
+        DiffuseAt(2.9f).Should().Be(0); // Inside the umbra
+        DiffuseAt(3.5f).Should().BeGreaterThan(DiffuseAt(2.9f));
+        DiffuseAt(4.0f).Should().BeInRange(180, 195); // Half of the source's disc covered, which is about 188 in sRGB
+        DiffuseAt(4.5f).Should().BeGreaterThan(DiffuseAt(4.0f));
+        DiffuseAt(5.1f).Should().Be(light.Diffuse.R); // Outside the penumbra
+    }
+
+    [Fact]
     public void GetShadowed_PreservesSourceRadius()
     {
         var light = CreateLight();
