@@ -20,7 +20,6 @@ using System.Numerics;
 using Vortice.Mathematics;
 using Color = System.Drawing.Color;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
 using OmegaEngine.Graphics.VertexDecl;
 using Resources = OmegaGUI.Properties.Resources;
 
@@ -1425,7 +1424,7 @@ public class Dialog
                 // Set the texture up, and begin the sprite
                 TextureNode tNode = GetTexture(0);
                 device.SetTexture(0, tNode.Texture);
-                DialogManager.Sprite.Begin(SpriteFlags.DoNotSaveState);
+                DialogManager.Sprite.Begin();
 
                 // Render the caption if it's enabled.
                 if (!string.IsNullOrEmpty(caption))
@@ -1487,8 +1486,8 @@ public class Dialog
         if (WindowsUtils.AbsoluteTime - TooltipHoverStart < TooltipDelay) return;
 
         // Measure the text
-        FontNode fNode = GetFont(tooltipElement.FontIndex);
-        Rectangle textRect = fNode.Font.MeasureString(DialogManager.Sprite, text, tooltipElement.textFormat);
+        if (GetFont(tooltipElement.FontIndex).Font is not {} font) return;
+        Rectangle textRect = font.MeasureString(text, tooltipElement.textFormat);
         int boxWidth = textRect.Width + 2 * TooltipPadding;
         int boxHeight = textRect.Height + 2 * TooltipPadding;
 
@@ -1549,11 +1548,8 @@ public class Dialog
         Rectangle screenRect = rect;
         screenRect.Offset(dialogX, dialogY);
 
-        // Set the identity transform
-        DialogManager.Sprite.Transform = Matrix4x4.Identity;
-
         // Get the font node here
-        FontNode fNode = GetFont(element.FontIndex);
+        if (GetFont(element.FontIndex).Font is not {} font) return;
         if (shadow)
         {
             // Render the text shadowed
@@ -1565,10 +1561,10 @@ public class Dialog
                 (element.FontColor.Current.R + element.FontColor.Current.G + element.FontColor.Current.B > 1.5f) ?
                     Color.Black : Color.Gray;
 
-            fNode.Font.DrawString(DialogManager.Sprite, text, shadowRect, element.textFormat, shadowColor.ToArgb());
+            font.DrawString(DialogManager.Sprite, text, shadowRect, element.textFormat, shadowColor.ToArgb());
         }
 
-        fNode.Font.DrawString(DialogManager.Sprite, text,
+        font.DrawString(DialogManager.Sprite, text,
             screenRect, element.textFormat, element.FontColor.Current.ToArgb());
     }
 
@@ -1587,19 +1583,9 @@ public class Dialog
 
         // Get the texture
         TextureNode tNode = GetTexture(element.TextureIndex);
-        float scaleX = screenRect.Width / (float)texRect.Width;
-        float scaleY = screenRect.Height / (float)texRect.Height;
-
-        // Set the scaling transform
-        DialogManager.Sprite.Transform = Matrix4x4.CreateScale(scaleX, scaleY, 1.0f);
-
-        // Calculate the position
-        var pos = new Vector3(screenRect.Left, screenRect.Top, 0.0f);
-        pos.X /= scaleX;
-        pos.Y /= scaleY;
 
         // Finally draw the sprite
-        DialogManager.Sprite.Draw(tNode.Texture, texRect, new Vector3(), pos, element.TextureColor.Current.ToArgb());
+        DialogManager.Sprite.Draw(tNode.Texture, texRect, screenRect, element.TextureColor.Current.ToArgb());
     }
 
     /// <summary>Draw's some text</summary>

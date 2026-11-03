@@ -9,10 +9,11 @@ This repository also bundles **Frame of Reference** (`src/FrameOfReference`), th
 - C# 13 on **.NET 10** (`net10.0-windows`). `EnableWindowsTargeting` is on so it builds from non-Windows hosts too. The graphics-agnostic parts (`OmegaEngine.Foundation`, the `World` layers) additionally target plain `net10.0`; WinForms design-time code (`Foundation/Design/`, `[Editor]` attributes) only exists in the `-windows` build, behind `#if WINDOWS`.
 - Math uses `System.Numerics` (`Vector3`, `Matrix4x4`, `Quaternion`, `Plane`) plus `Vortice.Mathematics` (`Color4`, `BoundingBox`, `BoundingSphere`, `Ray`). Watch out for differences to D3DX conventions, see `VectorMath` (`TransformCoordinate` divides by W, `NormalizeOrZero` keeps zero vectors) and note that `System.Numerics` multiplies quaternions in the opposite order to D3DX (`a * b` applies `b` first).
 - Direct3D 9Ex (`IDirect3D9Ex`/`IDirect3DDevice9Ex`) via [Vortice.Direct3D9](https://github.com/amerkoleci/Vortice.Windows).
-  - Vortice wraps only core Direct3D 9, so `src/OmegaEngine/D3DX/` contains hand-written bindings for the parts of `d3dx9_43.dll` the engine uses, calling the COM vtables directly. Vtable indices come from the DirectX SDK headers.
+  - Vortice wraps only core Direct3D 9, so `src/OmegaEngine/D3DX/` contains hand-written bindings for the effect framework of `d3dx9_43.dll` (`Effect`), calling the COM vtables directly. Vtable indices come from the DirectX SDK headers.
+  - Model files are loaded with [SharpAssimp](https://github.com/JeremyAnsel/SharpAssimp).
   - Texture loading/saving (`Graphics/TextureLoader`, `SurfaceUtils`), render-to-texture (`RenderTarget`) and simple shapes (`MeshPrimitives`) are implemented in managed code instead of D3DX.
-  - `Graphics/Direct3D9Extensions` fills gaps and works around bugs in Vortice's bindings (missing `D3DERR_*` codes, `GetSamplerState`, display modes, device state, shader versions). Don't use Vortice's `Lock<T>()` on buffers: it sizes the span in bytes instead of elements.
-  - Note the D3D9Ex rules: `Pool.Managed` is rejected, so all resources live in `Pool.Default` (see `BufferUtils.DefaultPool`/`ToDefaultPool()`).
+  - OmegaGUI draws text with [FontStashSharp](https://github.com/rds1983/FontStashSharp).
+  - Note the D3D9Ex rules: `Pool.Managed` is rejected, so all resources live in `Pool.Default` (or `Pool.SystemMemory` for staging copies).
   - Shader Model 3.0 is the minimum (`EngineCapabilities.MinShaderModel`, checked in the `Engine` constructor). All shaders compile as `vs_3_0`/`ps_3_0`; there are no lower-profile fallbacks.
   - `ps_3_0` ignores fixed-function fog, so every surface shader applies fog itself via the `Fog`/`FogColor` semantics (see `shaders/include/Fog.fxh`). A `vs_3_0` pass also always needs an explicit pixel shader.
 
@@ -43,11 +44,11 @@ The engine, GUI, and AlphaFramework layers ship as NuGet packages; Frame of Refe
 - `OmegaEngine.Foundation/`: rendering-agnostic infrastructure shared across layers.
   - `Storage/` (content/config loading), `Collections/`, `Geometry/`, `Light/`, `Design/` (WinForms design-time support, including `TypeConverter`s for `System.Numerics` types; `-windows` build only).
 - `OmegaEngine/`: the core engine. `Engine` (split across `Engine.*.cs` partials: `.Render`, `.Audio`, `.Terrain`, `.Debug`) is the central object; `RenderHost`/`RenderPanel` host it in WinForms. Sub-areas:
-  - `Graphics/`: `Cameras/`, `LightSources/`, `Renderables/` (scene-graph objects), `Shaders/`, `VertexDecl/`.
-  - `D3DX/`: bindings for the used parts of D3DX 9.
+  - `Graphics/`: `Cameras/`, `LightSources/`, `Meshes/` (mesh data, model import, skinning), `Renderables/` (scene-graph objects), `Shaders/`, `VertexDecl/`.
+  - `D3DX/`: bindings for the D3DX 9 effect framework.
   - `Audio/`, `Input/`, `Assets/` (cached GPU/asset resources).
   - `DebugConsole`/`DebugForm` provide the in-engine debug overlay.
-- `UnitTests/`: xUnit tests for `OmegaEngine` and `OmegaEngine.Foundation`.
+- `UnitTests/`: xUnit tests for `OmegaEngine`, `OmegaEngine.Foundation` and `OmegaGUI`.
 - `OmegaGUI/`: XML-based GUI toolkit with embedded Lua scripting.
   - `Model/` is the serializable dialog model.
   - `Render/` draws it through the engine.

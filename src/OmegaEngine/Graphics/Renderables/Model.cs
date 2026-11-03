@@ -15,12 +15,12 @@ using System.Numerics;
 using OmegaEngine.Foundation.Geometry;
 using Vortice.Mathematics;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 
 namespace OmegaEngine.Graphics.Renderables;
 
 /// <summary>
-/// A model (stored as a Direct3DX <see cref="Mesh"/> with one or more subsets). Handle
+/// A model (stored as a <see cref="Meshes.Mesh"/> with one or more subsets).
 /// </summary>
 /// <remarks>No custom <see cref="PrimitiveType"/>s. Use <see cref="VertexGroup"/> for that.</remarks>
 public partial class Model : PositionableRenderable
@@ -29,11 +29,8 @@ public partial class Model : PositionableRenderable
     /// <summary>A reference to the asset providing the data for this model.</summary>
     private XMesh? _asset;
 
-    /// <summary>The mesh object to use for rendering. Lives in <see cref="Pool.Default"/>.</summary>
+    /// <summary>The mesh object to use for rendering.</summary>
     protected readonly Mesh Mesh;
-
-    /// <summary>A <see cref="Pool.SystemMemory"/> copy of <see cref="Mesh"/> that the CPU can read; <c>null</c> if there is none.</summary>
-    private readonly Mesh? _pickingMesh;
 
     /// <summary>
     /// An array of materials used to render this mesh
@@ -71,7 +68,7 @@ public partial class Model : PositionableRenderable
     /// <param name="materials">The materials to use for rendering the model.</param>
     /// <exception cref="ArgumentException">The number of <paramref name="materials"/> provided does not match the number of materials required by the <paramref name="mesh"/>.</exception>
     /// <remarks>Calling <see cref="IDisposable.Dispose"/> will call <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="mesh"/> and <paramref name="materials"/>.</remarks>
-    public Model(XMesh mesh, params XMaterial[] materials) : this(mesh.Mesh, mesh.PickingMesh, materials)
+    public Model(XMesh mesh, params XMaterial[] materials) : this(mesh.Mesh, materials)
     {
         #region Sanity checks
         if (mesh.Materials.Length != materials.Length)
@@ -90,24 +87,12 @@ public partial class Model : PositionableRenderable
     /// <summary>
     /// Creates a new model based upon a custom mesh.
     /// </summary>
-    /// <param name="mesh">The finished mesh in <see cref="Pool.SystemMemory"/>. Normals should be calculated before-hand if they will be used (e.g. by <see cref="SurfaceShader"/>s).</param>
+    /// <param name="mesh">The finished mesh. Normals should be calculated before-hand if they will be used (e.g. by <see cref="SurfaceShader"/>s).</param>
     /// <param name="materials">The materials to use for rendering the model.</param>
     /// <remarks>Calling <see cref="IDisposable.Dispose"/> will call <see cref="IDisposable.Dispose"/> on <paramref name="mesh"/> and <see cref="IReferenceCount.ReleaseReference"/> on <paramref name="materials"/>.</remarks>
     public Model(Mesh mesh, params XMaterial[] materials)
-        : this((mesh ?? throw new ArgumentNullException(nameof(mesh))).ToDefaultPool(), mesh, materials)
-    {}
-
-    /// <summary>
-    /// Creates a new model from an already published render mesh.
-    /// </summary>
-    /// <param name="renderMesh">The mesh to render, already in <see cref="Pool.Default"/>.</param>
-    /// <param name="pickingMesh">A system memory copy of <paramref name="renderMesh"/> for intersection tests;
-    /// <c>null</c> only if <see cref="IntersectsGeometry"/> is overridden or <paramref name="renderMesh"/> is itself readable.</param>
-    /// <param name="materials">The materials to use for rendering the model.</param>
-    protected Model(Mesh renderMesh, Mesh? pickingMesh, XMaterial[] materials)
     {
-        Mesh = renderMesh ?? throw new ArgumentNullException(nameof(renderMesh));
-        _pickingMesh = pickingMesh;
+        Mesh = mesh ?? throw new ArgumentNullException(nameof(mesh));
 
         Materials = materials;
         NumberSubsets = Materials.Length;
@@ -264,8 +249,7 @@ public partial class Model : PositionableRenderable
     #region Intersect
     /// <inheritdoc/>
     protected override bool IntersectsGeometry(Ray ray, out float distance)
-        // Check against the system memory copy, because the render mesh is write-only
-        => (_pickingMesh ?? Mesh).Intersects(ray, out distance, out _);
+        => Mesh.Intersects(ray, out distance, out _);
     #endregion
 
     //--------------------//
@@ -276,11 +260,7 @@ public partial class Model : PositionableRenderable
     {
         try
         {
-            if (_asset == null)
-            {
-                Mesh.Dispose();
-                _pickingMesh?.Dispose();
-            }
+            if (_asset == null) Mesh.Dispose();
             else
             {
                 _asset.ReleaseReference();

@@ -6,11 +6,10 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.IO;
 using System.Linq;
 using AwesomeAssertions;
-using OmegaEngine.Graphics;
-using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.VertexDecl;
 using Xunit;
 
 namespace OmegaEngine.Assets;
@@ -53,34 +52,19 @@ public class XMeshTest : EngineTestBase
     }
 
     [Fact]
-    public void RenderMeshIsWriteOnlyInDefaultPool()
+    public void GeneratesTangentsForNormalMappedMeshes()
     {
         var mesh = XMesh.Get(Engine, BoxMesh);
 
-        using (var vertexBuffer = mesh.Mesh.GetVertexBuffer())
-        {
-            vertexBuffer.Description.Pool.Should().Be(Pool.Default);
-            vertexBuffer.Description.Usage.Should().HaveFlag(Usage.WriteOnly);
-        }
-
-        using (var indexBuffer = mesh.Mesh.GetIndexBuffer())
-        {
-            indexBuffer.Description.Pool.Should().Be(Pool.Default);
-            indexBuffer.Description.Usage.Should().HaveFlag(Usage.WriteOnly);
-        }
+        mesh.Materials[0].NormalMap.Should().NotBeNull("the texture has a _normal companion");
+        mesh.Mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>()
+            .Should().OnlyContain(x => x.Normal != default && x.Tangent != default);
     }
 
     [Fact]
-    public void PickingMeshStaysInSystemMemoryAndIsReadable()
+    public void ThrowsForMissingFiles()
     {
-        var mesh = XMesh.Get(Engine, BoxMesh);
-
-        mesh.PickingMesh.Should().NotBeSameAs(mesh.Mesh);
-        using (var vertexBuffer = mesh.PickingMesh.GetVertexBuffer())
-            vertexBuffer.Description.Pool.Should().Be(Pool.SystemMemory);
-
-        // The whole point of the copy: the CPU can still read it
-        mesh.PickingMesh.VertexCount.Should().Be(mesh.Mesh.VertexCount);
-        mesh.PickingMesh.GetPoints().Should().HaveCount(mesh.PickingMesh.VertexCount);
+        var action = () => XMesh.Get(Engine, "Test/Missing.x");
+        action.Should().Throw<FileNotFoundException>();
     }
 }

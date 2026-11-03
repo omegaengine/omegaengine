@@ -10,6 +10,7 @@
   <!-- Dependencies -->
   <ItemGroup>
     <ProjectReference Include="..\OmegaEngine\OmegaEngine.csproj" />
+    <PackageReference Include="FontStashSharp" Version="1.3.10" />
   </ItemGroup>
 
   <!-- Localization -->

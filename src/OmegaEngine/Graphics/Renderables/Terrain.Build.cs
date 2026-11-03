@@ -17,7 +17,7 @@ using Vortice.Mathematics;
 using Color = System.Drawing.Color;
 using Size = System.Drawing.Size;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Geometry;
 using OmegaEngine.Graphics.Shaders;
@@ -216,7 +216,7 @@ partial class Terrain
     {
         using var _ = new TimedLogEvent("Compiling terrain mesh");
 
-        var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, MeshFlags.SystemMemory | MeshFlags.Use32Bit, PositionMultiTextured.GetVertexElements());
+        var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, PositionMultiTextured.GetVertexElements());
         try
         {
             mesh.WriteVertexBuffer(vertexes);
@@ -225,7 +225,7 @@ partial class Terrain
             // Add subset data to mesh
             mesh.WriteAttributeBuffer(attributes);
 
-            if (lighting) TexturedMeshUtils.GenerateNormals(engine.Device, ref mesh);
+            if (lighting) TexturedMeshUtils.GenerateNormals(ref mesh);
         }
         catch
         {

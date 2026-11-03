@@ -11,7 +11,7 @@ using OmegaEngine.Graphics.Cameras;
 using OmegaEngine.Graphics.Shaders;
 using System.Numerics;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 
 namespace OmegaEngine.Graphics.Renderables;
 

@@ -28,7 +28,7 @@ using System.Xml.Serialization;
 using OmegaEngine.Foundation.Design;
 using OmegaEngine.Foundation.Light;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaGUI.Render;
 
 namespace OmegaGUI.Model;
 

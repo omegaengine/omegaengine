@@ -11,7 +11,7 @@ using System.Numerics;
 using OmegaEngine.Foundation.Geometry;
 using Vortice.Mathematics;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 using OmegaEngine.Graphics.VertexDecl;
 
 namespace OmegaEngine.Graphics;
@@ -30,7 +30,7 @@ public static class TexturedMesh
             throw new ArgumentException("The mesh already contains texture coordinates.", nameof(mesh));
 
         // Clones the mesh, disposes the old one and then swaps them
-        Mesh newMesh = mesh.Clone(mesh.Device, mesh.CreationOptions.ToSystemMemory(), mesh.VertexFormat | VertexFormat.Texture1);
+        Mesh newMesh = mesh.Clone(mesh.VertexFormat | VertexFormat.Texture1);
         mesh.Dispose();
         mesh = newMesh;
     }
@@ -167,7 +167,7 @@ public static class TexturedMesh
         ];
         short[] indexes = [0, 1, 3, 3, 2, 0];
 
-        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.SystemMemory, PositionTextured.Format);
+        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, PositionTextured.Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);
@@ -179,8 +179,8 @@ public static class TexturedMesh
             throw;
         }
 
-        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
-        else TexturedMeshUtils.GenerateNormals(device, ref mesh);
+        if (tbn) TexturedMeshUtils.GenerateTBN(ref mesh);
+        else TexturedMeshUtils.GenerateNormals(ref mesh);
 
         return mesh;
     }
@@ -205,7 +205,7 @@ public static class TexturedMesh
         CloneAddTexture(ref mesh);
         SetBoxTextureCoordinates(mesh);
 
-        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
+        if (tbn) TexturedMeshUtils.GenerateTBN(ref mesh);
 
         return mesh;
     }
@@ -280,7 +280,7 @@ public static class TexturedMesh
             }
         }
 
-        var mesh = new Mesh(device, numFaces, numVertexes, MeshFlags.SystemMemory, PositionNormalTextured.Format);
+        var mesh = new Mesh(device, numFaces, numVertexes, PositionNormalTextured.Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);
@@ -292,7 +292,7 @@ public static class TexturedMesh
             throw;
         }
 
-        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
+        if (tbn) TexturedMeshUtils.GenerateTBN(ref mesh);
 
         return mesh;
     }
@@ -325,7 +325,7 @@ public static class TexturedMesh
         CloneAddTexture(ref mesh);
         SetSphericalTextureCoordinates(mesh);
 
-        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
+        if (tbn) TexturedMeshUtils.GenerateTBN(ref mesh);
 
         return mesh;
     }
@@ -441,7 +441,7 @@ public static class TexturedMesh
             attributes[triangleCount++] = subsetId;
         }
 
-        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.SystemMemory, PositionTextured.Format);
+        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, PositionTextured.Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);
@@ -454,8 +454,8 @@ public static class TexturedMesh
             throw;
         }
 
-        if (tbn) TexturedMeshUtils.GenerateTBN(device, ref mesh);
-        else TexturedMeshUtils.GenerateNormals(device, ref mesh);
+        if (tbn) TexturedMeshUtils.GenerateTBN(ref mesh);
+        else TexturedMeshUtils.GenerateNormals(ref mesh);
 
         return mesh;
     }

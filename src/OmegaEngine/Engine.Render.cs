@@ -16,7 +16,7 @@ using NLua;
 using OmegaEngine.Graphics;
 using OmegaEngine.Graphics.Shaders;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 using SharpGen.Runtime;
 using WinForms = System.Windows.Forms;
 

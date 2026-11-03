@@ -13,7 +13,7 @@ using Vortice.Mathematics;
 using Color = System.Drawing.Color;
 using Size = System.Drawing.Size;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 using OmegaEngine.Assets;
 using OmegaEngine.Foundation.Light;
 using OmegaEngine.Graphics.Shaders;
@@ -72,7 +72,7 @@ public class Water : Model
         ];
         short[] indexes = [0, 1, 3, 3, 2, 0];
 
-        var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, MeshFlags.SystemMemory, PositionNormalTextured.Format);
+        var mesh = new Mesh(engine.Device, indexes.Length / 3, vertexes.Length, PositionNormalTextured.Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);

@@ -23,6 +23,7 @@ using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Properties;
 using Vortice.Direct3D9;
 using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 using SharpGen.Runtime;
 
 namespace OmegaEngine;
@@ -173,8 +174,8 @@ public sealed partial class Engine : EngineElement
             RegisterChild(DefaultShader = new());
 
             // Create simple default meshes ready
-            using (var sphere = MeshPrimitives.Sphere(Device, 1, 12, 12)) SimpleSphere = sphere.ToDefaultPool();
-            using (var box = MeshPrimitives.Box(Device, 1, 1, 1)) SimpleBox = box.ToDefaultPool();
+            SimpleSphere = MeshPrimitives.Sphere(Device, 1, 12, 12);
+            SimpleBox = MeshPrimitives.Box(Device, 1, 1, 1);
 
             Music = new MusicManager(this);
             if (ContentManager.FileExists("Music", "list.txt"))

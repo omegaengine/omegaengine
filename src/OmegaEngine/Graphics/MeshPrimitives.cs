@@ -9,13 +9,13 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 using Vortice.Direct3D9;
 
 namespace OmegaEngine.Graphics;
 
 /// <summary>
-/// Generates simple untextured shapes in <see cref="Pool.SystemMemory"/>.
+/// Generates simple untextured shapes.
 /// </summary>
 internal static class MeshPrimitives
 {
@@ -247,7 +247,7 @@ internal static class MeshPrimitives
         if (vertexes.Length > ushort.MaxValue) throw new ArgumentOutOfRangeException(nameof(vertexes), "Too many vertexes for 16-bit indexes.");
         #endregion
 
-        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, MeshFlags.SystemMemory, Format);
+        var mesh = new Mesh(device, indexes.Length / 3, vertexes.Length, Format);
         try
         {
             mesh.WriteVertexBuffer(vertexes);

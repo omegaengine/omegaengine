@@ -9,14 +9,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using FontStashSharp;
 using NanoByte.Common.Native;
 using OmegaEngine;
 using OmegaEngine.Foundation.Storage;
 using OmegaEngine.Graphics;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
 using SharpGen.Runtime;
-using Font = OmegaEngine.D3DX.Font;
 
 namespace OmegaGUI.Render;
 
@@ -30,11 +30,15 @@ public sealed class DialogManager : IDisposable
     // Lists of textures/fonts
     private readonly List<TextureNode> _textureCache = [];
     private readonly List<FontNode> _fontCache = [];
+
+    // Font faces shared by all sizes and the textures they rasterize glyphs into
+    private readonly Dictionary<(string FaceName, FontWeight Weight), FontSystem?> _fontSystems = [];
+    private GlyphTextureManager? _glyphTextures;
     #endregion
 
     #region Properties
     public IDirect3DStateBlock9? StateBlock { get; private set; }
-    public Sprite? Sprite { get; private set; }
+    public SpriteBatch? Sprite { get; private set; }
 
     /// <summary>
     /// Gets a font node from the cache
@@ -181,21 +185,56 @@ public sealed class DialogManager : IDisposable
     {
         // Get the font node here
         FontNode fn = GetFontNode(font);
-        if (fn.Font != null)
-            fn.Font.Dispose(); // Get rid of this
+        _glyphTextures ??= new(Engine.Device);
+        fn.Font = GetFontSystem(fn.FaceName, fn.Weight) is {} fontSystem
+            ? new GuiFont(fontSystem, _glyphTextures, (int)fn.Height, GetCharWidths(fn))
+            : null;
+    }
 
-        // Create the new font
+    /// <summary>
+    /// Gets GDI's hinted character widths for a font, so text takes up the same space as it always did.
+    /// </summary>
+    /// <returns>The widths; <c>null</c> to fall back to the unhinted outlines.</returns>
+    private static int[]? GetCharWidths(FontNode fn)
+    {
         try
         {
-            fn.Font = new(Engine.Device, (int)fn.Height, 0, fn.Weight, 1, false, CharacterSet.Default,
-                Precision.Default, FontQuality.Default, PitchAndFamily.Default | PitchAndFamily.DontCare, fn.FaceName);
+            return SystemFontData.GetCharWidths(fn.FaceName, fn.Weight, (int)fn.Height);
         }
         #region Error handling
-        catch (SharpGenException ex)
+        catch (IOException ex)
         {
-            Log.Error("D3DX Font creation failed; text rendering will be disabled", ex);
+            Log.Warn($"Getting character widths of font {fn.FaceName} failed; text may take up more space than intended", ex);
+            return null;
         }
         #endregion
+    }
+
+    /// <summary>
+    /// Gets the font system for a font face, loading it from the installed system fonts if necessary.
+    /// </summary>
+    /// <returns>The font system; <c>null</c> if the font could not be loaded.</returns>
+    private FontSystem? GetFontSystem(string faceName, FontWeight weight)
+    {
+        var key = (faceName.ToLowerInvariant(), weight);
+        if (_fontSystems.TryGetValue(key, out var fontSystem)) return fontSystem;
+
+        try
+        {
+            fontSystem = new(new() {PremultiplyAlpha = false, TextureWidth = 512, TextureHeight = 512});
+            fontSystem.AddFont(SystemFontData.Get(faceName, weight));
+        }
+        #region Error handling
+        catch (Exception ex) when (ex is IOException or ArgumentException)
+        {
+            Log.Error($"Loading font {faceName} failed; text rendering will be disabled", ex);
+            fontSystem?.Dispose();
+            fontSystem = null;
+        }
+        #endregion
+
+        _fontSystems.Add(key, fontSystem);
+        return fontSystem;
     }
     #endregion
 
@@ -275,17 +314,8 @@ public sealed class DialogManager : IDisposable
         for (int i = 0; i < _textureCache.Count; i++)
             CreateTexture(i);
 
-        // Create the sprite
-        try
-        {
-            Sprite = new(Engine.Device);
-        }
-        #region Error handling
-        catch (SharpGenException ex)
-        {
-            Log.Error("D3DX Sprite creation failed", ex);
-        }
-        #endregion
+        Sprite = new(Engine.Device);
+
     }
 
     /// <summary>
@@ -295,16 +325,8 @@ public sealed class DialogManager : IDisposable
     {
         if (!Engine.IsDisposed)
         {
-            foreach (FontNode fn in _fontCache)
-            {
-                if (fn.Font is {NativePointer: not 0})
-                    fn.Font.OnLostDevice();
-            }
-
-            if (Sprite != null)
-                Sprite.OnLostDevice();
-
             if (StateBlock != null)
+
             {
                 StateBlock.Dispose();
                 StateBlock = null;
@@ -317,12 +339,8 @@ public sealed class DialogManager : IDisposable
     /// </summary>
     public void OnResetDevice()
     {
-        _fontCache.ForEach(node => node.Font?.OnResetDevice());
-
-        if (Sprite != null)
-            Sprite.OnResetDevice();
-
         // Create new state block
+
         try
         {
             StateBlock = Engine.Device.CreateStateBlock(StateBlockType.All);
@@ -357,12 +375,12 @@ public sealed class DialogManager : IDisposable
         Engine.DeviceReset -= OnResetDevice;
 
         // Dispose DirectX objects
-        Sprite?.Dispose();
         StateBlock?.Dispose();
 
         // Clear caches
         _textureCache.ForEach(node => node.Texture?.Dispose());
-        _fontCache.ForEach(node => node.Font?.Dispose());
+        foreach (var fontSystem in _fontSystems.Values) fontSystem?.Dispose();
+        _glyphTextures?.Dispose();
 
         GC.SuppressFinalize(this);
         Disposed = true;
@@ -397,7 +415,7 @@ public class TextureNode
 public class FontNode
 {
     public string FaceName;
-    public Font Font;
+    public GuiFont? Font;
     public uint Height;
     public FontWeight Weight;
 }

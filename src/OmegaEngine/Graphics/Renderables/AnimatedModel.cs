@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using OmegaEngine.Assets;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 using OmegaEngine.Foundation.Geometry;
 using Vortice.Direct3D9;
 using Vortice.Mathematics;
@@ -39,8 +39,8 @@ public class AnimatedModel : PositionableRenderable
         public required ContainerData Data;
         public bool Skinned;
 
-        /// <summary>The destination mesh drawn each frame (a per-instance clone for skinned containers, the shared source for rigid ones).</summary>
-        public Mesh? Mesh;
+        /// <summary>The mesh drawn each frame (a per-instance clone for skinned containers, the shared source for rigid ones).</summary>
+        public required Mesh Mesh;
 
         /// <summary>Scratch bone transforms; reused every frame to avoid allocations.</summary>
         public Matrix4x4[] BoneTransforms = [];
@@ -126,6 +126,8 @@ public class AnimatedModel : PositionableRenderable
         {
             Data = c,
             Skinned = c.SkinInfo != null,
+            // Skinned containers need a per-instance copy to write the deformed vertexes to
+            Mesh = c.SkinInfo == null ? c.WorkMesh : c.WorkMesh.Clone(),
             BoneTransforms = new Matrix4x4[c.BoneOffsets.Length],
             BoneInvTranspose = new Matrix4x4[c.BoneOffsets.Length]
         }).ToArray();
@@ -135,24 +137,6 @@ public class AnimatedModel : PositionableRenderable
             _track0 = new Track {SetIndex = 0, Loop = true};
     }
     #endregion
-
-    #region Engine
-    /// <inheritdoc/>
-    protected override void OnEngineSet()
-    {
-        base.OnEngineSet();
-
-        // Each container gets a per-instance copy in Pool.Default (the source meshes live in system memory): writable for skinned ones, readable for picking in rigid ones
-        foreach (var instance in _instances)
-        {
-            instance.Mesh = instance.Skinned
-                ? instance.Data.WorkMesh.Clone(Engine.Device, MeshFlags.Dynamic, instance.Data.WorkMesh.GetDeclaration())
-                : instance.Data.WorkMesh.ToDefaultPool(writeOnly: false);
-        }
-    }
-    #endregion
-
-    //--------------------//
 
     #region Animation control
     /// <summary>
@@ -219,14 +203,27 @@ public class AnimatedModel : PositionableRenderable
 
         // Only update once per frame, even when rendered in multiple views (RenderCount is still 0 on the first render of the frame)
         if (RenderCount > 0) return;
-        if (_asset == null || _asset.FrameCount == 0) return;
 
         using (new ProfilerEvent("Update animation"))
-        {
-            BuildPose(Engine.LastFrameGameTime);
-            UpdateSkinnedMeshes();
-        }
+            Animate(Engine.LastFrameGameTime);
     }
+
+    /// <summary>
+    /// Advances the animation and updates the skinned meshes.
+    /// </summary>
+    /// <param name="elapsedTime">The game time that passed since the last update in seconds.</param>
+    internal void Animate(double elapsedTime)
+    {
+        if (_asset == null || _asset.FrameCount == 0) return;
+
+        BuildPose(elapsedTime);
+        UpdateSkinnedMeshes();
+    }
+
+    /// <summary>
+    /// The mesh drawn for a mesh container of the asset, already skinned for skinned containers.
+    /// </summary>
+    internal Mesh GetContainerMesh(int index) => _instances[index].Mesh;
 
     /// <summary>
     /// Advances the animation tracks and computes the combined (model-space) transform of every frame.
@@ -298,16 +295,13 @@ public class AnimatedModel : PositionableRenderable
     {
         var mesh = _asset!;
         var set = mesh.AnimationSets[track.SetIndex];
-        int[] map = mesh.AnimationFrameMaps[track.SetIndex];
 
         double position = set.GetPeriodicPosition(track.Time);
 
-        for (int a = 0; a < map.Length; a++)
+        foreach (var channel in set.Channels)
         {
-            int frame = map[a];
-            if (frame < 0) continue;
-
-            var (scale, rotation, translation) = set.GetTransformation(position, a);
+            int frame = channel.FrameIndex;
+            var (scale, rotation, translation) = channel.Sample(position, fallback: new(_scale[frame], _rotation[frame], _translation[frame]));
 
             if (replaceOnly)
             {
@@ -328,7 +322,7 @@ public class AnimatedModel : PositionableRenderable
     {
         foreach (var instance in _instances)
         {
-            if (!instance.Skinned || instance.Mesh == null) continue;
+            if (!instance.Skinned) continue;
             var data = instance.Data;
 
             for (int b = 0; b < instance.BoneTransforms.Length; b++)
@@ -339,23 +333,7 @@ public class AnimatedModel : PositionableRenderable
             }
 
             // Software skinning: read the bind-pose source vertices, write the deformed vertices into the per-instance copy
-            var source = data.WorkMesh.LockVertexBuffer(LockFlags.ReadOnly);
-            try
-            {
-                var destination = instance.Mesh.LockVertexBuffer(LockFlags.None);
-                try
-                {
-                    data.SkinInfo!.UpdateSkinnedMesh(instance.BoneTransforms, instance.BoneInvTranspose, source, destination);
-                }
-                finally
-                {
-                    instance.Mesh.UnlockVertexBuffer();
-                }
-            }
-            finally
-            {
-                data.WorkMesh.UnlockVertexBuffer();
-            }
+            data.SkinInfo!.UpdateSkinnedMesh(instance.BoneTransforms, instance.BoneInvTranspose, data.WorkMesh, instance.Mesh);
         }
     }
     #endregion
@@ -372,7 +350,7 @@ public class AnimatedModel : PositionableRenderable
 
         foreach (var instance in _instances)
         {
-            if (instance.Mesh is not {} mesh) continue;
+            var mesh = instance.Mesh;
             var data = instance.Data;
 
             // Skinned vertices are already in model space; rigid meshes are placed by their frame transform
@@ -399,8 +377,6 @@ public class AnimatedModel : PositionableRenderable
         distance = float.PositiveInfinity;
         foreach (var instance in _instances)
         {
-            if (instance.Mesh == null) continue;
-
             var testRay = ray;
             if (!instance.Skinned && instance.Data.FrameIndex >= 0)
             {
@@ -431,7 +407,7 @@ public class AnimatedModel : PositionableRenderable
         {
             // Dispose the per-instance mesh copies (the source meshes are disposed with the asset)
             foreach (var instance in _instances)
-                instance.Mesh?.Dispose();
+                if (instance.Skinned) instance.Mesh.Dispose();
 
             foreach (var material in Materials) material.ReleaseReference();
 
