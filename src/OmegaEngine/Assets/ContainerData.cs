@@ -7,13 +7,13 @@
  */
 
 using System.Numerics;
-using OmegaEngine.D3DX;
 using OmegaEngine.Graphics;
+using OmegaEngine.Graphics.Meshes;
 
 namespace OmegaEngine.Assets;
 
 /// <summary>
-/// Per-<see cref="MeshContainer"/> data collected while loading an animated mesh hierarchy.
+/// Per-mesh data collected while loading an animated mesh hierarchy.
 /// </summary>
 /// <seealso cref="XAnimatedMesh"/>
 internal sealed class ContainerData
@@ -33,12 +33,12 @@ internal sealed class ContainerData
     /// <summary>The bone-offset (inverse bind pose) matrices, indexed by bone.</summary>
     public Matrix4x4[] BoneOffsets = [];
 
-    /// <summary>The name of the <see cref="Frame"/> each bone is attached to, indexed by bone.</summary>
+    /// <summary>The name of the frame each bone is attached to, indexed by bone.</summary>
     public string[] BoneNames = [];
 
-    /// <summary>The index into the flattened frame list of the <see cref="Frame"/> each bone is attached to, indexed by bone. Resolved after loading.</summary>
+    /// <summary>The index into the flattened frame list of the frame each bone is attached to, indexed by bone. Resolved after loading.</summary>
     public int[] BoneFrameIndices = [];
 
-    /// <summary>The index into the flattened frame list of the <see cref="Frame"/> this container is attached to.</summary>
+    /// <summary>The index into the flattened frame list of the frame this container is attached to.</summary>
     public int FrameIndex = -1;
 }

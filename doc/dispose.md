@@ -11,7 +11,7 @@ If you forget a `.Dispose()` this may trigger an exception (in Debug mode) or a 
 <xref:OmegaEngine.RenderHost> assumes it is the only user of Direct3D in the process. It enables the object tracking of [SharpGen](https://github.com/SharpGenTools/SharpGenTools), on which Vortice and the engine's D3DX wrappers are built. When it is disposed it therefore checks whether any DirectX objects are still alive and reports each one as a log entry:
 
 ```
-ERROR: Object of type OmegaEngine.D3DX.Mesh was not disposed. Set OMEGAENGINE_TRACK_OBJECTS=1 to also log the stack trace of the object creation.
+ERROR: Object of type Vortice.Direct3D9.IDirect3DVertexBuffer9 was not disposed. Set OMEGAENGINE_TRACK_OBJECTS=1 to also log the stack trace of the object creation.
 	Total of 10 objects still alive.
 ```
 
@@ -31,10 +31,10 @@ $env:OMEGAENGINE_TRACK_OBJECTS = "1"
 This records a stack trace for every COM object that is created. The leak report then includes that stack trace:
 
 ```
-ERROR: Object of type OmegaEngine.D3DX.Mesh was not disposed. Stack trace of object creation:
+ERROR: Object of type Vortice.Direct3D9.IDirect3DVertexBuffer9 was not disposed. Stack trace of object creation:
 	   ...
-	   at OmegaEngine.D3DX.Mesh..ctor(IDirect3DDevice9 device, Int32 faceCount, Int32 vertexCount, MeshFlags options, VertexFormat format)
-	   at OmegaEngine.Graphics.TexturedMesh.Sphere(...)
+	   at OmegaEngine.Graphics.Meshes.Mesh.Upload()
+	   at OmegaEngine.Graphics.Meshes.Mesh.DrawSubset(Int32 subset)
 	   ...
 ```
 

@@ -21,7 +21,7 @@ using Vortice.Mathematics;
 using Color = System.Drawing.Color;
 using Size = System.Drawing.Size;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 using Resources = OmegaEngine.Properties.Resources;
 
 namespace OmegaEngine.Graphics.Renderables;
@@ -76,45 +76,18 @@ public partial class Terrain : Model
     /// <summary>
     /// Internal helper constructor
     /// </summary>
-    /// <param name="sourceMesh">The finished terrain mesh in <see cref="Pool.SystemMemory"/>. Disposed once its content has been copied and published.</param>
+    /// <param name="mesh">The finished terrain mesh.</param>
     /// <param name="material">The material to use for rendering the terrain</param>
     /// <param name="lighting">Use/support lighting when rendering this terrain?</param>
-    /// <remarks>
-    /// Unlike other <see cref="Model"/>s the terrain keeps no system memory copy of its mesh; it is by far the largest mesh in a scene.
-    /// It is published without <see cref="MeshFlags.WriteOnly"/> instead, so <see cref="ModifyColor"/> and <see cref="ModifyHeight"/> keep working.
-    /// </remarks>
-    protected Terrain(Mesh sourceMesh, XMaterial material, bool lighting)
-        : base((sourceMesh ?? throw new ArgumentNullException(nameof(sourceMesh))).ToDefaultPool(writeOnly: false), pickingMesh: null, [material])
+    protected Terrain(Mesh mesh, XMaterial material, bool lighting)
+        : base(mesh, material)
     {
         Lighting = lighting;
 
-        #region Copy index and vertex buffer content
-        // Copy buffers to RAM for fast position lookups and intersection tests
-        using (new TimedLogEvent("Copy index and vertex buffer content"))
-        {
-            _indexBuffer = sourceMesh.ReadIndexBuffer();
-
-            // Get the vertex positions from the IDirect3DVertexBuffer9
-            if (lighting) // Different vertex formats
-            {
-                var verts = sourceMesh.ReadVertexBuffer<PositionNormalMultiTextured>();
-                _vertexBuffer = new Vector3[verts.Length];
-                for (int i = 0; i < verts.Length; i++)
-                    _vertexBuffer[i] = verts[i].Position;
-            }
-            else
-            {
-                var verts = sourceMesh.ReadVertexBuffer<PositionMultiTextured>();
-                _vertexBuffer = new Vector3[verts.Length];
-                for (int i = 0; i < verts.Length; i++)
-                    _vertexBuffer[i] = verts[i].Position;
-            }
-
-            _subsetFaces = GroupFacesBySubset(sourceMesh.ReadAttributeBuffer());
-        }
-        #endregion
-
-        sourceMesh.Dispose();
+        // Keep positions and indexes in plain arrays for fast position lookups and intersection tests
+        _indexBuffer = mesh.ReadIndexBuffer();
+        _vertexBuffer = mesh.GetPoints();
+        _subsetFaces = GroupFacesBySubset(mesh.ReadAttributeBuffer());
     }
 
     /// <summary>

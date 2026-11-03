@@ -10,7 +10,7 @@ using System;
 using System.Numerics;
 using Vortice.Mathematics;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
+using OmegaEngine.Graphics.Meshes;
 
 namespace OmegaEngine.Graphics.Renderables;
 

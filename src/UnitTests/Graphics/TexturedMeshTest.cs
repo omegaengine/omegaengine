@@ -91,7 +91,7 @@ public class TexturedMeshTest : EngineTestBase
         {
             var before = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
 
-            TexturedMeshUtils.GenerateTBN(Engine.Device, ref mesh, weldVertexes: true);
+            TexturedMeshUtils.GenerateTBN(ref mesh, weldVertexes: true);
 
             mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>()
                 .Should().Equal(before);
@@ -116,7 +116,7 @@ public class TexturedMeshTest : EngineTestBase
             }
             mesh.WriteVertexBuffer(vertexes);
 
-            TexturedMeshUtils.GenerateTBN(Engine.Device, ref mesh);
+            TexturedMeshUtils.GenerateTBN(ref mesh);
 
             mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>()
                 .Should().Contain(v => v.Tangent != default);

@@ -14,7 +14,6 @@ using System.Windows.Forms;
 using AlphaFramework.Editor.Properties;
 using NanoByte.Common.Controls;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
 using SharpGen.Runtime;
 
 namespace AlphaFramework.Editor;

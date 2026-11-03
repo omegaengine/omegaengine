@@ -94,7 +94,7 @@ List<IDisposable> level2Assets = LoadLevel2Assets(engine);
 
 ## Texture naming convention
 
-When loading meshes from .X files, <xref:OmegaEngine.Assets.XMesh> automatically looks for associated textures using filename suffixes:
+When loading meshes, <xref:OmegaEngine.Assets.XMesh> automatically looks for associated textures using filename suffixes:
 
 | Suffix      | Map Type     | Property                                          | Purpose                         |
 | ----------- | ------------ | ------------------------------------------------- | ------------------------------- |

@@ -163,6 +163,13 @@ public static unsafe partial class Direct3D9Extensions
         => device.SetTextureStageState(stage, type, Unsafe.As<T, int>(ref value));
 
     /// <summary>
+    /// Locks a rectangle of a texture level, marking only that rectangle as dirty for <see cref="IDirect3DDevice9.UpdateTexture"/>.
+    /// </summary>
+    /// <remarks>Vortice passes the fields of <see cref="RectI"/> (X, Y, Width, Height) to Direct3D as a <c>RECT</c> (left, top, right, bottom) unchanged, so this converts them first.</remarks>
+    public static LockedRectangle LockRectangle(this IDirect3DTexture9 texture, int level, System.Drawing.Rectangle rect, LockFlags flags)
+        => texture.LockRect((uint)level, new RectI(rect.Left, rect.Top, rect.Right, rect.Bottom), flags);
+
+    /// <summary>
     /// Renders primitives from vertex data in a managed array.
     /// </summary>
     public static void DrawUserPrimitives<T>(this IDirect3DDevice9 device, PrimitiveType type, int primitiveCount, T[] vertexes)

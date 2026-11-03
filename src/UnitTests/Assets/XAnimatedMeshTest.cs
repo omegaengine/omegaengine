@@ -64,7 +64,7 @@ public class XAnimatedMeshTest : EngineTestBase
 
         // The first set actually rotates the frame over time
         var spin = mesh.AnimationSets[0];
-        spin.GetTransformation(spin.GetPeriodicPosition(0.5), 0).Rotation.Should().NotBe(Quaternion.Identity);
+        spin.Channels[0].Sample(spin.GetPeriodicPosition(0.5), fallback: default).Rotation.Should().NotBe(Quaternion.Identity);
 
         // The rigid mesh container must be attached to the animated frame, or it would not move
         mesh.Containers.Should().ContainSingle().Which.FrameIndex.Should().BeGreaterThan(0);
@@ -98,6 +98,21 @@ public class XAnimatedMeshTest : EngineTestBase
 
         // Advancing the animation performs CPU skinning (SkinInfo.UpdateSkinnedMesh) and must not throw
         model.Invoking(m => m.Poke()).Should().NotThrow();
+    }
+
+    [Fact]
+    public void SkinningMovesVertexesAwayFromBindPose()
+    {
+        var mesh = XAnimatedMesh.Get(Engine, "Test/Animated/SkinnedWave.x");
+        var container = mesh.Containers.Single(c => c.SkinInfo != null);
+        var bindPose = container.WorkMesh.GetPoints();
+
+        using var model = new PokableModel(mesh) {Name = "SkinnedWave"};
+        model.Engine = Engine;
+        model.Animate(elapsedTime: 0.5); // A quarter of the wave, where Bone1 is rotated the most
+
+        model.GetContainerMesh(mesh.Containers.ToList().IndexOf(container)).GetPoints().Should().NotEqual(bindPose);
+        container.WorkMesh.GetPoints().Should().Equal(bindPose, "the shared bind pose must not be modified");
     }
 
     /// <summary>Exposes the protected per-frame update hook for testing.</summary>

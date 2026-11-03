@@ -11,27 +11,23 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using NanoByte.Common.Storage;
-using OmegaEngine.D3DX;
 using OmegaEngine.Graphics;
+using OmegaEngine.Graphics.Meshes;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Foundation.Storage;
-using SharpGen.Runtime;
 using Vortice.Mathematics;
 
 namespace OmegaEngine.Assets;
 
 /// <summary>
-/// An animated mesh loaded from an .X file.
+/// An animated mesh loaded from a model file (.X, .FBX, .glTF, ...).
 /// </summary>
 /// <seealso cref="AnimatedModel"/>
 public class XAnimatedMesh : Asset
 {
-    #region Variables
-    private FrameHierarchy? _hierarchy;
-    #endregion
-
     #region Properties
     /// <summary>
     /// The mesh containers making up the hierarchy, in load order.
@@ -59,11 +55,8 @@ public class XAnimatedMesh : Asset
     /// <summary>Whether each frame's bind pose could be decomposed into scale/rotation/translation.</summary>
     internal bool[] FrameCanBlend { get; private set; } = [];
 
-    /// <summary>The animation sets, shared and read-only; sampled per-instance via <see cref="AnimationSet.GetTransformation"/>.</summary>
-    internal ImmutableArray<AnimationSet> AnimationSets { get; private set; } = [];
-
-    /// <summary>For each animation set, maps an animation index to the frame index it animates.</summary>
-    internal int[][] AnimationFrameMaps { get; private set; } = [];
+    /// <summary>The animations, shared and read-only; sampled per-instance.</summary>
+    internal ImmutableArray<AnimationClip> AnimationSets { get; private set; } = [];
 
     /// <summary>
     /// A bounding sphere surrounding the mesh in its bind pose.
@@ -78,42 +71,38 @@ public class XAnimatedMesh : Asset
 
     #region Constructor
     /// <summary>
-    /// Loads an animated mesh from an .X file.
+    /// Loads an animated mesh from a model file.
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> providing rendering capabilities.</param>
-    /// <param name="stream">The .X file to load the mesh from.</param>
-    /// <param name="meshName">The name of the mesh. This is used for finding associated textures.</param>
-    /// <exception cref="InvalidDataException"><paramref name="stream"/> does not contain a valid animated mesh.</exception>
+    /// <param name="id">The ID of the model file in the <c>Meshes</c> content directory. This is also used for finding associated textures.</param>
+    /// <exception cref="InvalidDataException">The file does not contain a valid animated mesh.</exception>
     /// <remarks>This should only be called from within <see cref="Get"/> to prevent unnecessary duplicates.</remarks>
-    protected XAnimatedMesh(Engine engine, Stream stream, string meshName)
+    protected XAnimatedMesh(Engine engine, string id)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
-        if (stream == null) throw new ArgumentNullException(nameof(stream));
+        if (id == null) throw new ArgumentNullException(nameof(id));
         #endregion
 
         try
         {
-            // Load the frame hierarchy and animation sets into system memory
-            _hierarchy = FrameHierarchy.FromStream(engine.Device, stream, MeshFlags.SystemMemory);
+            var hierarchy = MeshImporter.LoadHierarchy(engine.Device, id);
 
-            BuildSkeleton(engine, meshName);
+            // Assign the containers right away, so Dispose() cleans them up if anything below fails
+            Containers = hierarchy.Containers.Select(x => new ContainerData {WorkMesh = x.Mesh, SkinInfo = x.Skin, FrameIndex = x.FrameIndex}).ToList();
+
+            BuildSkeleton(engine, id, hierarchy);
 
             // Use the bounding sphere of the bind pose (no bounding box for animated meshes)
-            var boundingSphere = _hierarchy.BoundingSphere;
-            BoundingSphere = boundingSphere.Radius < 0.01 ? null : boundingSphere;
+            BoundingSphere = hierarchy.BoundingSphere.Radius < 0.01 ? null : hierarchy.BoundingSphere;
 
-            BuildAnimations();
+            AnimationSets = [..hierarchy.Animations];
+            AnimationSetNames = [..hierarchy.Animations.Select(x => x.Name)];
         }
         #region Error handling
-        catch (SharpGenException ex)
-        {
-            Dispose();
-            throw new InvalidDataException(ex.Message, ex);
-        }
         catch (Exception)
         {
-            // Since private objects have already been created at this point, a proper cleanup is needed
+            // Since private objects may already have been created at this point, a proper cleanup is needed
             Dispose();
             throw;
         }
@@ -121,37 +110,20 @@ public class XAnimatedMesh : Asset
     }
 
     /// <summary>
-    /// Walks the frame hierarchy to flatten it into parallel arrays (parents-before-children), decomposes each bind pose,
-    /// collects the mesh containers and resolves each of them and their bones to a frame index.
+    /// Stores the flattened frame hierarchy (parents-before-children), decomposes each bind pose,
+    /// loads the materials of the mesh containers and resolves their bones to frame indexes.
     /// </summary>
-    private void BuildSkeleton(Engine engine, string meshName)
+    private void BuildSkeleton(Engine engine, string meshName, ImportedHierarchy hierarchy)
     {
-        var frames = new List<Frame>();
-        var parents = new List<int>();
+        var frames = hierarchy.Frames;
         var indexByName = new Dictionary<string, int>();
-        var containers = new List<ContainerData>();
-
-        void Traverse(IEnumerable<Frame> siblings, int parentIndex)
+        for (int i = 0; i < frames.Count; i++)
         {
-            foreach (var frame in siblings)
-            {
-                int index = frames.Count;
-                frames.Add(frame);
-                parents.Add(parentIndex);
-                if (!string.IsNullOrEmpty(frame.Name)) indexByName[frame.Name] = index;
-
-                foreach (var container in frame.MeshContainers)
-                    containers.Add(LoadContainer(engine, meshName, container, index));
-
-                Traverse(frame.Children, index);
-            }
+            if (!string.IsNullOrEmpty(frames[i].Name)) indexByName[frames[i].Name] = i;
         }
 
-        Traverse(_hierarchy!.RootFrames, -1);
-        Containers = containers;
-
         FrameCount = frames.Count;
-        FrameParents = [..parents];
+        FrameParents = frames.Select(x => x.Parent).ToArray();
         FrameBindLocal = new Matrix4x4[FrameCount];
         FrameBindScale = new Vector3[FrameCount];
         FrameBindRotation = new Quaternion[FrameCount];
@@ -159,83 +131,26 @@ public class XAnimatedMesh : Asset
         FrameCanBlend = new bool[FrameCount];
         for (int i = 0; i < FrameCount; i++)
         {
-            var local = frames[i].TransformationMatrix;
+            var local = frames[i].Transform;
             FrameBindLocal[i] = local;
             FrameCanBlend[i] = Matrix4x4.Decompose(local, out FrameBindScale[i], out FrameBindRotation[i], out FrameBindTranslation[i]);
         }
 
-        // Resolve bone -> frame index now that all frames are known (done once at load, not per frame)
-        foreach (var data in Containers)
+        for (int i = 0; i < Containers.Count; i++)
         {
-            if (data.SkinInfo == null) continue;
-            data.BoneFrameIndices = new int[data.BoneNames.Length];
-            for (int i = 0; i < data.BoneNames.Length; i++)
-                data.BoneFrameIndices[i] = indexByName.TryGetValue(data.BoneNames[i], out int frameIndex) ? frameIndex : 0;
-        }
+            var data = Containers[i];
+            var xMaterials = XMesh.LoadMaterials(engine, meshName, [hierarchy.Containers[i].Material], out _);
+            data.Materials = xMaterials.IsDefaultOrEmpty ? [XMaterial.Default] : [..xMaterials];
+            data.NumberSubsets = 1;
 
-        // Store the name -> index lookup for animation resolution
-        _frameIndexByName = indexByName;
-    }
-
-    private Dictionary<string, int> _frameIndexByName = [];
-
-    /// <summary>
-    /// Loads the materials and bones of a mesh container.
-    /// </summary>
-    private static ContainerData LoadContainer(Engine engine, string meshName, MeshContainer container, int frameIndex)
-    {
-        var xMaterials = XMesh.LoadMaterials(engine, meshName, container.Materials, container.Effects, out _);
-        var data = new ContainerData
-        {
-            WorkMesh = container.Mesh,
-            SkinInfo = container.SkinInfo,
-            Materials = xMaterials.IsDefaultOrEmpty ? [XMaterial.Default] : [..xMaterials],
-            NumberSubsets = container.Materials is {Length: > 0} ? container.Materials.Length : 1,
-            FrameIndex = frameIndex
-        };
-
-        if (container.SkinInfo is {} skinInfo)
-        {
-            int boneCount = skinInfo.BoneCount;
-            data.BoneOffsets = new Matrix4x4[boneCount];
-            data.BoneNames = new string[boneCount];
-            for (int i = 0; i < boneCount; i++)
+            // Resolve bone -> frame index now that all frames are known (done once at load, not per frame)
+            if (data.SkinInfo is {} skinInfo)
             {
-                data.BoneOffsets[i] = skinInfo.GetBoneOffsetMatrix(i);
-                data.BoneNames[i] = skinInfo.GetBoneName(i);
+                data.BoneOffsets = skinInfo.BoneOffsets.ToArray();
+                data.BoneNames = skinInfo.BoneNames.ToArray();
+                data.BoneFrameIndices = data.BoneNames.Select(name => indexByName.TryGetValue(name, out int frameIndex) ? frameIndex : 0).ToArray();
             }
         }
-
-        return data;
-    }
-
-    /// <summary>
-    /// Caches the animation sets and, for each, a map from animation index to the frame index it animates.
-    /// </summary>
-    private void BuildAnimations()
-    {
-        var controllerSets = _hierarchy!.AnimationSets;
-        int setCount = controllerSets.Length;
-        var sets = ImmutableArray.CreateBuilder<AnimationSet>(setCount);
-        var names = ImmutableArray.CreateBuilder<string>(setCount);
-        AnimationFrameMaps = new int[setCount][];
-
-        for (int s = 0; s < setCount; s++)
-        {
-            // D3DX registers the sets in reverse, so the last one in the file has index 0; restore the file order
-            var set = controllerSets[setCount - 1 - s];
-            sets.Add(set);
-            names.Add(set.Name);
-
-            int animationCount = set.AnimationCount;
-            var map = new int[animationCount];
-            for (int a = 0; a < animationCount; a++)
-                map[a] = _frameIndexByName.TryGetValue(set.GetAnimationName(a), out int frameIndex) ? frameIndex : -1;
-            AnimationFrameMaps[s] = map;
-        }
-
-        AnimationSets = sets.MoveToImmutable();
-        AnimationSetNames = names.MoveToImmutable();
     }
     #endregion
 
@@ -268,9 +183,10 @@ public class XAnimatedMesh : Asset
         // Load from file if not in cache
         if (data == null)
         {
+            if (!ContentManager.FileExists(type, id)) throw new FileNotFoundException($"Mesh file not found: {id}", id);
+
             using (new TimedLogEvent($"Loading animated mesh: {id}"))
-            using (var stream = ContentManager.GetFileStream(type, id))
-                data = new(engine, stream, id) {Name = fullID};
+                data = new(engine, id) {Name = fullID};
             engine.Cache.AddAsset(data);
         }
 
@@ -289,8 +205,8 @@ public class XAnimatedMesh : Asset
             { // This block will only be executed on manual disposal, not by Garbage Collection
                 Log.Info($"Disposing {this}");
                 AnimationSets = [];
-                _hierarchy?.Dispose();
-                _hierarchy = null;
+                foreach (var container in Containers) container.WorkMesh.Dispose();
+                Containers = [];
             }
         }
         finally

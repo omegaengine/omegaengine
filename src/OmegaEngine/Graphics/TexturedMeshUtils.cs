@@ -9,8 +9,7 @@
 using System;
 using System.Linq;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
-using SharpGen.Runtime;
+using OmegaEngine.Graphics.Meshes;
 using OmegaEngine.Graphics.VertexDecl;
 
 namespace OmegaEngine.Graphics;
@@ -43,14 +42,12 @@ public static class TexturedMeshUtils
     /// <summary>
     /// Expands the declaration of a mesh to include tangent and binormal information
     /// </summary>
-    /// <param name="device">The <see cref="IDirect3DDevice9"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
     /// <param name="hadNormals">Did the original declaration already contain normals?</param>
     /// <param name="hadTangents">Did the original declaration already contain tangents?</param>
     /// <returns><c>true</c> if the mesh declaration was expanded, <c>false</c> if the declaration didn't need to be changed</returns>
-    private static bool ExpandDeclaration(IDirect3DDevice9 device, ref Mesh mesh, out bool hadNormals, out bool hadTangents)
+    private static bool ExpandDeclaration(ref Mesh mesh, out bool hadNormals, out bool hadTangents)
     {
-        if (device == null) throw new ArgumentNullException(nameof(device));
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
 
         // Check if vertex declaration of mesh already is already ok
@@ -82,7 +79,7 @@ public static class TexturedMeshUtils
             PositionNormalMultiTextured.GetVertexElements() : PositionNormalTangentBinormalTextured.GetVertexElements();
 
         // Clone the mesh to change the vertex format
-        Mesh tempMesh = mesh.Clone(device, mesh.CreationOptions.ToSystemMemory(), decl);
+        Mesh tempMesh = mesh.Clone(decl);
         mesh.Dispose();
         mesh = tempMesh;
 
@@ -95,35 +92,21 @@ public static class TexturedMeshUtils
     /// <param name="mesh">The <see cref="Mesh"/> to be optimized.</param>
     private static void Optimize(Mesh mesh)
     {
-        using var _ = new TimedLogEvent("Optimized mesh");
-
-        mesh.GenerateAdjacency(epsilon: 0);
-
-        try
-        {
-            mesh.OptimizeInPlace(MeshOptimizeFlags.VertexCache | MeshOptimizeFlags.AttributeSort);
-        }
-        #region Error handling
-        catch (SharpGenException ex)
-        {
-            Log.Warn("Failed to optimize mesh", ex);
-        }
-        #endregion
+        using (new TimedLogEvent("Optimized mesh"))
+            mesh.Optimize();
     }
 
     /// <summary>
     /// Generate normal vectors if not present and convert into a normal-carrying format for shaders.
     /// Tangent and binormal data is left empty.
     /// </summary>
-    /// <param name="device">The <see cref="IDirect3DDevice9"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
     /// <remarks>Normal vectors are required for lighting.</remarks>
-    public static void GenerateNormals(IDirect3DDevice9 device, ref Mesh mesh)
+    public static void GenerateNormals(ref Mesh mesh)
     {
-        if (device == null) throw new ArgumentNullException(nameof(device));
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
 
-        if (!ExpandDeclaration(device, ref mesh, out bool hadNormals, out _)) return;
+        if (!ExpandDeclaration(ref mesh, out bool hadNormals, out _)) return;
 
         if (CompareDecl(PositionNormalMultiTextured.GetVertexElements(), mesh.GetDeclaration()))
         {
@@ -181,20 +164,18 @@ public static class TexturedMeshUtils
     /// <summary>
     /// Generate TBN (tangent, binormal and normal) vectors if not present and convert into <see cref="PositionNormalTangentBinormalTextured"/> format for shaders.
     /// </summary>
-    /// <param name="device">The <see cref="IDirect3DDevice9"/> containing the mesh</param>
     /// <param name="mesh">The mesh to be manipulated</param>
-    /// <param name="weldVertexes">Weld vertexes before generating tangents.
+    /// <param name="weldVertexes">Weld vertexes before generating tangents and share tangents between vertexes that only differ in their texture coordinates.
     /// Useful for organic objects, stones, trees, etc. (anything with a lot of round surfaces).
     /// If a lot of single faces are not connected on the texture (e.g. rockets, buildings, etc.) do not use.</param>
     /// <remarks>TBN vectors are required for normal mapping.</remarks>
-    public static void GenerateTBN(IDirect3DDevice9 device, ref Mesh mesh, bool weldVertexes = false)
+    public static void GenerateTBN(ref Mesh mesh, bool weldVertexes = false)
     {
         #region Sanity checks
-        if (device == null) throw new ArgumentNullException(nameof(device));
         if (mesh == null) throw new ArgumentNullException(nameof(mesh));
         #endregion
 
-        bool expanded = ExpandDeclaration(device, ref mesh, out bool hadNormals, out bool hadTangents);
+        bool expanded = ExpandDeclaration(ref mesh, out bool hadNormals, out bool hadTangents);
 
         // This format can not carry tangents, so there is nothing more we can do here
         if (CompareDecl(PositionNormalMultiTextured.GetVertexElements(), mesh.GetDeclaration()))
@@ -207,8 +188,6 @@ public static class TexturedMeshUtils
             }
             return;
         }
-
-        var decl = mesh.GetDeclaration();
 
         bool gotMilkErmTexCoords = false;
         bool gotValidNormals = false;
@@ -261,67 +240,16 @@ public static class TexturedMeshUtils
                 mesh.ComputeNormals();
         }
 
-        // Welding is only useful to improve the quality of tangents we generate ourselves
-        if (weldVertexes && !hadTangents)
-        {
-            using var _ = new TimedLogEvent("Computed tangents");
-
-            // Reduce amount of vertexes
-            var weldEpsilons = new WeldEpsilons {Position = 0.0001f, Normal = 0.0001f};
-            mesh.WeldVertices(WeldFlags.WeldPartialMatches, weldEpsilons);
-
-            // If the vertexes for a smoothend point exist several times the
-            // DirectX ComputeTangent method is not able to treat them all the
-            // same way.
-            // To circumvent this, we collapse all vertexes in a cloned mesh
-            // even if the texture coordinates don't fit. Then we copy the
-            // generated tangents back to the original mesh vertexes (duplicating
-            // the tangents for vertexes at the same point with the same normals
-            // if required). This happens usually with models exported from 3DSMax.
-
-            // Clone mesh just for tangent generation
-            Mesh dummyTangentGenerationMesh = mesh.Clone(device, mesh.CreationOptions.ToSystemMemory(), decl);
-
-            // Reuse weldEpsilons, just change the TextureCoordinates, which we don't care about anymore
-            weldEpsilons.TextureCoordinate1 = 1;
-            weldEpsilons.TextureCoordinate2 = 1;
-            weldEpsilons.TextureCoordinate3 = 1;
-            weldEpsilons.TextureCoordinate4 = 1;
-            weldEpsilons.TextureCoordinate5 = 1;
-            weldEpsilons.TextureCoordinate6 = 1;
-            weldEpsilons.TextureCoordinate7 = 1;
-            weldEpsilons.TextureCoordinate8 = 1;
-            // Rest of the weldEpsilons values can stay 0, we don't use them
-            dummyTangentGenerationMesh.WeldVertices(WeldFlags.WeldPartialMatches, weldEpsilons);
-
-            // Compute tangents
-            dummyTangentGenerationMesh.ComputeTangent(0, 0, 0, false);
-            var tangentVertexes = dummyTangentGenerationMesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
-            dummyTangentGenerationMesh.Dispose();
-
-            // Copy generated tangents back
-            vertexes = mesh.ReadVertexBuffer<PositionNormalTangentBinormalTextured>();
-            for (int num = 0; num < vertexes.Length; num++)
-            {
-                // Search for tangent vertex with the exact same position and normal.
-                for (int tangentVertexNum = 0; tangentVertexNum < tangentVertexes.Length; tangentVertexNum++)
-                {
-                    if (vertexes[num].Position == tangentVertexes[tangentVertexNum].Position && vertexes[num].Normal == tangentVertexes[tangentVertexNum].Normal)
-                    {
-                        // Copy the tangent and binormal over
-                        vertexes[num].Tangent = tangentVertexes[tangentVertexNum].Tangent;
-                        vertexes[num].Binormal = tangentVertexes[tangentVertexNum].Binormal;
-                        // No more checks required, proceed with next vertex
-                        break;
-                    }
-                }
-            }
-            mesh.WriteVertexBuffer(vertexes);
-        }
-        else if (!hadTangents)
+        if (!hadTangents)
         {
             using (new TimedLogEvent("Computed tangents"))
-                mesh.ComputeTangent(0, 0, 0, false);
+            {
+                // Welding is only useful to improve the quality of tangents we generate ourselves.
+                // Vertexes at the same point with the same normal also share tangents, even if their texture coordinates differ.
+                // This avoids seams where a smooth surface is split on the texture, which happens usually with models exported from 3DSMax.
+                if (weldVertexes) mesh.WeldVertexes(positionEpsilon: 0.0001f, normalEpsilon: 0.0001f);
+                mesh.ComputeTangents(mergeSeams: weldVertexes);
+            }
         }
 
         // Assume meshes that already came with complete data have also been optimized for rendering

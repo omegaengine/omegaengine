@@ -39,7 +39,6 @@ using Vortice.Mathematics;
 using Color = System.Drawing.Color;
 using Size = System.Drawing.Size;
 using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
 using OmegaGUI.Render;
 using Resources = OmegaGUI.Properties.Resources;
 

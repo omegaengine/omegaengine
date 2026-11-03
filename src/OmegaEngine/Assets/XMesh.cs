@@ -7,25 +7,22 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Text;
 using NanoByte.Common.Storage;
 using OmegaEngine.Graphics;
-using System.Numerics;
 using Vortice.Mathematics;
-using Vortice.Direct3D9;
-using OmegaEngine.D3DX;
-using SharpGen.Runtime;
+using OmegaEngine.Graphics.Meshes;
 using OmegaEngine.Graphics.Renderables;
 using OmegaEngine.Foundation.Storage;
 
 namespace OmegaEngine.Assets;
 
 /// <summary>
-/// A mesh loaded from an .X file.
+/// A mesh loaded from a model file (.X, .OBJ, .FBX, .glTF, ...).
 /// </summary>
 /// <seealso cref="Model"/>
 public class XMesh : Asset
@@ -36,17 +33,11 @@ public class XMesh : Asset
     public ImmutableArray<XMaterial> Materials { get; }
 
     private readonly Mesh _mesh;
-    private readonly Mesh? _pickingMesh;
 
     /// <summary>
-    /// The mesh in DirectX format, ready for rendering. Lives in <see cref="Pool.Default"/> and cannot be read by the CPU.
+    /// The mesh, ready for rendering and intersection tests.
     /// </summary>
     public Mesh Mesh => _mesh;
-
-    /// <summary>
-    /// The system memory copy of <see cref="Mesh"/> used for intersection tests.
-    /// </summary>
-    public Mesh PickingMesh => _pickingMesh ?? _mesh;
 
     /// <summary>
     /// A bounding sphere surrounding this mesh
@@ -69,46 +60,39 @@ public class XMesh : Asset
     public BoundingSphere[]? SubsetBoundingSpheres { get; }
 
     /// <summary>
-    /// Loads a static mesh from an .X file.
+    /// Loads a static mesh from a model file.
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> providing rendering capabilities.</param>
-    /// <param name="stream">The .X file to load the mesh from.</param>
-    /// <param name="meshName">The name of the mesh. This is used for finding associated textures.</param>
-    /// <exception cref="InvalidDataException"><paramref name="stream"/> does not contain a valid mesh.</exception>
+    /// <param name="id">The ID of the model file in the <c>Meshes</c> content directory. This is also used for finding associated textures.</param>
+    /// <exception cref="InvalidDataException">The file does not contain a valid mesh.</exception>
     /// <remarks>This should only be called by <see cref="Get"/> to prevent unnecessary duplicates.</remarks>
-    protected XMesh(Engine engine, Stream stream, string meshName)
+    protected XMesh(Engine engine, string id)
     {
         #region Sanity checks
         if (engine == null) throw new ArgumentNullException(nameof(engine));
-        if (stream == null) throw new ArgumentNullException(nameof(stream));
+        if (id == null) throw new ArgumentNullException(nameof(id));
         #endregion
 
-        // Load mesh and materials into system memory; the result is published to Pool.Default at the end
+        ImportedMaterial[] importedMaterials;
         try
         {
-            _mesh = Mesh.FromStream(engine.Device, stream, MeshFlags.SystemMemory);
+            (_mesh, importedMaterials) = MeshImporter.LoadStatic(engine.Device, id);
         }
-        #region Error handling
-        catch (SharpGenException ex)
+        catch
         {
             GC.SuppressFinalize(this); // Prevent "Forgot to call Dispose" error
-            throw new InvalidDataException(ex.Message, ex);
+            throw;
         }
-        #endregion
 
-        ExtendedMaterial[] extendedMaterials = Mesh.GetMaterials();
-        EffectInstance[] effectInstances = Mesh.GetEffects();
-
-        if (extendedMaterials.Length > 1)
+        if (importedMaterials.Length > 1)
         {
-            (SubsetBoundingSpheres, SubsetBoundingBoxes) = CalculateSubsetBoundingBodies(extendedMaterials.Length);
+            (SubsetBoundingSpheres, SubsetBoundingBoxes) = CalculateSubsetBoundingBodies(importedMaterials.Length);
 
             BoundingSphere = SubsetBoundingSpheres?.Aggregate((a, b) => Vortice.Mathematics.BoundingSphere.CreateMerged(a, b));
             BoundingBox = SubsetBoundingBoxes?.Aggregate((a, b) => Vortice.Mathematics.BoundingBox.CreateMerged(a, b));
         }
         else
         {
-            // Not using Mesh.ComputeBoundingSphere()/ComputeBoundingBox(), because they derive the vertex stride from the FVF, which is undefined for meshes with a custom vertex declaration
             var points = Mesh.GetPoints();
             BoundingSphere = Vortice.Mathematics.BoundingSphere.CreateFromPoints(points);
             BoundingBox = Vortice.Mathematics.BoundingBox.CreateFromPoints(points);
@@ -120,7 +104,7 @@ public class XMesh : Asset
 
         try
         {
-            Materials = LoadMaterials(engine, meshName, extendedMaterials, effectInstances, out bool needsTangents);
+            Materials = LoadMaterials(engine, id, importedMaterials, out bool needsTangents);
 
             // Generate normals (plus tangents if normal/height maps are available)
             if (!Materials.IsDefault)
@@ -130,15 +114,10 @@ public class XMesh : Asset
                     material.HoldReference();
 
                 if (needsTangents)
-                    TexturedMeshUtils.GenerateTBN(engine.Device, ref _mesh, weldVertexes: true);
+                    TexturedMeshUtils.GenerateTBN(ref _mesh, weldVertexes: true);
                 else
-                    TexturedMeshUtils.GenerateNormals(engine.Device, ref _mesh);
+                    TexturedMeshUtils.GenerateNormals(ref _mesh);
             }
-
-            // The mesh is final now, so publish a write-only copy for rendering and keep this one for intersection tests
-            Mesh renderMesh = _mesh.ToDefaultPool();
-            _pickingMesh = _mesh;
-            _mesh = renderMesh;
         }
         #region Error handling
         catch (Exception)
@@ -151,31 +130,30 @@ public class XMesh : Asset
     }
 
     /// <summary>
-    /// Builds <see cref="XMaterial"/>s from a mesh's materials and effects, loading associated textures.
+    /// Builds <see cref="XMaterial"/>s from a mesh's materials, loading associated textures.
     /// </summary>
     /// <param name="engine">The <see cref="Engine"/> to load textures with.</param>
     /// <param name="meshName">The name of the mesh. This is used for finding associated textures.</param>
-    /// <param name="extendedMaterials">The materials extracted from the mesh (e.g. via <see cref="D3DX.Mesh.GetMaterials"/>).</param>
-    /// <param name="effectInstances">The effect instances extracted from the mesh (e.g. via <see cref="D3DX.Mesh.GetEffects"/>); may be <c>null</c>.</param>
+    /// <param name="importedMaterials">The materials loaded from the model file.</param>
     /// <param name="needsTangents">Set to <c>true</c> if any loaded material references a normal or height map and therefore requires tangent data.</param>
-    /// <returns>The loaded materials; <c>default</c> if <paramref name="extendedMaterials"/> is empty.</returns>
-    internal static ImmutableArray<XMaterial> LoadMaterials(Engine engine, string meshName, ExtendedMaterial[] extendedMaterials, EffectInstance[]? effectInstances, out bool needsTangents)
+    /// <returns>The loaded materials; <c>default</c> if <paramref name="importedMaterials"/> is empty.</returns>
+    internal static ImmutableArray<XMaterial> LoadMaterials(Engine engine, string meshName, IReadOnlyList<ImportedMaterial> importedMaterials, out bool needsTangents)
     {
         needsTangents = false;
-        if (extendedMaterials is not { Length: > 0 }) return default;
+        if (importedMaterials is not { Count: > 0 }) return default;
 
-        var builder = ImmutableArray.CreateBuilder<XMaterial>(extendedMaterials.Length);
+        var builder = ImmutableArray.CreateBuilder<XMaterial>(importedMaterials.Count);
 
         // Store each material and texture
-        for (int i = 0; i < extendedMaterials.Length; i++)
+        foreach (var importedMaterial in importedMaterials)
         {
-            var material = extendedMaterials[i].MaterialD3D.ToXMaterial();
+            var material = importedMaterial.Material.ToXMaterial();
 
             // Search for texture file names in material
-            string textureFilename = extendedMaterials[i].TextureFileName;
+            string? textureFilename = importedMaterial.TextureFileName;
             if (!string.IsNullOrEmpty(textureFilename))
             {
-                material.DiffuseMap = ShaderLoadHelper(engine, meshName, textureFilename);
+                material.DiffuseMap = TextureLoadHelper(engine, meshName, textureFilename);
 
                 string baseFilename = Path.Combine(Path.GetDirectoryName(meshName) ?? "", Path.GetFileNameWithoutExtension(textureFilename));
                 string fileExt = Path.GetExtension(textureFilename);
@@ -215,34 +193,6 @@ public class XMesh : Asset
                 }
             }
 
-            // Search for texture file names in shader effect if present
-            if (effectInstances != null && i < effectInstances.Length)
-            {
-                EffectDefault[] parameters = effectInstances[i].Defaults;
-                foreach (EffectDefault param in parameters)
-                {
-                    XTexture extraTexture = ShaderTextureHelper(engine, param, meshName, "diffuseTexture");
-                    if (extraTexture != null) material.DiffuseMap = extraTexture;
-
-                    extraTexture = ShaderTextureHelper(engine, param, meshName, "normalTexture", srgb: false);
-                    if (extraTexture != null)
-                    {
-                        material.NormalMap = extraTexture;
-                        needsTangents = true;
-                    }
-
-                    extraTexture = ShaderTextureHelper(engine, param, meshName, "heightTexture", srgb: false);
-                    if (extraTexture != null)
-                    {
-                        material.HeightMap = extraTexture;
-                        needsTangents = true;
-                    }
-
-                    extraTexture = ShaderTextureHelper(engine, param, meshName, "specularTexture", srgb: false);
-                    if (extraTexture != null) material.SpecularMap = extraTexture;
-                }
-            }
-
             builder.Add(material);
         }
 
@@ -277,9 +227,10 @@ public class XMesh : Asset
         // Load from file if not in cache
         if (data == null)
         {
+            if (!ContentManager.FileExists(type, id)) throw new FileNotFoundException($"Mesh file not found: {id}", id);
+
             using (new TimedLogEvent($"Loading mesh: {id}"))
-            using (var stream = ContentManager.GetFileStream(type, id))
-                data = new(engine, stream, id) {Name = fullID};
+                data = new(engine, id) {Name = fullID};
             engine.Cache.AddAsset(data);
         }
 
@@ -294,7 +245,7 @@ public class XMesh : Asset
     /// <param name="textureID">The texture ID</param>
     /// <param name="srgb">Does the file hold sRGB-encoded color data (rather than data such as a normal, height or specular map)?</param>
     /// <returns>The requested mesh texture</returns>
-    private static XTexture? ShaderLoadHelper(Engine engine, string meshName, string textureID, bool srgb = true)
+    private static XTexture? TextureLoadHelper(Engine engine, string meshName, string textureID, bool srgb = true)
     {
         // Determine the path the mesh was originally loaded from
         string meshPath = Path.GetDirectoryName(meshName);
@@ -305,29 +256,6 @@ public class XMesh : Asset
         return ContentManager.FileExists("Meshes", meshPath + textureID)
             ? XTexture.Get(engine, meshPath + textureID, meshTexture: true, srgb: srgb)
             : XTexture.Get(engine, id, srgb: srgb);
-    }
-
-    /// <summary>
-    /// Extracts a texture reference from shader parameters
-    /// </summary>
-    /// <param name="engine">The <see cref="Engine"/> to load the texture from</param>
-    /// <param name="param">The shader parameter</param>
-    /// <param name="meshName">The name of the mesh to load a texture file for</param>
-    /// <param name="textureType">The type of texture to check the shader parameter for</param>
-    /// <param name="srgb">Does the file hold sRGB-encoded color data (rather than data such as a normal, height or specular map)?</param>
-    /// <returns>The texture specified by the shader parameter or null if no texture was specified</returns>
-    private static XTexture? ShaderTextureHelper(Engine engine, EffectDefault param, string meshName, string textureType, bool srgb = true)
-    {
-        // Check if the parameter has the right name and contains a string
-        if (StringUtils.EqualsIgnoreCase(param.ParameterName, textureType) && param.Type == EffectDefaultType.String)
-        {
-            // Read the string and trim away tailing nul-bytes and spaces
-            string paramData = Encoding.ASCII.GetString(param.Value).Trim('\0', ' ');
-
-            // Attempt to load the file specified in the parameter
-            return ShaderLoadHelper(engine, meshName, paramData, srgb);
-        }
-        return null;
     }
 
     /// <summary>
@@ -364,7 +292,6 @@ public class XMesh : Asset
             { // This block will only be executed on manual disposal, not by Garbage Collection
                 Log.Info($"Disposing {this}");
                 _mesh.Dispose();
-                _pickingMesh?.Dispose();
 
                 if (!Materials.IsDefaultOrEmpty)
                 {
