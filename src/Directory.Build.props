@@ -34,6 +34,7 @@
     <Copyright>Copyright Bastian Eicher</Copyright>
     <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/omegaengine/omegaengine</RepositoryUrl>
+    <PackageReleaseNotes>https://github.com/omegaengine/omegaengine/releases/tag/$(Version)</PackageReleaseNotes>
     <PackageProjectUrl>https://omegaengine.de/</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon-omega.png</PackageIcon>
