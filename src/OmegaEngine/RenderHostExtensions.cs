@@ -15,23 +15,26 @@ namespace OmegaEngine;
 /// </summary>
 public static class RenderHostExtensions
 {
-    /// <summary>
-    /// Calls <see cref="InputProvider.AddReceiver"/> for all default <see cref="InputProvider"/>s.
-    /// </summary>
-    public static void AddInputReceiver(this IRenderHost host, IInputReceiver receiver)
+    extension(IRenderHost host)
     {
-        host.KeyboardInputProvider?.AddReceiver(receiver);
-        host.MouseInputProvider?.AddReceiver(receiver);
-        host.TouchInputProvider?.AddReceiver(receiver);
-    }
+        /// <summary>
+        /// Calls <see cref="InputProvider.AddReceiver"/> for all default <see cref="InputProvider"/>s.
+        /// </summary>
+        public void AddInputReceiver(IInputReceiver receiver)
+        {
+            host.KeyboardInputProvider?.AddReceiver(receiver);
+            host.MouseInputProvider?.AddReceiver(receiver);
+            host.TouchInputProvider?.AddReceiver(receiver);
+        }
 
-    /// <summary>
-    /// Calls <see cref="InputProvider.RemoveReceiver"/> for all default <see cref="InputProvider"/>s.
-    /// </summary>
-    public static void RemoveInputReceiver(this IRenderHost host, IInputReceiver receiver)
-    {
-        host.KeyboardInputProvider?.RemoveReceiver(receiver);
-        host.MouseInputProvider?.RemoveReceiver(receiver);
-        host.TouchInputProvider?.RemoveReceiver(receiver);
+        /// <summary>
+        /// Calls <see cref="InputProvider.RemoveReceiver"/> for all default <see cref="InputProvider"/>s.
+        /// </summary>
+        public void RemoveInputReceiver(IInputReceiver receiver)
+        {
+            host.KeyboardInputProvider?.RemoveReceiver(receiver);
+            host.MouseInputProvider?.RemoveReceiver(receiver);
+            host.TouchInputProvider?.RemoveReceiver(receiver);
+        }
     }
 }

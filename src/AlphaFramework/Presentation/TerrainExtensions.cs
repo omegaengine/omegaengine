@@ -16,20 +16,19 @@ namespace AlphaFramework.Presentation;
 /// </summary>
 public static class TerrainExtensions
 {
-    /// <summary>
-    /// Generate a <see cref="RenderableTerrain"/> from this terrain data.
-    /// </summary>
-    /// <param name="terrain">The terrain data.</param>
-    /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
-    /// <param name="lighting">Shall this mesh be prepared for lighting? (calculate normal vectors, make shaders support lighting, ...)</param>
-    /// <param name="blockSize">How many points in X and Y direction shall one block for culling be?</param>
-    /// <exception cref="FileNotFoundException">One of the specified texture files could not be found.</exception>
-    /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
-    /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
-    /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
-    public static RenderableTerrain ToRenderable<TTemplate>(this Terrain<TTemplate> terrain, Engine engine, bool lighting, int blockSize = 32)
-        where TTemplate : TerrainTemplateBase<TTemplate>
-        => RenderableTerrain.Create(
+    extension<TTemplate>(Terrain<TTemplate> terrain) where TTemplate : TerrainTemplateBase<TTemplate>
+    {
+        /// <summary>
+        /// Generate a <see cref="RenderableTerrain"/> from this terrain data.
+        /// </summary>
+        /// <param name="engine">The <see cref="Engine"/> to use for rendering.</param>
+        /// <param name="lighting">Shall this mesh be prepared for lighting? (calculate normal vectors, make shaders support lighting, ...)</param>
+        /// <param name="blockSize">How many points in X and Y direction shall one block for culling be?</param>
+        /// <exception cref="FileNotFoundException">One of the specified texture files could not be found.</exception>
+        /// <exception cref="IOException">There was an error reading one of the texture files.</exception>
+        /// <exception cref="UnauthorizedAccessException">Read access to one of the texture files is not permitted.</exception>
+        /// <exception cref="InvalidDataException">One of the texture files does not contain a valid texture.</exception>
+        public RenderableTerrain ToRenderable(Engine engine, bool lighting, int blockSize = 32) => RenderableTerrain.Create(
             engine,
             new(terrain.Size.X, terrain.Size.Y),
             terrain.Size.StretchH,
@@ -40,6 +39,7 @@ public static class TerrainExtensions
             terrain.OcclusionIntervalMap,
             lighting,
             blockSize);
+    }
 
     private static string[] GetTextures<TTemplate>(TTemplate?[] templates)
         where TTemplate : TerrainTemplateBase<TTemplate>
@@ -49,9 +49,12 @@ public static class TerrainExtensions
                : null)
           .ToArray();
 
-    /// <summary>
-    /// Maps X to X and Z to -Y. Drops Y.
-    /// </summary>
-    [Pure]
-    public static Vector2 Flatten(this DoubleVector3 vector) => new((float)vector.X, (float)-vector.Z);
+    extension(DoubleVector3 vector)
+    {
+        /// <summary>
+        /// Maps X to X and Z to -Y. Drops Y.
+        /// </summary>
+        [Pure]
+        public Vector2 Flatten() => new((float)vector.X, (float)-vector.Z);
+    }
 }

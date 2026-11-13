@@ -2,7 +2,7 @@
 
   <!-- Build configuration -->
   <PropertyGroup>
-    <LangVersion>13.0</LangVersion>
+    <LangVersion>14.0</LangVersion>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <OutputType>Library</OutputType>
     <!--suppress MsbuildTargetFrameworkTagInspection -->

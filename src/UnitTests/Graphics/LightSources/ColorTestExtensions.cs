@@ -13,14 +13,17 @@ namespace OmegaEngine.Graphics.LightSources;
 
 internal static class ColorTestExtensions
 {
-    /// <summary>
-    /// Asserts that each channel of <paramref name="actual"/> is within one step of <paramref name="expected"/>, allowing for rounding of float results to bytes.
-    /// </summary>
-    public static void ShouldBeCloseTo(this Color actual, Color expected)
+    extension(Color actual)
     {
-        actual.A.Should().BeCloseTo(expected.A, 1);
-        actual.R.Should().BeCloseTo(expected.R, 1, $"{actual} should match {expected}");
-        actual.G.Should().BeCloseTo(expected.G, 1, $"{actual} should match {expected}");
-        actual.B.Should().BeCloseTo(expected.B, 1, $"{actual} should match {expected}");
+        /// <summary>
+        /// Asserts that each channel of <paramref name="actual"/> is within one step of <paramref name="expected"/>, allowing for rounding of float results to bytes.
+        /// </summary>
+        public void ShouldBeCloseTo(Color expected)
+        {
+            actual.A.Should().BeCloseTo(expected.A, 1);
+            actual.R.Should().BeCloseTo(expected.R, 1, $"{actual} should match {expected}");
+            actual.G.Should().BeCloseTo(expected.G, 1, $"{actual} should match {expected}");
+            actual.B.Should().BeCloseTo(expected.B, 1, $"{actual} should match {expected}");
+        }
     }
 }

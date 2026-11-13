@@ -16,130 +16,129 @@ namespace OmegaEngine;
 /// </summary>
 public static class EngineUtilsAnimation
 {
-    /// <summary>
-    /// Automatically interpolates between two numeric values while rendering
-    /// </summary>
-    /// <param name="engine">The engine to use for rendering</param>
-    /// <param name="start">The value to start off with</param>
-    /// <param name="end">The value to end up at</param>
-    /// <param name="callback">The delegate to call for with the updated interpolated value each frame</param>
-    /// <param name="options">Options controlling the animation</param>
-    /// <returns>Disposing this cancels the animation before it has reached <paramref name="end"/>.</returns>
-    public static IDisposable Animate(this Engine engine, double start, double end, Action<double> callback, AnimationOptions options)
+    extension(Engine engine)
     {
-        #region Sanity checks
-        if (engine == null) throw new ArgumentNullException(nameof(engine));
-        if (options == null) throw new ArgumentNullException(nameof(options));
-        if (callback == null) throw new ArgumentNullException(nameof(callback));
-        #endregion
-
-        bool negative = start > end;
-
-        Stopwatch interpolationTimer = null;
-        Action interpolate = null;
-        interpolate = delegate
+        /// <summary>
+        /// Automatically interpolates between two numeric values while rendering
+        /// </summary>
+        /// <param name="start">The value to start off with</param>
+        /// <param name="end">The value to end up at</param>
+        /// <param name="callback">The delegate to call for with the updated interpolated value each frame</param>
+        /// <param name="options">Options controlling the animation</param>
+        /// <returns>Disposing this cancels the animation before it has reached <paramref name="end"/>.</returns>
+        public IDisposable Animate(double start, double end, Action<double> callback, AnimationOptions options)
         {
-            double value;
+            #region Sanity checks
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            if (options == null) throw new ArgumentNullException(nameof(options));
+            if (callback == null) throw new ArgumentNullException(nameof(callback));
+            #endregion
 
-            if (interpolationTimer == null)
+            bool negative = start > end;
+
+            Stopwatch interpolationTimer = null;
+            Action interpolate = null;
+            interpolate = delegate
             {
-                // Start timer the first time this delegate gets called;
-                interpolationTimer = Stopwatch.StartNew();
-                value = start;
-            }
-            else
-            {
-                double fraction = interpolationTimer.Elapsed.Divide(options.Duration);
-                double factor = options switch
+                double value;
+
+                if (interpolationTimer == null)
                 {
-                    { EaseIn: true, EaseOut: true } => MathUtils.EaseInOut(fraction, options.EasingFunction),
-                    { EaseIn: true } => MathUtils.EaseIn(fraction, options.EasingFunction),
-                    { EaseOut: true } => MathUtils.EaseOut(fraction, options.EasingFunction),
-                    _ => fraction
-                };
-                value = MathUtils.Lerp(start, end, factor);
+                    // Start timer the first time this delegate gets called;
+                    interpolationTimer = Stopwatch.StartNew();
+                    value = start;
+                }
+                else
+                {
+                    double fraction = interpolationTimer.Elapsed.Divide(options.Duration);
+                    double factor = options switch
+                    {
+                        { EaseIn: true, EaseOut: true } => MathUtils.EaseInOut(fraction, options.EasingFunction),
+                        { EaseIn: true } => MathUtils.EaseIn(fraction, options.EasingFunction),
+                        { EaseOut: true } => MathUtils.EaseOut(fraction, options.EasingFunction),
+                        _ => fraction
+                    };
+                    value = MathUtils.Lerp(start, end, factor);
 
-                // Don't shoot past the target
-                if ((negative && value < end) || (!negative && value > end)) value = end;
-            }
+                    // Don't shoot past the target
+                    if ((negative && value < end) || (!negative && value > end)) value = end;
+                }
 
-            // Return the value to the delegate
-            callback(value);
+                // Return the value to the delegate
+                callback(value);
 
-            // Delegate removes itself from PostRender once Max value has been reached
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (value == end) engine.PreRender -= interpolate;
-        };
+                // Delegate removes itself from PostRender once Max value has been reached
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                if (value == end) engine.PreRender -= interpolate;
+            };
 
-        // Hook interpolation delegate into PostRender sequence
-        engine.PreRender += interpolate;
+            // Hook interpolation delegate into PostRender sequence
+            engine.PreRender += interpolate;
 
-        // Run callback for t=0 immediately
-        callback(start);
+            // Run callback for t=0 immediately
+            callback(start);
 
-        return new Disposable(() => engine.PreRender -= interpolate);
-    }
+            return new Disposable(() => engine.PreRender -= interpolate);
+        }
 
-    /// <summary>
-    /// Fades in the screen from total black
-    /// </summary>
-    /// <param name="engine">The engine to use for rendering</param>
-    /// <param name="options">Options controlling the animation</param>
-    public static void FadeIn(this Engine engine, AnimationOptions? options = null)
-    {
-        #region Sanity checks
-        if (engine == null) throw new ArgumentNullException(nameof(engine));
-        #endregion
+        /// <summary>
+        /// Fades in the screen from total black
+        /// </summary>
+        /// <param name="options">Options controlling the animation</param>
+        public void FadeIn(AnimationOptions? options = null)
+        {
+            #region Sanity checks
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            #endregion
 
-        engine.AnimateFadeLevel(
-            start: 255, end: 0,
-            options ?? new(Duration: TimeSpan.FromSeconds(2), EaseIn: false));
-        engine.FadeExtra = true;
-    }
+            engine.AnimateFadeLevel(
+                start: 255, end: 0,
+                options ?? new(Duration: TimeSpan.FromSeconds(2), EaseIn: false));
+            engine.FadeExtra = true;
+        }
 
-    /// <summary>
-    /// Dims in the screen down
-    /// </summary>
-    /// <param name="engine">The engine to use for rendering</param>
-    /// <param name="options">Options controlling the animation</param>
-    public static void DimDown(this Engine engine, AnimationOptions? options = null)
-    {
-        #region Sanity checks
-        if (engine == null) throw new ArgumentNullException(nameof(engine));
-        #endregion
+        /// <summary>
+        /// Dims in the screen down
+        /// </summary>
+        /// <param name="options">Options controlling the animation</param>
+        public void DimDown(AnimationOptions? options = null)
+        {
+            #region Sanity checks
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            #endregion
 
-        engine.AnimateFadeLevel(
-            start: engine.FadeLevel, end: 80,
-            options ?? new(Duration: TimeSpan.FromSeconds(1)));
-        engine.FadeExtra = false;
-    }
+            engine.AnimateFadeLevel(
+                start: engine.FadeLevel, end: 80,
+                options ?? new(Duration: TimeSpan.FromSeconds(1)));
+            engine.FadeExtra = false;
+        }
 
-    /// <summary>
-    /// Dims in the screen back up
-    /// </summary>
-    /// <param name="engine">The engine to use for rendering</param>
-    /// <param name="options">Options controlling the animation</param>
-    public static void DimUp(this Engine engine, AnimationOptions? options = null)
-    {
-        #region Sanity checks
-        if (engine == null) throw new ArgumentNullException(nameof(engine));
-        #endregion
+        /// <summary>
+        /// Dims in the screen back up
+        /// </summary>
+        /// <param name="options">Options controlling the animation</param>
+        public void DimUp(AnimationOptions? options = null)
+        {
+            #region Sanity checks
+            if (engine == null) throw new ArgumentNullException(nameof(engine));
+            #endregion
 
-        engine.AnimateFadeLevel(
-            start: engine.FadeLevel, end: 0,
-            options ?? new(Duration: TimeSpan.FromSeconds(1)));
-        engine.FadeExtra = false;
-    }
+            engine.AnimateFadeLevel(
+                start: engine.FadeLevel, end: 0,
+                options ?? new(Duration: TimeSpan.FromSeconds(1)));
+            engine.FadeExtra = false;
+        }
 
-    /// <summary>
-    /// Animates <see cref="Engine.FadeLevel"/>, cancelling any previous fade animation.
-    /// </summary>
-    private static void AnimateFadeLevel(this Engine engine, double start, double end, AnimationOptions options)
-    {
-        engine.FadeAnimation?.Dispose();
-        engine.FadeAnimation = engine.Animate(
-            start, end,
-            callback: value => engine.FadeLevel = (int)value,
-            options);
+        /// <summary>
+        /// Animates <see cref="Engine.FadeLevel"/>, cancelling any previous fade animation.
+        /// </summary>
+        private void AnimateFadeLevel(double start, double end, AnimationOptions options)
+        {
+            engine.FadeAnimation?.Dispose();
+            engine.FadeAnimation = engine.Animate(
+                start, end,
+                callback: value => engine.FadeLevel = (int)value,
+                options);
+        }
     }
 }
