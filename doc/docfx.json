@@ -3,17 +3,12 @@
     {
       "src": [
         {
-          "src": "../src",
-          "files": ["**/*.csproj"],
-          "exclude": ["UnitTests/*", "**/UnitTests/*"]
+          "src": "../artifacts/Release/net472",
+          "files": ["OmegaEngine*.dll", "OmegaGUI.dll", "AlphaFramework.*.dll", "FrameOfReference*.dll", "FrameOfReference*.exe"]
         }
       ],
-      "properties": {
-        "TargetFramework": "net472"
-      },
       "namespaceLayout": "nested",
       "dest": "api",
-      "filter": "filterConfig.yml",
       "filter": "filterConfig.yml"
     }
   ],
