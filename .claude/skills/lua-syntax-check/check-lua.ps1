@@ -14,17 +14,22 @@ re-check chunk by chunk to attribute the error to a dialog and control.
 .\check-lua.ps1
 .EXAMPLE
 .\check-lua.ps1 -Path content\GUI\InGame
+.EXAMPLE
+.\check-lua.ps1 -Path content\GUI\Settings.xml -ExportTo $scratch\lua
 #>
 [CmdletBinding()]
 param(
     # File or directory to check. Defaults to content/GUI relative to the repo root.
-    [string]$Path
+    [string]$Path,
+    # Instead of checking, write every chunk to a .lua file of its own in this directory and list them,
+    # e.g. to run one with `lua` against stubbed globals.
+    [string]$ExportTo
 )
 
 $ErrorActionPreference = 'Stop'
 
 $luac = (Get-Command luac -ErrorAction SilentlyContinue).Source
-if (-not $luac) {
+if (-not $luac -and -not $ExportTo) {
     throw "luac is not on the PATH, so the Lua syntax check cannot run. Report it as skipped, not as passed."
 }
 
@@ -48,7 +53,7 @@ try {
     $chunks = @()
     foreach ($file in $files) {
         if ($file.Extension -eq '.lua') {
-            $chunks += [pscustomobject]@{ Label = $file.FullName; Code = (Get-Content -LiteralPath $file.FullName -Raw) }
+            $chunks += [pscustomobject]@{ Label = $file.FullName; Code = [IO.File]::ReadAllText($file.FullName); Slug = $file.BaseName }
             continue
         }
 
@@ -59,12 +64,26 @@ try {
             $owner = $node.ParentNode.Attributes['Name']
             $label = "$($file.FullName) :: $($node.Name)"
             if ($owner) { $label += " on '$($owner.Value)'" }
-            $chunks += [pscustomobject]@{ Label = $label; Code = $node.InnerText }
+            $slug = "$($file.BaseName)-$($node.Name)"
+            if ($owner) { $slug += "-$($owner.Value)" }
+            $chunks += [pscustomobject]@{ Label = $label; Code = $node.InnerText; Slug = $slug }
         }
     }
 
     if ($chunks.Count -eq 0) {
         Write-Host "No Lua chunks found under $Path."
+        return
+    }
+
+    if ($ExportTo) {
+        New-Item -ItemType Directory -Force -Path $ExportTo | Out-Null
+        $ExportTo = (Resolve-Path -LiteralPath $ExportTo).Path
+        for ($i = 0; $i -lt $chunks.Count; $i++) {
+            $name = ("{0:D3}-{1}.lua" -f $i, ($chunks[$i].Slug -replace '[^\w.-]', '_'))
+            [IO.File]::WriteAllText((Join-Path $ExportTo $name), $chunks[$i].Code, (New-Object Text.UTF8Encoding $false))
+            Write-Host "$name  <-  $($chunks[$i].Label)"
+        }
+        Write-Host "$($chunks.Count) chunk(s) written to $ExportTo"
         return
     }
 

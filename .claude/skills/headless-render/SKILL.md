@@ -10,6 +10,9 @@ looks right. This skill drives the engine from a throwaway host process so you c
 map from a known camera, save it as a JPG, and look at it yourself — including against a build of
 an older commit, which is what turns "this looks a bit off" into a specific, localized finding.
 
+It renders the scene only: no GUI, no game logic, no input. To check a dialog, the HUD, gameplay
+or anything that needs the running game, use the `drive-game-headless` skill instead.
+
 ## Quick start
 
 ```powershell
@@ -41,13 +44,14 @@ the full list (it also lives at the bottom of `harness\Program.cs`). The ones th
 ## Before/after against another commit
 
 This is the main reason to use the skill, and the part worth getting right. Build the other commit
-in a worktree and render it with the same harness and the same camera:
+in a worktree and render it with the same harness and the same camera (`$scratch` being the session's
+scratchpad directory):
 
 ```powershell
-git worktree add --detach <scratch>\baseline <commit-ish>
-.\.claude\skills\headless-render\scripts\capture.ps1 -Repo <scratch>\baseline -Out <scratch>\before -HarnessArgs '--map','Mountains','--phase','1'
-.\.claude\skills\headless-render\scripts\capture.ps1 -Out <scratch>\after  -HarnessArgs '--map','Mountains','--phase','1'
-git worktree remove --force <scratch>\baseline
+git worktree add --detach "$scratch\baseline" <commit-ish>
+.\.claude\skills\headless-render\scripts\capture.ps1 -Repo "$scratch\baseline" -Out "$scratch\before" -HarnessArgs '--map','Mountains','--phase','1'
+.\.claude\skills\headless-render\scripts\capture.ps1 -Out "$scratch\after"  -HarnessArgs '--map','Mountains','--phase','1'
+git worktree remove --force "$scratch\baseline"
 ```
 
 Pick the baseline commit so it isolates *your* change — usually `<your-commit>^` rather than an

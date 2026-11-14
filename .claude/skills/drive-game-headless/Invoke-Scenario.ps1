@@ -16,8 +16,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-# PowerShell turns a,b into an array, which [string[]] would join with spaces
-$Arguments = @($Arguments | ForEach-Object { if ($_ -is [array]) { $_ -join ',' } else { "$_" } })
+# PowerShell turns an unquoted a,b into an array, which would otherwise arrive joined with spaces
+$Arguments = @($Arguments | Where-Object { $null -ne $_ } | ForEach-Object { if ($_ -is [array]) { $_ -join ',' } else { "$_" } })
 
 $project = Join-Path $PSScriptRoot "harness/Scenario.csproj"
 $build = dotnet build $project -v q --nologo
