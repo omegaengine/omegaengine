@@ -29,37 +29,29 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     public static readonly ColorCorrection Default = new(brightness: 1);
     #endregion
 
-    private float _brightness;
-
     /// <summary>
     /// How bright the picture should be - values between 0 (black) and 5 (5x normal).
     /// </summary>
     [XmlAttribute, Description("How bright the picture should be - values between 0 (black) and 5 (5x normal).")]
-    public float Brightness { readonly get => _brightness; set => _brightness = value.Clamp(0, 5); }
-
-    private float _contrast;
+    public float Brightness { get; set => field = value.Clamp(0, 5); }
 
     /// <summary>
     /// The contrast level of the picture - values between -5 and 5.
     /// </summary>
     [XmlAttribute, Description("The contrast level of the picture - values between -5 and 5.")]
-    public float Contrast { readonly get => _contrast; set => _contrast = value.Clamp(-5, 5); }
-
-    private float _saturation;
+    public float Contrast { get; set => field = value.Clamp(-5, 5); }
 
     /// <summary>
     /// The color saturation level of the picture - values between -5 and 5.
     /// </summary>
     [XmlAttribute, Description("The color saturation level of the picture - values between -5 and 5.")]
-    public float Saturation { readonly get => _saturation; set => _saturation = value.Clamp(-5, 5); }
-
-    private float _hue;
+    public float Saturation { get; set => field = value.Clamp(-5, 5); }
 
     /// <summary>
     /// The color hue rotation of the picture - values between 0 and 360.
     /// </summary>
     [XmlAttribute, DefaultValue(0f), Description("The color hue rotation of the picture - values between 0 and 360.")]
-    public float Hue { readonly get => _hue; set => _hue = value.Clamp(0, 360); }
+    public float Hue { get; set => field = value.Clamp(0, 360); }
 
     /// <summary>
     /// Creates a new color correction structure.
@@ -108,7 +100,7 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     public readonly override string ToString() => $"(Brightness: {Brightness}, Contrast: {Contrast}, Saturation: {Saturation}, Hue: {Hue})";
 
     /// <summary>Convert <see cref="ColorCorrection"/> into <see cref="Vector4"/></summary>
-    public static explicit operator Vector4(ColorCorrection correction) => new(correction._brightness, correction._contrast, correction._saturation, correction._hue);
+    public static explicit operator Vector4(ColorCorrection correction) => new(correction.Brightness, correction.Contrast, correction.Saturation, correction.Hue);
 
     /// <summary>Convert <see cref="Vector4"/> into see <see cref="ColorCorrection"/></summary>
     public static explicit operator ColorCorrection(Vector4 vector) => new(vector.X, vector.Y, vector.Z, vector.W);
@@ -129,6 +121,6 @@ public struct ColorCorrection : IEquatable<ColorCorrection>
     }
 
     /// <inheritdoc/>
-    public readonly override int GetHashCode() => HashCode.Combine(_brightness, _contrast, _saturation, _hue);
+    public readonly override int GetHashCode() => HashCode.Combine(Brightness, Contrast, Saturation, Hue);
     #endregion
 }

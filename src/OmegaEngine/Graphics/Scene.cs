@@ -47,17 +47,16 @@ public sealed class Scene : EngineElement
     /// <remarks>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</remarks>
     public Skybox? Skybox
     {
-        get => _skybox;
+        get;
         set
         {
-            UnregisterChild(_skybox);
-            RegisterChild(_skybox = value);
+            UnregisterChild(field);
+            RegisterChild(field = value);
         }
     }
 
     // Order is not important, duplicate entries are not allowed
     private readonly HashSet<LightSource> _lights = [];
-    private Skybox? _skybox;
 
     /// <summary>
     /// All light sources affecting the entities in this scene

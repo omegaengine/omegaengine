@@ -97,12 +97,10 @@ public abstract partial class Camera : InputReceiverBase, IPositionable, IViewpo
             FloatingOrigin = PositionCached;
     }
 
-    private Size _size;
-
     /// <summary>
     /// The size of the output (i.e. screen size)
     /// </summary>
-    internal Size Size { get => _size; set => value.To(ref _size, ref ProjectionDirty, ref ViewFrustumDirty); }
+    internal Size Size { get; set => value.To(ref field, ref ProjectionDirty, ref ViewFrustumDirty); }
 
     private float _fieldOfView = (float)Math.PI / 4f;
 
@@ -129,13 +127,11 @@ public abstract partial class Camera : InputReceiverBase, IPositionable, IViewpo
     [DefaultValue(100_000f), Description("Maximum distance of objects to the camera"), Category("Clipping")]
     public float FarClip { get => _farClip; set => value.To(ref _farClip, ref ProjectionDirty, ref ViewFrustumDirty); }
 
-    private DoublePlane _clipPlane;
-
     /// <summary>
     /// A custom clip plane behind which all objects are culled
     /// </summary>
     [DefaultValue(typeof(DoublePlane), "0; 0; 0; 0; 0; 0"), Description("A custom clip plane behind which all objects are culled"), Category("Clipping")]
-    public DoublePlane ClipPlane { get => _clipPlane; set => value.To(ref _clipPlane, ref ProjectionDirty, ref ViewFrustumDirty); }
+    public DoublePlane ClipPlane { get; set => value.To(ref field, ref ProjectionDirty, ref ViewFrustumDirty); }
 
     /// <summary>
     /// Shall the engine use view frustum culling to optimize the rendering performance?

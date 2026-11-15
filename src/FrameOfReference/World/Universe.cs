@@ -50,8 +50,6 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
         TerrainSerialize = terrain;
     }
 
-    private string? _skybox;
-
     private void OnSkyboxChanged() => SkyboxChanged?.Invoke();
 
     /// <summary>
@@ -63,7 +61,7 @@ public sealed partial class Universe : CoordinateUniverse<Vector2>
     /// The name of the skybox to use for this map; may be <c>null</c> or empty.
     /// </summary>
     [DefaultValue(""), Category("Effects"), Description("The name of the skybox to use for this map; may be null or empty.")]
-    public string? Skybox { get => _skybox; set => value.To(ref _skybox, OnSkyboxChanged); }
+    public string? Skybox { get; set => value.To(ref field, OnSkyboxChanged); }
 
     /// <inheritdoc/>
     [Browsable(false)]

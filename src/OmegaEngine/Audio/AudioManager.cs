@@ -48,35 +48,31 @@ public sealed class AudioManager : IDisposable
     private readonly MixingSampleProvider? _soundMixer, _musicMixer;
     private readonly VolumeSampleProvider? _soundBus, _musicBus;
 
-    private float _soundVolume = 1f;
-
     /// <summary>
     /// A global volume multiplier applied to all <see cref="Sound"/> effects, on top of each sound's own <see cref="AudioElement.Volume"/>.
     /// </summary>
     public float SoundVolume
     {
-        get => _soundVolume;
+        get;
         set
         {
-            _soundVolume = value;
+            field = value;
             _soundBus?.Volume = value;
         }
-    }
-
-    private float _musicVolume = 1f;
+    } = 1f;
 
     /// <summary>
     /// A global volume multiplier applied to all <see cref="Song"/> music, on top of each song's own <see cref="AudioElement.Volume"/>.
     /// </summary>
     public float MusicVolume
     {
-        get => _musicVolume;
+        get;
         set
         {
-            _musicVolume = value;
+            field = value;
             _musicBus?.Volume = value;
         }
-    }
+    } = 1f;
 
     /// <summary>Callbacks invoked when a mixer input finishes playing naturally</summary>
     private readonly Dictionary<ISampleProvider, Action> _endedCallbacks = new();
@@ -147,8 +143,8 @@ public sealed class AudioManager : IDisposable
             _musicMixer = new(MixerFormat) {ReadFully = true};
             _soundMixer.MixerInputEnded += OnMixerInputEnded;
             _musicMixer.MixerInputEnded += OnMixerInputEnded;
-            _soundBus = new(_soundMixer) {Volume = _soundVolume};
-            _musicBus = new(_musicMixer) {Volume = _musicVolume};
+            _soundBus = new(_soundMixer) {Volume = SoundVolume};
+            _musicBus = new(_musicMixer) {Volume = MusicVolume};
 
             mixer = new(MixerFormat) {ReadFully = true};
             mixer.AddMixerInput(_soundBus);

@@ -70,28 +70,24 @@ partial class Universe
     #endregion
 
     #region Light sources
-    private Color _ambientColor = Color.FromArgb(40, 40, 40);
-
     /// <summary>
     /// The color of the ambient light (background light that is always visible and has no direction).
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="AmbientColorValue"/> is used for that.</remarks>
     [XmlIgnore, Category("Lighting"), Description("The color of the ambient light (background light that is always visible and has no direction).")]
-    public Color AmbientColor { get => _ambientColor; set => value.DropAlpha().To(ref _ambientColor, OnLightingChanged); }
+    public Color AmbientColor { get; set => value.DropAlpha().To(ref field, OnLightingChanged); } = Color.FromArgb(40, 40, 40);
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="AmbientColor"/>
     [XmlElement("AmbientColor"), LuaHide, Browsable(false)]
     public XColor AmbientColorValue { get => AmbientColor; set => AmbientColor = value.DropAlpha(); }
 
-    private Color _sunColor = Color.FromArgb(180, 180, 180);
-
     /// <summary>
     /// The color of the diffuse light (normal directional light) of the sun.
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="SunColorValue"/> is used for that.</remarks>
     [XmlIgnore, Category("Lighting"), Description("The color of the diffuse light (normal directional light) of the sun.")]
-    public Color SunColor { get => _sunColor; set => value.DropAlpha().To(ref _sunColor, OnLightingChanged); }
+    public Color SunColor { get; set => value.DropAlpha().To(ref field, OnLightingChanged); } = Color.FromArgb(180, 180, 180);
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="SunColor"/>
@@ -118,14 +114,12 @@ partial class Universe
             });
     }
 
-    private Color _moonColor = Color.FromArgb(110, 110, 160);
-
     /// <summary>
     /// The color of the diffuse light (normal directional light) of the second moon.
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="MoonColorValue"/> is used for that.</remarks>
     [XmlIgnore, Category("Lighting"), Description("The color of the diffuse light (normal directional light) of the second moon.")]
-    public Color MoonColor { get => _moonColor; set => value.DropAlpha().To(ref _moonColor, OnLightingChanged); }
+    public Color MoonColor { get; set => value.DropAlpha().To(ref field, OnLightingChanged); } = Color.FromArgb(110, 110, 160);
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="MoonColor"/>
@@ -155,76 +149,60 @@ partial class Universe
     #endregion
 
     #region Color correction
-    private ColorCorrection _colorCorrectionDawn = new(brightness: 1.4f, saturation: 0.7f);
-
     /// <summary>
     /// Color correction values to apply at dawn.
     /// </summary>
     [Category("Lighting"), Description("Color correction values to apply in light phase 1 or 5 (dawn).")]
-    public ColorCorrection ColorCorrectionDawn { get => _colorCorrectionDawn; set => value.To(ref _colorCorrectionDawn, OnLightingChanged); }
-
-    private ColorCorrection _colorCorrectionNoon = ColorCorrection.Default;
+    public ColorCorrection ColorCorrectionDawn { get; set => value.To(ref field, OnLightingChanged); } = new(brightness: 1.4f, saturation: 0.7f);
 
     /// <summary>
     /// Color correction values to apply at noon.
     /// </summary>
     [Category("Lighting"), Description("Color correction values to apply in light phase 2 or 6 (noon).")]
-    public ColorCorrection ColorCorrectionNoon { get => _colorCorrectionNoon; set => value.To(ref _colorCorrectionNoon, OnLightingChanged); }
-
-    private ColorCorrection _colorCorrectionDusk = new(brightness: 1.4f, contrast: 1.4f, saturation: 0.7f);
+    public ColorCorrection ColorCorrectionNoon { get; set => value.To(ref field, OnLightingChanged); } = ColorCorrection.Default;
 
     /// <summary>
     /// Color correction values to apply at dusk.
     /// </summary>
     [Category("Lighting"), Description("Color correction values to apply in light phase  3 or 7 (twilight).")]
-    public ColorCorrection ColorCorrectionDusk { get => _colorCorrectionDusk; set => value.To(ref _colorCorrectionDusk, OnLightingChanged); }
-
-    private ColorCorrection _colorCorrectionMidnight = new(brightness: 2, saturation: 0.5f);
+    public ColorCorrection ColorCorrectionDusk { get; set => value.To(ref field, OnLightingChanged); } = new(brightness: 1.4f, contrast: 1.4f, saturation: 0.7f);
 
     /// <summary>
     /// Color correction values to apply at midnight.
     /// </summary>
     [Category("Lighting"), Description("Color correction values to apply in light phase 0 or 4 (night).")]
-    public ColorCorrection ColorCorrectionMidnight { get => _colorCorrectionMidnight; set => value.To(ref _colorCorrectionMidnight, OnLightingChanged); }
+    public ColorCorrection ColorCorrectionMidnight { get; set => value.To(ref field, OnLightingChanged); } = new(brightness: 2, saturation: 0.5f);
     #endregion
 
     #region Effects
-    private bool _fog;
-
     /// <summary>
     /// Is the fog active?
     /// </summary>
     [DefaultValue(false), Category("Effects"), Description("Is the fog active?")]
-    public bool Fog { get => _fog; set => value.To(ref _fog, OnLightingChanged); }
-
-    private float _fogDistance = 5000;
+    public bool Fog { get; set => value.To(ref field, OnLightingChanged); }
 
     /// <summary>
     /// The maximum distance one can look through the fog.
     /// </summary>
     [DefaultValue(5000f), Category("Effects"), Description("The maximum distance one can look through the fog.")]
-    public float FogDistance { get => _fogDistance; set => value.To(ref _fogDistance, OnLightingChanged); }
-
-    private Color _fogColor = Color.Gray;
+    public float FogDistance { get; set => value.To(ref field, OnLightingChanged); } = 5000;
 
     /// <summary>
     /// The color of the fog.
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="FogColorValue"/> is used for that.</remarks>
     [XmlIgnore, DefaultValue(typeof(Color), "Gray"), Category("Effects"), Description("The color of the fog.")]
-    public Color FogColor { get => _fogColor; set => value.To(ref _fogColor, OnLightingChanged); }
+    public Color FogColor { get; set => value.To(ref field, OnLightingChanged); } = Color.Gray;
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="FogColor"/>
     [XmlElement("FogColor"), LuaHide, Browsable(false)]
     public XColor FogColorValue { get => FogColor; set => FogColor = Color.FromArgb(value.R, value.G, value.B); }
 
-    private bool _bleach;
-
     /// <summary>
     /// Is the bleach effect active?
     /// </summary>
     [DefaultValue(false), Category("Effects"), Description("Is the bleach effect active?")]
-    public bool Bleach { get => _bleach; set => value.To(ref _bleach, OnLightingChanged); }
+    public bool Bleach { get; set => value.To(ref field, OnLightingChanged); }
     #endregion
 }

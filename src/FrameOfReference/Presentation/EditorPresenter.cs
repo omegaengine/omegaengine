@@ -139,18 +139,16 @@ public sealed class EditorPresenter : InteractivePresenter
         _terrainPaintingBrushCircle = null!,
         _terrainPaintingBrushSquare = null!;
 
-    private TerrainBrush? _terrainBrush;
-
     /// <summary>
     /// Controls the shape and size of the area that is visually highlighted for <see cref="TerrainPaint"/>ing.
     /// </summary>
     /// <remarks>Raise the <see cref="TerrainPaint"/> event instead of selecting <see cref="Positionable{TCoordinates}"/>s when set to a value other than <c>null</c>.</remarks>
     public TerrainBrush? TerrainBrush
     {
-        get => _terrainBrush;
+        get;
         set
         {
-            _terrainBrush = value;
+            field = value;
 
             if (value.HasValue)
             {

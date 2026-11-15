@@ -43,13 +43,11 @@ partial class Universe
     [Browsable(false)]
     private IPathfinder<Vector2>? _pathfinder;
 
-    private int _maxTraversableSlope = 10;
-
     /// <summary>
     /// The maximum slope the <see cref="IPathfinder{TCoordinates}"/> considers traversable.
     /// </summary>
     [DefaultValue(10), Category("Gameplay"), Description("The maximum slope the Pathfinder considers traversable.")]
-    public int MaxTraversableSlope { get => _maxTraversableSlope; set => Math.Abs(value).To(ref _maxTraversableSlope, ResetPathfinding); }
+    public int MaxTraversableSlope { get; set => Math.Abs(value).To(ref field, ResetPathfinding); } = 10;
 
     #region Initialize
     /// <summary>

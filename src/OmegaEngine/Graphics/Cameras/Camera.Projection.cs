@@ -92,15 +92,15 @@ partial class Camera
     {
         if (!ProjectionDirty) return;
 
-        _projection = Matrix.PerspectiveFovLH(_fieldOfView, (float)_size.Width / _size.Height, _nearClip, _farClip);
-        _simpleProjection = Matrix.PerspectiveFovLH(_fieldOfView, (float)_size.Width / _size.Height, 1, 10);
+        _projection = Matrix.PerspectiveFovLH(_fieldOfView, (float)Size.Width / Size.Height, _nearClip, _farClip);
+        _simpleProjection = Matrix.PerspectiveFovLH(_fieldOfView, (float)Size.Width / Size.Height, 1, 10);
 
         // Cache special matrices
         _projectionInverse = Matrix.Invert(_projection);
         _projectionTranspose = Matrix.Transpose(_projection);
         _projectionInverseTranspose = Matrix.Transpose(_projectionInverse);
 
-        _effectiveClipPlane = _clipPlane.ApplyOffset(FloatingOriginCached);
+        _effectiveClipPlane = ClipPlane.ApplyOffset(FloatingOriginCached);
 
         ProjectionDirty = false;
     }

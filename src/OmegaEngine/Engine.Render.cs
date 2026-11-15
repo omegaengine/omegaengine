@@ -175,19 +175,17 @@ partial class Engine
     #endregion
 
     #region Anisotropic filtering
-    private bool _anisotropicFiltering;
-
     /// <summary>
     /// Use anisotropic texture filtering
     /// </summary>
     /// <seealso cref="EngineCapabilities.Anisotropic"/>
     public bool Anisotropic
     {
-        get => _anisotropicFiltering;
+        get;
         set
         {
             if (value && !Capabilities.Anisotropic) value = false;
-            value.To(ref _anisotropicFiltering, SetupTextureFiltering);
+            value.To(ref field, SetupTextureFiltering);
         }
     }
     #endregion
@@ -203,8 +201,6 @@ partial class Engine
     /// </summary>
     public GeneralShader DefaultShader { get; private set; }
 
-    private WaterShader? _simpleWaterShader;
-
     /// <summary>
     /// A shader used for simple water (no reflection or refraction)
     /// </summary>
@@ -212,8 +208,8 @@ partial class Engine
     {
         get
         {
-            if (_simpleWaterShader == null) RegisterChild(_simpleWaterShader = new());
-            return _simpleWaterShader;
+            if (field == null) RegisterChild(field = new());
+            return field;
         }
     }
     #endregion
@@ -268,7 +264,7 @@ partial class Engine
 
         // Lock mouse cursor inside window to prevent glitches with multi-monitor systems
         // Only when changed, since setting the clip makes Windows send a WM_MOUSEMOVE
-        if (_config.Fullscreen)
+        if (Config.Fullscreen)
         {
             var clip = new Rectangle(new(), RenderSize);
             if (WinForms.Cursor.Clip != clip) WinForms.Cursor.Clip = clip;

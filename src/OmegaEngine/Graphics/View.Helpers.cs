@@ -46,14 +46,14 @@ partial class View
     /// </summary>
     private void UpdateViewport()
     {
-        if (_area.Width == 0 || _area.Height == 0)
+        if (Area.Width == 0 || Area.Height == 0)
         { // Use the engine's default viewport (fill the whole screen)
             _viewport = Engine.RenderViewport;
         }
         else
         { // Use a custom viewport
             // Convert the area rectangle to a viewport
-            _viewport = new() {X = _area.X, Y = _area.Y, Width = _area.Width, Height = _area.Height, MaxZ = 1};
+            _viewport = new() {X = Area.X, Y = Area.Y, Width = Area.Width, Height = Area.Height, MaxZ = 1};
 
             // Trim the viewport size if it sticks over the edge
             if (_viewport.X + _viewport.Width > Engine.RenderSize.Width)
@@ -171,7 +171,7 @@ partial class View
         if (RenderTarget != null) return;
 
         using (new ProfilerEvent("Prepare render target texture"))
-            RenderTarget = new(Engine, _area.Size);
+            RenderTarget = new(Engine, Area.Size);
     }
 
     /// <summary>
@@ -185,7 +185,7 @@ partial class View
         if (_secondaryRenderTarget == null)
         {
             using (new ProfilerEvent("Prepare secondary render target texture"))
-                _secondaryRenderTarget = new(Engine, _area.Size);
+                _secondaryRenderTarget = new(Engine, Area.Size);
         }
 
         // Swap the render targets
@@ -225,7 +225,7 @@ partial class View
                 Engine.Device.BeginScene();
                 Engine.DrawQuadShader();
                 Engine.Device.EndScene();
-            }, _area.Size, shader.OverlayRendering ? null : RenderTarget);
+            }, Area.Size, shader.OverlayRendering ? null : RenderTarget);
         }
     }
 

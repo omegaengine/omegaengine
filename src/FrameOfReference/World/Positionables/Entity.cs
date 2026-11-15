@@ -44,8 +44,6 @@ namespace FrameOfReference.World.Positionables;
 [Cloneable]
 public sealed partial class Entity : EntityBase<Vector2, EntityTemplate>
 {
-    private float _rotation;
-
     /// <summary>
     /// The horizontal rotation of the view direction in degrees.
     /// </summary>
@@ -53,7 +51,7 @@ public sealed partial class Entity : EntityBase<Vector2, EntityTemplate>
 #if NETFRAMEWORK
     [Editor(typeof(AngleEditor), typeof(System.Drawing.Design.UITypeEditor))]
 #endif
-    public float Rotation { get => _rotation; set => value.To(ref _rotation, OnChanged); }
+    public float Rotation { get; set => value.To(ref field, OnChanged); }
 
     /// <summary>
     /// <c>true</c> if this entity is controlled by a human player, <c>false</c> if it is controlled by the computer.

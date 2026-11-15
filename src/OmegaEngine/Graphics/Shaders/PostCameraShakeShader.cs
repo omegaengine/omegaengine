@@ -21,21 +21,19 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostCameraShakeShader : PostShader
 {
     #region Properties
-    private float _speed = 20.0f, _shakiness = 0.25f, _sharpness = 2.2f;
-
     /// <summary>
     /// How fast to shake the camera - values between -1 and 100
     /// </summary>
     [DefaultValue(20.0f), Description("How fast to shake the camera - values between -1 and 100")]
     public float Speed
     {
-        get => _speed;
+        get;
         set
         {
             value = value.Clamp(-1, 100);
-            value.To(ref _speed, () => SetShaderParameter("Speed", value));
+            value.To(ref field, () => SetShaderParameter("Speed", value));
         }
-    }
+    } = 20.0f;
 
     /// <summary>
     /// How erratically to shake the camera - values between 0 and 1
@@ -43,13 +41,13 @@ public class PostCameraShakeShader : PostShader
     [DefaultValue(0.25f), Description("How erratically to shake the camera - values between 0 and 1")]
     public float Shakiness
     {
-        get => _shakiness;
+        get;
         set
         {
             value = value.Clamp();
-            value.To(ref _shakiness, () => SetShaderParameter("Shakiness", value));
+            value.To(ref field, () => SetShaderParameter("Shakiness", value));
         }
-    }
+    } = 0.25f;
 
     /// <summary>
     /// How close the origin to keep the shaking view - values between 0 and 10
@@ -57,17 +55,15 @@ public class PostCameraShakeShader : PostShader
     [DefaultValue(2.2f), Description("How close the origin to keep the shaking view - values between 0 and 10")]
     public float Sharpness
     {
-        get => _sharpness;
+        get;
         set
         {
             value = value.Clamp(0, 10);
-            value.To(ref _sharpness, () => SetShaderParameter("Sharpness", value));
+            value.To(ref field, () => SetShaderParameter("Sharpness", value));
         }
-    }
+    } = 2.2f;
 
-    private Vector2 _timeDelta = new(1, 0.2f);
-
-    public Vector2 TimeDelta { get => _timeDelta; set => value.To(ref _timeDelta, () => SetShaderParameter("TimeDelta", value)); }
+    public Vector2 TimeDelta { get; set => value.To(ref field, () => SetShaderParameter("TimeDelta", value)); } = new(1, 0.2f);
     #endregion
 
     #region Engine

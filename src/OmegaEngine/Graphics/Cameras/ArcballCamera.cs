@@ -147,7 +147,6 @@ public sealed class ArcballCamera : ZoomCamera
     }
 
     private static readonly DoubleVector3 _defaultWorldUp = DoubleVector3.UnitY;
-    private DoubleVector3 _worldUp = _defaultWorldUp;
 
     /// <summary>
     /// A unit vector describing the direction considered up in the world.
@@ -155,9 +154,9 @@ public sealed class ArcballCamera : ZoomCamera
     [Description("A unit vector describing the direction considered up in the world."), Category("Layout")]
     public DoubleVector3 WorldUp
     {
-        get => _worldUp;
-        set => value.Normalize().To(ref _worldUp, ref ViewDirty, ref ViewFrustumDirty);
-    }
+        get;
+        set => value.Normalize().To(ref field, ref ViewDirty, ref ViewFrustumDirty);
+    } = _defaultWorldUp;
 
     /// <summary>
     /// Controls how translation input for <see cref="Navigate"/> is scaled compared to rotation input.
@@ -176,7 +175,7 @@ public sealed class ArcballCamera : ZoomCamera
                           translation.X * Math.Cos(_yaw),
                           IsUpsideDown ? -translation.Y : translation.Y,
                           translation.X * -Math.Sin(_yaw))
-                     .AdjustReference(from: _defaultWorldUp, to: _worldUp)
+                     .AdjustReference(from: _defaultWorldUp, to: WorldUp)
                      .RotateAroundAxis(viewDir, -_roll);
 
         Yaw += IsUpsideDown ? -rotation.X : rotation.X;
@@ -195,10 +194,10 @@ public sealed class ArcballCamera : ZoomCamera
                 Math.Cos(_pitch) * Math.Sin(_yaw),
                 -Math.Sin(_pitch),
                 Math.Cos(_pitch) * Math.Cos(_yaw))
-           .AdjustReference(from: _defaultWorldUp, to: _worldUp);
+           .AdjustReference(from: _defaultWorldUp, to: WorldUp);
         PositionCached = Target - Radius * viewDirection;
 
-        UpHint = (Vector3)(IsUpsideDown ? -_worldUp : _worldUp).RotateAroundAxis(viewDirection, -_roll);
+        UpHint = (Vector3)(IsUpsideDown ? -WorldUp : WorldUp).RotateAroundAxis(viewDirection, -_roll);
 
         base.UpdateView();
     }

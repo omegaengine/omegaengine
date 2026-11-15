@@ -17,21 +17,19 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostRadialBlurShader : PostShader
 {
     #region Properties
-    private float _blurStart = 5.0f, _blurWidth = -0.05f;
-
     /// <summary>
     /// The minimum range at which to start blur sampling - values between 0 and 10
     /// </summary>
     [DefaultValue(5.0f), Description("The minimum range at which to start blur sampling - values between 0 and 10")]
     public float BlurStart
     {
-        get => _blurStart;
+        get;
         set
         {
             value = value.Clamp(0, 10);
-            value.To(ref _blurStart, () => SetShaderParameter("BlurStart", value));
+            value.To(ref field, () => SetShaderParameter("BlurStart", value));
         }
-    }
+    } = 5.0f;
 
     /// <summary>
     /// How wide a blur sampling is - higher value = more blurry image - values between -1 and 1
@@ -39,21 +37,19 @@ public class PostRadialBlurShader : PostShader
     [DefaultValue(-0.05f), Description("The minimum range at which to start blur sampling - values between -1 and 1")]
     public float BlurWidth
     {
-        get => _blurWidth;
+        get;
         set
         {
             value = value.Clamp(-1, 1);
-            value.To(ref _blurWidth, () => SetShaderParameter("BlurWidth", value));
+            value.To(ref field, () => SetShaderParameter("BlurWidth", value));
         }
-    }
-
-    private Vector2 _blurCenter = new(0.5f, 0.5f);
+    } = -0.05f;
 
     /// <summary>
     /// The center/origin of the radial blur effect
     /// </summary>
     [Description("The center/origin of the radial blur effect")]
-    public Vector2 BlurCenter { get => _blurCenter; set => value.To(ref _blurCenter, () => SetShaderParameter("BlurCenter", value)); }
+    public Vector2 BlurCenter { get; set => value.To(ref field, () => SetShaderParameter("BlurCenter", value)); } = new(0.5f, 0.5f);
     #endregion
 
     #region Engine

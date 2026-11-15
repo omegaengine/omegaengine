@@ -34,22 +34,20 @@ public static class Profiler
     /// </summary>
     public static Query? DeviceQuery { get; set; }
 
-    private static XmlDocument? _currentLogXml;
-
     /// <summary>
     /// The XML DOM to store the log data in.
     /// </summary>
     internal static XmlDocument? LogXml
     {
-        get => _currentLogXml;
+        get;
         set
         {
-            _currentLogXml = value;
+            field = value;
             if (value == null) CurrentXmlNode = null;
             else
             {
                 CurrentXmlNode = value.CreateElement("frame");
-                _currentLogXml.AppendChild(CurrentXmlNode);
+                field.AppendChild(CurrentXmlNode);
             }
         }
     }
@@ -67,13 +65,13 @@ public static class Profiler
     {
         SetMarker(name);
 
-        if (_currentLogXml != null)
+        if (LogXml != null)
         {
             // Create a new event entry
-            XmlNode node = _currentLogXml.CreateElement("marker");
+            XmlNode node = LogXml.CreateElement("marker");
 
             // Add the value as an attribute
-            XmlAttribute valueAttr = _currentLogXml.CreateAttribute("value");
+            XmlAttribute valueAttr = LogXml.CreateAttribute("value");
             valueAttr.Value = name;
             node.Attributes.Append(valueAttr);
 

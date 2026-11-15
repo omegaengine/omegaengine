@@ -37,17 +37,15 @@ namespace FrameOfReference.Presentation;
 /// </summary>
 public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
 {
-    private bool _wireframeTerrain;
-
     /// <summary>
     /// Render the <see cref="OmegaEngine.Graphics.Renderables.Terrain"/> in wireframe-mode
     /// </summary>
     public bool WireframeTerrain
     {
-        get => _wireframeTerrain;
+        get;
         set
         {
-            _wireframeTerrain = value;
+            field = value;
             Terrain?.Wireframe = value;
         }
     }

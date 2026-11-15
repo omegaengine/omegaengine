@@ -64,9 +64,9 @@ partial class Terrain<TTemplate>
         Log.Info("Loading terrain height-map");
 
         var heightMap = ByteGrid.Load(stream);
-        if (heightMap.Width != _size.X || heightMap.Height != _size.Y)
+        if (heightMap.Width != Size.X || heightMap.Height != Size.Y)
             throw new IOException(Resources.HeightMapSizeEqualTerrain);
-        _heightMap = heightMap;
+        HeightMap = heightMap;
     }
 
     /// <inheritdoc/>
@@ -89,9 +89,9 @@ partial class Terrain<TTemplate>
         Log.Info("Loading occlusion interval map");
 
         var occlusionIntervalMap = ByteVector4Grid.Load(stream);
-        if (occlusionIntervalMap.Width != _size.X || occlusionIntervalMap.Height != _size.Y)
+        if (occlusionIntervalMap.Width != Size.X || occlusionIntervalMap.Height != Size.Y)
             throw new IOException(Resources.OcclusionIntervalMapSizeEqualTerrain);
-        _occlusionIntervalMap = occlusionIntervalMap;
+        OcclusionIntervalMap = occlusionIntervalMap;
     }
 
     /// <inheritdoc/>
@@ -114,9 +114,9 @@ partial class Terrain<TTemplate>
         Log.Info("Loading terrain texture-map");
 
         var textureMap = NibbleGrid.Load(stream);
-        if (textureMap.Width != _size.X / 3 || textureMap.Height != _size.Y / 3)
+        if (textureMap.Width != Size.X / 3 || textureMap.Height != Size.Y / 3)
             throw new IOException(Resources.TextureMapSizeThirdOfTerrain);
-        _textureMap = textureMap;
+        TextureMap = textureMap;
     }
 
     /// <inheritdoc/>

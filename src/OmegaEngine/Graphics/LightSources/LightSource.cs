@@ -58,29 +58,23 @@ public abstract class LightSource
     [Description("The radius of the body emitting the light"), Category("Behavior")]
     public float SourceRadius { get; set; }
 
-    private Color _diffuse = Color.White;
-
     /// <summary>
     /// The diffuse color this light source emits
     /// </summary>
     [Description("The diffuse color this light source emits"), Category("Appearance")]
-    public Color Diffuse { get => _diffuse; set => _diffuse = value.DropAlpha(); }
-
-    private Color _specular = Color.Gray;
+    public Color Diffuse { get; set => field = value.DropAlpha(); } = Color.White;
 
     /// <summary>
     /// The specular color this light source emits
     /// </summary>
     [Description("The specular color this light source emits"), Category("Appearance")]
-    public Color Specular { get => _specular; set => _specular = value.DropAlpha(); }
-
-    private Color _ambient = Color.Black;
+    public Color Specular { get; set => field = value.DropAlpha(); } = Color.Gray;
 
     /// <summary>
     /// The ambient color this light source emits
     /// </summary>
     [Description("The ambient color this light source emits"), Category("Appearance")]
-    public Color Ambient { get => _ambient; set => _ambient = value.DropAlpha(); }
+    public Color Ambient { get; set => field = value.DropAlpha(); } = Color.Black;
 
     /// <summary>
     /// Creates a copy of this light source with simple shadowing applied.

@@ -34,21 +34,17 @@ namespace FrameOfReference.World.Positionables;
 [Cloneable]
 public partial class Waypoint : Positionable<Vector2>
 {
-    private string? _targetEntity;
-
     /// <summary>
     /// The name of the <see cref="Positionables.Entity"/> this waypoint is for.
     /// </summary>
     [XmlAttribute, Description("The name of the Entity this waypoint is for.")]
-    public string? TargetEntity { get => _targetEntity; set => value.To(ref _targetEntity, OnChanged); }
-
-    private double _activationTime;
+    public string? TargetEntity { get; set => value.To(ref field, OnChanged); }
 
     /// <summary>
     /// The <see cref="IUniverse.GameTime"/> when <see cref="Positionables.Entity"/>s start walking towards this waypoint.
     /// </summary>
     [DefaultValue(0.0), Description("The GameTime when Entities start walking towards this waypoint.")]
-    public double ActivationTime { get => _activationTime; set => value.To(ref _activationTime, OnChanged); }
+    public double ActivationTime { get; set => value.To(ref field, OnChanged); }
 
     /// <inheritdoc/>
     protected override void OnChanged()
@@ -57,8 +53,6 @@ public partial class Waypoint : Positionable<Vector2>
         ArrivalTimeSpecified = OriginPositionSpecified = false;
     }
 
-    private double _arrivalTime;
-
     /// <summary>
     /// The <see cref="IUniverse.GameTime"/> when <see cref="Positionables.Entity"/>s reach this waypoint.
     /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
@@ -66,10 +60,10 @@ public partial class Waypoint : Positionable<Vector2>
     [ReadOnly(true), Description("The game time when entities reach this waypoint.")]
     public double ArrivalTime
     {
-        get => _arrivalTime;
+        get;
         set
         {
-            _arrivalTime = value;
+            field = value;
             ArrivalTimeSpecified = true;
         }
     }
@@ -80,8 +74,6 @@ public partial class Waypoint : Positionable<Vector2>
     [Browsable(false)]
     public bool ArrivalTimeSpecified { get; set; }
 
-    private Vector2 _originPosition;
-
     /// <summary>
     /// The position where an <see cref="Positionables.Entity"/> walking towards this waypoint started off.
     /// Set automatically by <see cref="Universe.HandleWaypoints"/>.
@@ -89,10 +81,10 @@ public partial class Waypoint : Positionable<Vector2>
     [ReadOnly(true), Description("The position where an entity walking towards this waypoint started off.")]
     public Vector2 OriginPosition
     {
-        get => _originPosition;
+        get;
         set
         {
-            _originPosition = value;
+            field = value;
             OriginPositionSpecified = true;
         }
     }

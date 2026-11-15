@@ -114,17 +114,15 @@ public record struct XMaterial(Color Diffuse)
     /// </summary>
     public ITextureProvider? SpecularMap { get; set; }
 
-    private ITextureProvider? _emissiveMap;
-
     /// <summary>
     /// The emissive (which spots are self-shining without an external light source)
     /// </summary>
     public ITextureProvider? EmissiveMap
     {
-        readonly get => _emissiveMap;
+        get;
         set
         {
-            _emissiveMap = value;
+            field = value;
 
             // Default color to white when texture is set, as a convenience
             if (Emissive.EqualsIgnoreAlpha(Color.Black) && value != null)
@@ -132,17 +130,15 @@ public record struct XMaterial(Color Diffuse)
         }
     }
 
-    private ITextureProvider? _glowMap;
-
     /// <summary>
     /// The glow map (which spots glow, bleeding over edges)
     /// </summary>
     public ITextureProvider? GlowMap
     {
-        readonly get => _glowMap;
+        get;
         set
         {
-            _glowMap = value;
+            field = value;
 
             // Default color to white when texture is set, as a convenience
             if (Glow.EqualsIgnoreAlpha(Color.Black) && value != null)

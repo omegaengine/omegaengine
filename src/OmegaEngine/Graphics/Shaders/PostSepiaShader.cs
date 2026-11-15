@@ -17,21 +17,17 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostSepiaShader : PostShader
 {
     #region Properties
-    private Color _paperTone = Color.FromArgb(255, 229, 127), _stainTone = Color.FromArgb(51, 12, 0);
-
     /// <summary>
     /// The color to give the image after turning it into grayscale
     /// </summary>
     [Description("The color to give the image after turning it into grayscale")]
-    public Color PaperTone { get => _paperTone; set => value.To(ref _paperTone, () => SetShaderParameter("LightColor", value)); }
+    public Color PaperTone { get; set => value.To(ref field, () => SetShaderParameter("LightColor", value)); } = Color.FromArgb(255, 229, 127);
 
     /// <summary>
     /// The color of the image stains
     /// </summary>
     [Description("The color of the image stains")]
-    public Color StainTone { get => _stainTone; set => value.To(ref _stainTone, () => SetShaderParameter("DarkColor", value)); }
-
-    private float _desaturation = 0.5f, _toning = 1.0f;
+    public Color StainTone { get; set => value.To(ref field, () => SetShaderParameter("DarkColor", value)); } = Color.FromArgb(51, 12, 0);
 
     /// <summary>
     /// How strongly to turn the image it into grayscale - values between 0 and 1
@@ -39,13 +35,13 @@ public class PostSepiaShader : PostShader
     [DefaultValue(0.5f), Description("How strongly to turn the image it into grayscale - values between 0 and 1")]
     public float Desaturation
     {
-        get => _desaturation;
+        get;
         set
         {
             value = value.Clamp();
-            value.To(ref _desaturation, () => SetShaderParameter("Desat", value));
+            value.To(ref field, () => SetShaderParameter("Desat", value));
         }
-    }
+    } = 0.5f;
 
     /// <summary>
     /// How strongly to apply the <see cref="PaperTone"/> color - values between 0 and 1
@@ -53,13 +49,13 @@ public class PostSepiaShader : PostShader
     [DefaultValue(1f), Description("How strongly to apply the PaperTone color - values between 0 and 1")]
     public float Toning
     {
-        get => _toning;
+        get;
         set
         {
             value = value.Clamp();
-            value.To(ref _toning, () => SetShaderParameter("Toned", value));
+            value.To(ref field, () => SetShaderParameter("Toned", value));
         }
-    }
+    } = 1.0f;
     #endregion
 
     #region Engine

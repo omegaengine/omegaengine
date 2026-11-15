@@ -29,13 +29,11 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     [Description("A point that lies along the plane.")]
     public DoubleVector3 Point { get; } = point;
 
-    private Vector3 _normal = normal;
-
     /// <summary>
     /// The normal vector of the plane.
     /// </summary>
     [Description("The normal vector of the plane.")]
-    public Vector3 Normal { readonly get => _normal; set => _normal = Vector3.Normalize(value); }
+    public Vector3 Normal { get; set => field = Vector3.Normalize(value); } = normal;
 
     /// <summary>
     /// Returns a single-precision standard <see cref="Plane"/> after subtracting an offset value.
@@ -43,7 +41,7 @@ public struct DoublePlane(DoubleVector3 point, Vector3 normal) : IEquatable<Doub
     /// <param name="offset">This value is subtracted from the double-precision data before it is casted to single-precision.</param>
     /// <returns>The newly positioned <see cref="Plane"/>.</returns>
     [Pure]
-    public readonly Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), _normal);
+    public readonly Plane ApplyOffset(DoubleVector3 offset) => new(Point.ApplyOffset(offset), Normal);
 
     /// <inheritdoc/>
     public readonly override string ToString() => $"({Point} => {Normal})";

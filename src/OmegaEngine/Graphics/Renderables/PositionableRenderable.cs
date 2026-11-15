@@ -75,14 +75,12 @@ public enum BillboardMode
 public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 {
     #region Hierarchy
-    private readonly RenderableCollection _children;
-
     /// <summary>
     /// Creates a new positionable renderable.
     /// </summary>
     protected PositionableRenderable()
     {
-        RegisterChild(_children = new(this));
+        RegisterChild(ChildCollection = new(this));
     }
 
     /// <summary>
@@ -96,24 +94,22 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <para>Will be disposed when <see cref="EngineElement.Dispose"/> is called.</para>
     /// </remarks>
     [Browsable(false)]
-    public ICollection<PositionableRenderable> Children => _children;
+    public ICollection<PositionableRenderable> Children => ChildCollection;
 
     /// <summary>
     /// <see cref="Children"/> with a non-allocating enumerator, for traversals that run every frame.
     /// </summary>
-    internal RenderableCollection ChildCollection => _children;
-
-    private RenderableCollection? _container;
+    internal RenderableCollection ChildCollection { get; }
 
     /// <summary>
     /// The collection this renderable is currently contained in; <c>null</c> if it is not part of a <see cref="Scene"/>.
     /// </summary>
     internal RenderableCollection? Container
     {
-        get => _container;
+        get;
         set
         {
-            _container = value;
+            field = value;
             MarkLocalTransformDirty();
         }
     }
@@ -121,7 +117,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <summary>
     /// The renderable this one is placed in the coordinate system of; <c>null</c> if this is a root.
     /// </summary>
-    private PositionableRenderable? Parent => _container?.Owner;
+    private PositionableRenderable? Parent => Container?.Owner;
 
     /// <summary>
     /// The root of the hierarchy this renderable is part of; itself if it is a root.
@@ -176,25 +172,23 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     [Description("The shader to apply to the surface of this body"), Category("Appearance")]
     public SurfaceShader? SurfaceShader
     {
-        get => _surfaceShader;
+        get;
         set
         {
             // Called for every subset every frame by some renderables, so avoid churn
-            if (value == _surfaceShader) return;
+            if (value == field) return;
 
-            UnregisterChild(_surfaceShader, autoDispose: false);
-            _surfaceShader = value;
-            RegisterChild(_surfaceShader, autoDispose: false);
+            UnregisterChild(field, autoDispose: false);
+            field = value;
+            RegisterChild(field, autoDispose: false);
         }
     }
-
-    private BillboardMode _billboard;
 
     /// <summary>
     /// How this <see cref="PositionableRenderable"/> shall be rotated towards the camera
     /// </summary>
     [DefaultValue(BillboardMode.None), Description("How this body shall be rotated towards the camera"), Category("Layout")]
-    public BillboardMode Billboard { get => _billboard; set => value.To(ref _billboard, MarkDirty); }
+    public BillboardMode Billboard { get; set => value.To(ref field, MarkDirty); }
 
     /// <summary>
     /// Shall this <see cref="PositionableRenderable"/> cast shadows on other objects?
@@ -202,16 +196,14 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     [DefaultValue(false), Description("Shall this body cast shadows on other objects?"), Category("Behavior")]
     public bool ShadowCaster
     {
-        get => _shadowCaster;
+        get;
         set
         {
-            if (_shadowCaster == value) return;
-            _shadowCaster = value;
+            if (field == value) return;
+            field = value;
             Container?.MarkShadowCastersDirty();
         }
     }
-
-    private bool _shadowCaster;
 
     /// <summary>
     /// Shall this <see cref="PositionableRenderable"/> receive shadows from other objects?
@@ -241,17 +233,12 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     #endregion
 
     #region Transform factors
-    private Action? _markLocalTransformDirty;
-
     /// <summary>A cached delegate for <see cref="MarkLocalTransformDirty"/>, so that setters don't allocate one per call.</summary>
-    private Action MarkDirty => _markLocalTransformDirty ??= MarkLocalTransformDirty;
-
-    private Action? _markRenderTransformDirty;
+    private Action MarkDirty => field ??= MarkLocalTransformDirty;
 
     /// <summary>A cached delegate for <see cref="MarkRenderTransformDirty"/>, so that per-frame camera effect updates don't allocate one per call.</summary>
-    private Action MarkRenderDirty => _markRenderTransformDirty ??= MarkRenderTransformDirty;
+    private Action MarkRenderDirty => field ??= MarkRenderTransformDirty;
 
-    private Matrix _preTransform = Matrix.Identity;
     private Matrix _billboardRotation = Matrix.Identity;
     private double _distanceCompressionScaling = 1;
     private DoubleVector3 _distanceCompressionCenter;
@@ -261,16 +248,14 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// A transformation matrix that is to be applied before the normal world transform occurs - useful for correcting off-center meshes
     /// </summary>
     [Browsable(false)]
-    public Matrix PreTransform { get => _preTransform; set => value.To(ref _preTransform, MarkDirty); }
-
-    private Vector3 _scale = new(1, 1, 1);
+    public Matrix PreTransform { get; set => value.To(ref field, MarkDirty); } = Matrix.Identity;
 
     /// <summary>
     /// Scaling to be performed before rendering
     /// </summary>
     /// <remarks>Inherited by <see cref="Children"/>; non-uniform scaling combined with a rotated child produces shear.</remarks>
     [Description("Scaling to be performed before rendering"), Category("Layout")]
-    public Vector3 Scale { get => _scale; set => value.To(ref _scale, MarkDirty); }
+    public Vector3 Scale { get; set => value.To(ref field, MarkDirty); } = new(1, 1, 1);
 
     /// <summary>
     /// Scales this <see cref="PositionableRenderable"/> symmetrically
@@ -278,25 +263,21 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <param name="factor">The factor by which to scale</param>
     public void SetScale(float factor)
     {
-        new Vector3(factor).To(ref _scale, MarkDirty);
+        Scale = new Vector3(factor);
     }
-
-    private Quaternion _rotation = Quaternion.Identity;
 
     /// <summary>
     /// The body's rotation quaternion
     /// </summary>
     [Browsable(false)]
-    public Quaternion Rotation { get => _rotation; set => Quaternion.Normalize(value).To(ref _rotation, MarkDirty); }
-
-    private DoubleVector3 _position;
+    public Quaternion Rotation { get; set => Quaternion.Normalize(value).To(ref field, MarkDirty); } = Quaternion.Identity;
 
     /// <summary>
     /// The body's position: absolute world space for a root, an offset in the parent's coordinate system for an element of another body's <see cref="Children"/>.
     /// </summary>
     /// <seealso cref="WorldPosition"/>
     [Description("The body's position - absolute world space for a root, relative to the parent for a child"), Category("Layout")]
-    public DoubleVector3 Position { get => _position; set => value.To(ref _position, MarkDirty); }
+    public DoubleVector3 Position { get; set => value.To(ref field, MarkDirty); }
 
     private DoubleVector3 _floatingOrigin;
 
@@ -314,8 +295,6 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         }
     }
 
-    private float? _minScreenSizeDistance;
-
     /// <summary>
     /// The renderable never appears smaller on screen than it does at this distance from the <see cref="Camera"/>, keeping distant objects visible.
     /// </summary>
@@ -324,7 +303,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <para>The scaling is applied on top of <see cref="Scale"/> and is reflected in the bounding bodies used for culling. Combine with <see cref="Scene.DistanceCompressionStart"/> for very large, very distant objects.</para>
     /// </remarks>
     [Description("The renderable never appears smaller on screen than it does at this distance from the camera, keeping distant objects visible."), Category("Layout")]
-    public float? MinScreenSizeDistance { get => _minScreenSizeDistance; set => value.To(ref _minScreenSizeDistance, MarkDirty); }
+    public float? MinScreenSizeDistance { get; set => value.To(ref field, MarkDirty); }
     #endregion
 
     #region Transform results
@@ -380,19 +359,19 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (!_physicalTransformDirty) return;
 
         // Everything but the translation, i.e. the part that is unaffected by the floating origin
-        var orientation = _preTransform * Matrix.Scaling(_scale) * Matrix.RotationQuaternion(_rotation);
+        var orientation = PreTransform * Matrix.Scaling(Scale) * Matrix.RotationQuaternion(Rotation);
         var localOrigin = new Vector3(orientation.M41, orientation.M42, orientation.M43);
 
         if (parent == null)
         {
             _physicalTransform = orientation;
-            _worldPosition = _position;
-            _worldOrigin = _position + localOrigin;
+            _worldPosition = Position;
+            _worldOrigin = Position + localOrigin;
         }
         else
         {
-            _physicalTransform = orientation * Matrix.Translation((Vector3)_position) * parent._physicalTransform;
-            _worldPosition = parent.ToWorld(_position);
+            _physicalTransform = orientation * Matrix.Translation((Vector3)Position) * parent._physicalTransform;
+            _worldPosition = parent.ToWorld(Position);
             _worldOrigin = _worldPosition + DoubleVector3.TransformNormal((DoubleVector3)localOrigin, parent._physicalTransform);
         }
 
@@ -486,7 +465,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     /// <remarks>These apply to leaves only, so they never distort a body's descendants.</remarks>
     private Matrix ApplyLeafEffects(Matrix physicalTransform)
     {
-        if (_children.Count != 0 || (_minScreenSizeScaling == 1 && _billboardRotation.IsIdentity)) return physicalTransform;
+        if (ChildCollection.Count != 0 || (_minScreenSizeScaling == 1 && _billboardRotation.IsIdentity)) return physicalTransform;
 
         // Peel the body's own floating position off the physical transform, apply the camera effects around it and put it back on
         var floatingPosition = this.ApplyFloatingOriginTo(_worldPosition);
@@ -577,17 +556,13 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     #endregion
 
     #region Bounding bodies
-    private BoundingSphere? _boundingSphere, _floatingBoundingSphere;
-
     /// <summary>
     /// A sphere that completely encompasses the body (in entity space, even before apply <see cref="PreTransform"/>).
     /// </summary>
     [Browsable(false)]
-    public BoundingSphere? BoundingSphere
-    {
-        get => _boundingSphere;
-        protected set => value.To(ref _boundingSphere, MarkDirty);
-    }
+    public BoundingSphere? BoundingSphere { get; protected set => value.To(ref field, MarkDirty); }
+
+    private BoundingSphere? _floatingBoundingSphere;
 
     /// <summary>
     /// A sphere that completely encompasses the body (in floating space, with minimum screen size scaling and billboarding but without distance compression; see <see cref="FloatingTransformCached"/>).
@@ -614,17 +589,13 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     [DefaultValue(false), Description("Shall the bounding sphere used to cull this object be drawn/visualized? (used for debugging)"), Category("Appearance")]
     public bool DrawBoundingSphere { get; set; }
 
-    private BoundingBox? _boundingBox, _floatingBoundingBox;
-
     /// <summary>
     /// An axis-aligned box that completely encompasses the body (in entity space, even before apply <see cref="PreTransform"/>).
     /// </summary>
     [Browsable(false)]
-    public BoundingBox? BoundingBox
-    {
-        get => _boundingBox;
-        protected set => value.To(ref _boundingBox, MarkDirty);
-    }
+    public BoundingBox? BoundingBox { get; protected set => value.To(ref field, MarkDirty); }
+
+    private BoundingBox? _floatingBoundingBox;
 
     /// <summary>
     /// An axis-aligned box that completely encompasses the body (in floating space, with minimum screen size scaling and billboarding but without distance compression; see <see cref="FloatingTransformCached"/>).
@@ -694,7 +665,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
         bool cullable = TryGetOwnSubtreeBounds(out var sphere, out var box);
 
-        foreach (var child in _children)
+        foreach (var child in ChildCollection)
         {
             // Update every child even once the subtree is known to be uncullable, so no dirty descendant is left below a clean ancestor
             child.EnsureSubtreeBounds();
@@ -727,13 +698,13 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         if (this is Pivot) return true; // Nothing to draw
 
         // Minimum screen size and billboarding apply to leaves only
-        bool isLeaf = _children.Count == 0;
+        bool isLeaf = ChildCollection.Count == 0;
 
         // The minimum screen size scaling grows without bound as the camera moves away
-        if (isLeaf && _minScreenSizeDistance != null) return false;
+        if (isLeaf && MinScreenSizeDistance != null) return false;
 
-        sphere = _boundingSphere?.Transform(_physicalTransform);
-        box = _boundingBox?.Transform(_physicalTransform);
+        sphere = BoundingSphere?.Transform(_physicalTransform);
+        box = BoundingBox?.Transform(_physicalTransform);
 
         // IsVisible() never culls a body without any bounding bodies
         if (sphere == null && box == null) return false;
@@ -742,7 +713,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         sphere ??= SlimDX.BoundingSphere.FromBox(box!.Value);
         box ??= SlimDX.BoundingBox.FromSphere(sphere.Value);
 
-        if (isLeaf && _billboard != BillboardMode.None)
+        if (isLeaf && Billboard != BillboardMode.None)
         {
             // The billboard rotation pivots on the body's floating position, so cover every possible rotation around it
             var pivot = this.ApplyFloatingOriginTo(_worldPosition);
@@ -776,7 +747,6 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
     // Order is not important, duplicate entries are not allowed
     private readonly HashSet<View> _requiredViews = [];
-    private SurfaceShader? _surfaceShader;
 
     /// <summary>
     /// A list of <see cref="View"/>s that must be rendered before this <see cref="PositionableRenderable"/> can be rendered
@@ -821,7 +791,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         // These factors change every frame and only feed the render transform, so they must not invalidate the physical transform or the ancestors' subtree bounds
 
         // Leaf-only effects; leaving the factors untouched on a parent keeps them from distorting its descendants
-        if (_children.Count == 0)
+        if (ChildCollection.Count == 0)
         {
             double distanceFromCamera = (camera.Position - WorldPosition).Length();
             GetMinScreenSizeScaling(distanceFromCamera).To(ref _minScreenSizeScaling, MarkRenderDirty);
@@ -866,7 +836,7 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
     private double GetOwnDistanceCompressionScaling(Camera camera, float maxDistance)
     {
         // A leaf is measured by itself only, so there is nothing to share with descendants. Its billboarding also depends on the camera's orientation, not just its position.
-        bool cacheable = _children.Count != 0;
+        bool cacheable = ChildCollection.Count != 0;
         if (cacheable)
         {
             // May recalculate the subtree bounds and thereby invalidate the cache
@@ -877,8 +847,8 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
 
         // A leaf's own bounds with minimum screen size scaling and billboarding; else the subtree's bounds or the body's own without camera effects; else just its position
         var sphere = (cacheable
-                         ? SubtreeBoundingSphere ?? _boundingSphere?.Transform(PhysicalTransform)
-                         : _boundingSphere?.Transform(ApplyLeafEffects(PhysicalTransform)))
+                         ? SubtreeBoundingSphere ?? BoundingSphere?.Transform(PhysicalTransform)
+                         : BoundingSphere?.Transform(ApplyLeafEffects(PhysicalTransform)))
                   ?? new BoundingSphere(this.ApplyFloatingOriginTo(WorldPosition), radius: 0);
 
         double centerDistance = Vector3.Distance(sphere.Center, this.ApplyFloatingOriginTo(camera.Position));
@@ -1267,9 +1237,9 @@ public abstract class PositionableRenderable : Renderable, IFloatingOriginAware
         // The sphere test relies on a unit length direction
         ray.Direction = Vector3.Normalize(ray.Direction);
 
-        if (_boundingSphere is {} sphere && !SlimDX.BoundingSphere.Intersects(sphere, ray, out float _))
+        if (BoundingSphere is {} sphere && !SlimDX.BoundingSphere.Intersects(sphere, ray, out float _))
             return false;
-        if (_boundingBox is {} box && !SlimDX.BoundingBox.Intersects(box, ray, out float _))
+        if (BoundingBox is {} box && !SlimDX.BoundingBox.Intersects(box, ray, out float _))
             return false;
         return true;
     }

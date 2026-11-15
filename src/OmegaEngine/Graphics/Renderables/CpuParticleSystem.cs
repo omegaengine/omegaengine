@@ -39,22 +39,20 @@ public class CpuParticleSystem : PositionableRenderable
         _material1 = XMaterial.Default,
         _material2 = XMaterial.Default;
 
-    private CpuParticlePreset _preset = new();
-
     /// <summary>
     /// The configuration of this particle system.
     /// </summary>
     [Browsable(false)]
     public required CpuParticlePreset Preset
     {
-        get => _preset;
+        get;
         set
         {
             Alpha = Math.Max(value.Particle1Alpha, value.Particle2Alpha);
             BoundingSphere = value.CalculateBoundingSphere();
-            _preset = value;
+            field = value;
         }
-    }
+    } = new();
 
     /// <summary>
     /// Controls whether particles are tracked relative to the particle system instead of world space.

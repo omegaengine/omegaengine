@@ -28,14 +28,12 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
     [Description("Shall this light source be converted to a pseudo-directional source for each individual PositionableRenderable before rendering?"), Category("Behavior")]
     public bool RenderAsDirectional { get; set; }
 
-    private DoubleVector3 _position;
-
     /// <summary>
     /// The position of the light source in world space.
     /// </summary>
     /// <remarks>While <see cref="AttachedTo"/> is set, this is recalculated from <see cref="Offset"/> by <see cref="UpdatePosition"/> and setting it has no lasting effect.</remarks>
     [Description("The position of the light source"), Category("Layout")]
-    public DoubleVector3 Position { get => _position; set => value.To(ref _position, ref _floatingPositionDirty); }
+    public DoubleVector3 Position { get; set => value.To(ref field, ref _floatingPositionDirty); }
 
     /// <summary>
     /// A <see cref="PositionableRenderable"/> this light source is attached to; <c>null</c> to use <see cref="Position"/> as an absolute world position.
@@ -59,15 +57,12 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         if (AttachedTo is {} parent) Position = parent.ToWorld((DoubleVector3)Offset);
     }
 
-    private DoubleVector3 _floatingOrigin;
-
     /// <summary>
     /// A value to be added to <see cref="Position"/> in order gain <see cref="IFloatingOriginAware.FloatingPosition"/> - auto-updated by <see cref="View.Render"/> to the negative <see cref="Camera.Position"/>
     /// </summary>
-    DoubleVector3 IFloatingOriginAware.FloatingOrigin { get => _floatingOrigin; set => value.To(ref _floatingOrigin, ref _floatingPositionDirty); }
+    DoubleVector3 IFloatingOriginAware.FloatingOrigin { get; set => value.To(ref field, ref _floatingPositionDirty); }
 
     private bool _floatingPositionDirty;
-    private Vector3 _floatingPositionCached;
 
     /// <summary>
     /// The body's position in render space, based on <see cref="Position"/>
@@ -79,10 +74,10 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         {
             if (_floatingPositionDirty)
             {
-                _floatingPositionCached = this.ApplyFloatingOriginTo(_position);
+                field = this.ApplyFloatingOriginTo(Position);
                 _floatingPositionDirty = false;
             }
-            return _floatingPositionCached;
+            return field;
         }
     }
 
@@ -161,7 +156,7 @@ public sealed class PointLight : LightSource, IFloatingOriginAware
         _scaled.Ambient = Ambient;
         _scaled.RenderAsDirectional = RenderAsDirectional;
 
-        _scaled.Position = center + (_position - center) * scaling;
+        _scaled.Position = center + (Position - center) * scaling;
         _scaled.SetFloatingOrigin(this.GetFloatingOrigin());
 
         // Distances shrink by the scaling factor, so the attenuation must grow alike to keep the intensity

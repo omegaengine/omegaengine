@@ -17,17 +17,15 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostColorCorrectionShader : PostShader
 {
     #region Properties
-    private float _brightness = 1, _contrast = 1, _saturation = 1, _hue, _gamma = DefaultGamma;
-
     /// <summary>
     /// How bright the picture should be - values between 0 (black) and 5 (5x normal)
     /// </summary>
     [DefaultValue(1f), Description("How bright the picture should be - values between 0 (black) and 5 (5x normal)")]
     public float Brightness
     {
-        get => _brightness;
-        set => value.Clamp(0, 5).To(ref _brightness, () => SetShaderParameter("Brightness", value));
-    }
+        get;
+        set => value.Clamp(0, 5).To(ref field, () => SetShaderParameter("Brightness", value));
+    } = 1;
 
     /// <summary>
     /// The contrast level of the picture - values between -5 and 5
@@ -35,9 +33,9 @@ public class PostColorCorrectionShader : PostShader
     [DefaultValue(1f), Description("The contrast level of the picture - values between -5 and 5")]
     public float Contrast
     {
-        get => _contrast;
-        set => value.Clamp(-5, 5).To(ref _contrast, () => SetShaderParameter("Contrast", value));
-    }
+        get;
+        set => value.Clamp(-5, 5).To(ref field, () => SetShaderParameter("Contrast", value));
+    } = 1;
 
     /// <summary>
     /// The color saturation level of the picture - values between -5 and 5
@@ -45,9 +43,9 @@ public class PostColorCorrectionShader : PostShader
     [DefaultValue(1f), Description("The color saturation level of the picture - values between -5 and 5")]
     public float Saturation
     {
-        get => _saturation;
-        set => value.Clamp(-5, 5).To(ref _saturation, () => SetShaderParameter("Saturation", value));
-    }
+        get;
+        set => value.Clamp(-5, 5).To(ref field, () => SetShaderParameter("Saturation", value));
+    } = 1;
 
     /// <summary>
     /// The color hue rotation of the picture - values between 0 and 360
@@ -55,8 +53,8 @@ public class PostColorCorrectionShader : PostShader
     [DefaultValue(0f), Description("The color hue rotation of the picture - values between 0 and 360")]
     public float Hue
     {
-        get => _hue;
-        set => value.Clamp(0, 360).To(ref _hue, () => SetShaderParameter("Hue", value));
+        get;
+        set => value.Clamp(0, 360).To(ref field, () => SetShaderParameter("Hue", value));
     }
 
     /// <summary>
@@ -80,9 +78,9 @@ public class PostColorCorrectionShader : PostShader
     [DefaultValue(DefaultGamma), Description("The gamma of the display the image is shown on")]
     public float Gamma
     {
-        get => _gamma;
-        set => value.To(ref _gamma, () => SetShaderParameter("Gamma", value));
-    }
+        get;
+        set => value.To(ref field, () => SetShaderParameter("Gamma", value));
+    } = DefaultGamma;
 
     /// <summary>
     /// The value for <see cref="Gamma"/> that leaves the image unchanged.

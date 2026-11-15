@@ -31,21 +31,17 @@ public partial class Water : Positionable<Vector2>
     [Browsable(false)]
     public DoubleVector3 EnginePosition => new(Position.X, Height, -Position.Y);
 
-    private Vector2 _size;
-
     /// <summary>
     /// The size of the area of the <see cref="ITerrain"/> this water plane spans.
     /// </summary>
     [Description("The size of the area of the terrain this water plane spans.")]
-    public Vector2 Size { get => _size; set => value.To(ref _size, OnChangedRebuild); }
-
-    private float _height;
+    public Vector2 Size { get; set => value.To(ref field, OnChangedRebuild); }
 
     /// <summary>
     /// The height of the water above reference zero.
     /// </summary>
     [XmlAttribute, DefaultValue(0f), Description("The height of the water above reference zero.")]
-    public float Height { get => _height; set => value.To(ref _height, OnChangedRebuild); }
+    public float Height { get; set => value.To(ref field, OnChangedRebuild); }
 
     /// <summary>
     /// The maximum depth an <see cref="EntityBase{TCoordinates,TTemplate}"/> can walk into this water.

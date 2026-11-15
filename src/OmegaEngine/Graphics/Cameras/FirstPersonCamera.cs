@@ -67,7 +67,6 @@ public sealed class FirstPersonCamera : QuaternionCamera
     }
 
     private static readonly DoubleVector3 _defaultWorldUp = DoubleVector3.UnitY;
-    private DoubleVector3 _worldUp = _defaultWorldUp;
 
     /// <summary>
     /// A unit vector describing the direction considered up in the world.
@@ -75,16 +74,16 @@ public sealed class FirstPersonCamera : QuaternionCamera
     [Description("A unit vector describing the direction considered up in the world."), Category("Layout")]
     public DoubleVector3 WorldUp
     {
-        get => _worldUp;
-        set => value.Normalize().To(ref _worldUp, ref ViewDirty, ref ViewFrustumDirty);
-    }
+        get;
+        set => value.Normalize().To(ref field, ref ViewDirty, ref ViewFrustumDirty);
+    } = _defaultWorldUp;
 
     /// <inheritdoc/>
     public override void Navigate(DoubleVector3 translation = default, DoubleVector3 rotation = default)
     {
         Position += translation
                    .RotateAroundAxis(DoubleVector3.UnitY, _yaw)
-                   .AdjustReference(from: _defaultWorldUp, to: _worldUp);
+                   .AdjustReference(from: _defaultWorldUp, to: WorldUp);
 
         Yaw += rotation.X;
         Pitch += rotation.Y;
@@ -95,7 +94,7 @@ public sealed class FirstPersonCamera : QuaternionCamera
     {
         if (!ViewDirty) return;
 
-        (var axis, double rotation) = _defaultWorldUp.GetRotationTo(_worldUp);
+        (var axis, double rotation) = _defaultWorldUp.GetRotationTo(WorldUp);
         Quaternion = Quaternion.RotationAxis((Vector3)axis, (float)rotation)
                    * Quaternion.RotationYawPitchRoll((float)-_yaw, pitch: 0, roll: 0)
                    * Quaternion.RotationYawPitchRoll(yaw: 0, (float)_pitch, roll: 0);

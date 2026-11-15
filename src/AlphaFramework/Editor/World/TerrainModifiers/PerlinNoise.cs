@@ -92,8 +92,6 @@ internal class PerlinNoise
     /// </remarks>
     public double Persistence { get; set; }
 
-    private int _octaves = 4;
-
     /// <summary>
     /// Number of octaves, [1, 32].
     /// </summary>
@@ -103,7 +101,7 @@ internal class PerlinNoise
     ///
     /// <para>Default value is set to <b>4</b>.</para>
     /// </remarks>
-    public int Octaves { get => _octaves; set => _octaves = value.Clamp(1, 32); }
+    public int Octaves { get; set => field = value.Clamp(1, 32); } = 4;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PerlinNoise"/> class.
@@ -129,7 +127,7 @@ internal class PerlinNoise
         double sum = 0;
 
         // octaves
-        for (int i = 0; i < _octaves; i++)
+        for (int i = 0; i < Octaves; i++)
         {
             sum += SmoothedNoise(x * frequency) * amplitude;
 
@@ -154,7 +152,7 @@ internal class PerlinNoise
         double sum = 0;
 
         // octaves
-        for (int i = 0; i < _octaves; i++)
+        for (int i = 0; i < Octaves; i++)
         {
             sum += SmoothedNoise(x * frequency, y * frequency) * amplitude;
 

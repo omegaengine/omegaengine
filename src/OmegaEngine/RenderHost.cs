@@ -93,16 +93,14 @@ public partial class RenderHost : IRenderHost, IDisposable
 
     private readonly Stopwatch _timer = Stopwatch.StartNew();
 
-    private bool _loading;
-
     /// <summary>
     /// Indicates the app is currently loading something and the user must wait.
     /// </summary>
     /// <remarks>This pauses the timer used to determine elapsed time between frames.</remarks>
     public bool Loading
     {
-        get => _loading;
-        set => value.To(ref _loading, () =>
+        get;
+        set => value.To(ref field, () =>
         {
             if (value) _timer.Reset();
             else _timer.Start();

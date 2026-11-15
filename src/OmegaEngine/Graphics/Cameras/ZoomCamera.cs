@@ -13,8 +13,6 @@ namespace OmegaEngine.Graphics.Cameras;
 /// </summary>
 public abstract class ZoomCamera : MatrixCamera
 {
-    private double _radius = 2;
-
     /// <summary>
     /// The distance between the camera and the center of the target.
     /// </summary>
@@ -22,7 +20,7 @@ public abstract class ZoomCamera : MatrixCamera
     [Description("The distance between the camera and the center of the target."), Category("Layout")]
     public double Radius
     {
-        get => _radius;
+        get;
         set
         {
             #region Sanity checks
@@ -33,12 +31,10 @@ public abstract class ZoomCamera : MatrixCamera
             // Apply limits (in case of conflict minimum is more important than maximum)
             value = Math.Max(Math.Min(value, MaxRadius), MinRadius);
 
-            value.To(ref _radius, ref ViewDirty, ref ViewFrustumDirty);
+            value.To(ref field, ref ViewDirty, ref ViewFrustumDirty);
         }
-    }
+    } = 2;
 
-
-    private double _minRadius = 2;
 
     /// <summary>
     /// The minimum radius allowed.
@@ -47,7 +43,7 @@ public abstract class ZoomCamera : MatrixCamera
     [DefaultValue(2.0), Description("The minimum radius allowed."), Category("Behavior")]
     public double MinRadius
     {
-        get => _minRadius;
+        get;
         set
         {
             #region Sanity checks
@@ -55,11 +51,9 @@ public abstract class ZoomCamera : MatrixCamera
             if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
             #endregion
 
-            value.To(ref _minRadius, ref ViewDirty, ref ViewFrustumDirty);
+            value.To(ref field, ref ViewDirty, ref ViewFrustumDirty);
         }
-    }
-
-    private double _maxRadius = 10000;
+    } = 2;
 
     /// <summary>
     /// The maximum radius allowed.
@@ -68,7 +62,7 @@ public abstract class ZoomCamera : MatrixCamera
     [DefaultValue(10000.0), Description("The maximum radius allowed."), Category("Behavior")]
     public double MaxRadius
     {
-        get => _maxRadius;
+        get;
         set
         {
             #region Sanity checks
@@ -76,9 +70,9 @@ public abstract class ZoomCamera : MatrixCamera
             if (value <= 0) throw new ArgumentOutOfRangeException(nameof(value), Resources.ValueNotPositive);
             #endregion
 
-            value.To(ref _maxRadius, ref ViewDirty, ref ViewFrustumDirty);
+            value.To(ref field, ref ViewDirty, ref ViewFrustumDirty);
         }
-    }
+    } = 10000;
 
     /// <summary>
     /// Base factor used for exponential zoom scaling.

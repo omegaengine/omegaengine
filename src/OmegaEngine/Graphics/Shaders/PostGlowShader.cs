@@ -29,21 +29,19 @@ public class PostGlowShader : PostBlurShader
     [Description("Does this post-screen shader use overlay rendering instead of a scene map?")]
     public sealed override bool OverlayRendering => true;
 
-    private float _glowStrength = 1;
-
     /// <summary>
     /// A factor by which the blurred glow color is multiplied - values between 0 and 100
     /// </summary>
     [DefaultValue(1f), Description("A factor by which the blurred glow color is multiplied - values between 0 and 100")]
     public float GlowStrength
     {
-        get => _glowStrength;
+        get;
         set
         {
             value = value.Clamp(0, 100);
-            value.To(ref _glowStrength, () => SetShaderParameter("GlowStrength", value));
+            value.To(ref field, () => SetShaderParameter("GlowStrength", value));
         }
-    }
+    } = 1;
     #endregion
 
     #region Constructor

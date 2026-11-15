@@ -35,13 +35,11 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     #region Properties
 
     #region Size
-    private TerrainSize _size;
-
     /// <inheritdoc/>
     [Description("The size of the terrain.")]
     public TerrainSize Size
     {
-        get => _size;
+        get;
         set
         {
             #region Sanity checks
@@ -51,7 +49,7 @@ public sealed partial class Terrain<TTemplate> : ITerrain
                 throw new InvalidOperationException(Resources.TerrainSizeMultipleOfThree);
             #endregion
 
-            value.To(ref _size, delegate
+            value.To(ref field, delegate
             { // If the size has changed, the height and texture-maps have become invalid and need to be cleared
                 HeightMap = null;
                 TextureMap = null;
@@ -61,47 +59,43 @@ public sealed partial class Terrain<TTemplate> : ITerrain
 
     /// <inheritdoc/>
     [Browsable(false)]
-    public Vector2 Center => new(_size.X * _size.StretchH / 2f, _size.Y * _size.StretchH / 2f);
+    public Vector2 Center => new(Size.X * Size.StretchH / 2f, Size.Y * Size.StretchH / 2f);
     #endregion
 
     #region Height-map
-    private ByteGrid? _heightMap;
-
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
     public ByteGrid? HeightMap
     {
-        get => _heightMap;
+        get;
         set
         {
             if (value != null)
             {
-                if (value.Width != _size.X || value.Height != _size.Y)
+                if (value.Width != Size.X || value.Height != Size.Y)
                     throw new InvalidOperationException(Resources.HeightMapSizeEqualTerrain);
             }
 
-            _heightMap = value;
+            field = value;
         }
     }
     #endregion
 
     #region Occlusion interval map
-    private ByteVector4Grid? _occlusionIntervalMap;
-
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
     public ByteVector4Grid? OcclusionIntervalMap
     {
-        get => _occlusionIntervalMap;
+        get;
         set
         {
             if (value != null)
             {
-                if (value.Width != _size.X || value.Height != _size.Y)
+                if (value.Width != Size.X || value.Height != Size.Y)
                     throw new InvalidOperationException(Resources.HeightMapSizeEqualTerrain);
             }
 
-            _occlusionIntervalMap = value;
+            field = value;
         }
     }
 
@@ -117,22 +111,20 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     [XmlIgnore]
     public readonly TTemplate?[] Templates = new TTemplate?[16];
 
-    private NibbleGrid? _textureMap;
-
     /// <inheritdoc/>
     [XmlIgnore, Browsable(false)]
     public NibbleGrid? TextureMap
     {
-        get => _textureMap;
+        get;
         set
         {
             if (value != null)
             {
-                if (value.Width != _size.X / 3 || value.Height != _size.Y / 3)
+                if (value.Width != Size.X / 3 || value.Height != Size.Y / 3)
                     throw new InvalidOperationException(Resources.TextureMapSizeThirdOfTerrain);
             }
 
-            _textureMap = value;
+            field = value;
         }
     }
     #endregion
@@ -141,9 +133,9 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     [Browsable(false), XmlIgnore]
     [MemberNotNullWhen(true, nameof(HeightMap))]
     [MemberNotNullWhen(true, nameof(TextureMap))]
-    [MemberNotNullWhen(true, nameof(_heightMap))]
-    [MemberNotNullWhen(true, nameof(_textureMap))]
-    public bool DataLoaded => _heightMap != null && _textureMap != null;
+    [MemberNotNullWhen(true, nameof(HeightMap))]
+    [MemberNotNullWhen(true, nameof(TextureMap))]
+    public bool DataLoaded => HeightMap != null && TextureMap != null;
     #endregion
 
     #region Constructor
@@ -154,8 +146,8 @@ public sealed partial class Terrain<TTemplate> : ITerrain
     public Terrain(TerrainSize size)
     {
         Size = size;
-        _heightMap = new(size.X, size.Y);
-        _textureMap = new(size.X / 3, size.Y / 3);
+        HeightMap = new(size.X, size.Y);
+        TextureMap = new(size.X / 3, size.Y / 3);
 
         // Try to use "Grass" as the default Terrain type
         try
@@ -183,13 +175,13 @@ public sealed partial class Terrain<TTemplate> : ITerrain
         #endregion
 
         // Note: This is only required for lookups in the height-map, not for actually unstretching the coordinates to be returned
-        Vector2 unstretchedCoords = coordinates * (1 / _size.StretchH);
+        Vector2 unstretchedCoords = coordinates * (1 / Size.StretchH);
 
-        var height = _heightMap.SampledRead(unstretchedCoords.X, unstretchedCoords.Y);
+        var height = HeightMap.SampledRead(unstretchedCoords.X, unstretchedCoords.Y);
 
         return new(
             coordinates.X, // World X = Engine +X
-            height * _size.StretchV, // World height = Engine +Y
+            height * Size.StretchV, // World height = Engine +Y
             -coordinates.Y); // World Y = Engine -Z
     }
     #endregion
@@ -228,8 +220,8 @@ public sealed partial class Terrain<TTemplate> : ITerrain
         #endregion
 
         return Math.Abs(
-            _heightMap.ClampedRead(x + xDiff, y + yDiff) -
-            _heightMap.ClampedRead(x, y));
+            HeightMap.ClampedRead(x + xDiff, y + yDiff) -
+            HeightMap.ClampedRead(x, y));
     }
     #endregion
 
@@ -245,9 +237,9 @@ public sealed partial class Terrain<TTemplate> : ITerrain
         if (!DataLoaded) throw new InvalidOperationException(Resources.TerrainDataNotLoaded);
         #endregion
 
-        return _textureMap.ClampedRead(
-            (int)(coordinates.X / (_size.StretchH * 3)),
-            (int)(coordinates.Y / (_size.StretchH * 3)));
+        return TextureMap.ClampedRead(
+            (int)(coordinates.X / (Size.StretchH * 3)),
+            (int)(coordinates.Y / (Size.StretchH * 3)));
     }
     #endregion
 }

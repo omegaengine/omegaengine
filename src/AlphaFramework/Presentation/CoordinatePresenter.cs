@@ -90,49 +90,43 @@ public abstract class CoordinatePresenter<TUniverse, TCoordinates> : PresenterBa
     protected IEnumerable<PositionableRenderable> RenderableNodes
         => RenderablesSync.Representations.Concat(Renderables.GroupedRenderables).Distinct();
 
-    private bool _wireframeEntities;
-
     /// <summary>
     /// Render all entities in wireframe-mode
     /// </summary>
     public bool WireframeEntities
     {
-        get => _wireframeEntities;
+        get;
         set
         {
-            _wireframeEntities = value;
+            field = value;
             foreach (var positionable in RenderableNodes)
                 positionable.Wireframe = value;
         }
     }
-
-    private bool _boundingSpheresEntities;
 
     /// <summary>
     /// Visualize the bounding spheres of all entities
     /// </summary>
     public bool BoundingSphereEntities
     {
-        get => _boundingSpheresEntities;
+        get;
         set
         {
-            _boundingSpheresEntities = value;
+            field = value;
             foreach (var positionable in RenderableNodes)
                 positionable.DrawBoundingSphere = value;
         }
     }
-
-    private bool _boundingBoxEntities;
 
     /// <summary>
     /// Visualize the bounding boxes of all entities
     /// </summary>
     public bool BoundingBoxEntities
     {
-        get => _boundingBoxEntities;
+        get;
         set
         {
-            _boundingBoxEntities = value;
+            field = value;
             foreach (var positionable in RenderableNodes)
                 positionable.DrawBoundingBox = value;
         }

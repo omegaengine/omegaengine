@@ -115,7 +115,6 @@ public partial class Model : PositionableRenderable
     //--------------------//
 
     #region Bounding bodies
-    private BoundingSphere[]? _subsetBoundingSpheres, _subsetFloatingBoundingSpheresCached;
     private bool _subsetFloatingBoundingSpheresDirty = true;
 
     /// <summary>
@@ -123,8 +122,8 @@ public partial class Model : PositionableRenderable
     /// </summary>
     protected BoundingSphere[]? SubsetBoundingSpheres
     {
-        get => _subsetBoundingSpheres;
-        set => value.To(ref _subsetBoundingSpheres, () => _subsetFloatingBoundingSpheresDirty = true);
+        get;
+        set => value.To(ref field, () => _subsetFloatingBoundingSpheresDirty = true);
     }
 
     /// <summary>
@@ -137,20 +136,19 @@ public partial class Model : PositionableRenderable
             EnsureRenderTransform();
             if (_subsetFloatingBoundingSpheresDirty)
             {
-                if (SubsetBoundingSpheres == null) _subsetFloatingBoundingSpheresCached = null;
+                if (SubsetBoundingSpheres == null) field = null;
                 else
                 {
-                    _subsetFloatingBoundingSpheresCached ??= new BoundingSphere[SubsetBoundingSpheres.Length];
-                    for (int i = 0; i < _subsetFloatingBoundingSpheresCached.Length; i++)
-                        _subsetFloatingBoundingSpheresCached[i] = SubsetBoundingSpheres[i].Transform(FloatingTransformCached);
+                    field ??= new BoundingSphere[SubsetBoundingSpheres.Length];
+                    for (int i = 0; i < field.Length; i++)
+                        field[i] = SubsetBoundingSpheres[i].Transform(FloatingTransformCached);
                 }
                 _subsetFloatingBoundingSpheresDirty = false;
             }
-            return _subsetFloatingBoundingSpheresCached;
+            return field;
         }
     }
 
-    private BoundingBox[]? _subsetBoundingBoxes, _subsetFloatingBoundingBoxesCached;
     private bool _subsetFloatingBoundingBoxesDirty = true;
 
     /// <summary>
@@ -158,8 +156,8 @@ public partial class Model : PositionableRenderable
     /// </summary>
     protected BoundingBox[]? SubsetBoundingBoxes
     {
-        get => _subsetBoundingBoxes;
-        set => value.To(ref _subsetBoundingBoxes, () => _subsetFloatingBoundingBoxesDirty = true);
+        get;
+        set => value.To(ref field, () => _subsetFloatingBoundingBoxesDirty = true);
     }
 
     /// <summary>
@@ -172,16 +170,16 @@ public partial class Model : PositionableRenderable
             EnsureRenderTransform();
             if (_subsetFloatingBoundingBoxesDirty)
             {
-                if (SubsetBoundingBoxes == null) _subsetFloatingBoundingBoxesCached = null;
+                if (SubsetBoundingBoxes == null) field = null;
                 else
                 {
-                    _subsetFloatingBoundingBoxesCached ??= new BoundingBox[SubsetBoundingBoxes.Length];
-                    for (int i = 0; i < _subsetFloatingBoundingBoxesCached.Length; i++)
-                        _subsetFloatingBoundingBoxesCached[i] = SubsetBoundingBoxes[i].Transform(FloatingTransformCached);
+                    field ??= new BoundingBox[SubsetBoundingBoxes.Length];
+                    for (int i = 0; i < field.Length; i++)
+                        field[i] = SubsetBoundingBoxes[i].Transform(FloatingTransformCached);
                 }
                 _subsetFloatingBoundingBoxesDirty = false;
             }
-            return _subsetFloatingBoundingBoxesCached;
+            return field;
         }
     }
 

@@ -28,16 +28,15 @@ public partial class MainFormBase : Form, IToastProvider
 {
     #region Properties
     private AsyncWaitDialog _waitDialog;
-    private bool _loading;
 
     /// <summary>
     /// Indicates the editor is currently loading something and the user must wait.
     /// </summary>
     public bool Loading
     {
-        get => _loading;
+        get;
         set =>
-            value.To(ref _loading, delegate
+            value.To(ref field, delegate
             { // Show a "Loading..." dialog in a separate thread
                 if (value)
                 {

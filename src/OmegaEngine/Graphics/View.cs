@@ -72,15 +72,13 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
     #endregion
 
     #region Area
-    private Rectangle _area;
-
     /// <summary>
     /// The screen area this view should fill (all zero for fullscreen)
     /// </summary>
     [Description("The screen area this view should fill (all zero for fullscreen)"), Category("Layout")]
     public Rectangle Area
     {
-        get => _area;
+        get;
         set
         {
             #region Sanity checks
@@ -88,7 +86,7 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
                 throw new ArgumentOutOfRangeException(nameof(value));
             #endregion
 
-            if (_area.Size != value.Size)
+            if (field.Size != value.Size)
             { // If the size of the area changes, the render targets will need to be recreated
                 if (RenderTarget != null)
                 {
@@ -103,7 +101,7 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
                 }
             }
 
-            value.To(ref _area, UpdateViewport);
+            value.To(ref field, UpdateViewport);
         }
     }
 
@@ -242,7 +240,7 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
         RegisterChild(_postShaders);
 
         RegisterChild(Scene = scene, autoDispose: false);
-        _area = area;
+        Area = area;
         Camera = camera;
     }
 
@@ -485,7 +483,7 @@ public partial class View : EngineElement, IFrameResettable, IViewpoint
 
         // Calculate the effective viewport and continuously update it, if it is fullscreen
         UpdateViewport();
-        if (_area == Rectangle.Empty) Engine.DeviceReset += UpdateViewport;
+        if (Area == Rectangle.Empty) Engine.DeviceReset += UpdateViewport;
     }
     #endregion
 

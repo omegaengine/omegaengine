@@ -32,11 +32,9 @@ namespace FrameOfReference.World.Templates;
 [Cloneable]
 public sealed partial class TerrainTemplate : TerrainTemplateBase<TerrainTemplate>
 {
-    private float _movementAbility = 1;
-
     /// <summary>
     /// How well can units walk on this ground? 0=not at all; 1=with full speed
     /// </summary>
     [DefaultValue(1f), Description("How well can units walk on this ground? 0=not at all; 1=with full speed")]
-    public float MovementAbility { get => _movementAbility; set => _movementAbility = Math.Max(0, value); }
+    public float MovementAbility { get; set => field = Math.Max(0, value); }
 }

@@ -17,21 +17,17 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostHaloShader : PostShader
 {
     #region Properties
-    private Color _glowColor = Color.White;
-
     /// <summary>
     /// The color of the halo
     /// </summary>
     [Description("The color of the halo")]
-    public Color GlowColor { get => _glowColor; set => value.To(ref _glowColor, () => SetShaderParameter("GlowCol", value)); }
-
-    private float _glowness = 1.6f;
+    public Color GlowColor { get; set => value.To(ref field, () => SetShaderParameter("GlowCol", value)); } = Color.White;
 
     /// <summary>
     /// How strong the halo shall glow - values between 0 and 3
     /// </summary>
     [DefaultValue(1.6f), Description("How strong the halo shall glow - values between 0 and 3")]
-    public float Glowness { get => _glowness; set => value.To(ref _glowness, () => SetShaderParameter("Glowness", value)); }
+    public float Glowness { get; set => value.To(ref field, () => SetShaderParameter("Glowness", value)); } = 1.6f;
     #endregion
 
     #region Engine

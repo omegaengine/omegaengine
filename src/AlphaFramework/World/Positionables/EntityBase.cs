@@ -26,8 +26,6 @@ public abstract partial class EntityBase<TCoordinates, TTemplate> : Positionable
     where TTemplate : EntityTemplateBase<TTemplate>
 {
     #region Template
-    private string? _templateName;
-
     /// <summary>
     /// The name of the <typeparamref name="TTemplate"/>.
     /// </summary>
@@ -38,7 +36,7 @@ public abstract partial class EntityBase<TCoordinates, TTemplate> : Positionable
     [XmlAttribute("Template"), Description("The name of the entity template")]
     public string? TemplateName
     {
-        get => _templateName;
+        get;
         set
         {
             #region Sanity check
@@ -58,7 +56,7 @@ public abstract partial class EntityBase<TCoordinates, TTemplate> : Positionable
             #endregion
 
             // Only set the new name once the according class was successfully located
-            _templateName = value;
+            field = value;
         }
     }
 
@@ -126,8 +124,8 @@ public abstract partial class EntityBase<TCoordinates, TTemplate> : Positionable
     public override string ToString()
     {
         string value = base.ToString();
-        if (!string.IsNullOrEmpty(_templateName))
-            value += $" ({_templateName})";
+        if (!string.IsNullOrEmpty(TemplateName))
+            value += $" ({TemplateName})";
         return value;
     }
 }

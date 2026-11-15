@@ -34,15 +34,11 @@ public class WaterShader : SurfaceShader
     #endregion
 
     #region Properties
-    private Color _dullColor;
-
     /// <summary>
     /// The basic color of the water (usually blueish)
     /// </summary>
     [Description("The basic color of the water (usually blueish)")]
-    public Color DullColor { get => _dullColor; set => value.To(ref _dullColor, () => SetShaderParameterLinear("DullColor", value)); }
-
-    private float _dullBlendFactor = 0.15f;
+    public Color DullColor { get; set => value.To(ref field, () => SetShaderParameterLinear("DullColor", value)); }
 
     /// <summary>
     /// How strongly to factor in <see cref="DullColor"/> - values between 0 and 1
@@ -50,15 +46,13 @@ public class WaterShader : SurfaceShader
     [DefaultValue(0.15f), Description("How strongly to factor in DullColor - values between 0 and 1")]
     public float DullBlendFactor
     {
-        get => _dullBlendFactor;
+        get;
         set
         {
             value = value.Clamp();
-            value.To(ref _dullBlendFactor, () => SetShaderParameter("DullBlendFactor", value));
+            value.To(ref field, () => SetShaderParameter("DullBlendFactor", value));
         }
-    }
-
-    private float _waveLength = 0.1f, _waveHeight = 0.01f, _windForce = 0.2f;
+    } = 0.15f;
 
     /// <summary>
     /// The length of waves on the water surface - values between 0 and 1
@@ -66,13 +60,13 @@ public class WaterShader : SurfaceShader
     [DefaultValue(0.1f), Description("The length of waves on the water surface - values between 0 and 1")]
     public float WaveLength
     {
-        get => _waveLength;
+        get;
         set
         {
             value = value.Clamp();
-            value.To(ref _waveLength, () => SetShaderParameter("WaveLength", value));
+            value.To(ref field, () => SetShaderParameter("WaveLength", value));
         }
-    }
+    } = 0.1f;
 
     /// <summary>
     /// The height of waves on the water surface - values between 0 and 0.2
@@ -80,13 +74,13 @@ public class WaterShader : SurfaceShader
     [DefaultValue(0.01f), Description("The height of waves on the water surface - values between 0 and 0.2")]
     public float WaveHeight
     {
-        get => _waveHeight;
+        get;
         set
         {
             value = value.Clamp(0, 0.2f);
-            value.To(ref _waveHeight, () => SetShaderParameter("WaveHeight", value));
+            value.To(ref field, () => SetShaderParameter("WaveHeight", value));
         }
-    }
+    } = 0.01f;
 
     /// <summary>
     /// The strength of the wind moving the waves - values between 0 and 1
@@ -94,29 +88,25 @@ public class WaterShader : SurfaceShader
     [DefaultValue(0.2f), Description("The strength of the wind moving the waves - values between 0 and 1")]
     public float WindForce
     {
-        get => _windForce;
+        get;
         set
         {
             value = value.Clamp();
-            value.To(ref _windForce, () => SetShaderParameter("WindForce", value));
+            value.To(ref field, () => SetShaderParameter("WindForce", value));
         }
-    }
-
-    private Matrix _windDirection;
+    } = 0.2f;
 
     /// <summary>
     /// The direction of the wind moving the waves
     /// </summary>
     [Description("The direction of the wind moving the waves")]
-    public Matrix WindDirection { get => _windDirection; set => value.To(ref _windDirection, () => SetShaderParameter("WindDirection", value)); }
-
-    private Matrix _reflectionViewProjection;
+    public Matrix WindDirection { get; set => value.To(ref field, () => SetShaderParameter("WindDirection", value)); }
 
     /// <summary>
     /// The reflected view-projection from the <see cref="Camera"/>
     /// </summary>
     [Browsable(false)]
-    public Matrix ReflectionViewProjection { get => _reflectionViewProjection; set => value.To(ref _reflectionViewProjection, () => SetShaderParameter("ReflectionViewProjection", value)); }
+    public Matrix ReflectionViewProjection { get; set => value.To(ref field, () => SetShaderParameter("ReflectionViewProjection", value)); }
     #endregion
 
     #region Constructor

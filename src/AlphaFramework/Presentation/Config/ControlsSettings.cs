@@ -37,19 +37,15 @@ public sealed class ControlsSettings
     [Description("Occurs when a setting in this group is changed.")]
     public event Action Changed = () => {};
 
-    private bool _invertMouse;
-
     /// <summary>
     /// Invert the mouse axes
     /// </summary>
     [DefaultValue(false), Description("Invert the mouse axes")]
-    public bool InvertMouse { get => _invertMouse; set => value.To(ref _invertMouse, Changed); }
-
-    private double _mouseSensitivity = 0.1;
+    public bool InvertMouse { get; set => value.To(ref field, Changed); }
 
     /// <summary>
     /// The sensitivity of the mouse input. The higher the value, the faster the movement.
     /// </summary>
     [DefaultValue(0.1), Description("The sensitivity of the mouse input. The higher the value, the faster the movement.")]
-    public double MouseSensitivity { get => _mouseSensitivity; set => value.To(ref _mouseSensitivity, Changed); }
+    public double MouseSensitivity { get; set => value.To(ref field, Changed); } = 0.1;
 }

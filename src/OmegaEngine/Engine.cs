@@ -56,17 +56,15 @@ public sealed partial class Engine : EngineElement
     [LuaHide]
     public Control Target { get; }
 
-    private EngineConfig _config;
-
     /// <summary>
     /// The settings the engine was initialized with.
     /// </summary>
     /// <remarks>Changing this will cause the engine to reset on the next <see cref="Render()" /> call</remarks>
     public EngineConfig Config
     {
-        get => _config;
+        get;
         set =>
-            value.To(ref _config, delegate
+            value.To(ref field, delegate
             {
                 // The device needs to be reset with changed presentation parameters
                 if (PresentParams != null)
@@ -74,8 +72,8 @@ public sealed partial class Engine : EngineElement
                     Log.Info("Engine.Config modified");
                     NeedsReset = true;
                 }
-                FullscreenDisplayMode = _config.Fullscreen ? Capabilities.GetFullscreenDisplayMode(_config.TargetSize) : null;
-                PresentParams = BuildPresentParams(_config, FullscreenDisplayMode);
+                FullscreenDisplayMode = Config.Fullscreen ? Capabilities.GetFullscreenDisplayMode(Config.TargetSize) : null;
+                PresentParams = BuildPresentParams(Config, FullscreenDisplayMode);
             });
     }
 

@@ -61,12 +61,10 @@ public abstract partial class Positionable<TCoordinates> : ICloneable, IChangeNo
         return value;
     }
 
-    private TCoordinates _position;
-
     /// <summary>
     /// The <see cref="Positionable{TCoordinates}"/>'s position.
     /// </summary>
     [Description("The entity's position on the terrain.")]
-    public TCoordinates Position { get => _position; set => value.To(ref _position, OnChanged); }
+    public TCoordinates Position { get; set => value.To(ref field, OnChanged); }
     #endregion
 }

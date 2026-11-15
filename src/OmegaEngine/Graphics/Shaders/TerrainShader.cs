@@ -35,19 +35,17 @@ public class TerrainShader : LightingShader
     #endregion
 
     #region Properties
-    private float _blendDistance = 400, _blendWidth = 700;
-
     /// <summary>
     /// The distance at which to show the pure near texture
     /// </summary>
     [DefaultValue(400f), Description("The distance at which to show the pure near texture")]
-    public float BlendDistance { get => _blendDistance; set => value.To(ref _blendDistance, () => SetShaderParameter("BlendDistance", value)); }
+    public float BlendDistance { get; set => value.To(ref field, () => SetShaderParameter("BlendDistance", value)); } = 400;
 
     /// <summary>
     /// The distance from <see cref="BlendDistance"/> where to show the pure far texture
     /// </summary>
     [DefaultValue(700f), Description("The distance from BlendDistance where to show the pure far texture")]
-    public float BlendWidth { get => _blendWidth; set => value.To(ref _blendWidth, () => SetShaderParameter("BlendWidth", value)); }
+    public float BlendWidth { get; set => value.To(ref field, () => SetShaderParameter("BlendWidth", value)); } = 700;
     #endregion
 
     #region Constructor

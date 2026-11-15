@@ -15,18 +15,16 @@ namespace OmegaEngine.Audio;
 /// </summary>
 public abstract class AudioElement : EngineElement, IAudio
 {
-    private float _volume = 1f;
-
     /// <inheritdoc/>
     public float Volume
     {
-        get => _volume;
+        get;
         set
         {
-            _volume = value;
+            field = value;
             ApplyVolume();
         }
-    }
+    } = 1f;
 
     /// <summary>
     /// How far the current fade has progressed: 0 = silent, 1 = the full <see cref="Volume"/>.
@@ -36,7 +34,7 @@ public abstract class AudioElement : EngineElement, IAudio
     /// <summary>
     /// The volume actually handed to the sample providers, i.e. <see cref="Volume"/> scaled by <see cref="FadeLevel"/>.
     /// </summary>
-    protected float EffectiveVolume => _volume * FadeLevel;
+    protected float EffectiveVolume => Volume * FadeLevel;
 
     /// <summary>
     /// Applies the current <see cref="EffectiveVolume"/> to the active playback (if any).

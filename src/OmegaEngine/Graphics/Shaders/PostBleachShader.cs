@@ -16,21 +16,19 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostBleachShader : PostShader
 {
     #region Properties
-    private float _opacity = 1.0f;
-
     /// <summary>
     /// How strong the bleaching effect should be - values between 0 and 1
     /// </summary>
     [DefaultValue(1f), Description("How strong the bleaching effect should be - values between 0 and 1")]
     public float Opacity
     {
-        get => _opacity;
+        get;
         set
         {
             value = value.Clamp();
-            value.To(ref _opacity, () => SetShaderParameter("Opacity", value));
+            value.To(ref field, () => SetShaderParameter("Opacity", value));
         }
-    }
+    } = 1.0f;
     #endregion
 
     #region Engine

@@ -40,13 +40,11 @@ namespace FrameOfReference.World.Positionables;
 [Cloneable]
 public sealed partial class Trigger : Positionable<Vector2>
 {
-    private float _range = 200f;
-
     /// <summary>
     /// The maximum distance at which an <see cref="Entity"/> activates this trigger.
     /// </summary>
     [XmlAttribute, DefaultValue(200f), Description("The maximum distance at which an Entity activates this trigger.")]
-    public float Range { get => _range; set => value.To(ref _range, OnChangedRebuild); }
+    public float Range { get; set => value.To(ref field, OnChangedRebuild); } = 200f;
 
     /// <summary>
     /// The <see cref="IUniverse.GameTime"/> by which this trigger should have been activated.

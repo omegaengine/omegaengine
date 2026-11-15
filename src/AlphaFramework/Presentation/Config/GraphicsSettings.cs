@@ -40,77 +40,59 @@ public sealed class GraphicsSettings
     [Description("Occurs when a setting in this group is changed.")]
     public event Action Changed = () => {};
 
-    private bool _anisotropic = true;
-
     /// <summary>
     /// Use anisotropic texture filtering
     /// </summary>
     [DefaultValue(true), Description("Use anisotropic texture filtering")]
-    public bool Anisotropic { get => _anisotropic; set => value.To(ref _anisotropic, Changed); }
-
-    private bool _normalMapping = true;
+    public bool Anisotropic { get; set => value.To(ref field, Changed); } = true;
 
     /// <summary>
     /// Apply normal mapping effects to models when available
     /// </summary>
     [DefaultValue(true), Description("Apply normal mapping effects to models when available")]
-    public bool NormalMapping { get => _normalMapping; set => value.To(ref _normalMapping, Changed); }
-
-    private bool _postScreenEffects = true;
+    public bool NormalMapping { get; set => value.To(ref field, Changed); } = true;
 
     /// <summary>
     /// Apply post-screen effects to the scene
     /// </summary>
     [DefaultValue(true), Description("Apply post-screen effects to the scene")]
-    public bool PostScreenEffects { get => _postScreenEffects; set => value.To(ref _postScreenEffects, Changed); }
-
-    private bool _shadows = true;
+    public bool PostScreenEffects { get; set => value.To(ref field, Changed); } = true;
 
     /// <summary>
     /// Enable or disable shadowing casting (does not affect terrain self-shadowing)
     /// </summary>
     [DefaultValue(true), Description("Enable or disable shadowing casting (does not affect terrain self-shadowing)")]
-    public bool Shadows { get => _shadows; set => value.To(ref _shadows, Changed); }
-
-    private bool _detailMapping = true;
+    public bool Shadows { get; set => value.To(ref field, Changed); } = true;
 
     /// <summary>
     /// Sample textures twice with different texture coordinates to create an illusion of more details
     /// </summary>
     [DefaultValue(true), Description("Sample textures twice with different texture coordinates to create an illusion of more details")]
-    public bool DetailMapping { get => _detailMapping; set => value.To(ref _detailMapping, Changed); }
-
-    private int _terrainBlockSize = 32;
+    public bool DetailMapping { get; set => value.To(ref field, Changed); } = true;
 
     /// <summary>
     /// The size of a terrain rendering block
     /// </summary>
     [DefaultValue(32), Description("The size of a terrain rendering block")]
-    public int TerrainBlockSize { get => _terrainBlockSize; set => value.To(ref _terrainBlockSize, Changed); }
-
-    private WaterEffectsType _waterEffects = WaterEffectsType.ReflectAll;
+    public int TerrainBlockSize { get; set => value.To(ref field, Changed); } = 32;
 
     /// <summary>
     /// What kind of effects to display on water (e.g. reflections)
     /// </summary>
     [DefaultValue(WaterEffectsType.ReflectAll), Description("What kind of effects to display on water (e.g. reflections)")]
-    public WaterEffectsType WaterEffects { get => _waterEffects; set => value.To(ref _waterEffects, Changed); }
-
-    private float _fieldOfView = 60;
+    public WaterEffectsType WaterEffects { get; set => value.To(ref field, Changed); } = WaterEffectsType.ReflectAll;
 
     /// <summary>
     /// The camera field of view in degrees
     /// </summary>
     [DefaultValue(60f), Description("The camera field of view in degrees")]
-    public float FieldOfView { get => _fieldOfView; set => value.To(ref _fieldOfView, Changed); }
-
-    private float _gamma = PostColorCorrectionShader.DefaultGamma;
+    public float FieldOfView { get; set => value.To(ref field, Changed); } = 60;
 
     /// <summary>
     /// The gamma of the display the image is shown on
     /// </summary>
     [DefaultValue(PostColorCorrectionShader.DefaultGamma), Description("The gamma of the display the image is shown on")]
-    public float Gamma { get => _gamma; set => value.To(ref _gamma, Changed); }
+    public float Gamma { get; set => value.To(ref field, Changed); } = PostColorCorrectionShader.DefaultGamma;
 
     /// <summary>
     /// Applies the settings to the engine.

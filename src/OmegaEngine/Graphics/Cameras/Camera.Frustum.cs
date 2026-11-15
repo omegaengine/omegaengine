@@ -61,7 +61,7 @@ partial class Camera
         _viewFrustum[4].D = ViewProjection.M43;
 
         // Custom clip plane (culls in addition to the near plane)
-        _viewFrustum[5] = _clipPlane == default ? _viewFrustum[4] : EffectiveClipPlane;
+        _viewFrustum[5] = ClipPlane == default ? _viewFrustum[4] : EffectiveClipPlane;
 
         // Far plane
         _viewFrustum[6].Normal.X = ViewProjection.M14 - ViewProjection.M13;
@@ -129,7 +129,7 @@ partial class Camera
         if (distanceToCamera <= boundingSphere.Radius) return true;
 
         double angularDiameter = 2 * Math.Asin(boundingSphere.Radius / distanceToCamera);
-        double pixelDiameter = angularDiameter * _size.Width / _fieldOfView;
+        double pixelDiameter = angularDiameter * Size.Width / _fieldOfView;
         return pixelDiameter >= 1.0;
     }
 }

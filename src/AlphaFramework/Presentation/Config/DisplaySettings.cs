@@ -42,22 +42,20 @@ public sealed class DisplaySettings
     [Description("Occurs when a setting in this group is changed.")]
     public event Action Changed = () => {};
 
-    private Size _resolution = Screen.PrimaryScreen!.Bounds.Size;
-
     /// <summary>
     /// The monitor resolution for fullscreen mode
     /// </summary>
     [Description("The monitor resolution for fullscreen mode")]
     public Size Resolution
     {
-        get => _resolution;
+        get;
         set
         {
             if (value == Size.Empty)
                 value = Screen.PrimaryScreen!.Bounds.Size;
-            value.To(ref _resolution, Changed);
+            value.To(ref field, Changed);
         }
-    }
+    } = Size.Empty;
 
     /// <summary>
     /// The monitor resolution for fullscreen mode as a string in the format <c>WIDTHxHEIGHT</c>
@@ -65,7 +63,7 @@ public sealed class DisplaySettings
     [XmlIgnore, Browsable(false)]
     public string ResolutionText
     {
-        get => $"{Resolution.Width}x{_resolution.Height}";
+        get => $"{Resolution.Width}x{Resolution.Height}";
         set
         {
             if (!string.IsNullOrEmpty(value))
@@ -78,30 +76,26 @@ public sealed class DisplaySettings
         }
     }
 
-    private Size _windowSize = new(1024, 768);
-
     /// <summary>
     /// The size of the render window
     /// </summary>
     [Description("The size of the render window")]
     public Size WindowSize
     {
-        get => _windowSize;
+        get;
         set
         {
             if (value == Size.Empty)
                 value = new(1024, 768);
-            value.To(ref _windowSize, Changed);
+            value.To(ref field, Changed);
         }
-    }
-
-    private int _antiAliasing = 2;
+    } = new(1024, 768);
 
     /// <summary>
     /// The level of anti aliasing to use
     /// </summary>
     [Description("The level of anti aliasing to use")]
-    public int AntiAliasing { get => _antiAliasing; set => value.To(ref _antiAliasing, Changed); }
+    public int AntiAliasing { get; set => value.To(ref field, Changed); } = 2;
 
     /// <summary>
     /// The level of anti aliasing to use - as a string followed by an x
@@ -120,21 +114,17 @@ public sealed class DisplaySettings
         #endregion
     }
 
-    private bool _fullscreen = true;
-
     /// <summary>
     /// Run game in fullscreen mode
     /// </summary>
     [Description("Run game in fullscreen mode")]
-    public bool Fullscreen { get => _fullscreen; set => value.To(ref _fullscreen, Changed); }
-
-    private bool _vSync = true;
+    public bool Fullscreen { get; set => value.To(ref field, Changed); } = true;
 
     /// <summary>
     /// Synchronize the framerate with the monitor's refresh rate
     /// </summary>
     [Description("Synchronize the framerate with the monitor's refresh rate")]
-    public bool VSync { get => _vSync; set => value.To(ref _vSync, Changed); }
+    public bool VSync { get; set => value.To(ref field, Changed); } = true;
 
     /// <summary>
     /// Generates <see cref="EngineConfig"/> from the settings.

@@ -19,13 +19,11 @@ namespace OmegaEngine.Graphics.LightSources;
 /// </summary>
 public sealed class DirectionalLight : LightSource
 {
-    private Vector3 _direction;
-
     /// <summary>
     /// The direction light emitted by this light source travels in
     /// </summary>
     [Description("The direction light emitted by this light source travels in"), Category("Layout")]
-    public Vector3 Direction { get => _direction; set => _direction = Vector3.Normalize(value); }
+    public Vector3 Direction { get; set => field = Vector3.Normalize(value); }
 
     /// <summary>
     /// The distance from the emitting body to the objects being lit.

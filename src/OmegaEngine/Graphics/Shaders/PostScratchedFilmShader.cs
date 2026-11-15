@@ -21,31 +21,29 @@ public class PostScratchedFilmShader : PostShader
     #endregion
 
     #region Properties
-    private float _speed = 0.03f, _speed2 = 0.02f, _scratchIntensity = 0.65f, _scratchWidth = 0.0075f;
-
     /// <summary>
     /// The horizontal speed of the scratches
     /// </summary>
     [DefaultValue(0.03f), Description("The horizontal speed of the scratches")]
-    public float Speed { get => _speed; set => value.To(ref _speed, () => SetShaderParameter("Speed", value)); }
+    public float Speed { get; set => value.To(ref field, () => SetShaderParameter("Speed", value)); } = 0.03f;
 
     /// <summary>
     /// The vertical speed of the scratches
     /// </summary>
     [DefaultValue(0.02f), Description("The vertical speed of the scratches")]
-    public float Speed2 { get => _speed2; set => value.To(ref _speed2, () => SetShaderParameter("Speed2", value)); }
+    public float Speed2 { get; set => value.To(ref field, () => SetShaderParameter("Speed2", value)); } = 0.02f;
 
     /// <summary>
     /// The number of scratches
     /// </summary>
     [DefaultValue(0.65f), Description("The number of scratches")]
-    public float ScratchIntensity { get => _scratchIntensity; set => value.To(ref _scratchIntensity, () => SetShaderParameter("ScratchIntensity", value)); }
+    public float ScratchIntensity { get; set => value.To(ref field, () => SetShaderParameter("ScratchIntensity", value)); } = 0.65f;
 
     /// <summary>
     /// The size of the scratches
     /// </summary>
     [DefaultValue(0.0075f), Description("The size of the scratches")]
-    public float ScratchWidth { get => _scratchWidth; set => value.To(ref _scratchWidth, () => SetShaderParameter("IS", value)); }
+    public float ScratchWidth { get; set => value.To(ref field, () => SetShaderParameter("IS", value)); } = 0.0075f;
     #endregion
 
     #region Engine

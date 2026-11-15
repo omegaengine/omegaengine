@@ -29,13 +29,11 @@ public struct Vector2Ray(Vector2 position, Vector2 direction) : IEquatable<Vecto
     [Description("A point along the ray.")]
     public Vector2 Position { get; } = position;
 
-    private Vector2 _direction = Vector2.Normalize(direction);
-
     /// <summary>
     /// A unit vector specifying the direction in which the ray is pointing (automatically normalized).
     /// </summary>
     [Description("A unit vector specifying the direction in which the ray is pointing (automatically normalized).")]
-    public Vector2 Direction { readonly get => _direction; set => _direction = Vector2.Normalize(value); }
+    public Vector2 Direction { get; set => field = Vector2.Normalize(value); } = Vector2.Normalize(direction);
 
     /// <inheritdoc/>
     public readonly override string ToString() => string.Format(CultureInfo.InvariantCulture, "({0} => {1})", Position, Direction);

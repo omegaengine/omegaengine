@@ -38,21 +38,17 @@ public sealed class EditorSettings
     [Description("Occurs when a setting in this group is changed.")]
     public event Action Changed = () => {};
 
-    private bool _showWelcomeMessage = true;
-
     /// <summary>
     /// Show the welcome message on startup
     /// </summary>
     [DefaultValue(true), Description("Show the welcome message on startup")]
-    public bool ShowWelcomeMessage { get => _showWelcomeMessage; set => value.To(ref _showWelcomeMessage, Changed); }
-
-    private bool _editBase;
+    public bool ShowWelcomeMessage { get; set => value.To(ref field, Changed); } = true;
 
     /// <summary>
     /// May the user edit the base game?
     /// </summary>
     [DefaultValue(false), Description("May the user edit the base game?")]
-    public bool EditBase { get => _editBase; set => value.To(ref _editBase, Changed); }
+    public bool EditBase { get; set => value.To(ref field, Changed); }
 
     // Note: Can not use ICollection<T> interface with XML Serialization
     private readonly MonitoredCollection<string> _recentMods = [];

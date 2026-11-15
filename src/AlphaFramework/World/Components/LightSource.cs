@@ -23,14 +23,12 @@ namespace AlphaFramework.World.Components;
 [Cloneable]
 public partial class LightSource : Render
 {
-    private Color _color = Color.White;
-
     /// <summary>
     /// The color of this point light source.
     /// </summary>
     /// <remarks>Is not serialized/stored, <see cref="ColorValue"/> is used for that.</remarks>
     [XmlIgnore, LuaHide, Description("The color of this point light source.")]
-    public Color Color { get => _color; set => _color = value.DropAlpha(); }
+    public Color Color { get; set => field = value.DropAlpha(); } = Color.White;
 
     /// <summary>Used for XML serialization.</summary>
     /// <seealso cref="Color"/>

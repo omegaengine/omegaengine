@@ -38,21 +38,17 @@ public sealed class AudioSettings
     [Description("Occurs when a setting in this group is changed.")]
     public event Action Changed = () => {};
 
-    private float _musicVolume = 1f;
-
     /// <summary>
     /// The volume of background music (0 = silent, 1 = normal)
     /// </summary>
     [DefaultValue(1f), Description("The volume of background music (0 = silent, 1 = normal)")]
-    public float MusicVolume { get => _musicVolume; set => value.To(ref _musicVolume, Changed); }
-
-    private float _soundVolume = 1f;
+    public float MusicVolume { get; set => value.To(ref field, Changed); } = 1f;
 
     /// <summary>
     /// The volume of sound effects (0 = silent, 1 = normal)
     /// </summary>
     [DefaultValue(1f), Description("The volume of sound effects (0 = silent, 1 = normal)")]
-    public float SoundVolume { get => _soundVolume; set => value.To(ref _soundVolume, Changed); }
+    public float SoundVolume { get; set => value.To(ref field, Changed); } = 1f;
 
     /// <summary>
     /// Applies the settings to the engine.

@@ -129,13 +129,11 @@ public record CpuParticlePreset
     [DefaultValue(0f), Category("General"), Description("How many seconds to \"fast forward\" the particle system before it's render the first time")]
     public float WarmupTime { get; set; }
 
-    private string _particleTexture1 = "fire.png"; // Default value not part of serialization contract
-
     /// <summary>
     /// The ID of the texture to place on the particles
     /// </summary>
     [Category("Render"), Description("The ID of the texture to place on the particles")]
-    public string Particle1Texture { get => _particleTexture1; set => value.To(ref _particleTexture1, ref TexturesDirty); }
+    public string Particle1Texture { get; set => value.To(ref field, ref TexturesDirty); } = "fire.png";
 
     /// <summary>
     /// The level of transparency from 0 (solid) to 255 (invisible),
@@ -144,13 +142,11 @@ public record CpuParticlePreset
     [Category("Render"), Description("The level of transparency from 0 (solid) to 255 (invisible), 256 for alpha channel, -256 for binary alpha channel, 257 for additive blending")]
     public int Particle1Alpha { get; init; } = EngineState.AdditiveBlending; // Default value not part of serialization contract
 
-    private string _particleTexture2 = "";
-
     /// <summary>
     /// The ID of the texture to place on the particles during their "second life"
     /// </summary>
     [DefaultValue(""), Category("Render"), Description("The ID of the texture to place on the particles during their \"second life\"")]
-    public string Particle2Texture { get => _particleTexture2; set => value.To(ref _particleTexture2, ref TexturesDirty); }
+    public string Particle2Texture { get; set => value.To(ref field, ref TexturesDirty); } = "";
 
     /// <summary>
     /// The level of transparency from 0 (solid) to 255 (invisible) for particles' "second life",

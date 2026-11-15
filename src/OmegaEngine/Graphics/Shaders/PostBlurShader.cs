@@ -16,21 +16,19 @@ namespace OmegaEngine.Graphics.Shaders;
 public class PostBlurShader : PostShader
 {
     #region Properties
-    private float _blurStrength = 1;
-
     /// <summary>
     /// How strongly to blur the image - values between 0 and 10
     /// </summary>
     [DefaultValue(1f), Description("How strongly to blur the image - values between 0 and 10")]
     public float BlurStrength
     {
-        get => _blurStrength;
+        get;
         set
         {
             value = value.Clamp(0, 10);
-            value.To(ref _blurStrength, () => SetShaderParameter("BlurStrength", value));
+            value.To(ref field, () => SetShaderParameter("BlurStrength", value));
         }
-    }
+    } = 1;
     #endregion
 
     #region Engine

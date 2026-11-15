@@ -26,18 +26,16 @@ namespace FrameOfReference.Presentation;
 
 partial class Presenter
 {
-    private bool _childViewThumbnails;
-
     /// <summary>
     /// Shows child views as picture-in-picture thumbnails stacked in the bottom-right corner.
     /// </summary>
     public bool ChildViewThumbnails
     {
-        get => _childViewThumbnails;
+        get;
         set
         {
-            if (value == _childViewThumbnails) return;
-            _childViewThumbnails = value;
+            if (value == field) return;
+            field = value;
             if (value) Engine.ExtraRender += DrawChildViewThumbnails;
             else Engine.ExtraRender -= DrawChildViewThumbnails;
         }
