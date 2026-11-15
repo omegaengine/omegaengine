@@ -85,7 +85,7 @@ public partial class Slider : Control
         set
         {
             ControlValue = value;
-            if (_slider != null) _slider.Value = value;
+            _slider?.Value = value;
         }
     }
 

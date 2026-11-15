@@ -48,7 +48,7 @@ public abstract partial class ButtonBase : Label
         set
         {
             _hotkey = value;
-            if (DXControl != null) DXControl.Hotkey = value;
+            DXControl?.Hotkey = value;
         }
     }
 

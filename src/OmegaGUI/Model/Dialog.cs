@@ -107,7 +107,7 @@ public partial class Dialog : ICloneable<Dialog>
         set
         {
             _captionText = value;
-            if (DialogRender != null) DialogRender.SetCaptionText(GetLocalized(_captionText));
+            DialogRender?.SetCaptionText(GetLocalized(_captionText));
         }
     }
 
@@ -123,7 +123,7 @@ public partial class Dialog : ICloneable<Dialog>
         set
         {
             _captionHeight = value;
-            if (DialogRender != null) DialogRender.CaptionHeight = value;
+            DialogRender?.CaptionHeight = value;
         }
     }
 

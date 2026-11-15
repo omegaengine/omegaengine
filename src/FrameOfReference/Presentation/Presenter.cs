@@ -48,7 +48,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         set
         {
             _wireframeTerrain = value;
-            if (Terrain != null) Terrain.Wireframe = value;
+            Terrain?.Wireframe = value;
         }
     }
 
@@ -114,7 +114,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
     {
         var settings = Settings.Current.Graphics;
         View.Camera.FieldOfView = settings.FieldOfView;
-        if (_colorCorrectionShader != null) _colorCorrectionShader.Gamma = settings.Gamma;
+        _colorCorrectionShader?.Gamma = settings.Gamma;
     }
 
     private void UpdateSkybox()
@@ -239,8 +239,7 @@ public abstract partial class Presenter : CoordinatePresenter<Universe, Vector2>
         _sepiaAnimation?.Dispose();
         _sepiaAnimation = null;
 
-        if (_sepiaShader != null)
-            _sepiaShader.Enabled = false;
+        _sepiaShader?.Enabled = false;
 
         base.DimUp();
     }

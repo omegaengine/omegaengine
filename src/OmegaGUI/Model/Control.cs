@@ -92,7 +92,7 @@ public abstract partial class Control : ICloneable
     #region Properties
     protected void NeedsUpdate()
     {
-        if (Parent != null) Parent.NeedsUpdate = true;
+        Parent?.NeedsUpdate = true;
     }
 
     #region Name
@@ -124,7 +124,7 @@ public abstract partial class Control : ICloneable
         set
         {
             _isDefault = value;
-            if (DXControl != null) DXControl.IsDefault = value;
+            DXControl?.IsDefault = value;
         }
     }
 
@@ -140,7 +140,7 @@ public abstract partial class Control : ICloneable
         set
         {
             IsEnabled = value;
-            if (DXControl != null) DXControl.IsEnabled = value;
+            DXControl?.IsEnabled = value;
         }
     }
 
@@ -156,7 +156,7 @@ public abstract partial class Control : ICloneable
         set
         {
             IsVisible = value;
-            if (DXControl != null) DXControl.IsVisible = value;
+            DXControl?.IsVisible = value;
         }
     }
     #endregion

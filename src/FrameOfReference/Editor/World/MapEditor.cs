@@ -308,7 +308,7 @@ public partial class MapEditor : UndoCommandTab
         OnUpdate();
 
         // Restore the Camera angle
-        if (_presenter != null) _presenter.View.Camera = cameraBackup;
+        _presenter?.View.Camera = cameraBackup;
     }
     #endregion
 

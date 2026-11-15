@@ -96,8 +96,7 @@ public class Sound3D(XSound sound) : Sound(sound)
     /// <inheritdoc/>
     protected override void ApplyVolume()
     {
-        if (_panner != null)
-            _panner.Volume = EffectiveVolume;
+        _panner?.Volume = EffectiveVolume;
     }
 
     /// <inheritdoc/>

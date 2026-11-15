@@ -812,8 +812,7 @@ public class Dialog
             ControlMouseOver = control;
             TooltipHoverStart = WindowsUtils.AbsoluteTime;
 
-            if (ControlMouseOver != null)
-                ControlMouseOver.OnMouseEnter();
+            ControlMouseOver?.OnMouseEnter();
         }
     }
     #endregion

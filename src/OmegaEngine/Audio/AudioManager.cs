@@ -59,7 +59,7 @@ public sealed class AudioManager : IDisposable
         set
         {
             _soundVolume = value;
-            if (_soundBus != null) _soundBus.Volume = value;
+            _soundBus?.Volume = value;
         }
     }
 
@@ -74,7 +74,7 @@ public sealed class AudioManager : IDisposable
         set
         {
             _musicVolume = value;
-            if (_musicBus != null) _musicBus.Volume = value;
+            _musicBus?.Volume = value;
         }
     }
 

@@ -55,7 +55,7 @@ public partial class ProgressBar : Control
         set
         {
             _min = value;
-            if (_progressBar != null) _progressBar.Min = value;
+            _progressBar?.Min = value;
         }
     }
 
@@ -71,7 +71,7 @@ public partial class ProgressBar : Control
         set
         {
             _max = value;
-            if (_progressBar != null) _progressBar.Max = value;
+            _progressBar?.Max = value;
         }
     }
 
@@ -87,7 +87,7 @@ public partial class ProgressBar : Control
         set
         {
             _value = value;
-            if (_progressBar != null) _progressBar.Value = value;
+            _progressBar?.Value = value;
         }
     }
 
@@ -103,7 +103,7 @@ public partial class ProgressBar : Control
         set
         {
             _reversed = value;
-            if (_progressBar != null) _progressBar.Reversed = value;
+            _progressBar?.Reversed = value;
         }
     }
 
@@ -120,7 +120,7 @@ public partial class ProgressBar : Control
         set
         {
             ColorFill = value;
-            if (_progressBar != null) _progressBar.FillColor = ColorFill.ToColor4();
+            _progressBar?.FillColor = ColorFill.ToColor4();
         }
     }
 
@@ -140,7 +140,7 @@ public partial class ProgressBar : Control
         set
         {
             ColorFillLow = value;
-            if (_progressBar != null) _progressBar.FillColorLow = ColorFillLow.ToColor4();
+            _progressBar?.FillColorLow = ColorFillLow.ToColor4();
         }
     }
 

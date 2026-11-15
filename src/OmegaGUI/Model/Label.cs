@@ -57,7 +57,7 @@ public partial class Label : Control
         set
         {
             ControlText = value;
-            if (_staticText != null) _staticText.SetText(Parent.GetLocalized(ControlText));
+            _staticText?.SetText(Parent.GetLocalized(ControlText));
         }
     }
 
@@ -73,7 +73,7 @@ public partial class Label : Control
         set
         {
             _textAlign = value;
-            if (_staticText != null) _staticText.TextAlign = value;
+            _staticText?.TextAlign = value;
         }
     }
 
@@ -89,7 +89,7 @@ public partial class Label : Control
         set
         {
             _verticalTextAlign = value;
-            if (_staticText != null) _staticText.VerticalTextAlign = value;
+            _staticText?.VerticalTextAlign = value;
         }
     }
 
@@ -105,7 +105,7 @@ public partial class Label : Control
         set
         {
             _shadow = value;
-            if (_staticText != null) _staticText.Shadow = value;
+            _staticText?.Shadow = value;
         }
     }
     #endregion

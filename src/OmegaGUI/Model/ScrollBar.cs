@@ -49,7 +49,7 @@ public partial class ScrollBar : Slider
         set
         {
             ControlValue = value;
-            if (_scrollbar != null) _scrollbar.ScrollTo(value);
+            _scrollbar?.ScrollTo(value);
         }
     }
     #endregion

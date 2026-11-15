@@ -67,7 +67,7 @@ public partial class RadioButton : CheckBox
         set
         {
             ControlText = value;
-            if (_radioButton != null) _radioButton.SetText(Parent.GetLocalized(ControlText));
+            _radioButton?.SetText(Parent.GetLocalized(ControlText));
         }
     }
 
@@ -82,7 +82,7 @@ public partial class RadioButton : CheckBox
         set
         {
             IsChecked = value;
-            if (_radioButton != null) _radioButton.IsChecked = value;
+            _radioButton?.IsChecked = value;
         }
     }
     #endregion

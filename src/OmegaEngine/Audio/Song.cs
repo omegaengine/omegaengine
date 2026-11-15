@@ -43,7 +43,7 @@ public class Song(string id) : AudioElement
     /// <inheritdoc/>
     protected override void ApplyVolume()
     {
-        if (_volumeProvider != null) _volumeProvider.Volume = EffectiveVolume;
+        _volumeProvider?.Volume = EffectiveVolume;
     }
 
     /// <summary>

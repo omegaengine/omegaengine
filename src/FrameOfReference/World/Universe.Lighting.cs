@@ -114,7 +114,7 @@ partial class Universe
             value.To(ref _sunInclination, () =>
             {
                 OnLightingChanged();
-                if (Terrain != null) Terrain.OcclusionIntervalMapOutdated = true;
+                Terrain?.OcclusionIntervalMapOutdated = true;
             });
     }
 
@@ -149,7 +149,7 @@ partial class Universe
             value.To(ref _moonInclination, () =>
             {
                 OnLightingChanged();
-                if (Terrain != null) Terrain.OcclusionIntervalMapOutdated = true;
+                Terrain?.OcclusionIntervalMapOutdated = true;
             });
     }
     #endregion

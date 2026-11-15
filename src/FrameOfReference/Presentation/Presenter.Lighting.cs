@@ -81,7 +81,7 @@ partial class Presenter
         View.BackgroundColor = Universe.FogColor;
         View.Camera.FarClip = Universe.Fog ? Universe.FogDistance : 1e+6f;
 
-        if (_bleachShader != null) _bleachShader.Enabled = Universe.Bleach;
+        _bleachShader?.Enabled = Universe.Bleach;
     }
 
     /// <summary>

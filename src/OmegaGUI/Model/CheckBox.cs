@@ -53,7 +53,7 @@ public partial class CheckBox : ButtonBase
         set
         {
             ControlText = value;
-            if (_checkbox != null) _checkbox.SetText(Parent.GetLocalized(ControlText));
+            _checkbox?.SetText(Parent.GetLocalized(ControlText));
         }
     }
 
@@ -70,7 +70,7 @@ public partial class CheckBox : ButtonBase
         set
         {
             IsChecked = value;
-            if (_checkbox != null) _checkbox.IsChecked = value;
+            _checkbox?.IsChecked = value;
         }
     }
 

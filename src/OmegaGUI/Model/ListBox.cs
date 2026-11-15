@@ -57,7 +57,7 @@ public partial class ListBox : Control
         set
         {
             _style = value;
-            if (_listBox != null) _listBox.Style = value;
+            _listBox?.Style = value;
         }
     }
 

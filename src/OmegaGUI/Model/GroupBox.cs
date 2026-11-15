@@ -54,8 +54,7 @@ public partial class GroupBox : Control
         set
         {
             ColorBorder = value;
-            if (_groupBox != null)
-                _groupBox.BorderColor = ColorBorder.ToColor4();
+            _groupBox?.BorderColor = ColorBorder.ToColor4();
         }
     }
 
@@ -69,8 +68,7 @@ public partial class GroupBox : Control
         set
         {
             ColorFill = value;
-            if (_groupBox != null)
-                _groupBox.FillColor = ColorFill.ToColor4();
+            _groupBox?.FillColor = ColorFill.ToColor4();
         }
     }
     #endregion

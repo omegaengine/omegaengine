@@ -99,8 +99,7 @@ public sealed class DialogManager : IDisposable
         if (!control.CanHaveFocus)
             return; // Can't have focus
 
-        if (FocusedControl != null)
-            FocusedControl.OnFocusOut();
+        FocusedControl?.OnFocusOut();
 
         // Set the control focus now
         control.OnFocusIn();
@@ -178,8 +177,7 @@ public sealed class DialogManager : IDisposable
     {
         // Get the font node here
         FontNode fn = GetFontNode(font);
-        if (fn.Font != null)
-            fn.Font.Dispose(); // Get rid of this
+        fn.Font?.Dispose(); // Get rid of this
 
         // Create the new font
         try
@@ -300,8 +298,7 @@ public sealed class DialogManager : IDisposable
                     fn.Font.OnLostDevice();
             }
 
-            if (Sprite != null)
-                Sprite.OnLostDevice();
+            Sprite?.OnLostDevice();
 
             if (StateBlock != null)
             {
@@ -318,8 +315,7 @@ public sealed class DialogManager : IDisposable
     {
         _fontCache.ForEach(node => node.Font?.OnResetDevice());
 
-        if (Sprite != null)
-            Sprite.OnResetDevice();
+        Sprite?.OnResetDevice();
 
         // Create new state block
         try

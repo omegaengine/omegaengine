@@ -101,8 +101,7 @@ public class Sound : AudioElement
     /// <inheritdoc/>
     protected override void ApplyVolume()
     {
-        if (_volumeProvider != null)
-            _volumeProvider.Volume = EffectiveVolume;
+        _volumeProvider?.Volume = EffectiveVolume;
     }
 
     /// <inheritdoc/>
