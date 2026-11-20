@@ -183,7 +183,10 @@ public class CpuParticleSystem : PositionableRenderable
         while (_newParticlesBuffer >= 1)
         {
             _newParticlesBuffer--;
-            AddParticle();
+
+            var particle = AddParticle();
+            float age = _newParticlesBuffer / Preset.SpawnRate;
+            if (age > 0) UpdateParticle(particle, age);
         }
     }
 
@@ -235,10 +238,11 @@ public class CpuParticleSystem : PositionableRenderable
     /// <summary>
     /// Adds a new particle with random values
     /// </summary>
-    private void AddParticle()
+    /// <returns>The added particle.</returns>
+    private CpuParticle AddParticle()
     {
         var particleOffset = LocalSpace ? new() : EmitterOrigin;
-        AddParticle(
+        return AddParticle(
             particleOffset + RandomUtils.GetRandomPointInsideSphere(Preset.SpawnRadius),
             GetFirstLifeParameters(),
             GetSecondLifeParameters());
@@ -282,11 +286,13 @@ public class CpuParticleSystem : PositionableRenderable
     /// <param name="position">The initial position of the particle</param>
     /// <param name="parameters1">The initial configuration of this particle</param>
     /// <param name="parameters2">The configuration this particle will take in its "second life"</param>
-    private void AddParticle(DoubleVector3 position, CpuParticleParametersStruct parameters1, CpuParticleParametersStruct parameters2)
+    /// <returns>The added particle.</returns>
+    private CpuParticle AddParticle(DoubleVector3 position, CpuParticleParametersStruct parameters1, CpuParticleParametersStruct parameters2)
     {
+        CpuParticle particle;
         if (_deadParticles.Count > 0)
         {
-            CpuParticle particle = _deadParticles.Pop();
+            particle = _deadParticles.Pop();
             particle.Alive = true;
             particle.Position = position;
             particle.Velocity = default;
@@ -294,10 +300,17 @@ public class CpuParticleSystem : PositionableRenderable
             particle.Parameters2 = parameters2;
             particle.Color = parameters1.Color;
             particle.SecondLife = false;
-            _firstLifeParticles.Add(particle);
         }
-        else _firstLifeParticles.Add(new(position, parameters1, parameters2));
+        else particle = new(position, parameters1, parameters2);
+
+        _firstLifeParticles.Add(particle);
+        return particle;
     }
+
+    /// <summary>
+    /// Calls <paramref name="action"/> for every particle in its first life, for testing.
+    /// </summary>
+    internal void ForEachFirstLifeParticle(Action<CpuParticle> action) => _firstLifeParticles.ForEach(action);
 
     /// <summary>
     /// Loads the textures for the <see cref="CpuParticle"/> sprites

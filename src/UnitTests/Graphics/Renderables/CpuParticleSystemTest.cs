@@ -6,6 +6,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using AwesomeAssertions;
 using Xunit;
 
@@ -26,9 +27,39 @@ public class CpuParticleSystemTest : EngineTestBase
         system.Invoking(s => s.Poke()).Should().NotThrow();
     }
 
+    [Fact]
+    public void SpreadsParticlesSpawnedInOneStepAlongTheirPath()
+    {
+        var parameters = new CpuParticleParameters {LifeTime = 10, Size = 1};
+        using var system = new PokableParticleSystem
+        {
+            Preset = new()
+            {
+                LowerParameters1 = parameters,
+                UpperParameters1 = parameters,
+                SpawnRate = 100,
+                Gravity = new(0, 0, -1),
+                WarmupTime = 0.1f // Two update steps, spawning about ten particles
+            },
+            LocalSpace = true
+        };
+        system.Engine = Engine;
+        system.ApplyGravity();
+
+        system.Poke();
+
+        var depths = new List<double>();
+        system.ForEachFirstLifeParticle(particle => depths.Add(particle.Position.Z));
+        depths.Should().HaveCountGreaterThanOrEqualTo(9);
+        depths.Should().OnlyHaveUniqueItems(because: "particles spawned within one step must not start out at the same place");
+    }
+
     /// <summary>Exposes the protected per-frame update hook for testing.</summary>
     private sealed class PokableParticleSystem : CpuParticleSystem
     {
         public void Poke() => OnPreRender();
+
+        /// <summary>Takes the preset's gravity into the emitter's frame, as rendering a frame would.</summary>
+        public void ApplyGravity() => RecalcRenderTransform();
     }
 }
