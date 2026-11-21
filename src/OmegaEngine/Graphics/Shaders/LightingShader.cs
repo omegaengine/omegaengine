@@ -23,7 +23,6 @@ public abstract class LightingShader : SurfaceShader
     #region Enums
     private enum ShaderPasses
     {
-        None = -1,
         AmbientLight = 0,
         TwoDirLights = 1,
         TwoDirLightsAdd = 2,
@@ -65,55 +64,13 @@ public abstract class LightingShader : SurfaceShader
         {
             for (int i = 0; i < lights.Count; i++)
             {
-                var pass = ShaderPasses.None;
-
-                // ReSharper disable AccessToModifiedClosure
-                if (lights[i] is DirectionalLight dirLight)
+                var pass = lights[i] switch
                 {
-                    if (i == 0 && dirLight.Diffuse == Color.Black && dirLight.Specular == Color.Black)
-                    {
-                        #region Ambient light
-                        using (new ProfilerEvent(() => $"Setup light {i} as ambient"))
-                            SetupLight(dirLight, 0, material);
-                        pass = ShaderPasses.AmbientLight;
-                        #endregion
-                    }
-                    else
-                    {
-                        #region Directional lights
-                        using (new ProfilerEvent(() => $"Setup light {i} as directional"))
-                            SetupLight(dirLight, 0, material);
-                        pass = (i == 0) ? ShaderPasses.OneDirLight : ShaderPasses.OneDirLightAdd;
-
-                        // Try to handle the next light at the same time
-                        if (i + 1 < lights.Count)
-                        {
-                            if (lights[i + 1] is DirectionalLight nextDirLight)
-                            {
-                                using (new ProfilerEvent(() => $"Setup light {i}{1} as directional")) SetupLight(nextDirLight, 1, material);
-                                pass = (i == 0) ? ShaderPasses.TwoDirLights : ShaderPasses.TwoDirLightsAdd;
-
-                                // Handled two lights at once, so bump up counter
-                                i++;
-                            }
-                        }
-                        #endregion
-                    }
-                }
-                else
-                {
-                    if (lights[i] is PointLight pointLight)
-                    {
-                        #region Point lights
-                        using (new ProfilerEvent(() => $"Setup light {i} as point"))
-                            SetupLight(pointLight, 0, material);
-                        pass = (i == 0) ? ShaderPasses.OnePointLight : ShaderPasses.OnePointLightAdd;
-                        #endregion
-                    }
-                }
-                // ReSharper restore AccessToModifiedClosure
-
-                if (pass == ShaderPasses.None) continue;
+                    DirectionalLight dirLight when i == 0 && dirLight.Diffuse == Color.Black && dirLight.Specular == Color.Black
+                        => SetupAmbientLight(dirLight, material),
+                    DirectionalLight dirLight => SetupDirectionalLights(dirLight, lights, ref i, material),
+                    PointLight pointLight => SetupPointLight(pointLight, i, material)
+                };
 
                 #region Render pass
                 using (new ProfilerEvent(() => "Pass " + pass))
@@ -127,6 +84,45 @@ public abstract class LightingShader : SurfaceShader
         }
 
         Effect.End();
+    }
+
+    private ShaderPasses SetupAmbientLight(DirectionalLight light, XMaterial material)
+    {
+        using (new ProfilerEvent("Setup light 0 as ambient"))
+            SetupLight(light, 0, material);
+        return ShaderPasses.AmbientLight;
+    }
+
+    /// <summary>
+    /// Sets up a directional light, and the next light too if it is also directional.
+    /// </summary>
+    /// <param name="light">The light at <paramref name="index"/>.</param>
+    /// <param name="lights">All lights to be rendered.</param>
+    /// <param name="index">The index of <paramref name="light"/> in <paramref name="lights"/>; incremented if the next light was handled too.</param>
+    /// <param name="material">The material to apply.</param>
+    private ShaderPasses SetupDirectionalLights(DirectionalLight light, IReadOnlyList<LightSource> lights, ref int index, XMaterial material)
+    {
+        int i = index;
+        using (new ProfilerEvent(() => $"Setup light {i} as directional"))
+            SetupLight(light, 0, material);
+
+        // Try to handle the next light at the same time
+        if (i + 1 < lights.Count && lights[i + 1] is DirectionalLight nextLight)
+        {
+            using (new ProfilerEvent(() => $"Setup light {i + 1} as directional"))
+                SetupLight(nextLight, 1, material);
+            index++;
+            return (i == 0) ? ShaderPasses.TwoDirLights : ShaderPasses.TwoDirLightsAdd;
+        }
+
+        return (i == 0) ? ShaderPasses.OneDirLight : ShaderPasses.OneDirLightAdd;
+    }
+
+    private ShaderPasses SetupPointLight(PointLight light, int index, XMaterial material)
+    {
+        using (new ProfilerEvent(() => $"Setup light {index} as point"))
+            SetupLight(light, 0, material);
+        return (index == 0) ? ShaderPasses.OnePointLight : ShaderPasses.OnePointLightAdd;
     }
     #endregion
 }

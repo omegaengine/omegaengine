@@ -22,7 +22,7 @@ namespace OmegaEngine.Graphics.LightSources;
 /// A light source that illuminates <see cref="PositionableRenderable"/>s in a <see cref="Scene"/>.
 /// </summary>
 /// <seealso cref="Scene.Lights"/>
-public abstract class LightSource
+public closed class LightSource
 {
     /// <summary>
     /// Text value to make it easier to identify a particular camera
