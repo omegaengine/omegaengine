@@ -321,40 +321,31 @@ public class CpuParticleSystem : PositionableRenderable
         _material1.ReleaseReference();
         _material2.ReleaseReference();
 
-        #region First-life material
-        // Start with empty material
-        _material1 = XMaterial.Default;
-        if (!string.IsNullOrEmpty(Preset.Particle1Texture))
-        {
-            // Get texture path
-            string texture = Path.Combine("Particles", Preset.Particle1Texture);
-
-            // Check if texture path is valid
-            if (ContentManager.FileExists("Textures", texture))
-            {
-                _material1 = XTexture.Get(Engine, texture);
-                _material1.HoldReference();
-            }
-        }
-        #endregion
-
-        #region Second-life material
-        _material2 = XMaterial.Default;
-        if (!string.IsNullOrEmpty(Preset.Particle2Texture))
-        {
-            // Get texture path
-            string texture = Path.Combine("Particles", Preset.Particle2Texture);
-
-            // Check if texture path is valid
-            if (ContentManager.FileExists("Textures", texture))
-            {
-                _material2 = XTexture.Get(Engine, texture);
-                _material2.HoldReference();
-            }
-        }
-        #endregion
+        _material1 = LoadSpriteMaterial(Preset.Particle1Texture);
+        _material2 = LoadSpriteMaterial(Preset.Particle2Texture);
 
         Preset.TexturesDirty = false;
+    }
+
+    /// <summary>
+    /// Loads a sprite texture from the <c>Particles</c> subdirectory of the <c>Textures</c> content type and holds a reference to it.
+    /// </summary>
+    /// <param name="textureName">The file name of the texture; empty for none.</param>
+    /// <returns>The textured material; <see cref="XMaterial.Default"/> if no texture is set or it cannot be found.</returns>
+    private XMaterial LoadSpriteMaterial(string textureName)
+    {
+        if (string.IsNullOrEmpty(textureName)) return XMaterial.Default;
+
+        string texture = Path.Combine("Particles", textureName);
+        if (!ContentManager.FileExists("Textures", texture))
+        {
+            Log.Warn($"Particle texture '{texture}' not found");
+            return XMaterial.Default;
+        }
+
+        XMaterial material = XTexture.Get(Engine, texture);
+        material.HoldReference();
+        return material;
     }
 
     private Vector3 _effectiveGravity;
