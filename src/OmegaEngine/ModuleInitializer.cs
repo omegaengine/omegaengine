@@ -7,6 +7,7 @@
  */
 
 using System.Runtime.CompilerServices;
+using NanoByte.Common.Native;
 using SlimDX;
 
 namespace OmegaEngine;
@@ -19,6 +20,9 @@ internal static class ModuleInitializer
     [ModuleInitializer]
     internal static void Initialize()
     {
+        if (WindowsUtils.IsWine)
+            RegistryUtils.SetSoftwareString(@"Wine\DllOverrides", "d3dx9_43", "native,builtin");
+
         Configuration.EnableObjectTracking =
 #if DEBUG
             true;
