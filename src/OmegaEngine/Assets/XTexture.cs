@@ -100,7 +100,7 @@ public class XTexture : Asset, ITextureProvider
 
         // Try to find existing asset in cache
         string type = meshTexture ? "Meshes" : "Textures";
-        id = id.ToNativePath();
+        id = Paths.ToNative(id);
         string fullID = Path.Combine(type, id);
         var data = engine.Cache.GetAsset<XTexture>(fullID);
 

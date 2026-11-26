@@ -239,7 +239,7 @@ public class XAnimatedMesh : Asset
 
         // Try to find existing asset in cache
         const string type = "Meshes";
-        id = id.ToNativePath();
+        id = Paths.ToNative(id);
         string fullID = Path.Combine(type, id);
         var data = engine.Cache.GetAsset<XAnimatedMesh>(fullID);
 

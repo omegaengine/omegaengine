@@ -102,7 +102,7 @@ public static class ContentManager
         if (string.IsNullOrEmpty(type)) throw new ArgumentNullException(nameof(type));
         #endregion
 
-        type = type.ToNativePath();
+        type = Paths.ToNative(type);
 
         string pathBase = ModDir?.FullName ?? BaseDir.FullName;
         var directory = new DirectoryInfo(Path.Combine(pathBase, type));
@@ -123,8 +123,8 @@ public static class ContentManager
         if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
         #endregion
 
-        type = type.ToNativePath();
-        id = id.ToNativePath();
+        type = Paths.ToNative(type);
+        id = Paths.ToNative(id);
         return Path.Combine(CreateDirPath(type), id);
     }
 
@@ -141,8 +141,8 @@ public static class ContentManager
         if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
         #endregion
 
-        type = type.ToNativePath();
-        id = id.ToNativePath();
+        type = Paths.ToNative(type);
+        id = Paths.ToNative(id);
 
         return _modDirs.Any(dir => File.Exists(Path.Combine(dir.FullName, Path.Combine(type, id))))
             || _baseDirs.Any(dir => File.Exists(Path.Combine(dir.FullName, Path.Combine(type, id))));
@@ -214,7 +214,7 @@ public static class ContentManager
         if (string.IsNullOrEmpty(extension)) throw new ArgumentNullException(nameof(extension));
         #endregion
 
-        type = type.ToNativePath();
+        type = Paths.ToNative(type);
         var files = new NamedCollection<FileEntry>();
 
         foreach (var dir in _baseDirs)
@@ -246,8 +246,8 @@ public static class ContentManager
         if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
         #endregion
 
-        type = type.ToNativePath();
-        id = id.ToNativePath();
+        type = Paths.ToNative(type);
+        id = Paths.ToNative(id);
 
         foreach (var dir in _modDirs)
         {
@@ -280,8 +280,8 @@ public static class ContentManager
         if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
         #endregion
 
-        type = type.ToNativePath();
-        id = id.ToNativePath();
+        type = Paths.ToNative(type);
+        id = Paths.ToNative(id);
 
         if (!FileExists(type, id))
             throw new FileNotFoundException(Resources.NotFoundGameContentFile + Environment.NewLine + Path.Combine(type, id), Path.Combine(type, id));

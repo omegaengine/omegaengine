@@ -69,7 +69,7 @@ public class XSound : Asset
 
         // Try to find existing asset in cache
         const string type = "Sounds";
-        id = id.ToNativePath();
+        id = Paths.ToNative(id);
         string fullID = Path.Combine(type, id);
         var data = engine.Cache.GetAsset<XSound>(fullID);
 
