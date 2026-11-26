@@ -147,8 +147,6 @@ partial class RenderHost
                 Form.BackgroundImage = null;
             }
 
-            // Keep the timer outside of the event handling
-
             // Hook the render loop into the application's idle event
             Application.Idle += delegate
             {
@@ -158,16 +156,66 @@ partial class RenderHost
                     if (Form.WindowState == FormWindowState.Minimized)
                         Thread.Sleep(500);
 
-                    // Start the timer over
-                    double elapsedTime = _timer.Elapsed.TotalSeconds;
-                    _timer.Restart();
-
-                    // Loop the frame phases
-                    RunFrame(elapsedTime);
+                    RunTimedFrame();
                 }
             };
 
+            // Keep rendering even if the message queue never empties
+            Application.AddMessageFilter(_starvationFilter = new(this));
+
             Loading = false;
+        }
+    }
+
+    /// <summary>
+    /// The maximum time that may pass between frames while there are still window messages left to process before a frame is forced.
+    /// </summary>
+    private static readonly TimeSpan _maxStarvation = TimeSpan.FromMilliseconds(33);
+
+    /// <summary>Measures the time since the last frame was completed.</summary>
+    private readonly System.Diagnostics.Stopwatch _sinceLastFrame = new();
+
+    private StarvationFilter? _starvationFilter;
+
+    /// <summary>Indicates whether <see cref="RunTimedFrame"/> is currently executing.</summary>
+    private bool _inFrame;
+
+    /// <summary>
+    /// Runs a single frame, passing in the time elapsed since the previous one.
+    /// </summary>
+    private void RunTimedFrame()
+    {
+        _inFrame = true;
+        try
+        {
+            // Start the timer over
+            double elapsedTime = _timer.Elapsed.TotalSeconds;
+            _timer.Restart();
+
+            // Loop the frame phases
+            RunFrame(elapsedTime);
+        }
+        finally
+        {
+            _inFrame = false;
+            _sinceLastFrame.Restart();
+        }
+    }
+
+    /// <summary>
+    /// Forces a frame if a continuous stream of window messages kept the render loop in <see cref="Application.Idle"/> from running for too long.
+    /// </summary>
+    /// <remarks>This happens e.g. on Wine/Proton, where warping the cursor during a mouse drag can produce a steady flood of mouse move messages.</remarks>
+    private sealed class StarvationFilter(RenderHost host) : IMessageFilter
+    {
+        public bool PreFilterMessage(ref Message m)
+        {
+            if (!host._inFrame && !host.Loading && host.Form.Visible
+             && host.Form.WindowState != FormWindowState.Minimized
+             && host._sinceLastFrame.Elapsed > _maxStarvation)
+                host.RunTimedFrame();
+
+            return false;
         }
     }
 }

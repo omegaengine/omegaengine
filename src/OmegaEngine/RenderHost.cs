@@ -209,6 +209,7 @@ public partial class RenderHost : IRenderHost, IDisposable
 
         if (disposing)
         { // This block will only be executed on manual disposal, not by Garbage Collection
+            if (_starvationFilter != null) Application.RemoveMessageFilter(_starvationFilter);
             _engine?.Dispose();
             Form.Dispose();
             _debugConsole?.Dispose();

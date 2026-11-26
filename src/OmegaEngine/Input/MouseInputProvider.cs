@@ -174,14 +174,20 @@ public class MouseInputProvider : InputProvider
 
         if (_cursorCaptured)
         {
-            // Prevent infinite recursion
-            _ignoreMouseMove = true;
+            // Only warp if the cursor actually moved away.
+            // Some platforms (e.g., Wine/Proton) report every warp as another mouse move, even onto the current position.
+            // Warping unconditionally would then flood the message queue and starve the idle-driven render loop.
+            if (Cursor.Position != _cursorCapturePos)
+            {
+                // Prevent infinite recursion
+                _ignoreMouseMove = true;
 
-            // Snap back to original position
-            Cursor.Position = _cursorCapturePos;
+                // Snap back to original position
+                Cursor.Position = _cursorCapturePos;
+
+                _ignoreMouseMove = false;
+            }
             _lastMouseLoc = _control.PointToClient(_cursorCapturePos);
-
-            _ignoreMouseMove = false;
         }
         else _lastMouseLoc = e.Location;
     }
