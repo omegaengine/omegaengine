@@ -44,16 +44,6 @@ public partial class RenderHost : IRenderHost, IDisposable
     [PublicAPI]
     public const string EnvVarNameTrackObjects = "OMEGAENGINE_TRACK_OBJECTS";
 
-    static RenderHost()
-    {
-        Configuration.EnableObjectTracking =
-#if DEBUG
-            true;
-#else
-            Environment.GetEnvironmentVariable(EnvVarNameTrackObjects) == "1";
-#endif
-    }
-
     /// <summary>Contains a reference to the <see cref="DebugConsole"/> while it is open</summary>
     private DebugConsole? _debugConsole;
 
