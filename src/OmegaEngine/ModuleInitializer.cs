@@ -6,8 +6,9 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Runtime.CompilerServices;
-using NanoByte.Common.Native;
+using System.Runtime.InteropServices;
 using SlimDX;
 
 namespace OmegaEngine;
@@ -20,14 +21,24 @@ internal static class ModuleInitializer
     [ModuleInitializer]
     internal static void Initialize()
     {
-        if (WindowsUtils.IsWine)
-            RegistryUtils.SetSoftwareString(@"Wine\DllOverrides", "d3dx9_43", "native,builtin");
+        TryLoadLibrary(Environment.GetEnvironmentVariable("D3DX9"));
+        TryLoadLibrary(Environment.GetEnvironmentVariable("D3DCOMPILER"));
 
+        // Record stack traces of SlimDX object creations
         Configuration.EnableObjectTracking =
 #if DEBUG
             true;
 #else
-            System.Environment.GetEnvironmentVariable(RenderHost.EnvVarNameTrackObjects) == "1";
+            Environment.GetEnvironmentVariable(RenderHost.EnvVarNameTrackObjects) == "1";
 #endif
     }
+
+    private static void TryLoadLibrary(string? path)
+    {
+        if (!string.IsNullOrEmpty(path) && LoadLibrary(path) == 0)
+            Log.Warn($"Unable to load {path}: error {Marshal.GetLastWin32Error()}");
+    }
+
+    [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern nint LoadLibrary(string lpFileName);
 }
