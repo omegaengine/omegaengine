@@ -63,7 +63,9 @@ public sealed partial class Engine : EngineElement
     public EngineConfig Config
     {
         get;
-        set =>
+        set
+        {
+            if (_antiAliasingUnavailable) value.AntiAliasing = 0;
             value.To(ref field, delegate
             {
                 // The device needs to be reset with changed presentation parameters
@@ -75,7 +77,13 @@ public sealed partial class Engine : EngineElement
                 FullscreenDisplayMode = Config.Fullscreen ? Capabilities.GetFullscreenDisplayMode(Config.TargetSize) : null;
                 PresentParams = BuildPresentParams(Config, FullscreenDisplayMode);
             });
+        }
     }
+
+    /// <summary>
+    /// Set if creating the device with anti-aliasing failed even though the capabilities claimed support for it.
+    /// </summary>
+    private bool _antiAliasingUnavailable;
 
     /// <summary>
     /// Methods for determining the rendering capabilities of the graphics hardware.
@@ -154,9 +162,18 @@ public sealed partial class Engine : EngineElement
                 WaterEffects = WaterEffectsType.ReflectAll
             };
 
-            Device = FullscreenDisplayMode is {} displayMode
-                ? new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams, displayMode)
-                : new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams);
+            try
+            {
+                Device = CreateDevice();
+            }
+            catch (Direct3D9Exception ex) when (ex.ResultCode == ResultCode.NotAvailable && Config.AntiAliasing != 0)
+            {
+                Log.Warn($"Unable to create Direct3D device with {Config.AntiAliasing}x anti-aliasing, retrying without anti-aliasing");
+                _antiAliasingUnavailable = true;
+                Config = Config; // Reapply to drop anti-aliasing
+                NeedsReset = false; // No device to reset yet
+                Device = CreateDevice();
+            }
 
             RenderViewport = Device.Viewport;
             BackBuffer = Device.GetBackBuffer(0, 0);
@@ -187,6 +204,11 @@ public sealed partial class Engine : EngineElement
         }
         #endregion
     }
+
+    private DeviceEx CreateDevice()
+        => FullscreenDisplayMode is {} displayMode
+            ? new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams, displayMode)
+            : new(_direct3D, Config.Adapter, DeviceType.Hardware, Target.Handle, Capabilities.GetCreateFlags(), PresentParams);
     #endregion
 
     //--------------------//
